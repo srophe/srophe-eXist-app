@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -101,6 +102,8 @@
                     <placeName xml:id="name217-3" xml:lang="syr-Syrj" source="#bib217-2">ܚܰܐܚ</placeName>
                     <placeName xml:id="name217-4" xml:lang="ar" source="#bib217-3">حاح</placeName>
                     <placeName xml:id="name217-5" xml:lang="en" source="#bib217-5">Hāḥ</placeName>
+                    <placeName xml:id="name217-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur Abdin</placeName>
+                    <placeName xml:id="name217-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur ‘Abdin</placeName>
                     <desc xml:id="abstract-en-217" xml:lang="en">A village in <placeName ref="http://syriaca.org/place/221">Ṭur ʿAbdin</placeName> northeast of <placeName ref="http://syriaca.org/place/137">Midyat</placeName>.</desc>
                     <location type="gps" source="#bib217-6">
                         <geo>37.500035 41.468078</geo>

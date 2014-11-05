@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-02-06</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -104,6 +107,12 @@
                     <placeName xml:id="name344-6" xml:lang="ar" source="#bib344-2">دير بني باعوث</placeName>
                     <placeName xml:id="name344-7" xml:lang="en" source="#bib344-3">Bāʿūth Monastery</placeName>
                     <placeName xml:id="name344-8" xml:lang="en" source="#bib344-3">Banu Bāʿūth Monastery</placeName>
+                    <placeName xml:id="name344-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Bout</placeName>
+                    <placeName xml:id="name344-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Bo‘ut</placeName>
+                    <placeName xml:id="name344-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Bāūth Monastery</placeName>
+                    <placeName xml:id="name344-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Bā‘ūth Monastery</placeName>
+                    <placeName xml:id="name344-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Banu Bāūth Monastery</placeName>
+                    <placeName xml:id="name344-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Banu Bā‘ūth Monastery</placeName>
                     <desc xml:id="abstract-en-344" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib344-1">ܒܰܫܒܳܒܘܬܗ̇ ܕܟܰܪܒܘܬ. ܐܶܬܥܗܰܕ ܫܢܰܬ  1057  ܘܒܗ ܐܶܬܢܰܦܩܘ ܐܰܪܒܥܳܐ ܐܶܦܝܣܩܘܦ̈ܐ. ܒܰܙܘܗܝ ܟܶܢܫܳܐ ܕܡܰܫܠܡ̈ܳܢܐ ܫܢܰܬ  1290  ܘܐܰܚܕܘܗܝ ܒܰܩܛܝܪܳܐ ܚܕܳܪ̈ܰܝ  1131</quote>

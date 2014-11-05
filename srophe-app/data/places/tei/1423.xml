@@ -67,7 +67,8 @@
         </profileDesc>
         <revisionDesc>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-05-10">ADDED: Syriac name and 1777 attestation</change>
-            <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-05-10">FIXED: URL of Ātel district is nested <gi>location</gi></change>
+            <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-05-10">FIXED: URL of Ātel district is nested <gi>location</gi>
+            </change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>

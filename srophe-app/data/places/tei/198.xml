@@ -51,7 +51,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-02-03</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -83,6 +83,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-03">ADDED: URI, latitude, and longitude from Pleiades</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -99,6 +102,12 @@
                     <placeName xml:id="name198-4" xml:lang="ar" source="#bib198-3">تلعدا</placeName>
                     <placeName xml:id="name198-5" xml:lang="en" source="#bib198-4">Talʿada</placeName>
                     <placeName xml:id="name198-6" xml:lang="en" source="#bib198-5">Tell Ada</placeName>
+                    <placeName xml:id="name198-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tell Ada</placeName>
+                    <placeName xml:id="name198-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tell ‘Ada</placeName>
+                    <placeName xml:id="name198-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Talada</placeName>
+                    <placeName xml:id="name198-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tal‘ada</placeName>
+                    <placeName xml:id="name198-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Monastery of Tell Ada</placeName>
+                    <placeName xml:id="name198-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Monastery of Tell ‘Ada</placeName>
                     <desc xml:id="abstract-en-198" xml:lang="en">A village 48 km. west of <placeName ref="http://syriaca.org/place/18">Aleppo</placeName> known for the nearby <placeName ref="http://syriaca.org/place/233">Monastery of Tell ʿAda</placeName>.</desc>
                     <location type="gps" source="#bib198-6">
                         <geo>36.255349 36.848848</geo>

@@ -33,7 +33,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-05-15</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -65,6 +65,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-05-15">FIXED: needed diacritic on Yohannan in Wilmshurst name</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-03-26">ADDED: abstract <gi>desc</gi>.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-03-26">FIXED: actually, this is the main Yezidi shrine in Lalish, only fictionally an earlier monastery, so retyped it as 'temple' and added its Arabic name</change>
@@ -79,6 +81,10 @@
                     <placeName xml:id="name2504-1" xml:lang="en" syriaca-tags="#syriaca-headword">Shaykh ʿAdī</placeName>
                     <placeName xml:id="name2504-2" xml:lang="en" source="#bib2504-1">Shaikh ‘Adi</placeName>
                     <placeName xml:id="name2504-3" xml:lang="en" source="#bib2504-2">‘Mār Yōḥannān and Mār Īshōʿsabrān’</placeName>
+                    <placeName xml:id="name2504-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Shaykh Adī</placeName>
+                    <placeName xml:id="name2504-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Shaykh ‘Adī</placeName>
+                    <placeName xml:id="name2504-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Mār Yōḥannān and Mār Īshōsabrān’</placeName>
+                    <placeName xml:id="name2504-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Mār Yōḥannān and Mār Īshō‘sabrān’</placeName>
                     <desc xml:id="abstract-en-2504" xml:lang="en">The main Yezidi shrine in <placeName ref="http://syriaca.org/place/1399">Lālish</placeName>, which according to a Syriac text forged in the 19th century was originally a monastery.</desc>
                     <location type="nested" source="#bib2504-2">
                         <settlement ref="http://syriaca.org/place/1399">Lālish</settlement>

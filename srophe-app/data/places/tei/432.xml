@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -106,6 +107,8 @@
                     <placeName xml:id="name432-2" xml:lang="syr" syriaca-tags="#syriaca-headword" source="#bib432-1">ܥܪܩܐ</placeName>
                     <placeName xml:id="name432-3" xml:lang="ar" source="#bib432-2">عرقة</placeName>
                     <placeName xml:id="name432-4" xml:lang="ar" source="#bib432-5">عِرْقة</placeName>
+                    <placeName xml:id="name432-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Irqa</placeName>
+                    <placeName xml:id="name432-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Irqa</placeName>
                     <desc xml:id="abstract-en-432" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib432-1">ܐܰܬܪܰܐ ܗܘ ܕܥܰܠ ܝܰܕ ܝܰܡܐ ܒܶܝܬ ܦܰܢܺܝܗ ܘܰܛܪܺܝܦܳܘܠܝܣ ܒܡܰܕܢܰܚ ܓܰܪܒܰܝ ܕܝܠܗ̇. ܒܰܝܢܳܬܗܝܢ ܐܰܪܒܥܐ ܦܰܪ̈ܣܚܐ.</quote>

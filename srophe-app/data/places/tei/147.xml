@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -76,6 +77,8 @@
                     <placeName xml:id="name147-2" xml:lang="en" source="#bib147-1">ʿĀṣī</placeName>
                     <placeName xml:id="name147-3" xml:lang="ar" source="#bib147-4">الأُرُنْد</placeName>
                     <placeName xml:id="name147-4" xml:lang="ar" source="#bib147-4">العاصي</placeName>
+                    <placeName xml:id="name147-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Āṣī</placeName>
+                    <placeName xml:id="name147-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Āṣī</placeName>
                     <desc xml:id="abstract-en-147" xml:lang="en">A river of <placeName ref="http://syriaca.org/place/486">Syria</placeName> which runs from southwest of <placeName ref="http://syriaca.org/place/215">Emesa</placeName> north to <placeName ref="http://syriaca.org/place/10">Antioch</placeName>.</desc>
                     <location type="gps" source="#bib147-3">
                         <geo>35.2728339 36.4825754</geo>

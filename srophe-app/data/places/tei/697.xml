@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -91,6 +92,8 @@
                     <placeName xml:id="name697-2" xml:lang="syr" syriaca-tags="#syriaca-headword">ܐܠܥܙܝܓ</placeName>
                     <placeName xml:id="name697-3" xml:lang="syr-Syrj" source="#bib697-1">ܐܰܠܥܰܙܝܺܓ</placeName>
                     <placeName xml:id="name697-4" xml:lang="ar" source="#bib697-2">معمورة العزيز</placeName>
+                    <placeName xml:id="name697-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mamūrat al-Azīz</placeName>
+                    <placeName xml:id="name697-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘mūrat al-‘Azīz</placeName>
                     <desc xml:id="abstract-en-697" xml:lang="en">A town northeast of <placeName ref="http://syriaca.org/place/136">Malatya</placeName> and northwest of <placeName ref="http://syriaca.org/place/8">Amid</placeName>.</desc>
                     <state type="existence" from="1834" syriaca-computed-start="1834-01-01">
                         <precision match="@from" notAfter="1834" syriaca-computed-end="1834-01-01"/>

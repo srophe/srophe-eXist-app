@@ -50,7 +50,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -82,6 +82,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -97,6 +100,12 @@
                     <placeName xml:id="name470-4" xml:lang="ar" source="#bib470-3">دير مار يعقوب الملفان</placeName>
                     <placeName xml:id="name470-5" xml:lang="en" source="#bib470-4">Jacob the Doctor of the Church Monastery</placeName>
                     <placeName xml:id="name470-6" xml:lang="en" source="#bib470-5">Mār Yaʿqōb (West Syrian)</placeName>
+                    <placeName xml:id="name470-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Mor Yaqub</placeName>
+                    <placeName xml:id="name470-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Mor Ya‘qub</placeName>
+                    <placeName xml:id="name470-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mār Yaqōb (West Syrian)</placeName>
+                    <placeName xml:id="name470-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mār Ya‘qōb (West Syrian)</placeName>
+                    <placeName xml:id="name470-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Zafarān</placeName>
+                    <placeName xml:id="name470-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Za‘farān</placeName>
                     <desc xml:id="abstract-en-470" xml:lang="en">A monastery in <placeName ref="http://syriaca.org/place/69">Dayr al-Zaʿfarān</placeName>.</desc>
                     <desc xml:lang="en">
                         <quote source="#bib470-4">first mentioned in history in 1165 and still active.</quote>

@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -70,6 +71,8 @@
             <listPlace>
                 <place xml:id="place-264" type="settlement">
                     <placeName xml:id="name264-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib264-2">Maʿad</placeName>
+                    <placeName xml:id="name264-2" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Maad</placeName>
+                    <placeName xml:id="name264-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘ad</placeName>
                     <desc xml:id="abstract-en-264" xml:lang="en">
                         <quote source="#bib264-1">The village of Maʿad is 14 km. northeast of Byblos (Jbeil), 52 km. from Beirut, 525 m. above sea level.</quote>
                     </desc>

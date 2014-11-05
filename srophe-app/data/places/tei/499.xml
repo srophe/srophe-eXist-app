@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -92,6 +93,8 @@
                     <placeName xml:id="name499-2" xml:lang="syr" syriaca-tags="#syriaca-headword">ܡܥܪܝܐ ܢܥܡܢ</placeName>
                     <placeName xml:id="name499-3" xml:lang="syr-Syrj" source="#bib499-2">ܡܥܪܝܐ ܢܥܡܰܢ</placeName>
                     <placeName xml:id="name499-4" xml:lang="ar" source="#bib499-3 #bib499-5">معرة النعمان</placeName>
+                    <placeName xml:id="name499-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Maarrat al-Numān</placeName>
+                    <placeName xml:id="name499-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘arrat al-Nu‘mān</placeName>
                     <desc xml:id="abstract-en-499" xml:lang="en">A city in northern Syria.</desc>
                     <event type="attestation" xml:id="attestation499-1" notBefore="1224" notAfter="1228" source="#bib499-5" syriaca-computed-start="1224-01-01" syriaca-computed-end="1228-01-01">
                         <p xml:lang="en">Attestation of name <foreign xml:lang="ar">معرة النعمان</foreign> in the <title xml:lang="en" level="m">Muʿjam al-buldān</title> of <persName>Yāqūt al-Ḥamawī</persName>.</p>

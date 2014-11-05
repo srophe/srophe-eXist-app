@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -93,6 +94,8 @@
                     <placeName xml:id="name527-3" xml:lang="syr-Syrj" source="#bib527-1">ܚܰܣܰܢ ܡܰܣܠܡܗ ܒܶܢ ܥܰܒܕ ܐܠܡܠܟ</placeName>
                     <placeName xml:id="name527-4" xml:lang="ar" source="#bib527-2">حصن مسلمة بن عبد الملك</placeName>
                     <placeName xml:id="name527-5" xml:lang="ar" source="#bib527-4">حصن مسلمة</placeName>
+                    <placeName xml:id="name527-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ḥiṣn Maslama Ibn Abd al-Malik</placeName>
+                    <placeName xml:id="name527-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ḥiṣn Maslama Ibn ‘Abd al-Malik</placeName>
                     <desc xml:id="abstract-en-527" xml:lang="en">Not far from <placeName ref="http://syriaca.org/place/314">Tell Maḥre</placeName>.</desc>
                     <event type="attestation" xml:id="attestation527-1" notBefore="1224" notAfter="1228" source="#bib527-4" syriaca-computed-start="1224-01-01" syriaca-computed-end="1228-01-01">
                         <p xml:lang="en">Attestation of name <foreign xml:lang="ar">حصن مسلمة</foreign> in the <title xml:lang="en" level="m">Muʿjam al-buldān</title> of <persName>Yāqūt al-Ḥamawī</persName>.</p>

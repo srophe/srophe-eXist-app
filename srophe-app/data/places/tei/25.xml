@@ -63,7 +63,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -95,6 +95,11 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
@@ -116,6 +121,16 @@
                     <placeName xml:id="name25-8" xml:lang="en" source="#bib25-5">ʿAqrā</placeName>
                     <placeName xml:id="name25-9" xml:lang="en" source="#bib25-5">ʿEqrā</placeName>
                     <placeName xml:id="name25-10" xml:lang="ar" source="#bib25-6">العَقْر</placeName>
+                    <placeName xml:id="name25-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aqra</placeName>
+                    <placeName xml:id="name25-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aqra</placeName>
+                    <placeName xml:id="name25-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aqr</placeName>
+                    <placeName xml:id="name25-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aqr</placeName>
+                    <placeName xml:id="name25-15" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aqr al-Ḥumaydiyya</placeName>
+                    <placeName xml:id="name25-16" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aqr al-Ḥumaydiyya</placeName>
+                    <placeName xml:id="name25-17" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aqrā</placeName>
+                    <placeName xml:id="name25-18" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aqrā</placeName>
+                    <placeName xml:id="name25-19" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Eqrā</placeName>
+                    <placeName xml:id="name25-20" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Eqrā</placeName>
                     <desc xml:id="abstract-en-25" xml:lang="en">A town east of the Tigris and north of the Great Zab in northern Iraq.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib25-2">ܩܶܠܥܳܐ ܕܰܒܛܘܪܐ ܕܡܘܨܠ. ܘܰܠܡܰܕܢܚܳܗ̇ ܡܰܪܕܶܐ ܬܪܶܝܢ ܝܰܘ̈ܡܝܢ ܡܶܬܝܰܕܥܳܐ ܗܘܳܬ ܥܰܩܪ ܚܘܡܰܝܕܝܗ. </quote>

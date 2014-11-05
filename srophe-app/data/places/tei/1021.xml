@@ -33,7 +33,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -65,6 +65,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -76,6 +79,12 @@
                     <placeName xml:id="name1021-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib1021-1">Beth ʿEdray</placeName>
                     <placeName xml:id="name1021-2" xml:lang="en" source="#bib1021-2">Beṯ ʿEḏraï</placeName>
                     <placeName xml:id="name1021-3" xml:lang="en" source="#bib1021-2">Bā ʿAdre</placeName>
+                    <placeName xml:id="name1021-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beth Edray</placeName>
+                    <placeName xml:id="name1021-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beth ‘Edray</placeName>
+                    <placeName xml:id="name1021-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beṯ Eḏraï</placeName>
+                    <placeName xml:id="name1021-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beṯ ‘Eḏraï</placeName>
+                    <placeName xml:id="name1021-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Bā Adre</placeName>
+                    <placeName xml:id="name1021-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Bā ‘Adre</placeName>
                     <desc xml:id="abstract-en-1021" xml:lang="en"/>
                     <location type="nested" source="#bib1021-2">
                         <region ref="http://syriaca.org/place/777">Shemkān district</region>

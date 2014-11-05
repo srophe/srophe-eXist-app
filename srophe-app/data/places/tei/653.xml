@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -71,6 +72,8 @@
             <listPlace>
                 <place xml:id="place-653" type="settlement">
                     <placeName xml:id="name653-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib653-1">Huarte</placeName>
+                    <placeName xml:id="name653-2" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Maarrat al-Numān</placeName>
+                    <placeName xml:id="name653-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘arrat al-Nu‘mān</placeName>
                     <desc xml:id="abstract-en-653" xml:lang="en">A settlement west of <placeName ref="http://syriaca.org/place/499">Maʿarrat al-Nuʿmān</placeName>.</desc>
                     <location type="gps" source="#bib653-2">
                         <geo>35.588322 36.458105</geo>

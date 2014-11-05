@@ -41,7 +41,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -73,6 +73,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -85,6 +87,10 @@
                     <placeName xml:id="name696-1" xml:lang="en" syriaca-tags="#syriaca-headword">Maʿmūrat al-ʿAzīz</placeName>
                     <placeName xml:id="name696-2" xml:lang="ar" source="#bib696-1">معمورة العزيز</placeName>
                     <placeName xml:id="name696-3" xml:lang="en" source="#bib696-2">Maʿmurat al-ʿAzīz</placeName>
+                    <placeName xml:id="name696-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mamūrat al-Azīz</placeName>
+                    <placeName xml:id="name696-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘mūrat al-‘Azīz</placeName>
+                    <placeName xml:id="name696-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mamurat al-Azīz</placeName>
+                    <placeName xml:id="name696-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘murat al-‘Azīz</placeName>
                     <desc xml:id="abstract-en-696" xml:lang="en">A vilayet of the Ottoman Empire created from a portion of Diyarbakir vilayet.</desc>
                     <state type="existence" from="1879" to="1923" syriaca-computed-end="1923-01-01" syriaca-computed-start="1879-01-01">
                         <precision match="@from" notAfter="1879" syriaca-computed-end="1879-01-01"/>

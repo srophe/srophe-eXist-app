@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -108,6 +110,10 @@
                     <placeName xml:id="name405-4" xml:lang="ar" source="#bib405-3">رعبان</placeName>
                     <placeName xml:id="name405-5" xml:lang="en" source="#bib405-4">Raʿbān</placeName>
                     <placeName xml:id="name405-6" xml:lang="ar" source="#bib405-6">رَعْبان</placeName>
+                    <placeName xml:id="name405-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raban</placeName>
+                    <placeName xml:id="name405-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ra‘ban</placeName>
+                    <placeName xml:id="name405-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Rabān</placeName>
+                    <placeName xml:id="name405-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ra‘bān</placeName>
                     <desc xml:id="abstract-en-405" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib405-2">ܡܕܝܢܬܳܐ ܗܘܳܬ ܕܒܶܝܬ ܚܳܠܳܒ ܠܫܡܝܫܛ ܘܚܶܪܒܰܬ.</quote>

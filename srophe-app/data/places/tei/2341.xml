@@ -33,7 +33,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -65,6 +65,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -76,6 +78,10 @@
                 <place xml:id="place-2341" type="diocese">
                     <placeName xml:id="name2341-1" xml:lang="en" syriaca-tags="#syriaca-headword">Mar Behishoʿ</placeName>
                     <placeName xml:id="name2341-2" xml:lang="en" source="#bib2341-1">Mār Behīshōʿ</placeName>
+                    <placeName xml:id="name2341-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Behisho</placeName>
+                    <placeName xml:id="name2341-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Behisho‘</placeName>
+                    <placeName xml:id="name2341-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mār Behīshō</placeName>
+                    <placeName xml:id="name2341-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mār Behīshō‘</placeName>
                     <desc xml:id="abstract-en-2341" xml:lang="en"/>
                     <state type="existence"/>
                     <idno type="URI">http://syriaca.org/place/2341</idno>

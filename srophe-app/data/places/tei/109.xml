@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
@@ -114,6 +116,10 @@
                     <placeName xml:id="name109-10" xml:lang="en" source="#bib109-4">al-Raqqa</placeName>
                     <placeName xml:id="name109-11" xml:lang="en" source="#bib109-4">Callinicus</placeName>
                     <placeName xml:id="name109-12" xml:lang="ar" source="#bib109-6">الرَقَّة</placeName>
+                    <placeName xml:id="name109-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raqqa</placeName>
+                    <placeName xml:id="name109-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raqqa‘</placeName>
+                    <placeName xml:id="name109-15" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">al-Raqqa</placeName>
+                    <placeName xml:id="name109-16" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">al-Raqqa‘</placeName>
                     <desc xml:id="abstract-en-109" xml:lang="en">A city on the <placeName ref="http://syriaca.org/place/82">Euphrates</placeName> where the <placeName ref="http://syriaca.org/place/191">Daiṣan</placeName> enters it.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib109-2">ܡܕܝܢܬܳܐ ܗܘܳܬ ܪܰܒܬܳܐ ܒܩܘܪܒܳܐ ܕܰܦܪܳܬ ܘܡܶܬܰܐܡܪ ܠܗ̇ ܪܰܩܰܗ̈ ܘܝܰܘܡܳܢܐ ܗܘܳܬ ܡܕܝܢܬܳܘܢܺܝܬܳܐ ܕܕܳܡܝܳܐ ܠܰܩܪܺܝܬܳܐ.</quote>

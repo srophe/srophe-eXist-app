@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -91,6 +93,10 @@
                     <placeName xml:id="name1524-3" xml:lang="syr-Syrj" source="#bib1524-1">ܕܰܝܪܐ ܕܐܰܪܥܐ ܪܰܒܬܐ</placeName>
                     <placeName xml:id="name1524-4" xml:lang="ar" source="#bib1524-2">دير ارعا ربتا</placeName>
                     <placeName xml:id="name1524-5" xml:lang="en" source="#bib1524-3">Monastery of Arʿa Rabtha</placeName>
+                    <placeName xml:id="name1524-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Aro Rabto</placeName>
+                    <placeName xml:id="name1524-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Ar‘o Rabto</placeName>
+                    <placeName xml:id="name1524-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Monastery of Ara Rabtha</placeName>
+                    <placeName xml:id="name1524-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Monastery of Ar‘a Rabtha</placeName>
                     <desc xml:id="abstract-en-1524" xml:lang="en">A monastery at <placeName ref="http://syriaca.org/place/102">Ingila</placeName>.</desc>
                     <state type="existence" from="0516" to="0494" syriaca-computed-end="0494-01-01" syriaca-computed-start="0516-01-01">
                         <precision match="@from" notAfter="0516" syriaca-computed-end="0516-01-01"/>

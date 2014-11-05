@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -100,6 +101,8 @@
                     <placeName xml:id="name304-3" xml:lang="syr-Syrj" source="#bib304-2">ܒܥܶܠܬܰܐܢ</placeName>
                     <placeName xml:id="name304-4" xml:lang="ar" source="#bib304-3">بعلتان</placeName>
                     <placeName xml:id="name304-5" xml:lang="en" source="#bib304-4">Baltan</placeName>
+                    <placeName xml:id="name304-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beltan</placeName>
+                    <placeName xml:id="name304-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">B‘eltan</placeName>
                     <desc xml:id="abstract-en-304" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib304-2">ܩܪܝܬܐ ܕܚܰܪܝܒܐ ܕܰܒܬܰܝܡܰܢ ܚܡܶܨ ܗܘܳܬ ܕܒܐܘܚܕܢܐ ܕܓܘܣܝܗ ܕܪܰܚܝܩܳܐ ܡܢܗ̇ ܡܰܪܕܶܐ ܫܒܰܥ ܫܳܥܝ̈ܢ.</quote>

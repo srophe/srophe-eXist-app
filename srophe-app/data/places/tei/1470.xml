@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -94,6 +95,8 @@
                     <placeName xml:id="name1470-4" xml:lang="ar" source="#bib1470-2">دير القديس سمعان</placeName>
                     <placeName xml:id="name1470-5" xml:lang="en" source="#bib1470-3">Monastery of St. Simon</placeName>
                     <placeName xml:id="name1470-6" xml:lang="ar" source="#bib1470-4">دير سِمعان</placeName>
+                    <placeName xml:id="name1470-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Qadisho Shemun</placeName>
+                    <placeName xml:id="name1470-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Qadisho Shem‘un</placeName>
                     <desc xml:id="abstract-en-1470" xml:lang="en">An unlocated monastery</desc>
                     <event type="attestation" xml:id="attestation1470-1" notBefore="1224" notAfter="1228" source="#bib1470-4" syriaca-computed-start="1224-01-01" syriaca-computed-end="1228-01-01">
                         <p xml:lang="en">Attestation of name <foreign xml:lang="ar">دير سِمعان</foreign> in the <title xml:lang="en" level="m">Muʿjam al-buldān</title> of <persName>Yāqūt al-Ḥamawī</persName>.</p>

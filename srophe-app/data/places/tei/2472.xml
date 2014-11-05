@@ -33,7 +33,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -65,6 +65,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
@@ -81,6 +82,8 @@
                     <placeName xml:id="name2472-3" xml:lang="ar" source="#bib2472-2">دير مانخايال</placeName>
                     <placeName xml:id="name2472-4" xml:lang="ar" source="#bib2472-2">دير بانخايال</placeName>
                     <placeName xml:id="name2472-5" xml:lang="ar" source="#bib2472-2">دير ميخائيل</placeName>
+                    <placeName xml:id="name2472-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil</placeName>
+                    <placeName xml:id="name2472-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil</placeName>
                     <desc xml:id="abstract-en-2472" xml:lang="en"/>
                     <location type="nested" source="#bib2472-1">
                         <region ref="http://syriaca.org/place/722">Mosul region</region>

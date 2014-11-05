@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
@@ -107,6 +109,10 @@
                     <placeName xml:id="name321-6" xml:lang="ar" source="#bib321-2 #bib321-4">ديار ربيعة</placeName>
                     <placeName xml:id="name321-7" xml:lang="en" source="#bib321-3">Upper Jazira</placeName>
                     <placeName xml:id="name321-8" xml:lang="en" source="#bib321-3">Diyār Rabiʿa</placeName>
+                    <placeName xml:id="name321-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Diyār Rabīa</placeName>
+                    <placeName xml:id="name321-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Diyār Rabī‘a</placeName>
+                    <placeName xml:id="name321-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Diyār Rabia</placeName>
+                    <placeName xml:id="name321-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Diyār Rabi‘a</placeName>
                     <desc xml:id="abstract-en-321" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib321-1">ܒܝܬ ܇ ܒܘܪܐ ܘܕܶܩܠܰܬ ܐܝܬܰܝܗܘܢ ܡܰܥܡܪ̈ܶܐ ܕܬܰܓܠܒܳܝ̈ܐ ܛܘܗܡܳܐ ܪܰܒܐ ܕܰܐܪ̈ܰܐܒܳܝܐ ܘܐܺܝܬܰܝܗܘܽܢ ܗܘܰܘ ܡܫܝܚ̈ܝܶܐ ܣܘܪ̈ܝܳܝܐ ܐܰܪ̈ܬܘܕܘܟܣܽܘ ܘܩܰܘܺܝܘ ܡܫܝܚܝ̈ܐ ܥܕܰܡܳܐ ܠܡܰܐܬܐ ܥܣܝܪܳܝܬܳܐ ܘܡܶܢ ܛܒ̈ܝܒܶܐ ܕܓܰܒܪ̈ܶܝܗ̇ ܓܰܝܐܬ ܒܪ ܓܘܬ ܕܺܝܕܺܝܥ ܐܰܟܛܠ ܦܘܺܐܝܛܳܐ ܕܢܰܦܝܩ ܫܡܗ ܚܕܳܪ̈ܰܝ ܫܢܰܬ  710  ܐܬܓܰܙܝܰܬ ܡܢ ܐܢܳܫ̈ܝܗ̇ ܒܕܳܪܳܐ ܕܐܰܪܒܰܥܣܪ ܐܶܬܝܰܬܒܬ ܚܕܳܪ̈ܰܝ ܫܢܰܬ  1921  ܘܐܶܬܚ̈ܕܰܬܝ ܒܗ̇ ܡܕܝܢ̈ܬܳܐ ܕܚܰܣܝܟܐ ܘܒܶܝܬܙ̈ܠܐ ܘܪܝܫ ܥܰܝܢܳܐ ܘܫܰܪܝ ܪܳܕܐ ܒܳܗ̇ ܫܘܽܟܠܠܐ.</quote>

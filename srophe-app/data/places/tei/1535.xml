@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -76,6 +77,8 @@
                     <placeName xml:id="name1535-3" xml:lang="en" source="#bib1535-1">Mahoza</placeName>
                     <placeName xml:id="name1535-4" xml:lang="en" source="#bib1535-1">al-Madain</placeName>
                     <placeName xml:id="name1535-5" xml:lang="ar" source="#bib1535-2">المدائن</placeName>
+                    <placeName xml:id="name1535-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">al-Madāʾin</placeName>
+                    <placeName xml:id="name1535-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">al-Madāʾin</placeName>
                     <desc xml:id="abstract-en-1535" xml:lang="en">A group of settlements including <placeName ref="http://syriaca.org/place/58">Ctesiphon</placeName>, <placeName ref="http://syriaca.org/place/182">Seleucia</placeName>, and <placeName ref="http://syriaca.org/place/475">Kokhe</placeName>.</desc>
                     <event type="attestation" xml:id="attestation1535-1" notBefore="1224" notAfter="1228" source="#bib1535-2" syriaca-computed-start="1224-01-01" syriaca-computed-end="1228-01-01">
                         <p xml:lang="en">Attestation of name <foreign xml:lang="ar">المدائن</foreign> in the <title xml:lang="en" level="m">Muʿjam al-buldān</title> of <persName>Yāqūt al-Ḥamawī</persName>.</p>

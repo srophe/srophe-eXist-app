@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
@@ -107,6 +108,8 @@
                     <placeName xml:id="name94-6" xml:lang="syr" syriaca-tags="#syriaca-headword">ܚܣܢ ܡܢܨܘܪ</placeName>
                     <placeName xml:id="name94-7" xml:lang="syr-Syrj" source="#bib94-2">ܚܰܣܰܢ ܡܰܢܨܘܪ</placeName>
                     <placeName xml:id="name94-8" xml:lang="ar" source="#bib94-3 #bib94-5">حصن منصور</placeName>
+                    <placeName xml:id="name94-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qala Rumayta</placeName>
+                    <placeName xml:id="name94-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qal‘a Rumayta</placeName>
                     <desc xml:id="abstract-en-94" xml:lang="en">A city north of <placeName ref="http://syriaca.org/place/97">Qalʿa Rumayta</placeName> and southwest of <placeName ref="http://syriaca.org/place/136">Melitene</placeName>.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib94-2">ܡܕܝܰܢܬܐ ܗܝ ܕܰܒܓܰܪܒܰܝ ܫܰܡܝܫܰܛ ܠܡܰܥܪܒܳܐ ܕܰܦܪܳܬ ܕܡܶܬܶܐܡܰܪ ܠܗ̇ ܬܘܒ ܐܰܕܺܝܰܐܡܰܐܢ.</quote>

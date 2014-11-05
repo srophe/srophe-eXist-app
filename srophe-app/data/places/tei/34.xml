@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -106,6 +107,8 @@
                     <placeName xml:id="name34-8" xml:lang="en" source="#bib34-5">Bet Huzaye</placeName>
                     <placeName xml:id="name34-9" xml:lang="en" source="#bib34-5">Elam</placeName>
                     <placeName xml:id="name34-10" xml:lang="en" source="#bib34-6">ʿĪlām</placeName>
+                    <placeName xml:id="name34-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Īlām</placeName>
+                    <placeName xml:id="name34-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Īlām</placeName>
                     <desc xml:id="abstract-en-34" xml:lang="en">A diocese of the Church of the East, also known as Elam, centered around Beth Lapaṭ.</desc>
                     <location type="gps" source="#bib34-7">
                         <geo>31.5 48.5</geo>

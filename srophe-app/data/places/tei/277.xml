@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -71,6 +72,8 @@
                 <place xml:id="place-277" type="monastery">
                     <placeName xml:id="name277-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib277-1">Mar Yaʿqub</placeName>
                     <placeName xml:id="name277-2" xml:lang="en" source="#bib277-2">monastery of Mar Yakub</placeName>
+                    <placeName xml:id="name277-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Yaqub</placeName>
+                    <placeName xml:id="name277-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Ya‘qub</placeName>
                     <desc xml:id="abstract-en-277" xml:lang="en">A monastery beside the village of Qara.</desc>
                     <state type="existence" from="1100" to="1759" syriaca-computed-end="1759-01-01" syriaca-computed-start="1100-01-01">
                         <precision match="@from" notAfter="1100" notBefore="0300" syriaca-computed-end="1100-01-01" syriaca-computed-start="0300-01-01"/>

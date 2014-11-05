@@ -63,7 +63,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -95,6 +95,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
@@ -114,6 +116,10 @@
                     <placeName xml:id="name188-6" xml:lang="ar" source="#bib188-4">سعرت</placeName>
                     <placeName xml:id="name188-7" xml:lang="en" source="#bib188-5">Seʿert</placeName>
                     <placeName xml:id="name188-8" xml:lang="ar" source="#bib188-8">اسعرت</placeName>
+                    <placeName xml:id="name188-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Sert</placeName>
+                    <placeName xml:id="name188-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">S‘ert</placeName>
+                    <placeName xml:id="name188-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Seert</placeName>
+                    <placeName xml:id="name188-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Se‘ert</placeName>
                     <desc xml:id="abstract-en-188" xml:lang="en">
                         <quote source="#bib188-1">A city in eastern Turkey, southwest of Lake Van.</quote>
                     </desc>

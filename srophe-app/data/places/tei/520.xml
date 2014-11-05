@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -94,6 +95,8 @@
                     <placeName xml:id="name520-3" xml:lang="syr-Syrj" source="#bib520-1">ܒܰܐܠܘ</placeName>
                     <placeName xml:id="name520-4" xml:lang="ar" source="#bib520-2 #bib520-5">بالو</placeName>
                     <placeName xml:id="name520-5" xml:lang="en" source="#bib520-3">Balū</placeName>
+                    <placeName xml:id="name520-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mamūrat al-Azīz</placeName>
+                    <placeName xml:id="name520-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘mūrat al-‘Azīz</placeName>
                     <desc xml:id="abstract-en-520" xml:lang="en">A town east of <placeName ref="http://syriaca.org/place/697">Maʿmūrat al-ʿAzīz</placeName>.</desc>
                     <location type="gps" source="#bib520-4">
                         <geo>38.705472 39.952527</geo>

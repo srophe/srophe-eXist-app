@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
@@ -112,6 +115,12 @@
                     <placeName xml:id="name69-8" xml:lang="en" source="#bib69-6">monastery Deir Zafaran</placeName>
                     <placeName xml:id="name69-9" xml:lang="en" source="#bib69-7">Zaʿfarān (West Syrian)</placeName>
                     <placeName xml:id="name69-10" xml:lang="ar" source="#bib69-8">عمر الزعفران</placeName>
+                    <placeName xml:id="name69-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Zafarān</placeName>
+                    <placeName xml:id="name69-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Za‘farān</placeName>
+                    <placeName xml:id="name69-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Zafaran Monastery</placeName>
+                    <placeName xml:id="name69-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Za‘faran Monastery</placeName>
+                    <placeName xml:id="name69-15" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Zafarān (West Syrian)</placeName>
+                    <placeName xml:id="name69-16" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Za‘farān (West Syrian)</placeName>
                     <desc xml:id="abstract-en-69" xml:lang="en">
                         <quote source="#bib69-1">A Syr. Orth. monastery dedicated to Mar Ḥnonyo (Arab. Ḥanānyā) located outside Mardin, and the seat of the patriarchate from 1293 until after World War I.</quote>
                     </desc>

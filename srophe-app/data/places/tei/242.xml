@@ -51,7 +51,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -83,6 +83,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -97,6 +99,10 @@
                     <placeName xml:id="name242-4" xml:lang="syr-Syrj" source="#bib242-2">ܥܰܪܢܰܐܣ</placeName>
                     <placeName xml:id="name242-5" xml:lang="ar" source="#bib242-3">عرناس</placeName>
                     <placeName xml:id="name242-6" xml:lang="en" source="#bib242-4">Urnus</placeName>
+                    <placeName xml:id="name242-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ardnas</placeName>
+                    <placeName xml:id="name242-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Ardnas</placeName>
+                    <placeName xml:id="name242-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur Abdin</placeName>
+                    <placeName xml:id="name242-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur ‘Abdin</placeName>
                     <desc xml:id="abstract-en-242" xml:lang="en">A village in <placeName ref="http://syriaca.org/place/221">Ṭur ʿAbdin</placeName> northeast of <placeName ref="http://syriaca.org/place/137">Midyat</placeName>.</desc>
                     <state type="existence" from="1207" to="1704" syriaca-computed-end="1704-01-01" syriaca-computed-start="1207-01-01">
                         <precision match="@from" notAfter="1207" syriaca-computed-end="1207-01-01"/>

@@ -33,7 +33,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -65,6 +65,11 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -75,6 +80,16 @@
                 <place xml:id="place-2473" type="monastery">
                     <placeName xml:id="name2473-1" xml:lang="en" syriaca-tags="#syriaca-headword">Mar Mikhaʾil of Tarʿil</placeName>
                     <placeName xml:id="name2473-2" xml:lang="en" source="#bib2473-1">Mār Mīkhā'īl of Tarʿil</placeName>
+                    <placeName xml:id="name2473-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Taril</placeName>
+                    <placeName xml:id="name2473-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Tar‘il</placeName>
+                    <placeName xml:id="name2473-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mār Mīkhā'īl of Taril</placeName>
+                    <placeName xml:id="name2473-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mār Mīkhā'īl of Tar‘il</placeName>
+                    <placeName xml:id="name2473-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Taril</placeName>
+                    <placeName xml:id="name2473-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Tar’il</placeName>
+                    <placeName xml:id="name2473-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Taril</placeName>
+                    <placeName xml:id="name2473-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Taril</placeName>
+                    <placeName xml:id="name2473-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Tar‘il</placeName>
+                    <placeName xml:id="name2473-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar Mikhaʾil of Tar‘il</placeName>
                     <desc xml:id="abstract-en-2473" xml:lang="en"/>
                     <location type="nested" source="#bib2473-1">
                         <region ref="http://syriaca.org/place/993">Erbil region</region>

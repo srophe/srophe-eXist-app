@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -105,6 +106,8 @@
                     <placeName xml:id="name286-6" xml:lang="ar" source="#bib286-2">شمشاط</placeName>
                     <placeName xml:id="name286-7" xml:lang="en" source="#bib286-3">Samosata</placeName>
                     <placeName xml:id="name286-8" xml:lang="ar" source="#bib286-4">شِمْشاط</placeName>
+                    <placeName xml:id="name286-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Kabiya</placeName>
+                    <placeName xml:id="name286-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ka‘biya</placeName>
                     <desc xml:id="abstract-en-286" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib286-1">ܡܕܺܝܢܬܐ ܕܥܠ ܣܦܳܪ̈ܝ ܦܪܳܬ ܠܡܰܕܢܰܚ ܒܰܐܠܘ ܘܰܠܡܰܥܪܰܒ ܟܰܪܒܘܬ</quote>

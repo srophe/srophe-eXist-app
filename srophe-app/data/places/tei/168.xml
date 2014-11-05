@@ -34,7 +34,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-06-07</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -66,6 +66,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-07">ADDED: Syriac headword and 1683 attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-03-26">FIXED: URI for confessions.xml needed "documentation/" to be inserted</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-02-10-05:00">ADDED: syriaca-computed-end for elements with when attributes</change>
@@ -83,6 +84,8 @@
                     <placeName xml:id="name168-3" xml:lang="en" source="#bib168-4">Rabban Hormizd the Persian</placeName>
                     <placeName xml:id="name168-4" xml:lang="syr" syriaca-tags="#syriaca-headword" source="#bib168-6">ܪܒܢ ܗܘܪܡܝܙܕ ܥܓ̰ܡܝܐ</placeName>
                     <placeName xml:id="name168-5" xml:lang="syr-Syrn" source="#bib168-6">ܪܲܒ̇ܢ ܗܘܿܪܡܝܼܙܕ ܥܲܓ̰ܡܵܝܐ</placeName>
+                    <placeName xml:id="name168-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Rabban Bar Edta</placeName>
+                    <placeName xml:id="name168-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Rabban Bar ‘Edta</placeName>
                     <desc xml:id="abstract-en-168" xml:lang="en">
                         <quote source="#bib168-1">The Chaldean monastery of Rabban Hormizd, built upon a mountain ridge northeast of Alqosh in northern Iraq, is famous not only for its magnificent location and impressive buildings, but also for its central role in the history of the transmission of E.-Syr. literature and its importance in the struggles between the Chald. Church and the Ch. of E., to which the monastery originally belonged.</quote>
                     </desc>

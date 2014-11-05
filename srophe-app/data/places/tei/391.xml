@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -107,6 +109,10 @@
                     <placeName xml:id="name391-6" xml:lang="ar" source="#bib391-3">دير مار سرجيس</placeName>
                     <placeName xml:id="name391-7" xml:lang="en" source="#bib391-4">Muʿallaq Monastery</placeName>
                     <placeName xml:id="name391-8" xml:lang="en" source="#bib391-4">St. Sergius Monastery</placeName>
+                    <placeName xml:id="name391-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Muallaq</placeName>
+                    <placeName xml:id="name391-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Mu‘allaq</placeName>
+                    <placeName xml:id="name391-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Muallaq Monastery</placeName>
+                    <placeName xml:id="name391-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mu‘allaq Monastery</placeName>
                     <desc xml:id="abstract-en-391" xml:lang="en">A monastery near <placeName ref="http://syriaca.org/place/42">Balad</placeName>.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib391-2">ܒܫܶܡ ܥܢܘܳܝ̈ܐ ܣܰܪܓܝܣ ܘܰܙܥܘܪܐ ܘܒܳܥܘܬ ܥܰܠ ܪܳܡܬܐ ܕܛܘܪܐ ܨܗܝܳܐ ܠܥܶܠ ܡܶܢ ܒܳܠܕ ܡܕܝܢܬܐ ܒܰܬܠܳܬܐ ܦܪ̈ܣܚܝܢ ܒܶܝܬ ܠܗ̇ ܠܫܝܓܳܪ ܠܡܰܥܪܰܒ ܡܰܘܨܠ ܘܡܶܣܬܒܰܪ ܒܶܢܝܳܢܗ ܒܡܰܐܬܐ ܚܡܝܫܝܬܐ ܐܰܦܩ ܚܰܕ ܡܰܦܪܝܳܢܐ ܘܐܢܳܫ̈ܝܢ ܐܶܦܝܣܩܘ̈ܦܐ. ܘܰܗܘܐ ܟܘܪܣܝܳܐ ܐܶܦܝܣܩܘܦܳܝܐ ܡܶܢ ܫܢܰܬ  1167  -  1345  ܟܶܢ ܐܶܬܛܫܝ ܛܶܒܗ. ܘܐܶܬܠܰܝܬܝܰܬ ܕܘܟܬܗ</quote>

@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-05-15">ADDED: Syriac name and c.1700 attestation</change>
@@ -116,6 +117,8 @@
                     <placeName xml:id="name88-10" xml:lang="en" source="#bib88-5">Gāzartā</placeName>
                     <placeName xml:id="name88-11" xml:lang="syr" source="#bib88-6">ܓܙܪܬܐ ܙܒܕܝܬܐ</placeName>
                     <placeName xml:id="name88-12" xml:lang="ar" source="#bib88-7">جزيرة البن عمر</placeName>
+                    <placeName xml:id="name88-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Jazirat Ibn Umar</placeName>
+                    <placeName xml:id="name88-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Jazirat Ibn ‘Umar</placeName>
                     <desc xml:id="abstract-en-88" xml:lang="en">A city on the <placeName ref="http://syriaca.org/place/202">Tigris river</placeName> between <placeName ref="http://syriaca.org/place/8">Amida</placeName> and <placeName ref="http://syriaca.org/place/139">Mosul</placeName>.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib88-2">ܡܕܺܝܢܬܘܢܝܬܳܐ ܗܝ ܕܥܰܠ ܕܶܩܠܰܬ ܒܶܝܬ ܐܳܡܝܕ ܠܡܰܘܨܠ.</quote>

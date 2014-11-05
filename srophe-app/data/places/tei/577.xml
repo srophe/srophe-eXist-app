@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -76,6 +77,8 @@
                     <placeName xml:id="name577-2" xml:lang="en" source="#bib577-1">Baalbek</placeName>
                     <placeName xml:id="name577-3" xml:lang="en" source="#bib577-1">Heliopolis</placeName>
                     <placeName xml:id="name577-4" xml:lang="ar" source="#bib577-3">بَعْلَبك</placeName>
+                    <placeName xml:id="name577-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Baalbak</placeName>
+                    <placeName xml:id="name577-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ba‘albak</placeName>
                     <desc xml:id="abstract-en-577" xml:lang="en">A city in <placeName ref="http://syriaca.org/place/487">Lebanon</placeName>.</desc>
                     <location type="gps" source="#bib577-2">
                         <geo>34.006664 36.203685</geo>

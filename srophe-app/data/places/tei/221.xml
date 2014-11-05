@@ -63,7 +63,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -95,6 +95,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -114,6 +117,12 @@
                     <placeName xml:id="name221-6" xml:lang="en" source="#bib221-6">Tur Abdin</placeName>
                     <placeName xml:id="name221-7" xml:lang="en" source="#bib221-7">Ṭūr ʿAbdīn</placeName>
                     <placeName xml:id="name221-8" xml:lang="ar" source="#bib221-9">طور عَبْدِين</placeName>
+                    <placeName xml:id="name221-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur Abdin</placeName>
+                    <placeName xml:id="name221-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur ‘Abdin</placeName>
+                    <placeName xml:id="name221-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tur Abdin</placeName>
+                    <placeName xml:id="name221-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tur ‘Abdin</placeName>
+                    <placeName xml:id="name221-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭūr Abdīn</placeName>
+                    <placeName xml:id="name221-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭūr ‘Abdīn</placeName>
                     <desc xml:id="abstract-en-221" xml:lang="en">
                         <quote source="#bib221-1">Properly speaking, Ṭur ʿAbdin (‘Mountain of the servants’) does not include the whole province of Mardin in Turkey, but only the limestone plateau in the eastern part of it, between the river Tigris and Nisibis."</quote>
                     </desc>

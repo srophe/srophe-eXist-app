@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -100,6 +101,8 @@
                     <placeName xml:id="name354-3" xml:lang="syr-Syrj" source="#bib354-1">ܕܰܝܪܳܐ ܕܰܕܘܐܝܪ</placeName>
                     <placeName xml:id="name354-4" xml:lang="ar" source="#bib354-2">دير الدوائر</placeName>
                     <placeName xml:id="name354-5" xml:lang="en" source="#bib354-3">Dawā'r (Circles) Monastery</placeName>
+                    <placeName xml:id="name354-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Dawāʾir</placeName>
+                    <placeName xml:id="name354-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayr al-Dawāʾir</placeName>
                     <desc xml:id="abstract-en-354" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib354-1">ܒܟܘܪܐ ܕܐܰܢܛܝܘܟܺܝܰܐ. ܕܟܺܝܪ ܒܰܫܢܰܬ 1112 ܘܡܶܢܗ ܢܦܰܩ ܚܰܕ ܦܰܛܪܝܰܪܟܐ ܘܐܰܪܒܥܳܐ ܐܶܦܝܣܩ̈ܘܦܶܐ.</quote>

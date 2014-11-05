@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
@@ -76,6 +78,10 @@
                     <placeName xml:id="name635-2" xml:lang="en" source="#bib635-1">Qalʿāt Simʿān</placeName>
                     <placeName xml:id="name635-3" xml:lang="en" source="#bib635-2">Qalat Siman</placeName>
                     <placeName xml:id="name635-4" xml:lang="ar" source="#bib635-4">دير سمعان</placeName>
+                    <placeName xml:id="name635-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qalat Simān</placeName>
+                    <placeName xml:id="name635-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qal‘at Sim‘ān</placeName>
+                    <placeName xml:id="name635-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qalāt Simān</placeName>
+                    <placeName xml:id="name635-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qal‘āt Sim‘ān</placeName>
                     <desc xml:id="abstract-en-635" xml:lang="en">The monastery of St. Simeon Stylites west of <placeName ref="http://syriaca.org/place/18">Aleppo</placeName>.</desc>
                     <location type="gps" source="#bib635-3">
                         <geo>36.334167 36.843889</geo>

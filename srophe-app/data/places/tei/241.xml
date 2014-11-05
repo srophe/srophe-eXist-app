@@ -51,7 +51,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -83,6 +83,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -96,6 +97,8 @@
                     <placeName xml:id="name241-3" xml:lang="syr-Syrj" source="#bib241-2">ܚܰܒܣܢܰܐܣ</placeName>
                     <placeName xml:id="name241-4" xml:lang="ar" source="#bib241-3">حبسناس</placeName>
                     <placeName xml:id="name241-5" xml:lang="en" source="#bib241-4">Habsnas</placeName>
+                    <placeName xml:id="name241-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur Abdin</placeName>
+                    <placeName xml:id="name241-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur ‘Abdin</placeName>
                     <desc xml:id="abstract-en-241" xml:lang="en">A village in <placeName ref="http://syriaca.org/place/221">Ṭur ʿAbdin</placeName> northwest of <placeName ref="http://syriaca.org/place/137">Midyat</placeName>.</desc>
                     <state type="existence" from="0657" to="0855" syriaca-computed-end="0855-01-01" syriaca-computed-start="0657-01-01">
                         <precision match="@from" notAfter="0657" syriaca-computed-end="0657-01-01"/>

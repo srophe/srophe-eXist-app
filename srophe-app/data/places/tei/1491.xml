@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -90,6 +91,8 @@
                     <placeName xml:id="name1491-2" xml:lang="syr" syriaca-tags="#syriaca-headword">ܒܝܬ ܥܪܝܦ</placeName>
                     <placeName xml:id="name1491-3" xml:lang="syr-Syrj" source="#bib1491-1">ܒܶܝܬ ܥܰܪܺܝܦ</placeName>
                     <placeName xml:id="name1491-4" xml:lang="ar" source="#bib1491-2">بيت عريف</placeName>
+                    <placeName xml:id="name1491-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beth Arīf</placeName>
+                    <placeName xml:id="name1491-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Beth ‘Arīf</placeName>
                     <desc xml:id="abstract-en-1491" xml:lang="en">A village near <placeName ref="http://syriaca.org/place/104">Jerusalem</placeName>.</desc>
                     <state type="existence" from="1138" to="1099" syriaca-computed-end="1099-01-01" syriaca-computed-start="1138-01-01">
                         <precision match="@from" notAfter="1138" syriaca-computed-end="1138-01-01"/>

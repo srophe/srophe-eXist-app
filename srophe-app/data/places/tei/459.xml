@@ -63,7 +63,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -95,6 +95,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -109,6 +111,10 @@
                     <placeName xml:id="name459-3" xml:lang="syr-Syrj" source="#bib459-1">ܡܰܥܕܰܢ</placeName>
                     <placeName xml:id="name459-4" xml:lang="ar" source="#bib459-2">المعدن</placeName>
                     <placeName xml:id="name459-5" xml:lang="en" source="#bib459-4">Māʿdan</placeName>
+                    <placeName xml:id="name459-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Madan</placeName>
+                    <placeName xml:id="name459-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘dan</placeName>
+                    <placeName xml:id="name459-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mādan</placeName>
+                    <placeName xml:id="name459-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mā‘dan</placeName>
                     <desc xml:id="abstract-en-459" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib459-1">ܐܰܬܪܰܐ ܗܘ ܕܒܰܦܢܺܝܬ ܫܝܪܘܢ ܕܒܐܘܚܕܳܢ ܣܥܶܪܬ ܗܘܳܬ ܩܪܺܝܬܳܐ ܡܶܢ ܩܘܪ̈ܝܳܐ ܕܡܰܪܕܝܢ ܡܰܪܕܶܐ ܫܶܬ ܫܳܥܝ̈ܢ ܠܓܰܪܒܝܳܗ̇.</quote>

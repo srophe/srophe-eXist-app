@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -91,6 +92,8 @@
                     <placeName xml:id="name1502-3" xml:lang="syr-Syrj" source="#bib1502-1">ܒܺܝܪܩܽܘܡ</placeName>
                     <placeName xml:id="name1502-4" xml:lang="ar" source="#bib1502-2">بيرقوم</placeName>
                     <placeName xml:id="name1502-5" xml:lang="en" source="#bib1502-3">Monastery of Birqum</placeName>
+                    <placeName xml:id="name1502-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ānah</placeName>
+                    <placeName xml:id="name1502-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Ānah</placeName>
                     <desc xml:id="abstract-en-1502" xml:lang="en">An unlocated monastery, perhaps near <placeName ref="http://syriaca.org/place/429">ʿĀnah</placeName>.</desc>
                     <state type="existence" from="0855" to="0845" syriaca-computed-end="0845-01-01" syriaca-computed-start="0855-01-01">
                         <precision match="@from" notAfter="0855" syriaca-computed-end="0855-01-01"/>

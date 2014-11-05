@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-02-06</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: latitude and longitude from Pleiades</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -109,6 +110,8 @@
                     <placeName xml:id="name398-6" xml:lang="ar" source="#bib398-2">دير النواويس</placeName>
                     <placeName xml:id="name398-7" xml:lang="en" source="#bib398-3">Jacob the Doctor of the Church Monastery</placeName>
                     <placeName xml:id="name398-8" xml:lang="en" source="#bib398-3">Nawawīs Monastery</placeName>
+                    <placeName xml:id="name398-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mor Yaqub Malpono </placeName>
+                    <placeName xml:id="name398-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mor Ya‘qub Malpono </placeName>
                     <desc xml:id="abstract-en-398" xml:lang="en"/>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib398-1">ܒܛܘܪܐ ܕܐܘܪܗܳܝ ܒܬܰܝܡܢܳܗ̇ ܕܰܡܕܝܢܬܐ ܡܰܪܕܶܐ ܫܳܥܳܐ ܘܦܶܠܓܳܐ. ܐܶܬܒܢܝ ܒܡܰܐܬܰܐ ܚܡܝܫܳܝܬܐ ܘܰܕܟܝܪ ܠܗ ܠܝܘܚܰܢܢ ܕܐܶܦܣܘܣ ܫܢܰܬ  519  ܚܰܕܬܗ ܪܝܫܳܢܗ ܕܰܝܪܳܝܐ ܝܘܚܰܢܢ ܣܪܘܓܳܝܳܐ ܗܰܘ ܕܐܶܬܥܰܠܝ ܠܡܰܦܪܝܳܢܘܬܐ ܕܡܰܕܢܚܐ ܫܢܰܬ  1164  ܘܥܰܡܝܪ ܗܘܐ ܫܢܰܬ  1223  ܘܫܶܬܶܐܣܰܘ̈ܗܝ ܩܰܝܳܡ̈ܢ. </quote>

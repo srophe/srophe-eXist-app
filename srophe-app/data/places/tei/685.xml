@@ -29,7 +29,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -61,6 +61,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -70,6 +71,8 @@
             <listPlace>
                 <place xml:id="place-685" type="monastery">
                     <placeName xml:id="name685-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib685-1">Dayro d-ʿAzrael</placeName>
+                    <placeName xml:id="name685-2" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Azrael</placeName>
+                    <placeName xml:id="name685-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-‘Azrael</placeName>
                     <desc xml:id="abstract-en-685" xml:lang="en"/>
                     <state type="existence"/>
                     <idno type="URI">http://syriaca.org/place/685</idno>

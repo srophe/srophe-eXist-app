@@ -50,7 +50,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -82,6 +82,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -95,6 +96,8 @@
                     <placeName xml:id="name539-3" xml:lang="syr-Syrj" source="#bib539-2">ܟܦܰܪܒܘܪܰܐܢ</placeName>
                     <placeName xml:id="name539-4" xml:lang="ar" source="#bib539-3">كربوران</placeName>
                     <placeName xml:id="name539-5" xml:lang="en" source="#bib539-5">Kfarbūrān</placeName>
+                    <placeName xml:id="name539-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur Abdin</placeName>
+                    <placeName xml:id="name539-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ṭur ‘Abdin</placeName>
                     <desc xml:id="abstract-en-539" xml:lang="en">A village in <placeName ref="http://syriaca.org/place/221">Ṭur ʿAbdin</placeName>.</desc>
                     <location type="nested" source="#bib539-5">
                         <region ref="http://syriaca.org/place/221">Ṭūr ʿAbdīn</region>

@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -104,6 +106,10 @@
                     <placeName xml:id="name460-3" xml:lang="syr-Syrj" source="#bib460-2">ܡܰܥܨܰܪܬܗ</placeName>
                     <placeName xml:id="name460-4" xml:lang="ar" source="#bib460-3">معسرتي</placeName>
                     <placeName xml:id="name460-5" xml:lang="en" source="#bib460-4">Maʿsarte</placeName>
+                    <placeName xml:id="name460-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Masarteh</placeName>
+                    <placeName xml:id="name460-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘sarteh</placeName>
+                    <placeName xml:id="name460-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Masarte</placeName>
+                    <placeName xml:id="name460-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ma‘sarte</placeName>
                     <desc xml:id="abstract-en-460" xml:lang="en">A village near <placeName ref="http://syriaca.org/place/130">Mardin</placeName>.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib460-2">ܡܶܢ ܩܘܪ̈ܝܳܐ ܕܡܰܪܕܝܢ ܡܰܪܕܶܐ ܫܶܬ ܫܳܥܝ̈ܢ ܠܓܰܪܒܝܗ̇. </quote>

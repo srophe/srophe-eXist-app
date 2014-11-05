@@ -46,7 +46,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -78,6 +78,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -89,6 +90,8 @@
                     <placeName xml:id="name483-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib483-3">al-ʿAjjāja</placeName>
                     <placeName xml:id="name483-2" xml:lang="syr" syriaca-tags="#syriaca-headword" source="#bib483-1">ܥܓܐܓܗ̈</placeName>
                     <placeName xml:id="name483-3" xml:lang="ar" source="#bib483-2">العجاجة</placeName>
+                    <placeName xml:id="name483-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">al-Ajjāja</placeName>
+                    <placeName xml:id="name483-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">al-‘Ajjāja</placeName>
                     <desc xml:id="abstract-en-483" xml:lang="en">A site east of the <placeName ref="http://syriaca.org/place/114">Khabur River</placeName> in Mesopotamia.</desc>
                     <state type="existence"/>
                     <idno type="URI">http://syriaca.org/place/483</idno>

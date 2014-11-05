@@ -33,7 +33,7 @@
                         <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -65,6 +65,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -77,6 +80,12 @@
                     <placeName xml:id="name261-1" xml:lang="en" syriaca-tags="#syriaca-headword" source="#bib261-1">ʿAynkawa</placeName>
                     <placeName xml:id="name261-2" xml:lang="en" source="#bib261-2">ʿAïnqāwā</placeName>
                     <placeName xml:id="name261-3" xml:lang="en" source="#bib261-2">ʿAmkābā</placeName>
+                    <placeName xml:id="name261-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aynkawa</placeName>
+                    <placeName xml:id="name261-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aynkawa</placeName>
+                    <placeName xml:id="name261-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aïnqāwā</placeName>
+                    <placeName xml:id="name261-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aïnqāwā</placeName>
+                    <placeName xml:id="name261-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Amkābā</placeName>
+                    <placeName xml:id="name261-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Amkābā</placeName>
                     <desc xml:id="abstract-en-261" xml:lang="en">A town northeast of <placeName ref="http://syriaca.org/place/13">Arbela</placeName>.</desc>
                     <location type="nested" source="#bib261-2">
                         <region ref="http://syriaca.org/place/993">Erbil region</region>

@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -108,6 +111,12 @@
                     <placeName xml:id="name97-4" xml:lang="syr-Syrj" source="#bib97-2">ܩܶܠܥܳܐ ܪܘܡܳܝܬܐ</placeName>
                     <placeName xml:id="name97-5" xml:lang="ar" source="#bib97-3 #bib97-5">قلعة الروم</placeName>
                     <placeName xml:id="name97-6" xml:lang="en" source="#bib97-4">Qalʿat al-Rum</placeName>
+                    <placeName xml:id="name97-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qala Rumayta</placeName>
+                    <placeName xml:id="name97-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qal‘a Rumayta</placeName>
+                    <placeName xml:id="name97-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qalat al-Rum</placeName>
+                    <placeName xml:id="name97-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Qal‘at al-Rum</placeName>
+                    <placeName xml:id="name97-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aintab</placeName>
+                    <placeName xml:id="name97-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aintab</placeName>
                     <desc xml:id="abstract-en-97" xml:lang="en">A city on the <placeName ref="http://syriaca.org/place/82">Euphrates</placeName> west of <placeName ref="http://syriaca.org/place/78">Edessa</placeName> and northeast of <placeName ref="http://syriaca.org/place/222">ʿAintab</placeName>.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib97-2">ܩܶܠܥܳܐ ܚܰܣܝܢܬܳܐ ܘܰܐܬܪܐ ܕܰܠܡܰܥܪܰܒ ܦܪܳܬ ܠܘܩܒܰܠ ܒܝܪܬܐ ܠܩܘܪܒܳܐ ܕܰܩܪܝܬܐ ܟ̣ܠܦܬܝ. ܘܡܶܫܬܰܡܗܐ ܗܘܳܬ ܩܶܠܥܳܐ ܕܙܘܓܡܐ. ܘܚܰܪܝܒܐ</quote>

@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,9 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -111,6 +114,12 @@
                     <placeName xml:id="name89-8" xml:lang="en" source="#bib89-4">Germanicia</placeName>
                     <placeName xml:id="name89-9" xml:lang="en" source="#bib89-4">Kahramanmaraş</placeName>
                     <placeName xml:id="name89-10" xml:lang="ar" source="#bib89-5">مَرْعَش</placeName>
+                    <placeName xml:id="name89-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Marash</placeName>
+                    <placeName xml:id="name89-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Mar‘ash</placeName>
+                    <placeName xml:id="name89-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Ayn Zarba</placeName>
+                    <placeName xml:id="name89-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Ayn Zarba</placeName>
+                    <placeName xml:id="name89-15" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Aintab</placeName>
+                    <placeName xml:id="name89-16" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">‘Aintab</placeName>
                     <desc xml:id="abstract-en-89" xml:lang="en">A city near the <placeName ref="http://syriaca.org/place/159">Pyramos river</placeName> northeast of <placeName ref="http://syriaca.org/place/9">ʿAyn Zarba</placeName> and northwest of <placeName ref="http://syriaca.org/place/222">ʿAintab</placeName>.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib89-2">ܘܐܝܬܶܝܗ̇ ܓܰܪܡܰܐܢܝܩܝ ܥܰܬܝܩܬܐ ܡܕܝܺܢܬܐ ܕܰܒܓܰܪܒܝ ܚܳܠܳܒ ܘܰܒܬܝܡܢܳܐ ܕܣܺܝܘܐܰܣ</quote>

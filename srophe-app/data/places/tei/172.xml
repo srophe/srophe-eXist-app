@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-06-30-04:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,13 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-06-30-04:00">CHANGED tei:author element to tei:persName under tei:event element.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-06-12-05:00">ADDED: Yaqut citation and attestation</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -112,6 +119,20 @@
                     <placeName xml:id="name172-8" xml:lang="ar" source="#bib172-4 #bib172-6">رأس عين</placeName>
                     <placeName xml:id="name172-9" xml:lang="en" source="#bib172-5">Rish ʿAyna</placeName>
                     <placeName xml:id="name172-10" xml:lang="ar" source="#bib172-6">رأس العين</placeName>
+                    <placeName xml:id="name172-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Reshayna</placeName>
+                    <placeName xml:id="name172-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Resh‘ayna</placeName>
+                    <placeName xml:id="name172-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-Ayn</placeName>
+                    <placeName xml:id="name172-14" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-‘Ayn</placeName>
+                    <placeName xml:id="name172-15" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Rish Ayna</placeName>
+                    <placeName xml:id="name172-16" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Rish ‘Ayna</placeName>
+                    <placeName xml:id="name172-17" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Resh Ayna</placeName>
+                    <placeName xml:id="name172-18" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Resh ‘Ayna</placeName>
+                    <placeName xml:id="name172-19" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-Ayn</placeName>
+                    <placeName xml:id="name172-20" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-’Ayn</placeName>
+                    <placeName xml:id="name172-21" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-Ayn</placeName>
+                    <placeName xml:id="name172-22" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-Ayn</placeName>
+                    <placeName xml:id="name172-23" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-‘Ayn</placeName>
+                    <placeName xml:id="name172-24" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Raʾs al-‘Ayn</placeName>
                     <desc xml:id="abstract-en-172" xml:lang="en">
                         <quote source="#bib172-1">City on the Khabur, located in the eastern part of ancient Osrhoene and today straddling the Turkish-Syrian border, the Syrian part now bearing the name Raʾs al-ʿAyn and the Turkish part Ceylanpınar (earlier Resülayn).</quote>
                     </desc>

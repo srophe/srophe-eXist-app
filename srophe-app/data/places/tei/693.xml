@@ -43,7 +43,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -75,6 +75,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
         </revisionDesc>
@@ -86,6 +87,8 @@
                     <placeName xml:id="name693-1" xml:lang="en" syriaca-tags="#syriaca-headword">Shaʿb</placeName>
                     <placeName xml:id="name693-2" xml:lang="syr" syriaca-tags="#syriaca-headword" source="#bib693-1">ܫܥܒ</placeName>
                     <placeName xml:id="name693-3" xml:lang="ar" source="#bib693-2">شعب</placeName>
+                    <placeName xml:id="name693-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Shab</placeName>
+                    <placeName xml:id="name693-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Sha‘b</placeName>
                     <desc xml:id="abstract-en-693" xml:lang="en">A village south of <placeName ref="http://syriaca.org/place/130">Mardin</placeName>.</desc>
                     <state type="existence"/>
                     <idno type="URI">http://syriaca.org/place/693</idno>

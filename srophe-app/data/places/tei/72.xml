@@ -59,7 +59,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-01-14-05:00</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -91,6 +91,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2013-12-18-05:00">CREATED: place</change>
@@ -105,6 +106,8 @@
                     <placeName xml:id="name72-3" xml:lang="syr-Syrj" source="#bib72-2">ܕܰܝܪܳܐ ܕܡܳܪܝ ܝܰܥܩܘܒ ܚܒܝܫܝܐ</placeName>
                     <placeName xml:id="name72-4" xml:lang="ar" source="#bib72-3">دير مار يعقوب الحبيس</placeName>
                     <placeName xml:id="name72-5" xml:lang="en" source="#bib72-4">Jacob the Solitary Monastery</placeName>
+                    <placeName xml:id="name72-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Mor Yaqub</placeName>
+                    <placeName xml:id="name72-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Dayro d-Mor Ya‘qub</placeName>
                     <desc xml:id="abstract-en-72" xml:lang="en">A monastery near Ṣalaḥ in Ṭur ʿAbdin, seat of the Syrian Orthodox patriarchate of Ṭur ʿAbdin from 1365.</desc>
                     <desc xml:lang="syr-Syrj">
                         <quote source="#bib72-2">ܒܓܶܢܒ ܨܰܠܚ ܩܪܝܬܐ ܕܰܒܛܘܪܥܰܒܕܝܢ. ܕܰܝܪܐ ܗܘ ܪܰܒܐ ܒܢܳܝܗܝ ܥܢܘܳܝܐ ܡܳܪܝ ܝܰܥܩܘܒ ܩܕܳܡ ܫܢܰܬ  419  ܘܐܶܬܒܢܝ ܗܰܝܟܠܗ ܚܕܳܪ  770 . ܗܘܐ ܟܘܪܣܝܳܐ ܕܦܰܛܪܝܰܪܟܐ ܕܛܘܪܥܰܒܕܝܢ ܫܢܰܬ  1365  ܐܶܬܢܰܦܰܩܘ ܒܗ ܬܪܶܝܢ ܦܰܛܪܝܰܪ̈ܟܶܐ ܘܚܰܕ ܡܰܦܪܝܳܢܐ ܘܫܰܒܥܐ ܐܶܦܝܣ̈ܩܘܦܶܐ ܘܰܥܕܰܡܐ ܠܝܰܘܡܢ ܥܰܡܝܪ.</quote>

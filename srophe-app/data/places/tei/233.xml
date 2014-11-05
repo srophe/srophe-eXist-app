@@ -55,7 +55,7 @@
                         </p>
                     </licence>
                 </availability>
-                <date>2014-02-06</date>
+                <date>2014-11-05-05:00</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
@@ -87,6 +87,8 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-11-05-05:00">ADDED: Add alternate names for search functionality.</change>
             <change who=" http://syriaca.org/documentation/editors.xml#tcarlson" when="2014-02-06">ADDED <gi>quote</gi> elements around Syriac text in <gi>note</gi> of type="corrigenda".</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: relation element with shares-name-with attribute for all place headwords that share names</change>
             <change who=" http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-01-14">ADDED: syriaca-computed-start and syriaca-computed-end attributes for searching</change>
@@ -106,6 +108,10 @@
                     <placeName xml:id="name233-7" xml:lang="en" source="#bib233-5">Talʿada Monastery</placeName>
                     <placeName xml:id="name233-8" xml:lang="en" source="#bib233-5">Great Monastery</placeName>
                     <placeName xml:id="name233-9" xml:lang="en" source="#bib233-6">monastery of Tell Ada</placeName>
+                    <placeName xml:id="name233-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tell Ada</placeName>
+                    <placeName xml:id="name233-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tell ‘Ada</placeName>
+                    <placeName xml:id="name233-12" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Talada Monastery</placeName>
+                    <placeName xml:id="name233-13" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script">Tal‘ada Monastery</placeName>
                     <desc xml:id="abstract-en-233" xml:lang="en">
                         <quote source="#bib233-1">The Monastery of Tell ʿAda, also known as the ‘Great Monastery’, is located just over 48 km. from Aleppo; 1500 m. north of the present village of Tell ʿAda.</quote>
                     </desc>
