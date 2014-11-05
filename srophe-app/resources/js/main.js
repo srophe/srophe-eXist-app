@@ -51,22 +51,11 @@ $("#email").validate({
 		}
 });
 
-<<<<<<< HEAD
 
-// Toggel for related places
-$( "#more-relation" ).click(function() {
-  $(this).text($(this).text() == '(see list)' ? '(hide list)' : '(see list)'); 
-  $( "#toggle-relation" ).show( "slow");
-});
-=======
->>>>>>> dev
-
-//more sophisticated toggle for mulitple show/hide
-
+//Changes text on toggle buttons, toggle funtion handled by Bootstrap
 $('.togglelink').click(function(e){
     e.preventDefault();
     var el = $(this);
-    $(this).next('.toggle').slideToggle();
     if (el.text() == el.data("text-swap")) {
           el.text(el.data("text-original"));
         } else {
@@ -76,16 +65,6 @@ $('.togglelink').click(function(e){
 });           
 
 
-//more sophisticated toggle for mulitple show/hide
-$(".toggle").click(function() {
-    var $toggled = $(this).attr('href');
-    if ($.trim($(this).text()) === '(hide list)') {
-        $($toggled).hide( "slow");
-    } else {
-        $($toggled).show( "slow");       
-    }
-    return false;
-});
 
 if (navigator.appVersion.indexOf("Mac") > -1 || navigator.appVersion.indexOf("Linux") > -1) {
     $('.get-syriac').show();

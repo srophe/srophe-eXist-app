@@ -1,7 +1,7 @@
 xquery version "3.0";
 
 (:~
- : Build email from form returns error or sucess message to ajax function 
+ : Build email form returns error or success message to ajax function 
  :)
 
 declare namespace xslt="http://exist-db.org/xquery/transform";

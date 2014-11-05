@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
->>>>>>> dev
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/schmea#" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -58,17 +54,11 @@
                         </attDef>
                     </attList>
                 </classSpec>
-<<<<<<< HEAD
                 <moduleRef except="binaryObject cit distinct email emph gb headItem headLabel index measureGrp media meeting mentioned num postBox postCode rs said soCalled sp speaker stage street teiCorpus term time" 
                     key="core"/>
                 <moduleRef key="tei"/>
                 <moduleRef except="abstract appInfo application att.patternReplacement biblFull cRefPattern calendar calendarDesc correction creation distributor hyphenation listChange listPrefixDef namespace normalization notesStmt prefixDef quotation refState refsDecl samplingDecl scriptNote segmentation seriesStmt stdVals styleDefDecl tagUsage tagsDecl typeNote rendition" 
                     key="header"/>
-=======
-                <moduleRef except="binaryObject cit distinct email emph gb headItem headLabel index measureGrp media meeting mentioned num postBox postCode rs said soCalled sp speaker stage street teiCorpus term time" key="core"/>
-                <moduleRef key="tei"/>
-                <moduleRef except="abstract appInfo application att.patternReplacement biblFull cRefPattern calendar calendarDesc correction creation distributor hyphenation listChange listPrefixDef namespace normalization notesStmt prefixDef quotation refState refsDecl samplingDecl scriptNote segmentation seriesStmt stdVals styleDefDecl tagUsage tagsDecl typeNote rendition" key="header"/>
->>>>>>> dev
                 <moduleRef except="cell row table notatedMusic" key="figures"/>
                 <moduleRef key="gaiji"/>
                 <moduleRef except="alt altGrp join joinGrp linkGrp timeline when" key="linking"/>
@@ -77,12 +67,8 @@
                 <moduleRef except="app lacunaEnd lacunaStart lem listApp listWit rdg rdgGrp variantEncoding" key="textcrit"/>
                 <moduleRef except="line listTranspose metamark mod redo retrace sourceDoc space substJoin surface surfaceGrp surplus transpose undo zone" key="transcr"/>
                 <moduleRef except="argument byline dateline div1 div2 div3 div4 div5 div6 div7 docDate group imprimatur trailer floatingText" key="textstructure"/>
-<<<<<<< HEAD
                 <moduleRef except="altIdent alternate att attDef attList attRef classRef classSpec classes code constraint constraintSpec content datatype defaultVal eg egXML elementRef elementSpec equiv exemplum ident listRef macroRef macroSpec memberOf moduleRef moduleSpec remarks sequence specDesc specGrp specGrpRef specList tag val valDesc valItem valList att.combinable att.deprecated att.identified att.namespaceable att.repeatable" 
                     key="tagdocs"/>
-=======
-                <moduleRef except="altIdent alternate att attDef attList attRef classRef classSpec classes code constraint constraintSpec content datatype defaultVal eg egXML elementRef elementSpec equiv exemplum ident listRef macroRef macroSpec memberOf moduleRef moduleSpec remarks sequence specDesc specGrp specGrpRef specList tag val valDesc valItem valList att.combinable att.deprecated att.identified att.namespaceable att.repeatable" key="tagdocs"/>
->>>>>>> dev
                 <moduleRef except="certainty respons" key="certainty"/>
                 <moduleRef key="analysis"/>
                 <!-- If the TEI organization changes "precision" so that it can be a child of state and have notBefore notAfter attributes, this change may be removed. -->
@@ -101,8 +87,4 @@
             </schemaSpec>
         </body>
     </text>
-<<<<<<< HEAD
 </TEI>
-=======
-</TEI>
->>>>>>> dev

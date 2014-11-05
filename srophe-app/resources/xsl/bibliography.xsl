@@ -60,7 +60,7 @@
     <xsl:template match="t:bibl" mode="footnote">
         <xsl:param name="footnote-number">-1</xsl:param>
         <xsl:variable name="thisnum">
-            <!-- Isolates footnote number in @xml:id -->
+            <!-- Isolates footnote number in @xml:id-->
             <xsl:choose>
                 <xsl:when test="$footnote-number='-1'">
                     <xsl:value-of select="substring-after(@xml:id, '-')"/>
@@ -449,18 +449,11 @@
                 <a href="{@target}">
                     <xsl:choose>
                         <xsl:when test="@unit='ff'">
-<<<<<<< HEAD
-                            <xsl:text>, f. </xsl:text><xsl:apply-templates select="." mode="out-normal"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:apply-templates select="." mode="out-normal"/>                        
-=======
                             <xsl:text>, f. </xsl:text>
                             <xsl:apply-templates select="." mode="out-normal"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:apply-templates select="." mode="out-normal"/>
->>>>>>> dev
                         </xsl:otherwise>
                     </xsl:choose>
                 </a>
@@ -468,18 +461,11 @@
             <xsl:otherwise>
                 <xsl:choose>
                     <xsl:when test="@unit='ff'">
-<<<<<<< HEAD
-                        <xsl:text>, f. </xsl:text><xsl:apply-templates select="." mode="out-normal"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:apply-templates select="." mode="out-normal"/>                        
-=======
                         <xsl:text>, f. </xsl:text>
                         <xsl:apply-templates select="." mode="out-normal"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:apply-templates select="." mode="out-normal"/>
->>>>>>> dev
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:otherwise>

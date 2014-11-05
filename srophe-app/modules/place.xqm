@@ -188,11 +188,7 @@ declare %templates:wrap function place:get-place-data($node as node(), $model as
                         ($rec/child::*, place:get-related-places($rec),place:get-nested-loc(),place:get-confessions())
                     }
                     </TEI>
-<<<<<<< HEAD:srophe-app/modules/place.xql
-    let $cache :='Change value to force refresh 43534'
-=======
     let $cache :='Change value to force page refresh 54765432d'
->>>>>>> dev:srophe-app/modules/place.xqm
     return
        (: $buildRec:) 
        transform:transform($buildRec, doc('../resources/xsl/placepage.xsl'),() )

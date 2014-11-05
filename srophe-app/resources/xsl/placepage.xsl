@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:s="http://syriaca.org" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" xmlns:x="http://www.w3.org/1999/xhtml" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:s="http://syriaca.org" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" xmlns:x="http://www.w3.org/1999/xhtml" exclude-result-prefixes="xs t s saxon" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University
@@ -51,7 +51,7 @@
        ================================================================== -->
  <!-- =================================================================== -->
  <!-- import component stylesheets for HTML page portions -->
- <!-- ===================================================================  -->
+ <!-- =================================================================== -->
     <xsl:import href="place-title-std.xsl"/>
     <xsl:import href="helper-functions.xsl"/>
     <xsl:import href="link-icons.xsl"/>
@@ -80,7 +80,6 @@
     <xsl:variable name="editorssourcedoc">/db/apps/srophe/documentation/editors.xml</xsl:variable>
     <xsl:param name="uribase">http://syriaca.org/place/</xsl:param>
     <xsl:variable name="resource-id" select="substring-after(/descendant::*/t:place[1]/@xml:id,'place-')"/>
-    <xsl:variable name="placenum" select="substring-after(/descendant::*/t:place[1]/@xml:id,'place-')"/>
  <!-- =================================================================== -->
  <!-- TEMPLATES -->
  <!-- =================================================================== -->
@@ -94,18 +93,6 @@
         <div class="row title">
             <h1 class="col-md-8">
                         <!-- Format title, calls template in place-title-std.xsl -->
-<<<<<<< HEAD
-                        <xsl:call-template name="get-title"/>
-                        <span class="get-syriac noprint" style="font-size:.55em; margin-left:1em;vertical-align:super;font-weight:normal; color: rgb(0,136,204);display:none">
-                            <xsl:if test="//t:place/child::*[@xml:lang ='syr']">
-                                <a href="../documentation/view-syriac.html">
-                                    <img src="/exist/apps/srophe/resources/img/faq.png" alt="The Google Maps icon"/>&#160;Don't see Syriac?</a>
-                            </xsl:if>
-                        </span>
-                    </h1>
-                    <!-- Call link icons (located in link-icons.xsl) -->
-                    <xsl:call-template name="link-icons"/>   
-=======
                 <xsl:call-template name="get-title"/>
                 <span class="get-syriac noprint" style="font-size:.55em; margin-left:1em;vertical-align:super;font-weight:normal; color: rgb(0,136,204);display:none">
                     <xsl:if test="//t:place/child::*[@xml:lang ='syr']">
@@ -116,7 +103,6 @@
             </h1>
             <!-- Call link icons (located in link-icons.xsl) -->
             <xsl:call-template name="link-icons"/>   
->>>>>>> dev
      <!-- End Title -->
         </div>
      <!-- Main place page content -->
