@@ -5,7 +5,7 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title level="a">Aaron of Saroug</title>
+                <title level="a">Ahrun of Serugh — <foreign xml:lang="syr">ܐܗܪܘܢ</foreign></title>
                 <title level="m">A Guide to the Syriac Saints</title>
                 <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
                 <funder>The International Balzan Prize Foundation</funder>
@@ -143,13 +143,13 @@
                     <persName xml:id="name1092-1" xml:lang="syr" source="#bib1092-1"
                         syriaca-tags="#syriaca-headword">ܐܗܪܘܢ</persName>
                     <persName xml:id="name1092-2" xml:lang="en-x-gedsh"
-                        syriaca-tags="#syriaca-headword">Ahrun</persName>
+                        syriaca-tags="#syriaca-headword">Ahrun of Serugh</persName>
                     <persName xml:id="name1092-3" xml:lang="fr-x-bhsyre" source="#bib1092-1">ʾAhrōn</persName>
                     <persName xml:id="name1092-4" xml:lang="en">Aaron of Saroug</persName>
                     <persName xml:id="name1092-5" xml:lang="fr" source="#bib1092-1 #bib1092-2">Aaron
                         de Saroug</persName>
                     <note type="abstract" xml:id="abstract-en-1092" source="#bib1092-2">Aaron of
-                        <placeName ref="http://syriaca.org/place/48">Saroug</placeName> was a disciple of <persName>Mar Awgin</persName> and founder of two monasteries near
+                        <placeName ref="http://syriaca.org/place/48">Serugh</placeName> was a disciple of <persName>Mar Awgin</persName> and founder of two monasteries near
                         <placeName ref="http://syriaca.org/place/136">Melitene</placeName>.</note>
                     <idno type="URI">http://syriaca.org/person/1092</idno>
                     <sex value="M" source="#bib1092-2">male</sex>
