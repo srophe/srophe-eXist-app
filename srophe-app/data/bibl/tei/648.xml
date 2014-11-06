@@ -3,13 +3,14 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title xml:lang="fr">Saints Syriaques</title>
+                <title xml:lang="en">The Chronicle of Pseudo-Zachariah Rhetor: Church and War in Late Antiquity</title>
                 <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
                 <funder>The National Endowment for the Humanities</funder>
                 <funder>The International Balzan Prize Foundation</funder>
                 <principal>David A. Michelson</principal>
-                <editor role="general" ref="http://syriaca.org/editors.xml#dmichelson">David A.
-                    Michelson</editor>
+                <editor role="general" ref="http://syriaca.org/editors.xml#tcarlson">Thomas A. Carlson</editor>
+                <editor role="general" ref="http://syriaca.org/editors.xml#dmichelson">David A. Michelson</editor>
+                <editor role="creator" ref="http://syriaca.org/editors.xml#dmichelson">David A. Michelson</editor>
                 <respStmt>
                     <resp>XML coded by</resp>
                     <name ref="http://syriaca.org/editors.xml#dmichelson">David A. Michelson</name>
@@ -22,46 +23,68 @@
                 <authority>Syriaca.org: The Syriac Reference Portal</authority>
                 <idno type="URI">http://syriaca.org/bibl/648/source</idno>
                 <availability>
-                    <licence target="http://creativecommons.org/licenses/by/3.0/"> Distributed under
-                        a Creative Commons Attribution 3.0 Unported License </licence>
+                    <licence target="http://creativecommons.org/licenses/by/3.0/">
+                        Distributed under a Creative Commons Attribution 3.0 Unported License
+                    </licence>
                 </availability>
-                <date>2014-11-04</date>
+                <date>2014-08-05</date>
             </publicationStmt>
             <sourceDesc>
                 <p>Born digital.</p>
             </sourceDesc>
         </fileDesc>
         <revisionDesc>
-            <change when="2014-11-04" who="http://syriaca.org/editors.xml#dmichelson">CREATED:
-                bibliographic entry</change>
-            <change type="planned">Need URI for Princeton, N.J.</change>
+            <change when="2014-08-05" who="http://syriaca.org/editors.xml#dmichelson">CREATED: bibliographic entry</change>
         </revisionDesc>
     </teiHeader>
     <text>
         <body>
             <biblStruct>
                 <monogr>
-                    <author ref="http://syriaca.org/person/488">
-                        <persName xml:lang="fr">
-                            <forename>Jean</forename>
-                            <addName>Maurice</addName>
-                            <surname sort="1">Fiey</surname>
+                    <author> <!-- do we want to assign an author URI? -->
+                        <persName xml:lang="en">
+                            <forename>Pseudo-Zachariah </forename>
+                            <addName type="untagged-title">Rhetor</addName>
                         </persName>
                     </author>
-                    <editor>
+                    <editor role="editor">
                         <persName xml:lang="en">
-<forename>Lawrence</forename>
-                            <addName>I.</addName>
-                            <surname sort="1">Conrad</surname>
+                            <forename>Geoffrey</forename>
+                            <surname>Greatrex</surname>
                         </persName>
                     </editor>
-                    <title xml:lang="fr" level="m">Saints Syriaques</title>
-                    <series><title xml:lang="en" level="s">Studies in Late Antiquity and Early Islam</title><biblScope unit="vol">6</biblScope></series>
+                    <editor role="translator">
+                        <persName xml:lang="en">
+                            <forename>Robert</forename>
+                            <addName>R.</addName>
+                            <surname>Phenix</surname>
+                        </persName>
+                    </editor>
+                    <editor role="translator">
+                        <persName xml:lang="en">
+                            <forename>Cornelia</forename>
+                            <addName>B.</addName>
+                            <surname>Horn</surname>
+                        </persName>
+                    </editor>
+                    <editor role="editor">
+                        <persName xml:lang="en">
+                            <forename>Sebastian</forename>
+                            <addName>P.</addName>
+                            <surname>Brock</surname>
+                        </persName>
+                    </editor>
+                    <editor role="editor">
+                        <persName xml:lang="en">
+                            <forename>Witold</forename>
+                            <surname>Witakowski</surname>
+                        </persName>
+                    </editor>
+                    <title xml:lang="en" level="m">The Chronicle of Pseudo-Zachariah Rhetor: Church and War in Late Antiquity</title>
                     <imprint>
-                        <publisher xml:lang="en">The Darwin Press, Inc.</publisher>
-                        <!-- Need URI -->
-                        <pubPlace xml:lang="en" ref="http://syriaca.org/place/">Princeton, N.J.</pubPlace>
-                        <date>2004</date>
+                        <publisher xml:lang="en">Liverpool University Press</publisher>
+                        <pubPlace ref="http://syriaca.org/place/2548">Liverpool</pubPlace>
+                        <date>2011</date>
                     </imprint>
                 </monogr>
                 <idno type="URI">http://syriaca.org/bibl/648</idno>
