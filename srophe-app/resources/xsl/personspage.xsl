@@ -604,6 +604,16 @@
                 </xsl:for-each-group>
             </xsl:if>
         </div>
+    
+        <!-- Saints' lives -->
+        <xsl:if test="@ana ='#syriaca-saint'">
+            <div>
+                <h3>Lives</h3>
+                <p>
+                    [Under preparation. Syriaca.org is preparing a database of Syriac saints lives, Biblioteca Hagiographica Syriaca Electronica, which will include links to lives for saints here.]
+                </p>
+            </div>
+        </xsl:if>
     </xsl:template>
     <xsl:template name="col2">
         <xsl:if test="//*:div[@id = 'worldcat-refs']">
