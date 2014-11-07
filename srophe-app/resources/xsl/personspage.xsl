@@ -147,7 +147,7 @@
                         <p>
                             <xsl:text>Except otherwise noted, this page is © </xsl:text>
                             <xsl:choose>
-                                <xsl:when test=". castable as xs:date">
+                                <xsl:when test="//t:teiHeader/t:fileDesc/t:publicationStmt/t:date[1]/text() castable as xs:date">
                                     <xsl:value-of select="format-date(xs:date(//t:teiHeader/t:fileDesc/t:publicationStmt/t:date[1]), '[Y]')"/>
                                 </xsl:when>
                                 <xsl:otherwise>
