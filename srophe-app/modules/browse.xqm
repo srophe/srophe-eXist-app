@@ -7,7 +7,7 @@ xquery version "3.0";
  
 module namespace browse="http://syriaca.org//browse";
 
-import module namespace templates="http://exist-db.org/xquery/templates" ;
+import module namespace templates="http://exist-db.org/xquery/templates";
 import module namespace config="http://syriaca.org//config" at "config.xqm";
 
 declare namespace xslt="http://exist-db.org/xquery/transform";
@@ -118,8 +118,8 @@ declare function browse:get-pers-type($node as node(), $model as map(*)){
     let $type := string($data/@type)
     let $ana := string($data/@ana)
     let $title := 
-        if($browse:view = 'syr') then string($data/tei:persName[@syriaca-tags="#syriaca-headword"][@xml:lang = 'syr'][1])
-        else string($data/tei:persName[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')])
+        if($browse:view = 'syr') then $data/tei:placeName[@xml:lang = 'syr'][1]/text()
+        else $data/tei:placeName[1]/text()
     let $browse-title := browse:build-sort-string($title)
     where if($browse:type != '') then 
             if($browse:type = 'unknown') then $data[not(@ana)]
@@ -153,7 +153,7 @@ declare function browse:get-pers-date-bc($node as node(), $model as map(*)){
         for $data in $model('browse-data')[starts-with(descendant::*/@notBefore,'-') or starts-with(descendant::*/@notAfter,'-')]
         let $id := string($data/@xml:id)
         let $ana := string($data/@ana)
-        let $title := string($data/tei:persName[1])
+        let $title := $data/tei:persName[1]
         let $browse-title := browse:build-sort-string($title) 
         return 
             <browse xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" ana="{$ana}" sort-title="{$browse-title}" date="{$browse:date}">
@@ -213,7 +213,7 @@ declare function browse:get-pers-date-ad($node as node(), $model as map(*)){
         for $data in $model('browse-data')[descendant::*/@syriaca-computed-start lt $end][descendant::*/@syriaca-computed-end gt $start]
         let $id := string($data/@xml:id)
         let $ana := string($data/@ana)
-        let $title := string($data/tei:persName[1])
+        let $title := $data/tei:persName[1]
         let $browse-title := browse:build-sort-string($title) 
         return 
             <browse xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" ana="{$ana}" sort-title="{$browse-title}" date="{$browse:date}">
