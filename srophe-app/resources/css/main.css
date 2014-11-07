@@ -1,3 +1,4 @@
+/* Application styles could go here */
 /*
  * Colors:
  * Dark red: 753C28
@@ -29,8 +30,8 @@ footer {text-align:center; color:white;}
 /* Typography */
 h1 {font-size:1.5em; margin:0 0 .25em 0; color:#E69849; font-weight:500;}
 /*h2 {font-size:1.5em; margin:0 -1em; padding-left:8px; color:#E69849; font-weight:500;}*/
-h2 {font-size: 1.25em; margin:0 0 .25em 0; padding-bottom:0; color:#753C28; font-weight:500;}
-h3 {font-size: 1.2em; margin:0 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;}
+h2 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; color:#753C28; font-weight:500;}
+h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;}
 h3.underline {color:#999; border-bottom:3px solid #E69849; padding-bottom:-.75em; margin-bottom:1em; margin-top:1em;}
 h4 {font-size: 1em; margin:0 0 .25em 0; padding-bottom:0; font-weight:bold;}
 
