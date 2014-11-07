@@ -1,7 +1,7 @@
 xquery version "3.0";
 (:~
  : Builds browse page for Syriac.org sub-collections 
- : Alphabetical English and Syriac Browse lists 
+ : Alphabetical English and Syriac Browse lists
  : Results output as TEI xml and are transformed by /srophe/resources/xsl/browselisting.xsl
  :)
  
@@ -57,14 +57,14 @@ declare function browse:build-browse-results($node as node(), $model as map(*)){
     let $ana := string($data/@ana)
     let $en-title := 
         if($data/tei:persName[@syriaca-tags='#syriaca-headword']) then 
-            if($data/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang,'en'][1]/child::*) then
-                $data/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang,'en'][1]/child::*[1]/text()
-            else $data/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang,'en'][1]/text()
+            if($data/tei:persName[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/child::*) then
+                $data/tei:persName[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/child::*[1]/text()
+            else $data/tei:persName[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/text()
         else    
-            $data/tei:placeName[starts-with(@xml:lang,'en')][1]/text() 
+            $data/tei:placeName[matches(@xml:lang,'^en')][1]/text() 
     let $syr-title := 
         if($data/tei:persName[@syriaca-tags='#syriaca-headword']) then
-            $data/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang,'syr'][1]/child::*[1]/text()
+            $data/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang='syr'][1]/child::*[1]/text()
         else $data/tei:placeName[@xml:lang = 'syr'][1]/text()
     let $title := 
         if($browse:view = 'syr') then $syr-title else $en-title
