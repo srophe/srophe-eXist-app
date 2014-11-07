@@ -50,6 +50,7 @@
        
        ================================================================== -->
     
+    <xsl:variable name="uri" select="substring-before(//t:publicationStmt/t:idno[@type='URI'],'/tei')"></xsl:variable>
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      generate a footnote for the matched titleStmt element
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
@@ -97,8 +98,9 @@
         <xsl:if test="following-sibling::t:principal">
             <xsl:text>, </xsl:text>
         </xsl:if>
+        <xsl:text>.</xsl:text>
         <xsl:text> </xsl:text>
-        <!-- NOTE:       <xsl:value-of select="$htmluri"/>-->
+        <a href="{$uri}"><xsl:value-of select="$uri"/></a>
         <xsl:text>.</xsl:text>
     </xsl:template>
     
@@ -147,9 +149,11 @@
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
         <xsl:sequence select="local:emit-responsible-persons(t:principal,'footnote',2)"/>
         <xsl:text>.</xsl:text>
+        
         <xsl:text> </xsl:text>
-        <!-- NOTE:       <xsl:value-of select="$htmluri"/>-->
+        <a href="{$uri}"><xsl:value-of select="$uri"/></a>
         <xsl:text>.</xsl:text>
+        
     </xsl:template>
     
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
