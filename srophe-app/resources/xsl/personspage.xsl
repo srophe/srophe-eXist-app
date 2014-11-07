@@ -929,7 +929,7 @@
     <xsl:template match="t:date">
         <xsl:apply-templates/>
     </xsl:template>
-    <xsl:template match="t:persName | t:region | t:settlement">
+    <xsl:template match="t:persName | t:region | t:settlement | t:placeName">
         <xsl:choose>
             <xsl:when test="@ref">
                 <xsl:choose>
@@ -1083,5 +1083,5 @@
     <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
     <!-- |||| match=t:*: suppress all TEI elements not otherwise handled -->
     <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-    <xsl:template match="t:*"/>
+    <!--<xsl:template match="t:*"/>-->
 </xsl:stylesheet>
