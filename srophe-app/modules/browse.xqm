@@ -7,7 +7,7 @@ xquery version "3.0";
  
 module namespace browse="http://syriaca.org//browse";
 
-import module namespace templates="http://syriaca.org//templates" at "templates.xql";
+import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace config="http://syriaca.org//config" at "config.xqm";
 
 declare namespace xslt="http://exist-db.org/xquery/transform";
