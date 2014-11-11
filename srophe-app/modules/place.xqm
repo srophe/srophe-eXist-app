@@ -1,5 +1,5 @@
 (:~
- : Builds place page and place page functions 
+ : Builds place page and place page functions
  :)
 xquery version "3.0";
 
@@ -188,9 +188,8 @@ declare %templates:wrap function place:get-place-data($node as node(), $model as
                         ($rec/child::*, place:get-related-places($rec),place:get-nested-loc(),place:get-confessions())
                     }
                     </TEI>
-    let $cache :='Change value to force page refresh 54765432d'
+    let $cache :='Change value to force page refresh 58'
     return
        (: $buildRec:) 
        transform:transform($buildRec, doc('../resources/xsl/placepage.xsl'),() )
 };
-

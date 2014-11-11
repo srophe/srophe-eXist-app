@@ -10,7 +10,7 @@ import module namespace config="http://syriaca.org//config" at "config.xqm";
 
 import module namespace req="http://exquery.org/ns/request";
 
-(: For output annotations  :)
+(: For output annotations :)
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 (: For REST annotations :)
@@ -20,13 +20,6 @@ declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
-
-
-(:test with templating
-    <view>
-            <forward url="{$exist:controller}/modules/view.xql"/>
-        </view>
-:)
 
 declare
     %rest:GET
