@@ -55,10 +55,10 @@
     <xsl:variable name="resource-uri">
         <xsl:choose>
             <xsl:when test="//t:place">
-                <xsl:value-of select="concat('/exist/restxq/place/',$resource-id)"/>
+                <xsl:value-of select="concat('/place/',$resource-id)"/>
             </xsl:when>
             <xsl:when test="//t:person">
-                <xsl:value-of select="concat('/exist/restxq/persons/',$resource-id)"/>
+                <xsl:value-of select="concat('/persons/',$resource-id)"/>
             </xsl:when>
         </xsl:choose>
     </xsl:variable>
@@ -105,8 +105,10 @@
                 <img src="/exist/apps/srophe/resources/img/tei-25.png" alt="The Text Encoding Initiative icon" title="click to view the TEI XML source data for this place"/>
             </a>
             <!-- NOTE: need to restructure geo? or just add atom to persons? -->
-            <!-- Atom format link -->
+            <!-- Atom format link 
             <a href="{$resource-uri}/atom" rel="alternate" type="application/atom+xml">
+            -->
+            <a href="/geo/atom.xql?id={$resource-id}" rel="alternate" type="application/atom+xml">
                 <img src="/exist/apps/srophe/resources/img/atom-25.png" alt="The Atom format icon" title="click to view this data in Atom XML format"/>
             </a>
             <!-- Atom format link -->
@@ -170,7 +172,7 @@
                 </li>
                 <!-- Atom format link -->
                 <li>
-                    <a href="{$resource-uri}/atom" rel="alternate" type="application/atom+xml">
+                    <a href="/geo/atom.xql?id={$resource-id}" rel="alternate" type="application/atom+xml">
                         <img src="/exist/apps/srophe/resources/img/atom-25.png" alt="The Atom format icon" title="click to view this data in Atom XML format"/> Atom XML format</a>
                 </li>
                 <!-- Wikipedia links -->
