@@ -20,7 +20,7 @@
         <create qname="@syriaca-computed-start" type="xs:date"/>
         <create qname="@syriaca-computed-end" type="xs:date"/>
         <create qname="@when" type="xs:date"/>
-        <create qname="@target" type="xs:date"/>
+        <create qname="@target" type="xs:string"/>
         <create qname="@who" type="xs:string"/>
         <create qname="@ref" type="xs:string"/>
         <create qname="@where" type="xs:string"/>
@@ -28,12 +28,16 @@
         <create qname="@passive" type="xs:string"/>
         <create qname="@name" type="xs:string"/>
         <create qname="tei:geo" type="xs:string"/>
-        <!--<create qname="tei:placeName" type="xs:string"/>-->
-        <!--<create qname="tei:persName" type="xs:string"/>-->
         <create qname="tei:relation" type="xs:string"/>
         <create qname="tei:idno" type="xs:string"/>
     </index>
     <triggers>
         <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
+        <trigger event="create" class="org.exist.collections.triggers.XQueryTrigger">
+            <parameter name="query" value="module namespace trigger='http://exist-db.org/xquery/trigger';
+                declare function trigger:after-create-document($uri as xs:anyURI)
+                {sm:chmod($uri, 'rwxr-xr-x')};"
+            />
+        </trigger>
     </triggers>
 </collection>
