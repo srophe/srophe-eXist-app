@@ -81,7 +81,7 @@
                 <!-- if there is an analytic title present, then we have a separately titled book section -->
                 <xsl:if test="t:title[@level='a']">
                     <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-                    <xsl:sequence select="local:emit-responsible-persons(t:author,'footnote',2)"/>
+                    <xsl:sequence select="local:emit-responsible-persons(t:author,'footnote',3)"/>
                     <xsl:if test="t:author">
                         <xsl:text>, </xsl:text>
                     </xsl:if>
@@ -139,10 +139,10 @@
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
         <xsl:choose>
             <xsl:when test="$edited">
-                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:editor[not(@role) or @role!='translator'],'footnote',2)"/>
+                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:editor[not(@role) or @role!='translator'],'footnote',3)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:author[child::*[starts-with(@xml:lang,'en')]],'footnote',2)"/>
+                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:author,'footnote',3)"/>
             </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="$edited">
@@ -173,7 +173,7 @@
         <xsl:if test="count(t:monogr[1]/t:editor[@role='translator']) &gt; 0">
             <xsl:text>, trans. </xsl:text>
             <!-- Process translator using local function in helper-functions.xsl local:emit-responsible-persons -->
-            <xsl:sequence select="local:emit-responsible-persons(t:monogr[1]/t:editor[@role='translator'],'footnote',2)"/>
+            <xsl:sequence select="local:emit-responsible-persons(t:monogr[1]/t:editor[@role='translator'],'footnote',3)"/>
         </xsl:if>
         <xsl:text> </xsl:text>
         <xsl:apply-templates select="t:monogr/t:imprint" mode="footnote"/>
@@ -200,10 +200,10 @@
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
         <xsl:choose>
             <xsl:when test="$edited">
-                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:editor[not(@role) or @role!='translator'],'biblist',2)"/>
+                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:editor[not(@role) or @role!='translator'],'biblist',3)"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:author[child::*[starts-with(@xml:lang,'en')]],'biblist',2)"/>
+                <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:author,'biblist',3)"/>
             </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="$edited">
@@ -428,22 +428,10 @@
      handle cited ranges in the context of a footnote
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <xsl:template match="t:citedRange[ancestor::t:bibl or ancestor::t:biblStruct]" mode="footnote" priority="1">
-        <xsl:variable name="prefix">
-            <xsl:choose>
-                <xsl:when test="@unit='entry'">
-                    <xsl:text>“</xsl:text>
-                </xsl:when>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:variable name="suffix">
-            <xsl:choose>
-                <xsl:when test="@unit='entry'">
-                    <xsl:text>”</xsl:text>
-                </xsl:when>
-            </xsl:choose>
-        </xsl:variable>
-        <xsl:text> </xsl:text>
-        <xsl:value-of select="$prefix"/>
+        <xsl:choose>
+            <xsl:when test="@unit='ff'"/>
+            <xsl:otherwise><xsl:value-of select="concat(@unit,': ')"/></xsl:otherwise>
+        </xsl:choose>
         <xsl:choose>
             <xsl:when test="@target">
                 <a href="{@target}">
@@ -472,7 +460,6 @@
         </xsl:choose>
         <xsl:if test="following-sibling::*">,</xsl:if>
         <xsl:if test="not(following-sibling::*)">.</xsl:if>
-        <xsl:value-of select="$suffix"/>
     </xsl:template>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 

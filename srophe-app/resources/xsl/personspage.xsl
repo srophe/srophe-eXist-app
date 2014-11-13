@@ -147,7 +147,7 @@
                         <p>
                             <xsl:text>Except otherwise noted, this page is © </xsl:text>
                             <xsl:choose>
-                                <xsl:when test=". castable as xs:date">
+                                <xsl:when test="//t:teiHeader/t:fileDesc/t:publicationStmt/t:date[1]/text() castable as xs:date">
                                     <xsl:value-of select="format-date(xs:date(//t:teiHeader/t:fileDesc/t:publicationStmt/t:date[1]), '[Y]')"/>
                                 </xsl:when>
                                 <xsl:otherwise>
@@ -393,7 +393,7 @@
                             <script src="http://isawnyu.github.com/awld-js/awld.js?autoinit" type="text/javascript"/>
                             <script type="text/javascript" src="/exist/apps/srophe/resources/leaflet/leaflet.awesome-markers.js"/>
                             <div id="map" style="height: 250px;"/>
-                            <div class="hint">Places for which we don’t have coordinates are in the list below but not on the map above.</div>
+                            <div class="hint">Not all places in the list below are represented on the map above.</div>
                             <script type="text/javascript">
                                 var terrain = L.tileLayer(
                                 'http://api.tiles.mapbox.com/v3/sgillies.map-ac5eaoks/{z}/{x}/{y}.png', 
@@ -542,14 +542,9 @@
         
         <!-- What to do about sex and langKnowledge? Better ogranization of data needed. -->
         <xsl:for-each select="//t:sex | //t:langKnowledge">
-            <h4>
-                <xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>
-            </h4>
-            <ul>
-                <li>
-                    <xsl:apply-templates select="."/>
-                </li>
-            </ul>
+            <p>
+                <xsl:apply-templates select="."/>
+            </p>
         </xsl:for-each>
         <div>
             <xsl:if test="string-length(t:desc[not(starts-with(@xml:id,'abstract'))][1]) &gt; 1">
@@ -604,6 +599,16 @@
                 </xsl:for-each-group>
             </xsl:if>
         </div>
+    
+        <!-- Saints' lives -->
+        <xsl:if test="@ana ='#syriaca-saint'">
+            <div>
+                <h3>Lives</h3>
+                <p>
+                    [Under preparation. Syriaca.org is preparing a database of Syriac saints lives, Biblioteca Hagiographica Syriaca Electronica, which will include links to lives for saints here.]
+                </p>
+            </div>
+        </xsl:if>
     </xsl:template>
     <xsl:template name="col2">
         <xsl:if test="//*:div[@id = 'worldcat-refs']">
@@ -689,19 +694,15 @@
         <xsl:sequence select="local:do-refs(@source,ancestor::t:*[@xml:lang][1])"/>
     </xsl:template>
     <xsl:template match="t:sex">
-        <li>
             <span class="srp-label">Sex:</span>
             <xsl:text> </xsl:text>
             <xsl:apply-templates/>
             <xsl:sequence select="local:do-refs(@source,ancestor::t:*[@xml:lang][1])"/>
-        </li>
     </xsl:template>
     <xsl:template match="t:langKnowledge">
-        <li>
             <span class="srp-label">langKnowledge:</span>
             <xsl:text> </xsl:text>
             <xsl:apply-templates/>
-        </li>
     </xsl:template>
     <xsl:template match="t:langKnown">
         <xsl:apply-templates/>
@@ -928,7 +929,7 @@
     <xsl:template match="t:date">
         <xsl:apply-templates/>
     </xsl:template>
-    <xsl:template match="t:persName | t:region | t:settlement">
+    <xsl:template match="t:persName | t:region | t:settlement | t:placeName">
         <xsl:choose>
             <xsl:when test="@ref">
                 <xsl:choose>
@@ -1082,5 +1083,5 @@
     <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
     <!-- |||| match=t:*: suppress all TEI elements not otherwise handled -->
     <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
-    <xsl:template match="t:*"/>
+    <!--<xsl:template match="t:*"/>-->
 </xsl:stylesheet>

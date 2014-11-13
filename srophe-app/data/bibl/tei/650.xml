@@ -3,10 +3,11 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title xml:lang="la">Biblioteca Hagiographica Syriaca Electronica</title>
+                <title xml:lang="fr">Saints Syriaques</title>
                 <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
                 <funder>The National Endowment for the Humanities</funder>
-                <funder>The International Balzan Prize Foundation</funder>
+                <funder>The International Balzan Prize Founda
+                    tion</funder>
                 <principal>David A. Michelson</principal>
                 <editor role="general" ref="http://syriaca.org/editors.xml#dmichelson">David A.
                     Michelson</editor>
@@ -20,7 +21,7 @@
             </editionStmt>
             <publicationStmt>
                 <authority>Syriaca.org: The Syriac Reference Portal</authority>
-                <idno type="URI">http://syriaca.org/bibl/649/source</idno>
+                <idno type="URI">http://syriaca.org/bibl/650/source</idno>
                 <availability>
                     <licence target="http://creativecommons.org/licenses/by/3.0/"> Distributed under
                         a Creative Commons Attribution 3.0 Unported License </licence>
@@ -34,28 +35,37 @@
         <revisionDesc>
             <change when="2014-11-04" who="http://syriaca.org/editors.xml#dmichelson">CREATED:
                 bibliographic entry</change>
+            <change type="planned">Need URI for Princeton, N.J.</change>
         </revisionDesc>
     </teiHeader>
     <text>
         <body>
             <biblStruct>
                 <monogr>
-                    <author>
+                    <author ref="http://syriaca.org/person/488">
                         <persName xml:lang="fr">
-                            <forename>Ugo</forename>
-                            <surname sort="1">Zanetti</surname>
+                            <forename>Jean</forename>
+                            <addName>Maurice</addName>
+                            <surname sort="1">Fiey</surname>
                         </persName>
                     </author>
-                    <author>
+                    <editor>
                         <persName xml:lang="en">
-<forename>Claude</forename>
-                            <surname sort="1">Detienne</surname>
+<forename>Lawrence</forename>
+                            <addName>I.</addName>
+                            <surname sort="1">Conrad</surname>
                         </persName>
-                    </author>
-                    <title xml:lang="la" level="m">Biblioteca Hagiographica Syriaca Electronica</title>
-                    <note><p>Unpublished electronic database.</p></note>
+                    </editor>
+                    <title xml:lang="fr" level="m">Saints Syriaques</title>
+                    <series><title xml:lang="en" level="s">Studies in Late Antiquity and Early Islam</title><biblScope unit="vol">6</biblScope></series>
+                    <imprint>
+                        <publisher xml:lang="en">The Darwin Press, Inc.</publisher>
+                        <!-- Need URI -->
+                        <pubPlace xml:lang="en" ref="http://syriaca.org/place/">Princeton, N.J.</pubPlace>
+                        <date>2004</date>
+                    </imprint>
                 </monogr>
-                <idno type="URI">http://syriaca.org/bibl/649</idno>
+                <idno type="URI">http://syriaca.org/bibl/650</idno>
             </biblStruct>
         </body>
     </text>

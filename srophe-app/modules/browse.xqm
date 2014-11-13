@@ -129,7 +129,7 @@ declare function browse:get-pers-type($node as node(), $model as map(*)){
      <browse xmlns="http://www.tei-c.org/ns/1.0" xml:id="{$id}" type="{$type}" ana="{$ana}" sort-title="{$browse-title}">
             {
                 (
-                for $browse-name in $data/child::*[@syriaca-tags='#syriaca-headword']
+                for $browse-name in $data/child::*[@syriaca-tags="#syriaca-headword"]
                 return $browse-name,
                 if($data/descendant::*/tei:geo) then $data/descendant::*/tei:geo else ()
                 )

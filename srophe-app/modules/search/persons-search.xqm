@@ -285,12 +285,12 @@ declare function persons:search-string() as xs:string*{
 :)
 declare function persons:results-node($hit){
     let $root := $hit//tei:person    
-    let $title-en := string-join($root/tei:persName[@syriaca-tags='#syriaca-headword'][contains(@xml:lang,'en')]/child::*,' ')
+    let $title-en := string-join($root/tei:persName[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'(^en)')]/descendant::text(),' ')
     let $title-syr := 
                     if($root/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang='syr']) then 
                         (<bdi dir="ltr" lang="en" xml:lang="en"><span> -  </span></bdi>,
                             <bdi dir="rtl" lang="syr" xml:lang="syr">
-                                {string-join($root/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang='syr']/child::*,' ')}
+                                {string-join($root/tei:persName[@syriaca-tags='#syriaca-headword'][@xml:lang='syr']/descendant::text(),' ')}
                             </bdi>)
                     else ''
     let $type := if($root/@ana) then  
@@ -299,7 +299,6 @@ declare function persons:results-node($hit){
     let $id := substring-after($root/@xml:id,'person-')                  
     return
         <p style="font-weight:bold padding:.5em;">
-            <!-- NOTE: switch when pushed to prod <a href="/person/{$id}.html">-->
             <a href="/person/{$id}">
                 <bdi dir="ltr" lang="en" xml:lang="en">{$title-en}</bdi>
                 {$type, $title-syr}
