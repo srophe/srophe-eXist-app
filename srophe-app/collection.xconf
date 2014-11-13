@@ -34,10 +34,7 @@
     <triggers>
         <trigger class="org.exist.extensions.exquery.restxq.impl.RestXqTrigger"/>
         <trigger event="create" class="org.exist.collections.triggers.XQueryTrigger">
-            <parameter name="query" value="module namespace trigger='http://exist-db.org/xquery/trigger';
-                declare function trigger:after-create-document($uri as xs:anyURI)
-                {sm:chmod($uri, 'rwxr-xr-x')};"
-            />
+            <parameter name="query" value="module namespace trigger='http://exist-db.org/xquery/trigger';                 declare function trigger:after-create-document($uri as xs:anyURI)                 {sm:chmod($uri, 'rwxr-xr-x')};"/>
         </trigger>
     </triggers>
 </collection>
