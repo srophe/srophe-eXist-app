@@ -126,7 +126,7 @@
         <revisionDesc>
             <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-15-04:00">ADDED: Renumbered bibl xml:id attributes and source references to be sequential.</change>
             <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-15-04:00">ADDED: Abstracts, citation, additional names and confessions from GEDSH.</change>
-            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-14-04:00">ADDED: syriaca-computed-end for elements with date attributes</change>
+            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-15-04:00">ADDED: syriaca-computed-end for elements with date attributes</change>
             <change who="http://syriaca.org/documentation/editors.xml#tcarlson" n="1.0" when="2014-07-31-05:00"> CREATED: person </change>
             <change type="planned">Which viaf.org records should be matched with this one, given that there is no scholarly consensus about whether Isaiah of Scetis and Isaiah of Gaza are the same person, and all the viaf.org records include information for both?</change>
         </revisionDesc>
