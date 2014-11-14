@@ -147,8 +147,6 @@
                         <addName type="untagged-title" sort="2">ܩܰܛܪܳܝܳܐ</addName>
                     </persName>
                     <persName xml:id="name324-6" xml:lang="en" source="#bib324-4">Ahob of Qatar</persName>
-                    <persName xml:id="name324-7" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name324-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
                     <note type="abstract" xml:id="abstract-en-324">
                         <quote source="#bib324-1">Exegete from <placeName ref="http://syriaca.org/place/37">Beth Qaṭraye</placeName> mentioned by <persName ref="http://syriaca.org/person/310">ʿAbdishoʿ bar Brikha</persName>.</quote>
                     </note>

@@ -145,8 +145,6 @@
                     <persName xml:id="name820-5" xml:lang="en" source="#bib820-4">John V bar Abgare</persName>
                     <persName xml:id="name820-6" xml:lang="en" source="#bib820-1">Yoḥannan bar Ḥegire</persName>
                     <persName xml:id="name820-7" xml:lang="en" source="#bib820-1">Yūḥannā b. al-Aʿraj</persName>
-                    <persName xml:id="name820-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name820-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
                     <note type="abstract" xml:id="abstract-en-820">
                         <Not_Useful/>
                         <quote source="#bib820-1">Cath. He was the son of a certain Ishoʿ in <placeName ref="http://syriaca.org/place/41">Baghdad</placeName>, and he became bp. of Zabe

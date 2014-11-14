@@ -130,10 +130,6 @@
                         <addName type="family" sort="1">De’ Rossi</addName>, <forename sort="2">Azariah (Buonaiuto)</forename>
                     </persName>
                     <persName xml:id="name443-2" xml:lang="en" source="#bib443-1">ʿAzariah ben Moshe min Haʾadumim</persName>
-                    <persName xml:id="name443-3" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name443-4" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name443-5" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name443-6" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
                     <note type="abstract" xml:id="abstract-en-443">
                         <quote source="#bib443-1">Jewish Italian physician; biblical scholar and polymath; author of a treatise about the usefulness of the Peshitta for the evaluation of the Vulgate of the NT.</quote>
                     </note>

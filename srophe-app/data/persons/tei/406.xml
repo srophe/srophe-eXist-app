@@ -160,10 +160,6 @@
                     </persName>
                     <persName xml:id="name406-6" xml:lang="en" source="#bib406-1">Gabriʾel Qardaḥe</persName>
                     <persName xml:id="name406-7" xml:lang="en" source="#bib406-1">Jibrāʾīl al-Qardāḥī</persName>
-                    <persName xml:id="name406-8" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name406-9" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name406-10" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
-                    <persName xml:id="name406-11" xml:lang="en-xsrp1" syriaca-tags="#syriaca-simplified-script"/>
                     <note type="deprecation" xml:id="name406-3-deprecation">Barsoum's Arabic of Cardahi transposed the alif and the ḥa: جبرائيل قرادحي</note>
                     <link target="#name406-3 #name406-3-deprecation"/>
                     <note type="abstract" xml:id="abstract-en-406">
