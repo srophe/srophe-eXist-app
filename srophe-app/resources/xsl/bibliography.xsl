@@ -109,7 +109,7 @@
                             </xsl:for-each>
                         </xsl:if>
                     </xsl:when>
-                    <xsl:otherwise>
+                    <xsl:otherwise> 
                         <xsl:apply-templates mode="footnote"/>
                     </xsl:otherwise>
                 </xsl:choose>
@@ -430,7 +430,9 @@
     <xsl:template match="t:citedRange[ancestor::t:bibl or ancestor::t:biblStruct]" mode="footnote" priority="1">
         <xsl:choose>
             <xsl:when test="@unit='ff'"/>
-            <xsl:otherwise><xsl:value-of select="concat(@unit,': ')"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:value-of select="concat(@unit,': ')"/>
+            </xsl:otherwise>
         </xsl:choose>
         <xsl:choose>
             <xsl:when test="@target">
@@ -458,8 +460,10 @@
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
-        <xsl:if test="following-sibling::*">,</xsl:if>
-        <xsl:if test="not(following-sibling::*)">.</xsl:if>
+        <xsl:choose>
+            <xsl:when test="following-sibling::*[not(self::t:ptr)]">, </xsl:when>
+            <xsl:otherwise>.</xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
