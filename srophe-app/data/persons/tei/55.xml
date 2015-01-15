@@ -127,10 +127,10 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
-            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-15-04:00">ADDED: Renumbered bibl xml:id attributes and source references to be sequential.</change>
-            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-16-04:00">ADDED: Add alternate names for search functionality.</change>
-            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-16-04:00">ADDED: Add alternate names for search functionality.</change>
-            <change who="http://syriaca.org/documentation/editors.xml#wsalesky" when="2014-10-15-04:00">ADDED: syriaca-computed-end for elements with date attributes</change>
+            <change who="http://syriaca.org/documentation/editors.xml#salesky" when="2014-10-15-04:00">ADDED: Renumbered bibl xml:id attributes and source references to be sequential.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#salesky" when="2014-10-16-04:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#salesky" when="2014-10-16-04:00">ADDED: Add alternate names for search functionality.</change>
+            <change who="http://syriaca.org/documentation/editors.xml#salesky" when="2014-10-15-04:00">ADDED: syriaca-computed-end for elements with date attributes</change>
             <change who="http://syriaca.org/documentation/editors.xml#tcarlson" n="1.0" when="2014-07-31-05:00"> CREATED: person </change>
         </revisionDesc>
     </teiHeader>
