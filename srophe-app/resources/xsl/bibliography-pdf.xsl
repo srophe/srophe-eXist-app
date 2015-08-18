@@ -72,7 +72,9 @@
         </xsl:variable>
         <fo:list-item id="{@xml:id}">
             <fo:list-item-label end-indent="label-end()">
-                <fo:block><xsl:value-of select="$thisnum"/></fo:block>
+                <fo:block>
+                    <xsl:value-of select="$thisnum"/>
+                </fo:block>
             </fo:list-item-label>
             <fo:list-item-body start-indent="body-start()">
                 <fo:block>

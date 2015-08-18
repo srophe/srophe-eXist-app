@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/bhse.html" data-template-at="content">
+    <div class="section">
+        <div data-template="search:show-form" data-template-collection="bhse"/>
+        <div data-template="search:get-results" data-template-collection="bhse">
+            <!-- Calls paging and search parameters string  -->
+            <div data-template="search:pageination" data-template-collection="bhse"/>
+            <!-- Prints search results  -->
+            <div data-template="search:build-page" data-template-collection="bhse"/>
+        </div>
+    </div>
+</div>

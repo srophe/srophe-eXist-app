@@ -28,6 +28,7 @@ else if(matches($exist:resource,"^[0-9]+$") or matches($exist:resource,"^(.[1-9]
     let $html-path :=
         if(starts-with($exist:path, "/place/")) then '/geo/place.html'
         else if(starts-with($exist:path, "/person/")) then '/persons/person.html'
+        else if(starts-with($exist:path, "/work/")) then '/bhse/work.html'
         else if(starts-with($exist:path, "/manuscript/")) then '/mss/manuscript.html'
         else if(starts-with($exist:path, "/spear/")) then '/spear/factoid.html'
         else '/404.html'
@@ -36,7 +37,9 @@ else if(matches($exist:resource,"^[0-9]+$") or matches($exist:resource,"^(.[1-9]
             <forward url="{$exist:controller}{$html-path}"></forward>
                 <view>
                     <forward url="{$exist:controller}/modules/view.xql">
-                        <add-parameter name="id" value="{$id}"/>
+                        {if(starts-with($exist:path, "/work/")) then <add-parameter name="id" value="{concat('http://syriaca.org/work/',$id)}"/>
+                         else <add-parameter name="id" value="{$id}"/>
+                        }
                     </forward>
                 </view>
                 <error-handler>

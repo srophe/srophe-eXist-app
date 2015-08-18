@@ -1,7 +1,7 @@
 xquery version "3.0";
 
 module namespace app="http://syriaca.org//templates";
-(:~
+(:~          
  : General use xqueries for accross srophe app.
 :)
 import module namespace teiDocs="http://syriaca.org//teiDocs" at "teiDocs/teiDocs.xqm";
@@ -22,7 +22,7 @@ declare function app:get-rec($node as node(), $model as map(*)) {
 };
 
 (:~ 
- : Simple get record function, retrieves tei record based on idno
+ : Simple get record function, retrieves tei record based on idno 
 :)
 declare %templates:wrap function app:rec-display($node as node(), $model as map(*)){
     app:tei2html($model("data")/ancestor::tei:TEI)

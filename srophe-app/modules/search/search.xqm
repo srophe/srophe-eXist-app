@@ -6,6 +6,7 @@ import module namespace app="http://syriaca.org//templates" at "../app.xql";
 import module namespace persons="http://syriaca.org//persons" at "persons-search.xqm";
 import module namespace places="http://syriaca.org//places" at "places-search.xqm";
 import module namespace spears="http://syriaca.org//spears" at "spear-search.xqm";
+import module namespace bhses="http://syriaca.org//bhses" at "bhse-search.xqm";
 import module namespace ms="http://syriaca.org//ms" at "ms-search.xqm";
 import module namespace common="http://syriaca.org//common" at "common.xqm";
 import module namespace geo="http://syriaca.org//geojson" at "../lib/geojson.xqm";
@@ -36,6 +37,7 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
                         else if($coll ='saints') then persons:saints-query-string()
                         else if($coll ='spear') then spears:query-string()
                         else if($coll = 'places') then places:query-string()
+                        else if($coll = 'bhse') then bhses:query-string()
                         else if($coll = 'manuscripts') then ms:query-string()
                         else search:query-string($collection)
     return                         
@@ -60,11 +62,18 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
                     return $hit 
                 else 
                     for $hit in util:eval($eval-string)
-                    order by ft:score($hit) * count($hit/descendant::tei:bibl) descending
+                    order by ft:score($hit) + count($hit/descendant::tei:bibl) descending
                     return $hit
          }
 };
 
+(:~
+ : Uses element types to weight results
+
+declare function search:score-results(){
+    
+};
+:)
 (:~
  : Builds general search string from main syriaca.org page and search api.
 :)

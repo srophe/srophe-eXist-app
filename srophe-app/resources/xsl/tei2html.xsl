@@ -1169,6 +1169,9 @@
         <!-- Works through the tree structure in the confessions.xml to output only the relevant confessions -->
         <xsl:for-each select="t:confessions/descendant::t:list[1]">
             <ul>
+                <li>
+                    <xsl:value-of select="$current-confessions"/>
+                </li>
                 <!-- Checks for top level confessions that may have a match or a descendant with a match, supresses any that do not -->
                 <xsl:if test="descendant-or-self::t:item[contains($current-confessions,@xml:id)]">
                     <!-- Goes through each item to check for a match or a child match -->

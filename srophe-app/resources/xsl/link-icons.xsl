@@ -53,8 +53,8 @@
      emit the link icons div and its contents
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
     <xsl:template name="link-icons">
-        <xsl:variable name="resource-uri" select="//t:idno[contains(.,'syriaca.org')]"/>
-        <xsl:variable name="id" select="tokenize($resource-uri,'/')[last()]"/>
+        <xsl:variable name="resource-uri" select="//t:idno[contains(.,'syriaca.org')][1]"/>
+        <xsl:variable name="id" select="tokenize(replace($resource-uri[1],'/tei',''),'/')[last()]"/>
         <xsl:variable name="link-title">
             <xsl:choose>
                 <xsl:when test="//t:place">
@@ -84,10 +84,8 @@
             
             <!-- Google map links -->
             <xsl:for-each select="//descendant::t:location[@type='gps']/t:geo">
-                <xsl:variable name="lat" select="substring-before(.,' ')"/>
-                <xsl:variable name="long" select="substring-after(.,' ')"/>
                 <!-- {$base}{$placeslevel}? -->
-                <a href="http://www.google.com/maps/place/{$lat},{$long}">
+                <a href="https://maps.google.com/maps?f=q&amp;hl=en&amp;z=4&amp;q=http://syriaca.org/place/{$id}/atom">
                     <img src="/exist/apps/srophe/resources/img/gmaps-25.png" alt="The Google Maps icon" title="click to view {$link-title} on Google Maps"/>
                 </a>
             </xsl:for-each>
@@ -113,7 +111,7 @@
      emit the link icons div and its contents as a bulleted list
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <xsl:template name="link-icons-text">
-        <xsl:variable name="resource-id" select="tokenize(//t:idno[contains(.,'syriaca')],'/')[last()]"/>
+        <xsl:variable name="resource-id" select="tokenize(replace(//t:idno[contains(.,'syriaca')][1],'/tei',''),'/')[last()]"/>
         <xsl:variable name="resource-uri">
             <xsl:choose>
                 <xsl:when test="//t:place">
@@ -177,10 +175,7 @@
                             <xsl:text>, </xsl:text>
                             <xsl:value-of select="$coords[1]"/>
                         </xsl:variable>
-                        <xsl:variable name="lat" select="substring-before(.,' ')"/>
-                        <xsl:variable name="long" select="substring-after(.,' ')"/>
-                        <!-- {$base}{$placeslevel}? -->
-                        <a href="http://www.google.com/maps/place/{$lat},{$long}">
+                        <a href="https://maps.google.com/maps?f=q&amp;hl=en&amp;z=4&amp;q=http://syriaca.org/place/{$resource-id}/atom">
                             <img src="/exist/apps/srophe/resources/img/gmaps-25.png" alt="The Google Maps icon" title="click to view {$link-title} on Google Maps"/> View in Google Maps</a>
                     </li>
                 </xsl:for-each>
@@ -211,7 +206,7 @@
     </xsl:template>
     <xsl:template name="link-icons-list">
         <xsl:param name="title"/>
-        <xsl:variable name="resource-uri" select="//t:idno[contains(.,'syriaca.org')]"/>
+        <xsl:variable name="resource-uri" select="replace(//t:idno[contains(.,'syriaca.org')][1],'/tei','')"/>
         <xsl:variable name="id" select="tokenize($resource-uri,'/')[last()]"/>
         <div id="see-also" class="well">
             <h3>See Also</h3>
@@ -251,10 +246,7 @@
                             <xsl:text>, </xsl:text>
                             <xsl:value-of select="$coords[1]"/>
                         </xsl:variable>
-                        <xsl:variable name="lat" select="substring-before(.,' ')"/>
-                        <xsl:variable name="long" select="substring-after(.,' ')"/>
-                        <!-- {$base}{$placeslevel}? -->
-                        <a href="http://www.google.com/maps/place/{$lat},{$long}">
+                        <a href="https://maps.google.com/maps?f=q&amp;hl=en&amp;z=4&amp;q=http://syriaca.org/place/{$id}/atom">
                             <img src="/exist/apps/srophe/resources/img/gmaps-25.png" alt="The Google Maps icon" title="click to view {$title} on Google Maps"/> View in Google Maps</a>
                     </li>
                 </xsl:for-each>

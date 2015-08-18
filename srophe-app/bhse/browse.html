@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/bhse.html" data-template-at="content">
+    <div class="section">
+        <h1 class="title about">Index of Syriac Hagiographic Works</h1>
+        <!-- Calls xquery functions -->
+        <div data-template="browse:get-all" data-template-coll="bhse">
+            <div class="tabbable">
+                <!-- Browse Tabs -->
+                <ul class="nav nav-tabs" id="nametabs">
+                    <li data-template="browse:build-tabs-en"/>
+                </ul>
+                <!-- Browse Content -->
+                <div class="tab-content" data-template="browse:get-narrow" data-template-coll="bhse">
+                    <div class="tab-pane active">
+                        <div class="row">
+                            <div data-template="browse:results-panel" data-template-coll="bhse"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

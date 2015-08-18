@@ -49,7 +49,7 @@
           Endowment for the Humanities.
        
        ================================================================== -->
-    <xsl:variable name="uri" select="substring-before(//t:publicationStmt/t:idno[@type='URI'][1],'/tei')"/>
+    <xsl:variable name="uri" select="substring-before(//t:publicationStmt/t:idno[@type='URI'],'/tei')"/>
 <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      generate a footnote for the matched titleStmt element
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
