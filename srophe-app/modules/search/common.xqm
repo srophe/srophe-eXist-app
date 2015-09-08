@@ -101,64 +101,22 @@ return
  : Used by search.xqm and browse.xqm
 :)
 declare function common:display-recs-short-view($node, $lang) as node()*{
-let $ana := if($node/descendant-or-self::tei:person/@ana) then replace($node/descendant-or-self::tei:person/@ana,'#syriaca-','') else ()
 let $type := if($node/descendant-or-self::tei:place/@type) then string($node/descendant-or-self::tei:place/@type) else ()
 let $uri := 
-        if($node//tei:idno[@type='URI'][starts-with(.,'http://syriaca.org/')]) then
-                string(replace($node//tei:idno[@type='URI'][starts-with(.,'http://syriaca.org/')][1],'/tei',''))
+        if($node//tei:idno[@type='URI'][starts-with(.,'http://logar.org/')]) then
+                string(replace($node//tei:idno[@type='URI'][starts-with(.,'http://logar.org/')][1],'/tei',''))
         else string($node//tei:div[1]/@uri)
-let $en-title := 
-             if($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/child::*) then 
-                 string-join($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/child::*/text(),' ')
-             else if(string-join($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/text())) then 
-                string-join($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/text(),' ')   
-             else $node/ancestor::tei:TEI/descendant::tei:title[1]/text()       
-let $syr-title := 
-             if($node/descendant::*[@syriaca-tags='#syriaca-headword'][1]) then
-                if($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')][1]/child::*) then 
-                 string-join($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')][1]/child::*/text(),' ')
-                else string-join($node/descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')][1]/text(),' ')
-             else 'NA' 
-let $birth := if($ana) then $node/descendant::tei:birth else()
-let $death := if($ana) then $node/descendant::tei:death else()
-let $dates := concat(if($birth) then $birth/text() else(), if($birth and $death) then ' - ' else if($death) then 'd.' else(), if($death) then $death/text() else())    
+let $en-title := $node/ancestor::tei:TEI/descendant::tei:title[1]/text()           
 let $desc :=
         if($node/descendant::*[starts-with(@xml:id,'abstract')]/descendant-or-self::text()) then
             common:truncate-string($node/descendant::*[starts-with(@xml:id,'abstract')]/descendant-or-self::text())
         else ()
 return
     <p class="results-list">
-       <a href="{replace($uri,'http://syriaca.org/','/exist/apps/srophe/')}">
-        {
-        if($lang = 'syr') then
-            (<span dir="rtl" lang="syr" xml:lang="syr">{$syr-title}</span>,' - ', $en-title,
-            if($type) then concat('(',$type,')') else ())
-        else
-        ($en-title,
-          if($type) then concat('(',$type,')') else (),
-            if($syr-title) then 
-                if($syr-title = 'NA') then ()
-                else (' - ', <span dir="rtl" lang="syr" xml:lang="syr">{$syr-title}</span>)
-          else ' - [Syriac Not Available]')
-          }   
+       <a href="{replace($uri,'http://logar.org/','/exist/apps/logar/')}">
+        {($en-title, if($type) then concat(' (',$type,') ') else ())}   
        </a>
-       {if($ana) then
-            <span class="results-list-desc" dir="ltr" lang="en">{concat('(',$ana, if($dates) then ', ' else(), $dates ,')')}</span>
-        else ()}
      <span class="results-list-desc" dir="ltr" lang="en">{concat($desc,' ')}</span>
-     {
-        if($ana) then 
-            if($node/descendant-or-self::tei:person/tei:persName[not(@syriaca-tags='#syriaca-headword')]) then 
-                <span class="results-list-desc" dir="ltr" lang="en">Names: 
-                {
-                    for $names in $node/descendant-or-self::tei:person/tei:persName[not(@syriaca-tags='#syriaca-headword')]
-                    [not(starts-with(@xml:lang,'syr'))][not(starts-with(@xml:lang,'ar'))][not(@xml:lang ='en-xsrp1')]
-                    return <span class="pers-label badge">{global:tei2html($names)}</span>
-                }
-                </span>
-            else() 
-        else()
-        }
      <span class="results-list-desc"><span class="srp-label">URI: </span><a href="{$uri}">{$uri}</a></span>
     </p>
 };

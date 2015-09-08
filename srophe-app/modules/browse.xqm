@@ -42,13 +42,10 @@ declare variable $browse:fq {request:get-parameter('fq', '')};
  : @param $coll collection name passed from html, should match data subdirectory name
 :)
 declare function browse:get-all($node as node(), $model as map(*), $coll as xs:string?){
-let $browse-path := 
-        if($coll = ('persons','authors','saints')) then concat("collection('",$global:data-root,"/persons/tei')//tei:person",browse:get-pers-coll($coll),browse:get-syr()) 
-    else if($coll = 'places') then concat("collection('",$global:data-root,"/places/tei')//tei:place",browse:get-syr())
-    else if($coll = 'bhse') then concat("collection('",$global:data-root,"/works/tei')//tei:body/tei:bibl",browse:get-syr())
-    else if($coll = 'manuscripts') then concat("collection('",$global:data-root,"/manuscripts/tei')//tei:teiHeader")
-    else if(exists($coll)) then concat("collection('",$global:data-root,xs:anyURI($coll),"')//tei:body",browse:get-syr())
-    else concat("collection('",$global:data-root,"')//tei:body",browse:get-syr())
+let $browse-path :=  
+    if($coll = 'places') then concat("collection('",$config:data-root,"/places/tei')//tei:place",browse:get-syr())
+    else if(exists($coll)) then concat("collection('",$config:data-root,xs:anyURI($coll),"')//tei:body",browse:get-syr())
+    else concat("collection('",$config:data-root,"')//tei:body",browse:get-syr())
 return 
     map{"browse-data" := util:eval($browse-path)}        
 };
@@ -126,7 +123,7 @@ if($browse:view = 'type' or $browse:view = 'date') then
         else ()}</div>)
 else if($browse:view = 'map') then
     <div class="col-md-12 map-lg">
-        {geo:build-map($model("browse-data")//tei:geo, '', '')}
+        {geo:build-google-map($model("browse-data")//tei:geo, '', '')}
     </div>
 else 
     <div class="col-md-12">
@@ -149,13 +146,7 @@ else
 declare function browse:get-narrow($node as node(), $model as map(*),$coll){
 let $data := 
    if($browse:view = 'type') then 
-        if($browse:type != '') then 
-            if($coll ='persons' or $coll = 'saints' or $coll = 'authors') then
-                if($browse:type != '') then 
-                    if($browse:type = 'unknown') then $model("browse-data")/self::*[not(@ana)]
-                    else $model("browse-data")/self::*[contains(@ana,concat('#',$browse:type))]
-                else ()
-            else   
+        if($browse:type != '') then  
                 if($browse:type != '') then 
                     $model("browse-data")/self::*[contains(@type,$browse:type)]
                 else $model("browse-data")
@@ -170,7 +161,7 @@ let $data :=
         else ()    
     else if($browse:view = 'map') then $model("browse-data")
     else if($browse:view = 'syr') then $model("browse-data")/self::*[contains($browse:sort, substring(string-join(descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')][1]/descendant-or-self::*/text(),' '),1,1))]
-    else $model("browse-data")/self::*[contains(browse:get-sort(), substring(browse:build-sort-string(string-join(descendant::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/descendant-or-self::text(),' ')),1,1))]
+    else $model("browse-data")/self::*[contains(browse:get-sort(), substring(browse:build-sort-string(string-join(ancestor::tei:TEI/tei:teiHeader/descendant::tei:title[1]/text(),' ')),1,1))]
 return
     map{"browse-refine" := $data}
 };
@@ -187,12 +178,7 @@ if($browse:view = 'type') then
         else ()
 else (),
 for $data in $model("browse-refine")
-let $en-title := 
-             if($data/child::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/child::*) then 
-                 string-join($data/child::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/child::*/text(),' ')
-             else if(string-join($data/child::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/text())) then 
-                string-join($data/child::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^en')][1]/text(),' ')   
-             else $data/ancestor::tei:TEI/descendant::tei:title[1]/text()               
+let $en-title := $data/ancestor::tei:TEI/descendant::tei:title[1]/text()               
 let $syr-title := 
              if($data/child::*[@syriaca-tags='#syriaca-headword'][1]) then
                 if($data/child::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')][1]/child::*) then 
@@ -201,17 +187,8 @@ let $syr-title :=
              else 'NA'  
 let $title := if($browse:view = 'syr') then $syr-title else $en-title
 let $browse-title := browse:build-sort-string($title)
-order by $browse-title collation "?lang=en&lt;syr&amp;decomposition=full"             
-return 
-(: Temp patch for manuscripts :)
-    if($coll = "manuscripts") then 
-        let $title := $data/ancestor::tei:TEI/descendant::tei:titleStmt/tei:title[1]/text()
-        let $id := $data/ancestor::tei:TEI/descendant::tei:idno[@type='URI'][starts-with(.,'http://syriaca.org')][2]/text()
-        return 
-        <li>
-            <a href="manuscript.html?id={$id}">{$title}</a>
-        </li>
-    else if($browse:view = 'syr') then common:display-recs-short-view($data,'syr') else common:display-recs-short-view($data,'')
+order by $browse-title collation "?lang=es&amp;decomposition=full"             
+return common:display-recs-short-view($data,'')
 ) 
 };
  

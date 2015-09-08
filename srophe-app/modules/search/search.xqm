@@ -2,11 +2,7 @@ xquery version "3.0";
 
 module namespace search="http://syriaca.org/search";
 import module namespace facets="http://syriaca.org/facets" at "../lib/facets.xqm";
-import module namespace persons="http://syriaca.org/persons" at "persons-search.xqm";
 import module namespace places="http://syriaca.org/places" at "places-search.xqm";
-import module namespace spears="http://syriaca.org/spears" at "spear-search.xqm";
-import module namespace bhses="http://syriaca.org/bhses" at "bhse-search.xqm";
-import module namespace ms="http://syriaca.org/ms" at "ms-search.xqm";
 import module namespace common="http://syriaca.org/common" at "common.xqm";
 import module namespace geo="http://syriaca.org/geojson" at "../lib/geojson.xqm";
 import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
@@ -33,12 +29,7 @@ declare variable $search:collection {request:get-parameter('collection', '') cas
 declare %templates:wrap function search:get-results($node as node(), $model as map(*), $collection as xs:string?){
     let $coll := if($search:collection != '') then $search:collection else $collection
     let $eval-string := 
-                        if($coll = 'persons') then persons:query-string()
-                        else if($coll ='saints') then persons:saints-query-string()
-                        else if($coll ='spear') then spears:query-string()
-                        else if($coll = 'places') then places:query-string()
-                        else if($coll = 'bhse') then bhses:query-string()
-                        else if($coll = 'manuscripts') then ms:query-string()
+                        if($coll = 'places') then places:query-string()
                         else search:query-string($collection)
     return                         
     map {"hits" := 
@@ -68,20 +59,12 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
 };
 
 (:~
- : Uses element types to weight results
-
-declare function search:score-results(){
-    
-};
-:)
-(:~
  : Builds general search string from main syriaca.org page and search api.
 :)
 declare function search:query-string($collection as xs:string?) as xs:string?{
 concat("collection('",$global:data-root,$collection,"')//tei:body",
     places:keyword(),
-    places:place-name(),
-    persons:name()
+    places:place-name()
     )
 };
 
@@ -106,9 +89,7 @@ return $query-string
  : @param $collection passed from search page templates
 :)
 declare function search:search-string($collection as xs:string?){
-    if($collection = 'persons') then persons:search-string()
-    else if($collection ='spear') then spears:search-string()
-    else places:search-string()
+    places:search-string()
 };
 
 declare %templates:wrap function search:spear-facets($node as node(), $model as map(*)){
@@ -169,7 +150,6 @@ let $pagination-links :=
             <div class="col-sm-5">
             <h4 class="hit-count">Search results:</h4>
                 <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {search:search-string($collection)}.</p>
-                <!-- for debugging xpath <br/>{persons:query-string()}-->
             </div>
             {if(search:hit-count($node, $model) gt $perpage) then 
               <div class="col-md-7">
@@ -275,12 +255,7 @@ return
 :)
 declare %templates:wrap  function search:show-form($node as node()*, $model as map(*), $collection as xs:string?) {   
     if(exists(request:get-parameter-names())) then ''
-    else 
-        if($collection = 'persons') then <div>{persons:search-form('person')}</div>
-        else if($collection = 'saints') then <div>{persons:search-form('saint')}</div>
-        else if($collection ='spear') then <div>{spears:search-form()}</div>
-        else if($collection ='manuscripts') then <div>{ms:search-form()}</div>
-        else <div>{places:search-form()}</div>
+    else <div>{places:search-form()}</div>
 };
 
 (:~ 
@@ -301,7 +276,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                     <span class="label label-default">{$search:start + $p - 1}</span>
                   </div>
                   <div class="col-md-9" xml:lang="en"> 
-                    {if($collection = 'spear') then spears:results-node($hit) else common:display-recs-short-view($hit,'')} 
+                    {common:display-recs-short-view($hit,'')} 
                   </div>
                 </div>
             </div>

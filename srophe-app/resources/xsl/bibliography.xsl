@@ -204,7 +204,6 @@
             </xsl:if>
         </xsl:if>
         <xsl:text>, </xsl:text>
-        
         <!-- handle titles -->
         <xsl:for-each select="t:monogr[1]">
             <xsl:choose>
@@ -223,7 +222,6 @@
             <!-- Process translator using local function in helper-functions.xsl local:emit-responsible-persons -->
             <xsl:sequence select="local:emit-responsible-persons(t:monogr[1]/t:editor[@role='translator'],'footnote',3)"/>
         </xsl:if>
-        <xsl:text> </xsl:text>
         <xsl:apply-templates select="t:monogr/t:imprint" mode="footnote"/>
     </xsl:template>
 
@@ -285,7 +283,6 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
-        <xsl:text> </xsl:text>
         <xsl:apply-templates select="t:monogr/t:imprint" mode="biblist"/>
     </xsl:template>
     
@@ -305,7 +302,20 @@
         </xsl:choose>
     </xsl:template>  
 
-    
+    <xsl:template match="t:bibl">
+        <xsl:choose>
+            <xsl:when test="t:ptr">
+                <xsl:apply-templates select="t:ptr" mode="biblist"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates mode="biblist"/>
+                <xsl:if test="child::t:citedRange">
+                    <xsl:text>, </xsl:text>
+                    <xsl:apply-templates select="child::t:citedRange"/>                    
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>  
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      handle a ptr inside a bibl: try to look up the corresponding item
      internally or externally and process that
@@ -448,7 +458,7 @@
      handle the imprint component of a biblStruct
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <xsl:template match="t:imprint" mode="footnote biblist" priority="1">
-        <xsl:text>(</xsl:text>
+        <xsl:text> (</xsl:text>
         <xsl:choose>
             <xsl:when test="t:pubPlace[starts-with(@xml:lang,'en')]">
                 <xsl:apply-templates select="t:pubPlace[starts-with(@xml:lang,'en')]" mode="footnote"/>
@@ -525,70 +535,6 @@
             <xsl:otherwise>.</xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-
-    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
-        depreciated, use local:emit-responsible-persons function, ex:
-        <xsl:sequence select="local:emit-responsible-persons(t:monogr/t:editor[not(@role) or @role!='translator'],'footnote',2)"/>
-        handle creators for type footnote
-     ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
-    <xsl:template name="emit-responsible-persons">
-        <xsl:param name="perss"/>
-        <xsl:param name="moded">footnote</xsl:param>
-        <xsl:param name="maxauthorsfootnote">2</xsl:param>
-        <xsl:param name="maxauthorsbiblist">2</xsl:param>
-        <xsl:variable name="ccount" select="count($perss/t:*)"/>
-        <xsl:choose>
-            <!-- When the author is included in the bibl element on the place page there is no child element -->
-            <xsl:when test="$ccount &lt; 1">
-                <xsl:apply-templates select="$perss" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount=1 and $moded='footnote'">
-                <xsl:apply-templates select="$perss/t:*[1]" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount=1 and $moded='biblist'">
-                <xsl:apply-templates select="$perss/t:*[1]" mode="lastname-first"/>
-            </xsl:when>
-            <xsl:when test="$ccount &gt; $maxauthorsfootnote and $moded='footnote'">
-                <xsl:apply-templates select="$perss/t:*[1]" mode="footnote"/>
-                <xsl:text> et al.</xsl:text>
-            </xsl:when>
-            <xsl:when test="$ccount &gt; $maxauthorsbiblist and $moded='biblist'">
-                <xsl:apply-templates select="$perss/t:*[1]" mode="lastname-first"/>
-                <xsl:text> et al.</xsl:text>
-            </xsl:when>
-            <xsl:when test="$ccount = 2 and $moded='footnote'">
-                <xsl:apply-templates select="$perss/t:*[1]" mode="footnote"/>
-                <xsl:text> and </xsl:text>
-                <xsl:apply-templates select="$perss/t:*[2]" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount = 2 and $moded='biblist'">
-                <xsl:apply-templates select="$perss/t:*[1]" mode="lastname-first"/>
-                <xsl:text> and </xsl:text>
-                <xsl:apply-templates select="$perss/t:*[2]" mode="biblist"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:for-each select="$perss/t:*[position() &lt; $maxauthorsfootnote+1]">
-                    <xsl:choose>
-                        <xsl:when test="position() = $maxauthorsfootnote">
-                            <xsl:text> and </xsl:text>
-                        </xsl:when>
-                        <xsl:when test="position() &gt; 1">
-                            <xsl:text>, </xsl:text>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:choose>
-                        <xsl:when test="$moded='footnote'">
-                            <xsl:apply-templates select="." mode="footnote"/>
-                        </xsl:when>
-                        <xsl:when test="$moded='biblist'">
-                            <xsl:apply-templates select="." mode="biblist"/>
-                        </xsl:when>
-                    </xsl:choose>
-                </xsl:for-each>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      handle bibliographic titles in the context of a footnote

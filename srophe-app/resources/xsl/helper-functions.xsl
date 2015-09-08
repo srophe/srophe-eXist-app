@@ -102,52 +102,55 @@
             <xsl:value-of select="count($current-node)"/>
         </xsl:variable> 
         <!-- process based on above parameters -->
-        <xsl:choose>
-            <xsl:when test="$ccount=1 and $moded='footnote'">
-                <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount=1 and $moded='biblist'">
-                <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
-            </xsl:when>
-            <xsl:when test="$ccount &gt; $maxauthors and $moded='footnote'">
-                <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
-                <xsl:text> et al.</xsl:text>
-            </xsl:when>
-            <xsl:when test="$ccount &gt; $maxauthors and $moded='biblist'">
-                <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
-                <xsl:text> et al.</xsl:text>
-            </xsl:when>
-            <xsl:when test="$ccount = 2 and $moded='footnote'">
-                <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
-                <xsl:text> and </xsl:text>
-                <xsl:apply-templates select="$current-node[2]" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount = 2 and $moded='biblist'">
-                <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
-                <xsl:text> and </xsl:text>
-                <xsl:apply-templates select="$current-node[2]" mode="biblist"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:for-each select="$current-node[position() &lt; $maxauthors+1]">
-                    <xsl:choose>
-                        <xsl:when test="position() = $maxauthors">
-                            <xsl:text> and </xsl:text>
-                        </xsl:when>
-                        <xsl:when test="position() &gt; 1">
-                            <xsl:text>, </xsl:text>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:choose>
-                        <xsl:when test="$moded='footnote'">
-                            <xsl:apply-templates mode="footnote"/>
-                        </xsl:when>
-                        <xsl:when test="$moded='biblist'">
-                            <xsl:apply-templates mode="biblist"/>
-                        </xsl:when>
-                    </xsl:choose>
-                </xsl:for-each>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:variable name="persons">
+            <xsl:choose>
+                <xsl:when test="$ccount=1 and $moded='footnote'">
+                    <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
+                </xsl:when>
+                <xsl:when test="$ccount=1 and $moded='biblist'">
+                    <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
+                </xsl:when>
+                <xsl:when test="$ccount &gt; $maxauthors and $moded='footnote'">
+                    <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
+                    <xsl:text> et al.</xsl:text>
+                </xsl:when>
+                <xsl:when test="$ccount &gt; $maxauthors and $moded='biblist'">
+                    <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
+                    <xsl:text> et al.</xsl:text>
+                </xsl:when>
+                <xsl:when test="$ccount = 2 and $moded='footnote'">
+                    <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
+                    <xsl:text> and </xsl:text>
+                    <xsl:apply-templates select="$current-node[2]" mode="footnote"/>
+                </xsl:when>
+                <xsl:when test="$ccount = 2 and $moded='biblist'">
+                    <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
+                    <xsl:text> and </xsl:text>
+                    <xsl:apply-templates select="$current-node[2]" mode="biblist"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:for-each select="$current-node[position() &lt; $maxauthors+1]">
+                        <xsl:choose>
+                            <xsl:when test="position() = $maxauthors">
+                                <xsl:text> and </xsl:text>
+                            </xsl:when>
+                            <xsl:when test="position() &gt; 1">
+                                <xsl:text>, </xsl:text>
+                            </xsl:when>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="$moded='footnote'">
+                                <xsl:apply-templates mode="footnote"/>
+                            </xsl:when>
+                            <xsl:when test="$moded='biblist'">
+                                <xsl:apply-templates mode="biblist"/>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:for-each>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:value-of select="normalize-space($persons)"/>
     </xsl:function>
     
     <!-- Process names editors/authors ect -->
@@ -161,47 +164,50 @@
             <xsl:value-of select="count($current-node)"/>
         </xsl:variable>  
         <!-- process based on above parameters -->
-        <xsl:choose>
-            <xsl:when test="$ccount=1 and $moded='footnote'">
-                <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount=1 and $moded='biblist'">
-                <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
-            </xsl:when>
-            <xsl:when test="$ccount = 2 and $moded='footnote'">
-                <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
-                <xsl:text> and </xsl:text>
-                <xsl:apply-templates select="$current-node[2]" mode="footnote"/>
-            </xsl:when>
-            <xsl:when test="$ccount = 2 and $moded='biblist'">
-                <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
-                <xsl:text> and </xsl:text>
-                <xsl:apply-templates select="$current-node[2]" mode="biblist"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:for-each select="$current-node">
-                    <xsl:choose>
-                        <xsl:when test="position() = $ccount">
-                            <xsl:if test="$ccount &gt; 2">
-                                <xsl:text>,</xsl:text>
-                            </xsl:if>
-                            <xsl:text> and </xsl:text>
-                        </xsl:when>
-                        <xsl:when test="position() &gt; 1">
-                            <xsl:text>, </xsl:text>
-                        </xsl:when>
-                    </xsl:choose>
-                    <xsl:choose>
-                        <xsl:when test="$moded='footnote'">
-                            <xsl:apply-templates mode="footnote"/>
-                        </xsl:when>
-                        <xsl:when test="$moded='biblist'">
-                            <xsl:apply-templates mode="biblist"/>
-                        </xsl:when>
-                    </xsl:choose>
-                </xsl:for-each>
-            </xsl:otherwise>
-        </xsl:choose>
+        <xsl:variable name="persons">
+            <xsl:choose>
+                <xsl:when test="$ccount=1 and $moded='footnote'">
+                    <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
+                </xsl:when>
+                <xsl:when test="$ccount=1 and $moded='biblist'">
+                    <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
+                </xsl:when>
+                <xsl:when test="$ccount = 2 and $moded='footnote'">
+                    <xsl:apply-templates select="$current-node[1]" mode="footnote"/>
+                    <xsl:text> and </xsl:text>
+                    <xsl:apply-templates select="$current-node[2]" mode="footnote"/>
+                </xsl:when>
+                <xsl:when test="$ccount = 2 and $moded='biblist'">
+                    <xsl:apply-templates select="$current-node[1]" mode="lastname-first"/>
+                    <xsl:text> and </xsl:text>
+                    <xsl:apply-templates select="$current-node[2]" mode="biblist"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:for-each select="$current-node">
+                        <xsl:choose>
+                            <xsl:when test="position() = $ccount">
+                                <xsl:if test="$ccount &gt; 2">
+                                    <xsl:text>,</xsl:text>
+                                </xsl:if>
+                                <xsl:text> and </xsl:text>
+                            </xsl:when>
+                            <xsl:when test="position() &gt; 1">
+                                <xsl:text>, </xsl:text>
+                            </xsl:when>
+                        </xsl:choose>
+                        <xsl:choose>
+                            <xsl:when test="$moded='footnote'">
+                                <xsl:apply-templates mode="footnote"/>
+                            </xsl:when>
+                            <xsl:when test="$moded='biblist'">
+                                <xsl:apply-templates mode="biblist"/>
+                            </xsl:when>
+                        </xsl:choose>
+                    </xsl:for-each>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:value-of select="normalize-space($persons)"/>
     </xsl:function>
     <!-- Text normalization functions -->
     <xsl:template match="t:*" mode="out-normal">

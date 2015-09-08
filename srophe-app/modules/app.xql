@@ -9,12 +9,12 @@ import module namespace global="http://syriaca.org/global" at "lib/global.xqm";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-(:~
+(:~         
  : Syriaca.org URI for retrieving TEI records 
 :)
 declare variable $app:id {request:get-parameter('id', '')}; 
 
-(:~ 
+(:~  
  : Simple get record function, retrieves tei record based on idno
  : @param $app:id syriaca.org uri 
 :)

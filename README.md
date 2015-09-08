@@ -1,5 +1,7 @@
-Syriaca.org
+Syriaca.org: Gazetteer App
 =======
+
+This branch is a subset of the Syriac.org app containing only code for Gazetteer. 
 
 Application data for Syriaca.org [http://syriaca.org]: The Syriac Reference Portal
 All publications of Syriaca.org are made available online in a free and open format using the Creative Commons licenses.
@@ -8,6 +10,8 @@ All publications of Syriaca.org are made available online in a free and open for
 #### TEI data 
 Syriaca.org TEI data for publications is available: [https://github.com/srophe/srophe-app-data]
 The data must be packaged and deployed to your eXist instance in order to use the syriaca.org app. 
+
+A different data repository can be used, and specified in the config.xml file. 
 
 #### Additional dependancies 
 Check that the following packages/libraries are deployed in eXist before deploying the srophe-eXist-app:

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div>
+    <h3 class="underline">Documentation</h3>
+    <ul class="nav nav-tabs nav-stacked">
+        <li>
+            <a href="dates.html">Dates</a>
+        </li>
+        <li>
+            <a href="faq.html">Frequently Asked Questions</a>
+        </li>
+        <li>
+            <a href="headwords.html">Headwords</a>
+        </li>
+        <li>
+            <a href="view-syriac.html">How to View Syriac Text on Syriaca.org</a>
+        </li>
+        <li>
+            <a href="isostandards.html">Language and Script Indifiers</a>
+        </li>
+        <li>
+            <a href="place-types.html">Place Types</a>
+        </li>
+        <li>
+            <a href="confessions.html">Religious Communities</a>
+        </li>
+        <li>
+            <a href="terms.html">Technical Terminology</a>
+        </li>
+        <li>
+            <a href="view-teiDocs.html">TEI Tag usage in Gazetteer</a>
+        </li>
+        <li>
+            <a href="/api-documentation/index.html">Syriaca.org API Documentation</a>
+        </li>
+    </ul>
+</div>

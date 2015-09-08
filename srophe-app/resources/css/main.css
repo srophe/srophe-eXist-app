@@ -42,11 +42,17 @@ body {font-family: arial, sans-serif; padding-top:50px;}
 
 /* Nav bar icons for submodules */
 .dropdown-menu li a{margin-left:.5em;}
+
 .nav-icons {
     background-position: left center;
     background-repeat: no-repeat;
     text-indent:12px;
 }
+
+/*.sub-menu {background-color:#F8F8F8; margin:0; padding:0;}*/
+.sub-menu .nav-icons{margin-left:2em; }
+/*.sub-menu li{line-height:.75em;}*/
+
 /* Small icons for submodules in nav menus */
 .geo-sm-icon {background-image: url(../img/icons-geo-sm.png);}
 .saints-sm-icon {background-image: url(../img/icons-saints-sm.png);}
@@ -63,11 +69,10 @@ footer {text-align:center; color:white;}
 h1 {font-size:1.5em; margin:0 0 .25em 0; color:#E69849; font-weight:500;}
 /*h2 {font-size:1.5em; margin:0 -1em; padding-left:8px; color:#E69849; font-weight:500;}*/
 h2 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; color:#753C28; font-weight:500;}
-h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;}
+h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500; border-bottom:1px solid #999; padding-bottom:0; margin-bottom:1em;}
 h3.underline {color:#999; border-bottom:3px solid #E69849; padding-bottom:-.75em; margin-bottom:1em; margin-top:1em;}
 h4 {font-size: 1em; margin:0 0 .25em 0; padding-bottom:0; font-weight:bold;}
 
-.column1 h3{border-bottom:1px solid #999; padding-bottom:0; margin-bottom:1em;}
 h3.label {
     background-color:#ccc;
     line-height: 1.2em;

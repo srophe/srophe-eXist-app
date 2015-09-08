@@ -225,3 +225,97 @@ declare function geo:build-map($geo-search as node()*, $type as xs:string*, $out
          </script>
     </div> 
 };
+
+
+(:~
+ : Pass geojson to google maps
+ : @param $geo-search predefined results set passed from search.xqm
+ : @param $type place type from predefined list: http://syriaca.org/documentation/place-types.html
+ : @param $output indicates json or kml
+:)
+declare function geo:build-google-map($geo-search as node()*, $type as xs:string*, $output as xs:string*){
+    <div id="map-data" style="margin-bottom:3em;">
+        <script src="http://maps.googleapis.com/maps/api/js">//</script>
+        <div id="map"/>
+        <div class="hint map pull-right">* {count($geo-search)} have coordinates and are shown on this map. 
+             <button class="btn btn-link" data-toggle="modal" data-target="#map-selection" id="mapFAQ">Read more...</button>
+        </div>
+    
+        <script type="text/javascript">
+            <![CDATA[
+            var map;
+                            
+            var bounds = new google.maps.LatLngBounds();
+            
+            function initialize(){
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 2,
+                    center: new google.maps.LatLng(0,0),
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
+                });
+
+                var placesgeo = ]]>{xqjson:serialize-json(geo:json-wrapper($geo-search, $type, $output))}
+                <![CDATA[ 
+                
+                var infoWindow = new google.maps.InfoWindow();
+                
+                for(var i = 0, length = placesgeo.features.length; i < length; i++) {
+                    var data = placesgeo.features[i]
+                    var coords = data.geometry.coordinates;
+                    var latLng = new google.maps.LatLng(coords[1],coords[0]);
+                    var marker = new google.maps.Marker({
+                        position: latLng,
+                        map:map
+                    });
+                    
+                    // Creating a closure to retain the correct data, notice how I pass the current data in the loop into the closure (marker, data)
+         			(function(marker, data) {
+         
+         				// Attaching a click event to the current marker
+         				google.maps.event.addListener(marker, "click", function(e) {
+         					infoWindow.setContent("<a href='" + data.properties.uri + "'>" + data.properties.name + " - " + data.properties.type + "</a>");
+         					infoWindow.open(map, marker);
+         				});
+         
+         
+         			})(marker, data);
+                    bounds.extend(latLng);
+                }
+                map.fitBounds(bounds);
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize)
+
+        ]]>
+        </script>
+         <div>
+            <div class="modal fade" id="map-selection" tabindex="-1" role="dialog" aria-labelledby="map-selectionLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true"> x </span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="popup" style="border:none; margin:0;padding:0;margin-top:-2em;"/>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn" href="/documentation/faq.html" aria-hidden="true">See all FAQs</a>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+         <script type="text/javascript">
+         <![CDATA[
+            $('#mapFAQ').click(function(){
+                $('#popup').load( '../documentation/faq.html #map-selection',function(result){
+                    $('#map-selection').modal({show:true});
+                });
+             });]]>
+         </script>
+    </div> 
+};

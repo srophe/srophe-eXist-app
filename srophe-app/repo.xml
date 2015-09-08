@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>The Syriac Reference Portal</description>
+    <description>Syriaca.org: Gazetteer</description>
     <author>Winona Salesky</author>
     <website>http://syriaca.org/</website>
     <status>beta</status>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>srophe</target>
+    <target>geo</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
+    <deployed>2015-06-15T09:59:27.02-04:00</deployed>
 </meta>

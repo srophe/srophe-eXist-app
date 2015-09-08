@@ -24,6 +24,10 @@ declare variable $global:data-root :=
        replace($global:app-root, $app-root, $data-root)
     ;
 
+declare variable $global:app-map-option := 
+    doc($global:app-root || '/config.xml')//maps/option[@selected='true']/text()  
+    ;
+
 (:~
  : Transform tei to html via xslt
  : @param $node data passed to transform

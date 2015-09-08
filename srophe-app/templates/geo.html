@@ -13,20 +13,11 @@
         <meta name="DC.isPartOf" property="dc.ispartof" content="Syriaca.org: The Syriac Reference Portal"/>
         <meta name="DC.isPartOf" property="dc.ispartof" content="The Syriac Gazetteer"/>
         <!-- Styles -->
-        <link rel="shortcut icon" href="/exist/apps/srophe/resources/img/gazetteer.ico"/>
-        <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css" href="/exist/apps/srophe/resources/css/bootstrap.min.css"/>
-        <!-- Syriaca.org -->
-        <link rel="stylesheet" type="text/css" href="/exist/apps/srophe/resources/css/main.css"/>
-        <!-- Syriaca.org, Geo -->
-        <link rel="stylesheet" type="text/css" href="/exist/apps/srophe/resources/css/geo.css"/>
-        <link rel="stylesheet" type="text/css" media="print" href="/exist/apps/srophe/resources/css/print.css"/>
-        <!-- Leaflet -->
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css"/>
-        <link rel="stylesheet" href="/exist/apps/srophe/resources/leaflet/leaflet.awesome-markers.css"/>
-        <!-- JQuery -->
-        <script type="text/javascript" src="/exist/apps/srophe/resources/js/jquery-1.9.1.min.js"/>
-        <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
+        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/main.css"/>
+        <link rel="stylesheet" type="text/css" media="print" href="$app-root/resources/css/print.css"/>
+        <!--<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2"/>-->
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"/>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -43,62 +34,30 @@
                         <span class="icon-bar"/>
                     </button>
                     <a class="navbar-brand" href="/geo/index.html">
-                        <img alt="Syriac.org: The Syriac Gazetteer" src="/exist/apps/srophe/resources/img/icons-geo.png"/>
+                        <img alt="Logar: Linked Open Gazetteer of the Andean Region" src="/exist/apps/logar/resources/img/logar.png"/>
                     </a>
                 </div>
                 <div class="navbar-collapse collapse pull-right">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                home <b class="caret"/>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="/geo/index.html" class="geo-sm-icon nav-icons">Gazetteer</a>
-                                </li>
-                                <!--
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/persons/index.html" class="persons-sm-icon nav-icons">SBD</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/authors/index.html" class="authors-sm-icon nav-icons">Authors</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/saints/index.html" class="saints-sm-icon nav-icons">Saints</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/spear/index.html" class="spear-sm-icon nav-icons">SPEAR</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/mss/index.html" class="mss-sm-icon nav-icons">MSS</a>
-                                </li>
-                                -->
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/index.html" class="syriaca-sm-icon nav-icons">Syriaca.org</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="/documentation/index.html">Documentation</a>
-                                </li>
-                            </ul>
+                        <li>
+                            <a href="/exist/apps/logar/geo/index.html" class="geo-sm-icon nav-icons">home</a>
                         </li>
                         <li>
-                            <a href="/geo/browse.html">index</a>
+                            <a href="/exist/apps/logar/geo/browse.html">index</a>
                         </li>
                         <li>
-                            <a href="/geo/about.html">about</a>
+                            <a href="/exist/apps/logar/geo/about.html">about</a>
                         </li>
+                        <!--
                         <li>
                             <a href="/geo/help/index.html">help</a>
                         </li>
                         <li>
                             <a href="/geo/howtoadd.html">add new place</a>
+                        </li>
+                        -->
+                        <li>
+                            <a href="/exist/apps/logar/documentation/index.html">documentation</a>
                         </li>
                     </ul>
                     <form class="navbar-form navbar-right navbar-input-group" role="search" action="/geo/search.html" method="get">
@@ -122,7 +81,6 @@
                 </div><!--/.nav-collapse -->
             </div>
         </div>
-        <!-- Main content -->
         <div id="main">
             <div id="content" class="container well well-white"/>
         </div>
@@ -137,12 +95,8 @@
         </footer>
         
         <!-- Additional Javascript -->
-        <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2"/>
-        <script src="http://isawnyu.github.com/awld-js/lib/requirejs/require.min.js" type="text/javascript"/>
-        <script src="http://isawnyu.github.com/awld-js/awld.js?autoinit" type="text/javascript"/>
-        <script type="text/javascript" src="/exist/apps/srophe/resources/js/bootstrap.min.js"/>
-        <script type="text/javascript" src="/exist/apps/srophe/resources/js/jquery.validate.min.js"/>
-        <script type="text/javascript" src="/exist/apps/srophe/resources/js/main.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/bootstrap.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/jquery.validate.min.js"/>
         <script>
             var _gaq=[['_setAccount',''],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
