@@ -1,34 +1,33 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>The Syriac Reference Portal</description>
-    <author>Winona Salesky</author>
-    <website>http://syriaca.org/</website>
+    <description>Biblia Arabica</description>
+    <author>Ronny Vollandt</author>
+    <website>http://biblia-arabica.com/</website>
     <status>beta</status>
-    <license>GNU-LGPL</license>
+    <license>?</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>srophe</target>
+    <target>ba-srophe</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
     <config>
         <!-- App title -->
-        <title>Syriaca.org: The Syriac Reference Portal</title>
+        <title>Biblia Arabica</title>
         <!-- App description -->
-        <description>A collaborative research project publishling online reference works concerning the
-            culture, history, and literature of Syriac communities from antiquity to the present.</description>
+        <description></description>
         <!-- Contact email -->
-        <contact>info@syriaca.org</contact>
+        <contact></contact>
         <!-- Logo name (assumes path to logo is $app-root/resources/img/) -->
-        <logo>syriaca-logo.png</logo>
+        <logo></logo>
         <!-- Web Site URL -->
-        <url>http://syriaca.org/</url>
+        <url>http://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/srophe</nav-base>
+        <nav-base>/exist/apps/ba-srophe</nav-base>
         <!-- eXist app root for app deployment-->
-        <app-root>srophe</app-root>
+        <app-root>ba-srophe</app-root>
         <!-- eXist data app root for gazetteer data -->
-        <data-root>srophe-data</data-root>
+        <data-root>ba-data</data-root>
         <!-- Base URI for identifiers in app data -->
-        <base_uri>http://syriaca.org</base_uri>
+        <base_uri>http://biblia-arabica.com</base_uri>
         <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
         <odd>/documentation/syriaca-tei-main.odd</odd>
         <!-- xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
@@ -55,18 +54,7 @@
                 record-URI-pattern="URI for building links to record views."
                 app-root="folder name in app" 
                 data-root="folder name in data"/>-->
-            <collection name="places" title="The Syriac Gazetteer" app-root="geo" data-root="places" record-URI-pattern="http://syriaca.org/place/"/>
-            <collection name="sbd" title="The Syriac Biographical Dictionary" series="The Syriac Biographical Dictionary" app-root="persons" data-root="persons" record-URI-pattern="http://syriaca.org/person/"/>
-            <collection name="authors" title="A Guide to Syriac Authors" collection-URI="http://syriaca.org/authors" series="The Syriac Biographical Dictionary" app-root="authors" data-root="persons" record-URI-pattern="http://syriaca.org/person/"/>
-            <collection name="q" title="Qadishe: A Guide to the Syriac Saints" collection-URI="http://syriaca.org/q" series="The Syriac Biographical Dictionary" app-root="q" data-root="persons" record-URI-pattern="http://syriaca.org/person/"/>
-            <collection name="bhse" title="Bibliotheca Hagiographica Syriaca Electronica" collection-URI="http://syriaca.org/bhse" series="New Handbook of Syriac Literature" app-root="bhse" data-root="works" record-URI-pattern="http://syriaca.org/work/"/>
-            <collection name="nhsl" title="New Handbook of Syriac Literature" collection-URI="http://syriaca.org/nhsl" series="New Handbook of Syriac Literature" app-root="nhsl" data-root="works" record-URI-pattern="http://syriaca.org/work/"/>
-            <collection name="bible" title="A Guide to the Bible in Syriac" collection-URI="http://syriaca.org/bible" series="New Handbook of Syriac Literature" app-root="bible" data-root="works" record-URI-pattern="http://syriaca.org/work/"/>
-            <collection name="mss" title="A Digital Catalogue of Syriac Manuscripts in the British Library" app-root="mss" data-root="manuscripts" record-URI-pattern="http://syriaca.org/manuscript/"/>
-            <collection name="spear" title="SPEAR: Syriac Persons Events and Relations" app-root="spear" data-root="spear" record-URI-pattern="http://syriaca.org/spear/"/>
-            <collection name="bibl" title="Syriaca.org Works Cited" app-root="bibl" data-root="bibl" record-URI-pattern="http://syriaca.org/bibl/"/>
-            <collection name="subjects" title="A Taxonomy of Syriac Studies" app-root="taxonomy" data-root="subjects" record-URI-pattern="http://syriaca.org/keyword/"/>
-            <collection name="bethqatraye" title="Beth Qatraye Gazetteer" collection-URI="http://syriaca.org/bethqatraye" series="The Syriac Gazetteer" app-root="bethqatraye" data-root="places" record-URI-pattern="http://syriaca.org/place/"/>
+            <collection name="bibl" title="Biblia Arabica Bibliography" app-root="bibl" data-root="bibl" record-URI-pattern="http://biblia-arabica.com/bibl/"/>
         </collections>
         <!--
     <google_analytics>var _gaq=[['_setAccount','UA-333143-26'],['_trackPageview']];
