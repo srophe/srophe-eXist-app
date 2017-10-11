@@ -1,4 +1,4 @@
-Syriaca.org
+Forked from Syriaca.org
 =======
 
 Application data for Syriaca.org [http://syriaca.org]: The Syriac Reference Portal
