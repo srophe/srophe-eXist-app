@@ -8,13 +8,6 @@ import module namespace facet="http://expath.org/ns/facet" at "../lib/facet.xqm"
 import module namespace facet-defs="http://syriaca.org/facet-defs" at "../facet-defs.xqm";
 import module namespace maps="http://syriaca.org/maps" at "../lib/maps.xqm";
 import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
-(: Search modules :)
-import module namespace persons="http://syriaca.org/persons" at "persons-search.xqm";
-import module namespace places="http://syriaca.org/places" at "places-search.xqm";
-import module namespace spears="http://syriaca.org/spears" at "spear-search.xqm";
-import module namespace bhses="http://syriaca.org/bhses" at "bhse-search.xqm";
-import module namespace bibls="http://syriaca.org/bibls" at "bibl-search.xqm";
-import module namespace ms="http://syriaca.org/ms" at "ms-search.xqm";
 
 import module namespace functx="http://www.functx.com";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
@@ -42,14 +35,7 @@ declare variable $search:collection {request:get-parameter('collection', '') cas
 :)
 declare %templates:wrap function search:get-results($node as node(), $model as map(*), $collection as xs:string?, $view as xs:string?){
     let $coll := if($search:collection != '') then $search:collection else $collection
-    let $eval-string := 
-                        if($coll = ('sbd','q','authors','saints','persons')) then persons:query-string($coll)
-                        else if($coll ='spear') then spears:query-string()
-                        else if($coll = 'places') then places:query-string()
-                        else if($coll = ('bhse','nhsl','bible')) then bhses:query-string($collection)
-                        else if($coll = 'bibl') then bibls:query-string()
-                        else if($coll = 'manuscripts') then ms:query-string()
-                        else search:query-string($collection)
+    let $eval-string := search:query-string($collection)
                         
     return map {"hits" := data:search($eval-string) }  
 };
@@ -57,14 +43,7 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
 (: for debugging :)
 declare function search:search-xpath($collection as xs:string?){
    let $coll := if($search:collection != '') then $search:collection else $collection
-    return
-                        if($coll = ('sbd','q','authors','saints','persons')) then persons:query-string($coll)
-                        else if($coll ='spear') then spears:query-string()
-                        else if($coll = 'places') then places:query-string()
-                        else if($coll = ('bhse','nhsl','bible')) then bhses:query-string($collection)
-                        else if($coll = 'bibl') then bibls:query-string()
-                        else if($coll = 'manuscripts') then ms:query-string()
-                        else search:query-string($collection)                    
+   return search:query-string($collection)                    
 };
 
 (:~   
@@ -176,13 +155,7 @@ declare function search:search-string(){
  : @param $collection passed from search page templates
 :)
 declare function search:search-string($collection as xs:string?){
-    if($collection = ('persons','authors','saints','sbd','q')) then persons:search-string()
-    else if($collection ='spear') then spears:search-string()
-    else if($collection = 'places') then places:search-string()
-    else if($collection = 'bhse') then bhses:search-string()
-    else if($collection = 'bibl') then bibls:search-string()
-    else if($collection = 'manuscripts') then ms:search-string()
-    else search:search-string()
+    search:search-string()
 };
 
 (:~ 
@@ -253,14 +226,7 @@ return
 :)
 declare %templates:wrap  function search:show-form($node as node()*, $model as map(*), $collection as xs:string?) {   
     if(exists(request:get-parameter-names())) then ''
-    else 
-        if($collection = ('persons','sbd','authors','q','saints')) then <div>{persons:search-form($collection)}</div>
-        else if($collection ='spear') then <div>{spears:search-form()}</div>
-        else if($collection ='manuscripts') then <div>{ms:search-form()}</div>
-        else if($collection = ('bhse','nhsl')) then <div>{bhses:search-form($collection)}</div>
-        else if($collection ='bibl') then <div>{bibls:search-form()}</div>
-        else if($collection ='places') then <div>{places:search-form()}</div> 
-        else <div>{search:search-form($collection)}</div>
+    else <div>{search:search-form($collection)}</div>
 };
 
 declare function search:show-grps($nodes, $p, $collection){
@@ -286,27 +252,9 @@ declare function search:show-rec($hit, $p, $collection){
              </div>
             <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                 {
-                    if(starts-with(request:get-parameter('author', ''),$global:base-uri)) then global:display-recs-short-view($hit,'',request:get-parameter('author', ''))
-                    else if($collection = 'spear') then 
-                        <div class="results-list inline">
-                            {
-                                if($hit/tei:title) then (' ', <a href="aggregate.html?id={replace($hit//tei:idno,'/tei','')}" class="syr-label">{string-join($hit/descendant-or-self::tei:title[1]/node(),' ')}</a>)
-                                else (
-                                        if($hit/tei:listRelation) then <span class="srp-label">[{concat(' ', functx:camel-case-to-words(substring-after($hit/tei:listRelation/tei:relation/@name,':'),' '))} relation] </span>
-                                        else if($hit/tei:listPerson) then <span class="srp-label">[Person factoid] </span>
-                                        else if($hit/tei:listEvent) then <span class="srp-label">[Event factoid] </span>
-                                        else (),
-                                        <a href="factoid.html?id={string($hit/@uri)}" class="syr-label">{
-                                            if($hit/descendant-or-self::tei:titleStmt) then $hit/descendant-or-self::tei:titleStmt[1]/text()
-                                            else if($hit/tei:listRelation) then 
-                                                <span> {rel:build-short-relationships($hit/tei:listRelation/tei:relation,'')}</span>
-                                            else substring(string-join($hit/child::*[1]/descendant-or-self::*/text(),' '),1,550)
-                                             }</a>
-                                      )}
-                        </div>  
-                        else if(request:get-parameter('relation', '') and $collection = 'spear') then 
-                            <a href="factoid.html?id={string($hit/@uri)}">{rel:build-relationship-sentence($hit/descendant::tei:relation,$spears:relation)}</a>
-                        else global:display-recs-short-view($hit,'')
+                    if(starts-with(request:get-parameter('author', ''),$global:base-uri)) then 
+                        global:display-recs-short-view($hit,'',request:get-parameter('author', ''))
+                    else global:display-recs-short-view($hit,'')
                     }
             </div>
     </div>                   
@@ -322,25 +270,8 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
     <div>{search:build-geojson($node,$model)}</div>
     {
         let $hits := $model("hits")
-        return 
-            if($collection = 'spear') then
-                for $hit at $p in subsequence($hits, $search:start, $search:perpage)
-                return search:show-rec($hit, $p, $collection)
-            else if($collection = 'subjects') then
-                for $hit at $p in subsequence($hits, $search:start, $search:perpage)
-                return search:show-rec($hit, $p, $collection)            
-            else
-                for $hit at $p in subsequence($hits, $search:start, $search:perpage)
-                return search:show-rec($hit, $p, $collection)
-            (:
-                let $tree := data:search-nested-view($model("hits"))
-                for $hit at $p in subsequence($tree, $search:start, $search:perpage)
-                let $id := $hit//tei:idno[1]
-                return
-                    <div class="results" style="border-bottom:1px dotted #eee; padding-top:.5em; padding-top:1em;">
-                        {search:show-grps(data:get-children($hits, $id[1]), $p, $collection)}
-                    </div>
-             :)       
+        for $hit at $p in subsequence($hits, $search:start, $search:perpage)
+        return search:show-rec($hit, $p, $collection)   
      } 
 </div>
 };
@@ -430,8 +361,44 @@ declare function search:default-search-form() {
         <div class="well well-small" style="background-color:white; margin-top:2em;">
             <div class="row">
                 <div class="col-md-7">
+                    <div class="form-group">
+                        <label for="box0" class="col-sm-4 control-label" id="boxLabel0"> Language/语言/語言</label>
+                        <div class="col-sm-5 radio-row">
+                            <input type="radio" id="radio-en" name="language_selected" value='en'> English </input>
+                            <input type="radio" id="radio-zh-hans"  name="language_selected"  value="zh-hans"> 简体中文 </input>
+                            <input type="radio" id="radio-zh-hant"  name="language_selected"  value="zh-hant"> 繁体中文 </input>
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="box1" class="col-sm-4 control-label" id="boxLabel1">Province</label>
+                        <div class="col-sm-5">
+                            <select name="provinceDropdown" id="box1" class="form-control">
+                                <option value='?province' selected='selected'>Any province/任何省份</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="box3" class="col-sm-4 control-label" id="boxLabel3">Dynasty range for site</label>
+                        <div class="col-sm-5">
+                            <select name="dynastyDropdown" id="box3" class="form-control">
+                                <option value='?dynasty' selected='selected'>Any dynasty/任何一个朝代</option>
+                            </select>
+                        </div>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="box2" class="col-sm-4 control-label" id="boxLabel2">Historic site</label>
+                        <div class="col-sm-5">
+                            <select name="siteDropdown" id="box2" class="form-control">
+                                <option value='?site' selected='selected'>Any temple/任何寺庙</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr/>
                 <!-- Keyword -->
-                 <div class="form-group">
+                  <div class="form-group">
                     <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: </label>
                     <div class="col-sm-10 col-md-9 ">
                         <div class="input-group">
@@ -445,7 +412,7 @@ declare function search:default-search-form() {
                          </div> 
                     </div>
                   </div>
-                    <!-- Place Name-->
+                  <!-- Place Name-->
                   <div class="form-group">
                     <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: </label>
                     <div class="col-sm-10 col-md-9 ">
@@ -460,42 +427,14 @@ declare function search:default-search-form() {
                          </div>   
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="persName" class="col-sm-2 col-md-3  control-label">Person Name: </label>
-                    <div class="col-sm-10 col-md-9 ">
-                        <div class="input-group">
-                            <input type="text" id="persName" name="persName" class="form-control keyboard"/>
-                            <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                    </button>
-                                    {global:keyboard-select-menu('persName')}
-                                
-                            </div>
-                         </div>   
-                    </div>
+                  <div class="form-group">
+                         <label for="uri" class="col-sm-2 col-md-3  control-label">URI: </label>
+                         <div class="col-sm-10 col-md-9 ">
+                             <input type="text" id="uri" name="uri" class="form-control"/>
+                         </div>
                   </div>
-                <div class="form-group">
-                    <label for="titleInput" class="col-sm-2 col-md-3  control-label">Title: </label>
-                    <div class="col-sm-10 col-md-9 ">
-                        <div class="input-group">
-                            <input type="text" id="titleInput" name="title" class="form-control keyboard"/>
-                            <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                    </button>
-                                    {global:keyboard-select-menu('titleInput')}
-                            </div>
-                         </div>   
-                    </div>
-                  </div>
-              <div class="form-group">
-                    <label for="uri" class="col-sm-2 col-md-3  control-label">Syriaca.org URI: </label>
-                    <div class="col-sm-10 col-md-9 ">
-                        <input type="text" id="uri" name="uri" class="form-control"/>
-                    </div>
-               </div> 
-               </div>
+                  <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"></i>           
+            </div>
             </div>    
         </div>
         <div class="pull-right">

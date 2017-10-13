@@ -113,48 +113,20 @@ declare function tei2html:summary-view-persons($nodes as node()*, $id as xs:stri
 
 (: Special short view template for Places :)
 declare function tei2html:summary-view-places($nodes as node()*, $id as xs:string?) as item()* {
-    let $title := if($nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][@xml:lang='en']) then 
-                    $nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1]
-                  else $nodes/descendant-or-self::tei:title[1]/text()
-    let $syr-title := 
-                if($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]) then
-                     <span xml:lang="syr" lang="syr" dir="rtl">{string-join($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]//text(),' ')}</span>
-                else if($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword')]) then 
-                    '[Syriac Not Available]'
-                else () 
+    let $title := $nodes/descendant-or-self::tei:title[1]/text()
     let $series := for $a in distinct-values($nodes/descendant::tei:seriesStmt/tei:biblScope/tei:title)
                    return tei2html:translate-series($a)                
     return 
         <div class="short-rec-view">
-                        <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">{(tei2html:tei2html($title),if($nodes/descendant::tei:place/@type) then concat(' (',string($nodes/descendant::tei:place/@type),') ') else (),if($syr-title != '') then (' - ', $syr-title) else())}</a>
+                        <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">
+                        {(tei2html:tei2html($title),
+                        if($nodes/descendant::tei:place/@type) then 
+                        concat(' (',string($nodes/descendant::tei:place/@type),') ') else ())}</a>
             <button type="button" class="btn btn-sm btn-default copy-sm clipboard"  
                 data-toggle="tooltip" title="Copies record title &amp; URI to clipboard." 
                 data-clipboard-action="copy" data-clipboard-text="{normalize-space($title[1])} - {normalize-space($id[1])}">
                     <span class="glyphicon glyphicon-copy" aria-hidden="true"/>
             </button>
-            {if($nodes/descendant-or-self::tei:place/tei:placeName[not(contains(@syriaca-tags,'#syriaca-headword'))][not(matches(@xml:lang,('^syr|^ar|^en-xsrp1')))]) then 
-                <span class="results-list-desc names" dir="ltr" lang="en">
-                    Names: {
-                        for $n in $nodes/descendant::tei:place/tei:placeName[not(contains(@syriaca-tags,'#syriaca-headword'))][not(matches(@xml:lang,('^syr|^ar|^en-xsrp1')))] 
-                        where $n/position() lt 8
-                        return <span class="pers-label badge">{tei2html:tei2html($n)}</span>
-                    } 
-                </span>
-             else ()}
-            {if($nodes/descendant-or-self::*[starts-with(@xml:id,'abstract')]) then 
-                for $abstract in $nodes/descendant::*[starts-with(@xml:id,'abstract')]
-                let $string := string-join($abstract/descendant-or-self::*/text(),' ')
-                let $blurb := 
-                    if(count(tokenize($string, '\W+')[. != '']) gt 25) then  
-                        concat(string-join(for $w in tokenize($string, '\W+')[position() lt 25]
-                        return $w,' '),'...')
-                     else $string 
-                return 
-                    <span class="results-list-desc desc" dir="ltr" lang="en">{
-                        if($abstract/descendant-or-self::tei:quote) then concat('"',normalize-space($blurb),'"')
-                        else $blurb
-                    }</span>
-            else()}
             {
             if($id != '') then 
             <span class="results-list-desc uri"><span class="srp-label">URI: </span><a href="{replace($id,$global:base-uri,$global:nav-base)}">{$id}</a></span>

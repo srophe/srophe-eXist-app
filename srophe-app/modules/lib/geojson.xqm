@@ -72,7 +72,7 @@ return
         </pair>
     </pair>
     <pair name="properties"  type="object">
-        <pair name="uri" type="string">{replace($id,'/tei','')}</pair>
+        <pair name="uri" type="string">{replace($id[1],'/tei','')}</pair>
         <pair name="name" type="string">{string-join($title,' ')}</pair>
         {if($desc != '') then
             <pair name="desc" type="string">{string-join($desc,' ')}</pair> 

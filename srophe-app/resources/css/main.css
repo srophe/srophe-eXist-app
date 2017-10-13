@@ -9,7 +9,6 @@
 
 /* Dev only: corner ribbon */
 /* The ribbons */
-
 .corner-ribbon{
   width: 200px;
   background: #e43;
@@ -17,15 +16,12 @@
   top: 25px;
   left: -50px;
   text-align: center;
-  /*line-height: 50px;*/
   letter-spacing: 1px;
   color: #f0f0f0;
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
    z-index: 1500;
 }
-
-/* Custom styles */
 
 .corner-ribbon.sticky{
   position: fixed;
@@ -35,8 +31,6 @@
   box-shadow: 0 0 3px rgba(0,0,0,.3);
 }
 
-/* Different positions */
-
 .corner-ribbon.top-left{
   top: 25px;
   left: -50px;
@@ -44,7 +38,6 @@
   -webkit-transform: rotate(-45deg);
 }
 
-/* Colors */
 .corner-ribbon.grey{background: #999; background-color: rgba(128,128,128, 0.75);}
 .corner-ribbon.blue{background: #39d;}
 
@@ -62,21 +55,9 @@
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
    z-index: 1500;
-   /*
-    height:150;
-    top: -10px;
-    left: 25px;
-    position: fixed;
-    margin:1em;
-    padding-top:25px;
-    padding-left:50px;
-    z-index: 1499;
-    border:1px solid red;
-    */
 }
+   
 
-    
-}
 /* Main content blocks */
 body {font-family: arial, sans-serif; background-color:#385978;}
 #main { padding: 0; background-color:#999; }
@@ -96,20 +77,16 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 .navbar-inner .container{height: 45px !important; padding-top:.5em; margin-left:.5em;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
 .navbar-brand img {padding:0; margin:0; }
-
 .brand {margin-top:-.75em; margin-left:40px;padding-left:0;}
 .brand img {margin-left:1.5em;padding-left:0;}
-
 .navbar-inner .nav > li > a:hover, .advanced-search > a:hover {
         border-bottom: 4px solid #DDEAF1 !important;  
 }
 .navbar-inner > .container > .nav > li.selected {border-bottom: 4px solid #E69849 !important; }
 .advanced-search > a {color:#999; text-decoration:none;}
-
 .navbar .advanced-search{margin-top:-.5em;}
 .navbar-form {overflow:hidden;}
 .keboard-btn {margin-left:-1em;}
-
 .navbar-input-group {
   font-size: 0px; /*removes whitespace between button and input*/
 }
@@ -164,7 +141,8 @@ body {font-family: arial, sans-serif; background-color:#385978;}
  * font-family: Tahoma, Geneva, sans-serif;
  */
 .banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
-/* Small Syrica.org icons for submodules in nav menus */
+
+/* Small Syrica.org icons images for submodules in nav menus */
 .geo-sm-icon {background-image: url(../img/icons-geo-sm.png);}
 .saints-sm-icon {background-image: url(../img/icons-saints-sm.png);}
 .persons-sm-icon {background-image: url(../img/icons-persons-sm.png);}
@@ -335,6 +313,7 @@ td {
 .sort-title {background-color:none; color:#666; font-weight:500; display:block; }
 .textBox {display:block;}
 .caveat, .note {font-size: .785em; font-style:italic; margin-top:-.5em; padding-top:0;}
+.teiNote {display:block;}
 .title {border-bottom:2px solid #666666;margin-bottom:1em; margin-top:0;padding:0;}
 .about {padding-top: .5em; border-bottom:2px solid #666666;margin-bottom:1em;}
 .caption{text-align:center; font-size:.75em;color:grey;}
@@ -501,6 +480,9 @@ td {
   content:"";
   float: left;
   height: 0px;
+}
+.anchor:target + span.footnote-tgt{
+   background-color: #ffa;
 }
 .anchorHighlight {display:block; content:" "; background-color:yellow; border:1px solid red;}
 
@@ -735,16 +717,7 @@ label.error {
   -webkit-font-smoothing: antialiased;
 }
 .feedback {margin-top:1em;}
-
-/* -- leafletjs styles -- 
-.leaflet-control-layers-list {
-  max-height: 350px;
-  overflow: auto !important;
-  -moz-column-count: 2;
-  -moz-column-gap: 10px;
-  -webkit-column-count: 2;
-  -webkit-column-gap: 10px;
-}*/
+.documentation .panel-body ul { margin-left:0; padding-left: 1em;}
 
 .leaflet-control-layers-toggle:after{ 
     display:block;
@@ -882,6 +855,22 @@ code.inline{
 /* new search */
 .mobile-submenu{display:none;}
 
+.group {padding-left:2.5em;}
+.results .record {padding-left:1em;}
+.short-relationships {display:block;}
+.wiki-page-link {font-weight:normal;}
+select.keyboardSelect {display:none;}
+
+/* Timeline title styles */
+.slider-item h3{font-size:1.25em !important;}
+.jump-menu {margin:1em;}
+.jump-menu .jump {margin-right:1em;}
+
+button.bibl-show {margin: .5em -1em;}
+.slide {font-weight:400;}
+.more-info a {font-weight:600; color:white;}
+
+/* Special styles for small screens */
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}
 .navbar-nav li {width:100% !important; float:none;}
@@ -892,16 +881,3 @@ code.inline{
     }
 .caret {float:left; margin-left:.5em; margin-top:.5em;}    
 }
-.group {padding-left:2.5em;}
-.results .record {padding-left:1em;}
-.short-relationships {display:block;}
-.wiki-page-link {font-weight:normal;}
-select.keyboardSelect {display:none;}
-/* Timeline title styles */
-.slider-item h3{font-size:1.25em !important;}
-.jump-menu {margin:1em;}
-.jump-menu .jump {margin-right:1em;}
-
-button.bibl-show {margin: .5em -1em;}
-.slide {font-weight:400;}
-.more-info a {font-weight:600; color:white;}

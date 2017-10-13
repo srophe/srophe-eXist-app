@@ -1,0 +1,48 @@
+<facets xmlns="http://expath.org/ns/facet">
+    <!--
+    <facet-definition name="Type">
+        <group-by function="facet:group-place-type">
+            <sub-path>descendant::tei:place/@type</sub-path>
+        </group-by>
+        <max-values show="100">100</max-values>
+        <order-by direction="descending">count</order-by>
+    </facet-definition>
+    -->
+    <!--
+    <facet-definition name="Language">
+        <group-by>
+            <sub-path>descendant::tei:place/tei:placeName/@xml:lang</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    -->
+    <facet-definition name="Province">
+        <group-by>
+            <sub-path>descendant::tei:region[@type='province-name']/tei:placeName[@xml:lang='en']</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="省" xml:lang="zn-Hans">
+        <group-by>
+            <sub-path>descendant::tei:region[@type='province-name']/tei:placeName[@xml:lang='zn-Hans']</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Dynasty">
+        <group-by>
+            <sub-path>descendant::tei:state[@type='existence']/tei:label[@xml:lang='en']</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="王朝" xml:lang="zn-Hans">
+        <group-by>
+            <sub-path>descendant::tei:state[@type='existence']/tei:label[@xml:lang='zn-Hans']</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+</facets>

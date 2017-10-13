@@ -64,8 +64,7 @@
  <!-- set output so we get (mostly) indented HTML -->
  <!-- =================================================================== -->
     <xsl:output name="xml" encoding="UTF-8" indent="yes"/>
-
-    <!-- Local functions-->
+   <!-- Local functions-->
     <xsl:function name="local:do-refs-pdf" as="node()">
         <xsl:param name="refs"/>
         <xsl:param name="lang"/>
@@ -316,11 +315,20 @@
  <!-- =================================================================== -->
     
     <!-- Parameters passed from app.xql default values if params are empty -->
+    <!-- Parameters passed from global.xqm (set in config.xml) default values if params are empty -->
+    <!-- eXist data app root for gazetteer data -->
+    <xsl:param name="mode" select="'#all'"/>
     <xsl:param name="data-root" select="'/db/apps/srophe-data'"/>
+    <!-- eXist app root for app deployment-->
     <xsl:param name="app-root" select="'/db/apps/srophe'"/>
+    <!-- Root of app for building dynamic links. Default is eXist app root -->
+    <xsl:param name="nav-base" select="'/db/apps/srophe'"/>
+    <!-- Base URI for identifiers in app data -->
+    <xsl:param name="base-uri" select="'/db/apps/srophe'"/>
+    <!-- Hard coded values-->
     <xsl:param name="normalization">NFKC</xsl:param>
     <xsl:param name="editoruriprefix">http://syriaca.org/documentation/editors.xml#</xsl:param>
-    <xsl:variable name="editorssourcedoc" select="concat($app-root,'/documentation/editors.xml')"/>
+    <xsl:variable name="editorssourcedoc" select="concat('xmldb:exist://',$app-root,'/documentation/editors.xml')"/>
     <xsl:variable name="resource-id">
         <xsl:choose>
             <xsl:when test="string(/*/@id)">

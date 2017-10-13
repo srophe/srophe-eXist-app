@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:exist="http://exist-db.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local exist" version="2.0">
 
  <!-- ================================================================== 
@@ -105,7 +106,7 @@
         </xsl:variable>
         <xsl:variable name="ana">
             <xsl:for-each select="distinct-values(descendant::t:seriesStmt/t:biblScope/t:title)">
-                <xsl:text>  </xsl:text>
+                <xsl:text>&#160; </xsl:text>
                 <xsl:choose>
                     <xsl:when test=". = 'The Syriac Biographical Dictionary'"/>
                     <xsl:when test=". = 'A Guide to Syriac Authors'">
@@ -443,7 +444,7 @@
                             <xsl:sequence select="$syr-title"/>
                         </xsl:if>
                     </a>
-                     
+                    &#160;
                     <xsl:variable name="ref-id" select="generate-id(.)"/>
                     <button type="button" class="btn btn-sm btn-default copy-sm" id="{$ref-id}" data-toggle="tooltip" title="Copies record title &amp; URI to clipboard." data-clipboard-action="copy" data-clipboard-text="{normalize-space($resource-title)} - {normalize-space($resource-id)}">
                         <span class="glyphicon glyphicon-copy" aria-hidden="true"/>

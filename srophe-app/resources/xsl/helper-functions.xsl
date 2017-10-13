@@ -339,38 +339,116 @@
     <!-- Translate labels to human readable labels via odd -->
     <xsl:function name="local:translate-label">
         <xsl:param name="label"/>
-        <xsl:variable name="odd" select="doc('http://localhost:8080/exist/apps/srophe/documentation/syriaca-tei-main.odd')"/>
+        <xsl:param name="count"/>
+        <xsl:variable name="odd" select="doc(concat('xmldb:exist://',$app-root,'/documentation/syriaca-tei-main.odd'))"/>
         <!--<xsl:variable name="odd" select="doc('http://syriaca.org/documentation/syriaca-tei-main.odd')"/>-->
-        <xsl:value-of select="$odd/descendant::t:valItem[@ident=$label]/t:gloss"/>
+        <xsl:choose>
+            <xsl:when test="$odd/descendant::t:valItem[@ident=$label]/t:gloss">
+                <xsl:choose>
+                    <xsl:when test="$count &gt; 1 and $odd/descendant::t:valItem[@ident=$label]/t:gloss[@type='pl']">
+                        <xsl:value-of select="$odd/descendant::t:valItem[@ident=$label]/t:gloss[@type='pl'][1]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:choose>
+                            <xsl:when test="$odd/descendant::t:valItem[@ident=$label]/t:gloss[@type='sg']">
+                                <xsl:value-of select="$odd/descendant::t:valItem[@ident=$label]/t:gloss[@type='sg'][1]"/>                                
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$odd/descendant::t:valItem[@ident=$label]/t:gloss[1]"/>                        
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:function>
     
     <!-- Translate labels to human readable labels via odd, passes on element and label value -->
     <xsl:function name="local:translate-label">
         <xsl:param name="element"/>
         <xsl:param name="label"/>
-        <xsl:variable name="odd" select="doc('http://localhost:8080/exist/apps/srophe/documentation/syriaca-tei-main.odd')"/>
+        <xsl:param name="count"/>
+        <xsl:variable name="odd" select="doc(concat('xmldb:exist://',$app-root,'/documentation/syriaca-tei-main.odd'))"/>
         <!--<xsl:variable name="odd" select="doc('http://syriaca.org/documentation/syriaca-tei-main.odd')"/>-->
         <xsl:variable name="element" select="$odd/descendant::t:elementSpec[@ident = name($element)]"/>
         <xsl:choose>
             <xsl:when test="$element/descendant::t:valItem[@ident=$label]/t:gloss">
-                <xsl:value-of select="$element/descendant::t:valItem[@ident=$label]/t:gloss"/>
+                <xsl:choose>
+                    <xsl:when test="$count &gt; 1 and $element/descendant::t:valItem[@ident=$label]/t:gloss[@type='pl']">
+                        <xsl:value-of select="$element/descendant::t:valItem[@ident=$label]/t:gloss[@type='pl'][1]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:choose>
+                            <xsl:when test="$element/descendant::t:valItem[@ident=$label]/t:gloss[@type='sg']">
+                                <xsl:value-of select="$element/descendant::t:valItem[@ident=$label]/t:gloss[@type='sg'][1]"/>                                
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$element/descendant::t:valItem[@ident=$label]/t:gloss[1]"/>                        
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:otherwise>
+                </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="$label"/>
+                <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
+    
+    <!-- Translate labels to human readable labels via specified xml file, passes on element and label value -->
+    <xsl:function name="local:translate-label">
+        <xsl:param name="ref"/>
+        <xsl:param name="element"/>
+        <xsl:param name="label"/>
+        <xsl:param name="count"/>
+        <xsl:variable name="file-name">
+            <xsl:choose>
+                <xsl:when test="contains($ref,'#')">
+                    <xsl:value-of select="substring-before($ref,'#')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$ref"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="file">
+            <xsl:choose>
+                <xsl:when test="contains($file-name,$base-uri)">
+                    <xsl:value-of select="replace($file-name,$base-uri,concat('xmldb:exist://',$app-root))"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="doc($ref)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$file/descendant::*[@xml:id=$label]/t:gloss">
+                <xsl:value-of select="$file/descendant::*[@xml:id=$label]/t:gloss[1]"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
+    
     <xsl:function name="local:bibl-type-order">
         <xsl:param name="label"/>
         <xsl:choose>
             <xsl:when test="$label = 'lawd:Edition'">a</xsl:when>
-            <xsl:when test="$label = 'lawd:Translation'">b</xsl:when>
-            <xsl:when test="$label = 'syriaca:ModernTranslation'">c</xsl:when>
-            <xsl:when test="$label = 'lawd:WrittenWork'">d</xsl:when>
-            <xsl:when test="$label = 'syriaca:Manuscript'">e</xsl:when>
-            <xsl:when test="$label = 'syriaca:Catalogue'">f</xsl:when>
+            <xsl:when test="$label = 'syriaca:Apparatus'">b</xsl:when>
+            <xsl:when test="$label = 'syriaca:Manuscript'">c</xsl:when>
+            <xsl:when test="$label = 'syriaca:AncientVersion'">d</xsl:when>
+            <xsl:when test="$label = 'syriaca:ModernTranslation'">e</xsl:when>
+            <xsl:when test="$label = 'syriaca:DigitalCatalogue'">f</xsl:when>
+            <xsl:when test="$label = 'syriaca:PrintCatalogue'">g</xsl:when>
+            <xsl:when test="$label = 'syriaca:Glossary'">h</xsl:when>
+            <xsl:when test="$label = 'lawd:WrittenWork'">i</xsl:when>
         </xsl:choose>
     </xsl:function>
+    
     <!-- Text normalization functions -->
     <xsl:template match="t:*" mode="out-normal">
         <xsl:variable name="thislang" select="ancestor-or-self::*[@xml:lang][1]/@xml:lang"/>

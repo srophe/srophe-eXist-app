@@ -2,13 +2,13 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="row top-padding indent">
         <div class="container">
-        <!-- To do -->
+            <!-- To do -->
             <div class="col-md-12">
                 <div data-template="search:show-form"/>
-                <div data-template="search:get-results">
-                <!-- Calls paging and search parameters string  -->
+                <div data-template="search:get-results" class="search-results">
+                    <!-- Calls paging and search parameters string  -->
                     <div data-template="search:pageination" data-template-collection="authors" data-template-sort-options="relevance,title"/>
-                <!-- Prints search results  -->
+                    <!-- Prints search results  -->
                     <div data-template="search:build-page"/>
                     <div class="page-bottom">
                         <div data-template="search:pageination" data-template-collection="authors" data-template-sort-options="relevance,title"/>
