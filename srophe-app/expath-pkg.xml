@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://biblia-arabica.com/srophe" abbrev="ba-srophe" version="2.6.3" spec="1.0">
-    <title>Biblia-Arabica.com</title>
+<package xmlns="http://expath.org/ns/pkg" name="http://biblia-arabica.com/ba" abbrev="ba" version="0.15" spec="1.0">
+    <title>Biblia Arabica bibliography</title>
     <!-- TEI data -->
     <dependency package="http://biblia-arabica.com/ba-data"/>
     <!-- eXist shared resources -->

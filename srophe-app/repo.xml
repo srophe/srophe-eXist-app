@@ -1,35 +1,36 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>Biblia Arabica</description>
-    <author>Ronny Vollandt</author>
-    <website>http://biblia-arabica.com/</website>
+    <description>Biblia Arabica bibliography</description>
+    <author>Winona Salesky</author>
+    <website>http://syriaca.org/</website>
     <status>beta</status>
-    <license>?</license>
+    <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>ba-srophe</target>
+    <target>ba</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
     <config>
         <!-- App title -->
-        <title>Biblia Arabica</title>
+        <title>Biblia Arabica bibliography</title>
         <!-- App description -->
-        <description></description>
+        <description/>
         <!-- Contact email -->
-        <contact></contact>
+        <contact/>
         <!-- Logo name (assumes path to logo is $app-root/resources/img/) -->
-        <logo></logo>
+        <logo/>
         <!-- Web Site URL -->
         <url>http://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/ba-srophe</nav-base>
+        <nav-base>/exist/apps/ba</nav-base>
         <!-- eXist app root for app deployment-->
-        <app-root>ba-srophe</app-root>
+        <app-root>ba</app-root>
         <!-- eXist data app root for gazetteer data -->
         <data-root>ba-data</data-root>
         <!-- Base URI for identifiers in app data -->
         <base_uri>http://biblia-arabica.com</base_uri>
         <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
-        <odd>/documentation/syriaca-tei-main.odd</odd>
+        <!--<odd>/documentation/syriaca-tei-main.odd</odd>-->
+        <odd>documentation/syriaca-tei-main.odd</odd>
         <!-- xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
         <id-path/>
         <!-- Map rendering -->
@@ -48,14 +49,9 @@
             <option id="ms-Russian">Russian Mod. Standard</option>
         </keyboard-options>
         <collections>
-            <!--<collection name="Short-name used in html pages to reference collection, module name" 
-                series="Series name used in TEI biblScope @depreciated, use collection-URI" 
-                collection-URI="Series id used in TEI biblScope. Only needed for subcollection filtering"
-                record-URI-pattern="URI for building links to record views."
-                app-root="folder name in app" 
-                data-root="folder name in data"/>-->
-            <collection name="bibl" title="Biblia Arabica Bibliography" app-root="bibl" data-root="bibl" record-URI-pattern="http://biblia-arabica.com/bibl/"/>
-        </collections>
+            <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
+            <collection name="bibl" title="Biblia Arabica" app-root="bibl" data-root="bibl" record-URI-pattern="http://syriaca.org/bibl/"/>
+        </collections>  
         <!--
     <google_analytics>var _gaq=[['_setAccount','UA-333143-26'],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
@@ -63,8 +59,6 @@
         s.parentNode.insertBefore(g,s)}(document,'script'));</google_analytics>
     -->
     </config>
-    
-    
-    
-<deployed>2017-05-09T22:56:20.244-04:00</deployed>
+
+<deployed>2017-10-14T09:51:35.389-04:00</deployed>
 </meta>

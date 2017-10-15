@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<search-config>
-    <label>Search Keywords</label>
-    <desc>Search all keywords.</desc>
-    <!-- index=full-text/range full-text uses Lucene full text search, range is used for exact matches -->                            
-    <input type="text" label="Search Anywhere " element="." name="qs" keyboard="yes"/>
-    <input type="text" label="Headword" name="headword" element="tei:term[@syriaca-tags='#syriaca-headword']" keyboard="yes"/>
-    <input type="text" label="Related terms" element="tei:entryFree/tei:gloss/tei:term" name="related-terms" keyboard="yes"/>
-</search-config>

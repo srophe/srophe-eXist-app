@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="ba-srophe">
+<project default="xar" name="ba">
     <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="${package(version)}"/>
-    <property name="project.app" value="ba-srophe"/>
+    <property name="project.app" value="ba"/>
     <property name="build.dir" value="build"/>
     <target name="xar">
         <mkdir dir="${build.dir}"/>

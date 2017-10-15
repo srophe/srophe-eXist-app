@@ -63,7 +63,7 @@ else if(replace($exist:path, $exist:resource,'') =  ($exist:record-uris) or ends
             else $exist:path
         return 
             <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-                <forward url="{concat('/restxq/srophe', $path)}" absolute="yes"/>
+                <forward url="{concat('/restxq/ba', $path)}" absolute="yes"/>
             </dispatch>
     (: Special handling for collections with app-root that matches record-URI-pattern sends html pages to html, others are assumed to be records :)
     else if($exist:resource = ('index.html','search.html','browse.html','about.html','aggregate.html','factoid.html')) then 
@@ -115,11 +115,11 @@ else if (contains($exist:path,'/api/')) then
     </dispatch>
     else if($exist:resource = 'oai') then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{replace($exist:path,'/api/oai','/srophe/modules/oai.xql')}"/>
+        <forward url="{replace($exist:path,'/api/oai','/ba/modules/oai.xql')}"/>
      </dispatch>
     else
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{concat('/restxq/srophe', $exist:path)}" absolute="yes"/>
+        <forward url="{concat('/restxq/ba', $exist:path)}" absolute="yes"/>
     </dispatch>
 
 else if ($exist:resource eq '' or ends-with($exist:path,"/")) then 

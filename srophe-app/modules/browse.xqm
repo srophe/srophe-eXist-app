@@ -54,8 +54,8 @@ declare variable $browse:fq {request:get-parameter('fq', '')};
 :)
 declare variable $browse:computed-lang{ 
     if($browse:lang != '') then $browse:lang
-    else if($browse:lang = '' and $browse:alpha-filter != '') then 'en'
-    else if($browse:view = '') then 'en'
+    else if($browse:lang = '' and $browse:alpha-filter != '') then ''
+    else if($browse:view = '') then ''
     else ()
 };
  
@@ -102,35 +102,16 @@ return
 declare function browse:results-panel($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
     let $hits := $model("browse-data")
     return 
-       if($collection = 'spear') then bs:spear-results-panel($hits)
-       else if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then
+       if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then
             (<div class="col-md-4">
-                {if($browse:view='type') then 
-                    if($collection = ('geo','places')) then browse:browse-type($collection)
-                    else facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@name="Type"]))
+                {if($browse:view='type') then facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@name="Type"]))
                  else if($browse:view = 'facets') then browse:display-facets($node, $model, $collection, $facets)
                  else if($browse:view = 'date') then facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@name="Century"]))
                  else facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition))
                  }
              </div>,
              <div class="col-md-8">{
-                if($browse:view='type') then
-                    if(request:get-parameter('fq', '') and contains(request:get-parameter('fq', ''), 'fq-Type:') or $browse:type != '') then
-                        (
-                        page:pages($hits, $browse:start, $browse:perpage,'', $sort-options),
-                        <h3>{concat(upper-case(substring($browse:type,1,1)),substring($browse:type,2))}</h3>,
-                        <div>{(        
-                                <div class="col-md-12 map-md">{browse:get-map($hits)}</div>,
-                                browse:display-hits($hits)
-                                )}</div>)
-                    else <h3>Select Type</h3>    
-                else if($browse:view='date') then 
-                    if(request:get-parameter('fq', '') and contains(request:get-parameter('fq', ''), 'fq-Century:')) then 
-                        (page:pages($hits, $browse:start, $browse:perpage,'', $sort-options),
-                        <h3>{$browse:date}</h3>,
-                        <div>{browse:display-hits($hits)}</div>)
-                    else <h3>Select Date</h3>  
-                else (page:pages($hits, $browse:start, $browse:perpage,'', $sort-options),
+                 (page:pages($hits, $browse:start, $browse:perpage,'', $sort-options),
                       <h3>Results {concat(upper-case(substring($browse:type,1,1)),substring($browse:type,2))} ({count($hits)})</h3>,
                       <div>{(
                         <div class="col-md-12 map-md">{browse:get-map($hits)}</div>,
@@ -286,20 +267,12 @@ declare function browse:browse-abc-menu(){
                 for $letter in tokenize('А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я ALL',' ')
                 return 
                 <li>{if($browse:alpha-filter = $letter) then attribute class {"selected badge"} else()}<a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
-            (: Used by SPEAR :)
-            else if($browse:view = 'persons') then  
-                for $letter in tokenize('A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Anonymous All', ' ')
-                return
-                    <li>{if($browse:alpha-filter = $letter) then attribute class {"selected badge"} else()}<a href="?view={$browse:view}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
-            (: Used by SPEAR :)
-            else if($browse:view = 'places') then  
-                for $letter in tokenize('A B C D E F G H I J K L M N O P Q R S T U V W X Y Z All', ' ')
-                return
-                     <li>{if($browse:alpha-filter = $letter) then attribute class {"selected badge"} else()}<a href="?view={$browse:view}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>            
             else                
                 for $letter in tokenize('A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ALL', ' ')
                 return
-                    <li>{if($browse:alpha-filter = $letter) then attribute class {"selected badge"} else()}<a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
+                    <li>{if($browse:alpha-filter = $letter) then attribute class {"selected badge"} else()}
+                    <a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') 
+                    then concat('&amp;view=',$browse:view) else '&amp;view=A-Z'}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
         }
         </ul>
     </div>
