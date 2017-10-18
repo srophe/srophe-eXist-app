@@ -65,7 +65,17 @@ declare variable $browse:computed-lang{
  : Calls data function data:get-browse-data($collection as xs:string*, $series as xs:string*, $element as xs:string?)
 :)  
 declare function browse:get-all($node as node(), $model as map(*), $collection as xs:string*, $element as xs:string?){
-    map{"browse-data" := data:get-browse-data($collection, $element) } 
+    map{"browse-data" := 
+    let $all := data:get-browse-data($collection, $element)
+    let $buildings := collection($global:data-root || '/places/buildings')
+    let $sites := $all[.//tei:place[@type='site']]
+    for $r in $sites
+    let $uri := replace($r/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
+    return ($r, $buildings[.//tei:relation[@name="contained"][@active= $uri]])}
+
+(:
+   map{"browse-data" := data:get-browse-data($collection, $element) }
+:)   
 };
 
 (:~
@@ -190,6 +200,7 @@ declare function browse:get-map($hits){
 :)
 declare function browse:display-hits($hits){
     let $sites := $hits[.//tei:place[@type='site']]
+    let $buildings := collection($global:data-root || '/places/buildings')
     for $hit in $sites    
     let $sort-title := 
         if($browse:computed-lang != 'en' and $browse:computed-lang != 'zh-latn-pinyin') then 
@@ -200,39 +211,14 @@ declare function browse:display-hits($hits){
     return 
         <div xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em" class="short-rec-result">
             {(($sort-title,tei2html:summary-view($hit, $browse:computed-lang, $uri)), 
-             for $building in $hits[.//tei:relation[@name="contained"][@active= $uri]]
+             for $building in $buildings[.//tei:relation[@name="contained"][@active= $uri]]
              let $id := replace($building/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
              return 
                 <div xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em; padding-left:1em;" class="short-rec-result">
                     {($sort-title,tei2html:summary-view($building, $browse:computed-lang, $id))}
                 </div>
             )}
-        </div>
-(:
-    
-        let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
-    let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by 
-        if($sort/text() = 'value') then $f[1]
-        else count($f)
-        descending
-    return 
-    :)
-    
-    (:
-    for $hit in subsequence($hits, $browse:start,$browse:perpage)
-    let $sort-title := 
-        if($browse:computed-lang != 'en' and $browse:computed-lang != 'syr') then 
-            <span class="sort-title" lang="{$browse:computed-lang}" xml:lang="{$browse:computed-lang}">{(if($browse:computed-lang='ar') then attribute dir { "rtl" } else (), string($hit/@sort-title))}</span> 
-        else () 
-    let $uri := replace($hit/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
-    return 
-        <div xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em" class="short-rec-result">
-            {($sort-title, tei2html:summary-view($hit, $browse:computed-lang, $uri)) }
-        </div>
-    :)        
+        </div>       
 };
 
 
