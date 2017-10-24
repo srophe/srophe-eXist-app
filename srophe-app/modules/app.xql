@@ -174,14 +174,19 @@ declare function app:h1($node as node(), $model as map(*)){
  : Used by templating module, defaults to tei:body if no nodes are passed. 
  : @param $paths comma separated list of xpaths for display. Passed from html page  
 :)
-declare function app:display-nodes($node as node(), $model as map(*), $paths as xs:string?){
+declare function app:display-nodes($node as node(), $model as map(*), $paths as xs:string?, $wrap as xs:string?){
     let $data := $model("data")
     return 
-        if($paths != '') then 
-            global:tei2html(
+        if($paths != '') then
+            if($wrap != '') then 
+                global:tei2html(element{xs:QName($wrap)} {
+                    for $p in $paths
+                    return util:eval(concat('$data',$p))
+                    })
+            else global:tei2html(
                     for $p in $paths
                     return util:eval(concat('$data',$p)))
-        else global:tei2html($model("data")/descendant::tei:body)
+        else global:tei2html($model("data")/descendant::tei:body)       
 }; 
 
 (:
@@ -192,15 +197,20 @@ declare %templates:wrap function app:display-sources($node as node(), $model as 
     return global:tei2html(<sources xmlns="http://www.tei-c.org/ns/1.0">{$sources}</sources>)
 };
 
-
 (:~
  : Passes any tei:geo coordinates in record to map function. 
  : Suppress map if no coords are found. 
 :)                   
 declare function app:display-map($node as node(), $model as map(*)){
-    if($model("data")//tei:geo) then 
-        maps:build-map($model("data"),0)
-    else ()
+    let $related := app:external-relationships($node,$model,'dct:isPartOf')
+    return 
+        if($model("data")//tei:geo) then
+            if($related//tei:geo) then
+                maps:build-map(($model("data"),$related),0)
+            else maps:build-map($model("data"),0)
+        else if($related//tei:geo) then 
+            maps:build-map($related,0)
+        else ()
 };
 
 (:~
@@ -242,22 +252,64 @@ declare function app:display-related($node as node(), $model as map(*), $relType
     else ()
 };
 
+(:~            
+ : Get records that reference current record.
+:)       
+declare function app:external-relationships($node as node(), $model as map(*), $relType as xs:string?){
+    let $rec := $model("data") 
+    let $recid := replace($rec/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
+    let $title := $rec/descendant::tei:titleStmt/tei:title[1]/text()
+    let $relationshipPath := 
+        if($relType != '') then
+                concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$relType,"' or @name = '",$relType,"']]")
+        else concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
+    let $relationships := util:eval(concat("collection($global:data-root)/tei:TEI",$relationshipPath))
+    return $relationships    
+};
+
 (:~      
  : Get relations to display in body of HTML page
- : Used by NHSL for displaying child works
+ : Used by tcadrt for displaying related buildings
  : @param $data TEI record
  : @param $relType name/ref of relation to be displayed in HTML page
 :)
-declare %templates:wrap function app:external-relationships($node as node(), $model as map(*), $relType, $collection, $sort, $count){
-let $rec := $model("data")
-let $relType := $relType 
-let $recid := replace($rec/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
-let $title := if(contains($rec/descendant::tei:title[1]/text(),' — ')) then 
-                    substring-before($rec/descendant::tei:title[1],' — ') 
-               else $rec/descendant::tei:title[1]/text()
-return rel:external-relationships($recid, $title, $relType, $collection, $sort, $count)
+declare %templates:wrap function app:display-external-relationships($node as node(), $model as map(*), $relType as xs:string?, $collection as xs:string?, $sort as xs:string?, $count as xs:string?){
+    let $related := app:external-relationships($node,$model,$relType)
+    return 
+        if($related) then 
+            <div>
+                <h4>This site contains {count($related)} building(s)</h4>
+                { 
+                    for $r in $related
+                    let $uri := replace($r/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
+                    return 
+                    <div class="indent">{tei2html:summary-view($r, (), $uri)}</div> 
+                }
+            </div>
+        else ()
 };
-   
+
+(:~
+ : For tcadrt display related images. 
+:)                   
+declare function app:display-related-images($node as node(), $model as map(*)){
+    if($model("data")//tei:relation[@name='foaf:depicts']) then 
+        <div class="record-images">
+        {
+            for $image in $model("data")//tei:relation[@name='foaf:depicts']
+            return 
+                <span class="thumb-images">
+                     <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
+                         <span class="helper"></span>
+                         <img src="{concat('https://',$image/@active,'t.jpg')}" />
+                         {if($image/tei:desc) then <span class="caption">{$image/tei:desc}</span> else ()}
+                     </a>
+                </span>
+        }    
+        </div>            
+    else ()        
+};
+
 
 (:~
  : bibl modulerelationships

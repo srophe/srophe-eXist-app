@@ -1,5 +1,5 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>The Traditional Chinese Architecture Digital Research Tool</description>
+    <description>Architectura Sinica</description>
     <author>Winona Salesky</author>
     <website>http://tcadrt.jelastic.servint.net/</website>
     <status>beta</status>
@@ -11,7 +11,7 @@
     <finish>post-install.xql</finish>
     <config>
         <!-- App title -->
-        <title>The Traditional Chinese Architecture Digital Research Tool </title>
+        <title>Architectura Sinica</title>
         <!-- App description -->
         <description>A digital image archive of the monumental architecture of pre-modern China. </description>
         <!-- Contact email -->

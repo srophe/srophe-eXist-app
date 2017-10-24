@@ -1,9 +1,9 @@
-<html xmlns="http://www.w3.org/1999/xhtml" data-template="app:get-rec">
-    <head>
+<html xmlns="http://www.w3.org/1999/xhtml" data-template="app:get-rec" data-template-id="page">
+    <head data-template="app:fix-links">
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title data-template="app:app-title">Traditional Chinese Architecture Digital Research Tool</title>
+        <title data-template="app:page-title">Traditional Chinese Architecture Digital Research Tool</title>
         <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"/>
         <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/"/>
         <meta name="DC.type" property="dc.type" content="Text"/>
@@ -35,12 +35,6 @@
         <script type="text/javascript" src="$app-root/resources/keyboard/syr/jquery.keyboard.js"/>
         <script type="text/javascript" src="$app-root/resources/keyboard/js/jquery.keyboard.extension-mobile.min.js"/>
         <script type="text/javascript" src="$app-root/resources/keyboard/js/jquery.keyboard.extension-navigation.min.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/syr/keyboardSupport.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/syr/syr.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Greek.min.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Russian.min.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Arabic.min.js"/>
         <script type="text/javascript">
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
@@ -116,7 +110,7 @@
                             <a href="$app-root/browse.html"> Browse </a>
                         </li>
                         <li>
-                            <a href="$app-root/about.html"> About </a>
+                            <a href="$app-root/index.html"> About </a>
                         </li>
                     </ul>
                     <form class="navbar-form navbar-left navbar-input-group" role="search" action="$app-root/search.html" method="get">
