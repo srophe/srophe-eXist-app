@@ -176,7 +176,7 @@ return
                     element { xs:QName($relation) } 
                         { attribute {xs:QName("rdf:resource")} { $r} }    
         else (),
-for $location-relation in $rec/descendant::tei:location[@type='nested']/child::*[starts-with(@ref,'http://syriaca.org/')]/@ref
+for $location-relation in $rec/descendant::tei:location[@type='nested']/child::*[starts-with(@ref,$global:base-uri)]/@ref
 return <dcterms:isPartOf xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="{$location-relation}"/>
 ) 
 };
@@ -195,7 +195,7 @@ declare function tei2rdf:rec-title($rec){
 };
 
 declare function tei2rdf:make-triple-set($rec){
-let $id := replace($rec/descendant::tei:idno[starts-with(.,'http://syriaca.org/')][1],'/tei','')
+let $id := replace($rec/descendant::tei:idno[starts-with(.,$global:base-uri)][1],'/tei','')
 return 
 (<skos:Concept rdf:about="{$id}" xmlns:skos="http://www.w3.org/2004/02/skos/core#">
     {(tei2rdf:rec-type($rec),
@@ -253,7 +253,7 @@ declare function tei2rdf:rdf-output($recs){
 declare function tei2rdf:save-rec($doc){
 let $id := $doc/descendant::tei:idno[1]
 let $filename := concat(tokenize(replace($id,'/tei',''),'/')[last()],'.rdf')
-let $collection := substring-before(substring-after($id,'http://syriaca.org/'),'/')
+let $collection := substring-before(substring-after($id,$global:base-uri),'/')
 let $file-data :=  
         try {
             tei2rdf:rdf-output($doc)

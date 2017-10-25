@@ -27,7 +27,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare function app:get-rec($node as node(), $model as map(*), $collection as xs:string?, $id as xs:string?) { 
     map {"data" := 
          if($id and $id != 'page') then    
-             root(collection($global:data-root)//tei:idno[. = $id]) 
+             root(collection($global:data-root)//tei:idno[. = $id])
          else <div>'Page data'</div>    
         }    
 };
@@ -162,8 +162,7 @@ declare function app:h1($node as node(), $model as map(*)){
  <srophe-title xmlns="http://www.tei-c.org/ns/1.0">{(
     if($model("data")/descendant::*[@syriaca-tags='#syriaca-headword']) then
         $model("data")/descendant::*[@syriaca-tags='#syriaca-headword']
-    else $model("data")/descendant::tei:titleStmt[1]/tei:title[1], 
-    $model("data")/descendant::tei:idno[1]
+    else $model("data")/descendant::tei:titleStmt[1]/tei:title[1], $model("data")/descendant::tei:idno[1]
     )}
  </srophe-title>)
 }; 

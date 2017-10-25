@@ -521,9 +521,17 @@
                 <xsl:when test="@subtype='quote'">"<xsl:apply-templates/>"</xsl:when>
                 <xsl:otherwise>
                     <xsl:choose>
-                        <xsl:when test="t:geo"><h5>Coordinates</h5> </xsl:when>
-                        <xsl:when test="@type='nested' and t:placeName"><h5><xsl:value-of select="t:placeName"/></h5></xsl:when>
-                        <xsl:when test="@type"><h5><xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/></h5> </xsl:when>
+                        <xsl:when test="t:geo">
+                            <h5>Coordinates</h5> </xsl:when>
+                        <xsl:when test="@type='nested' and t:placeName">
+                            <h5>
+                                <xsl:value-of select="t:placeName"/>
+                            </h5>
+                        </xsl:when>
+                        <xsl:when test="@type">
+                            <h5>
+                                <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>
+                            </h5> </xsl:when>
                     </xsl:choose>
                     <ul>
                         <xsl:for-each select="child::*[not(self::t:note) and not(self::t:placeName)]">
@@ -1311,8 +1319,8 @@
     <xsl:template name="title">
         <span id="title">
             <xsl:choose>
-                <xsl:when test="contains($resource-id,'/subject/')">
-                    Term:  <xsl:apply-templates select="descendant::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][not(empty(node()))][1]" mode="plain"/>
+                <xsl:when test="contains($resource-id,'/keyword/')">
+                    Term:  <xsl:apply-templates select="descendant-or-self::t:title[1]" mode="plain"/>
                 </xsl:when>
                 <xsl:when test="descendant::*[contains(@syriaca-tags,'#syriaca-headword')]">
                     <xsl:apply-templates select="descendant::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][not(empty(node()))][1]" mode="plain"/>
@@ -1552,15 +1560,22 @@
                 </h4>
                 <div class="state indent">
                     <xsl:for-each select="current-group()"> 
-                        <xsl:if test="@subtype"><h5><xsl:value-of select="concat(upper-case(substring(@subtype,1,1)),substring(@subtype,2))"/>: </h5></xsl:if>
+                        <xsl:if test="@subtype">
+                            <h5>
+                                <xsl:value-of select="concat(upper-case(substring(@subtype,1,1)),substring(@subtype,2))"/>: </h5>
+                        </xsl:if>
                         <xsl:for-each select="t:label">
-                            <xsl:apply-templates/><xsl:if test="@xml:lang"> (<xsl:value-of select="local:expand-lang(@xml:lang,'')"/>)</xsl:if><br/>    
+                            <xsl:apply-templates/>
+                            <xsl:if test="@xml:lang"> (<xsl:value-of select="local:expand-lang(@xml:lang,'')"/>)</xsl:if>
+                            <br/>    
                         </xsl:for-each>
                         <xsl:if test="@source">
                             <xsl:sequence select="local:do-refs(self::*/@source,'')"/>
                         </xsl:if>
                         <xsl:if test="t:ref">
-                            <span class="small"><xsl:apply-templates select="t:ref"/></span>
+                            <span class="small">
+                                <xsl:apply-templates select="t:ref"/>
+                            </span>
                         </xsl:if>
                     </xsl:for-each>
                 </div>
