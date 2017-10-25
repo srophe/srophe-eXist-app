@@ -521,20 +521,17 @@
                 <xsl:when test="@subtype='quote'">"<xsl:apply-templates/>"</xsl:when>
                 <xsl:otherwise>
                     <xsl:choose>
-                        <xsl:when test="t:geo">Coordinates: </xsl:when>
-                        <xsl:when test="@type">
-                            <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: </xsl:when>
+                        <xsl:when test="t:geo"><h5>Coordinates</h5> </xsl:when>
+                        <xsl:when test="@type='nested' and t:placeName"><h5><xsl:value-of select="t:placeName"/></h5></xsl:when>
+                        <xsl:when test="@type"><h5><xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/></h5> </xsl:when>
                     </xsl:choose>
                     <ul>
-                        <xsl:for-each select="child::*[not(self::t:note)]">
+                        <xsl:for-each select="child::*[not(self::t:note) and not(self::t:placeName)]">
                             <li>
                                 <xsl:choose>
                                     <xsl:when test="self::t:geo"/>
                                     <xsl:when test="t:country">
                                         <span class="srp-label">Country: </span>
-                                    </xsl:when>
-                                    <xsl:when test="@type='municipality'">
-                                        <span class="srp-label">Pueblo: </span>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:if test="@type">
@@ -545,19 +542,12 @@
                                     </xsl:otherwise>
                                 </xsl:choose>
                                 <xsl:choose>
-                                    <xsl:when test="parent::*[@type='ancient'] and self::*[@type != 'pueblo'] ">
-                                        <xsl:variable name="name" select="text()"/>
-                                        <xsl:variable name="type">
-                                            <xsl:choose>
-                                                <xsl:when test="self::t:country">country</xsl:when>
-                                                <xsl:otherwise>
-                                                    <xsl:value-of select="@type"/>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </xsl:variable>
-                                        <a href="{$nav-base}/geo/search.html?fq=fq-{$type}:{$name}">
-                                            <xsl:apply-templates/>
-                                        </a>
+                                    <xsl:when test="t:placeName">
+                                        <ul>
+                                            <xsl:for-each select="t:placeName">
+                                                <xsl:apply-templates select="self::*" mode="list"/>
+                                            </xsl:for-each>
+                                        </ul>
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:apply-templates/>
@@ -580,7 +570,7 @@
         </div>
     </xsl:template>
     <xsl:template match="t:location[@type='gps' and t:geo]">
-        <li>Coordinates: 
+        <h5>Coordinates</h5> 
             <ul class="unstyled offset1">
                 <li>
                     <xsl:value-of select="concat('Lat. ',tokenize(t:geo,' ')[1],'°')"/>
@@ -591,7 +581,6 @@
                     <xsl:sequence select="local:do-refs(@source,'eng')"/>
                 </li>
             </ul>
-        </li>
     </xsl:template>
     <xsl:template match="t:offset | t:measure | t:source ">
         <xsl:if test="preceding-sibling::*">
@@ -1017,6 +1006,9 @@
                     <span class="placeName">
                         <xsl:call-template name="langattr"/>
                         <xsl:apply-templates select="." mode="plain"/>
+                        <xsl:if test="@xml:lang">
+                            <span class="small">(<xsl:value-of select="local:expand-lang(@xml:lang,'')"/>)</span>
+                        </xsl:if>
                     </span>
                     <xsl:sequence select="local:do-refs(@source,ancestor::t:*[@xml:lang][1])"/>
                 </li>
@@ -1502,22 +1494,10 @@
         
         <xsl:if test="self::t:place">
             <xsl:if test="t:placeName">
-                <div id="placenames" class="well">
+                <div id="placenames">
                     <h3>Names</h3>
                     <ul>
-                        <xsl:apply-templates select="t:placeName[@syriaca-tags='#syriaca-headword' and @xml:lang='syr']" mode="list">
-                            <xsl:sort lang="syr" select="."/>
-                        </xsl:apply-templates>
-                        <xsl:apply-templates select="t:placeName[@syriaca-tags='#syriaca-headword' and @xml:lang='en']" mode="list">
-                            <xsl:sort collation="{$mixed}" select="."/>
-                        </xsl:apply-templates>
-                        <xsl:apply-templates select="t:placeName[(not(@syriaca-tags) or @syriaca-tags!='#syriaca-headword') and starts-with(@xml:lang, 'syr')]" mode="list">
-                            <xsl:sort lang="syr" select="."/>
-                        </xsl:apply-templates>
-                        <xsl:apply-templates select="t:placeName[starts-with(@xml:lang, 'ar')]" mode="list">
-                            <xsl:sort lang="ar" select="."/>
-                        </xsl:apply-templates>
-                        <xsl:apply-templates select="t:placeName[(not(@syriaca-tags) or @syriaca-tags!='#syriaca-headword') and not(starts-with(@xml:lang, 'syr') or starts-with(@xml:lang, 'ar')) and not(@syriaca-tags='#syriaca-simplified-script')]" mode="list">
+                        <xsl:apply-templates select="t:placeName" mode="list">
                             <xsl:sort collation="{$mixed}" select="."/>
                         </xsl:apply-templates>
                     </ul>
@@ -1535,7 +1515,10 @@
         </xsl:if>
         
         <xsl:if test="t:location">
-            <xsl:apply-templates select="t:location"/>
+            <div class="location">
+                <h4>Location</h4>
+                <xsl:apply-templates select="t:location"/>
+            </div>
         </xsl:if>
         <!-- Confessions/Religious Communities -->
         <xsl:if test="t:confessions/t:state[@type='confession'] | t:state[@type='confession'][parent::t:place]">
@@ -1561,22 +1544,26 @@
             </div>
         </xsl:if>
         
-        <!-- State for persons? NEEDS WORK -->
+        <!-- State for tcdart  -->
         <xsl:if test="t:state">
-            <xsl:for-each-group select="//t:state[not(@when) and not(@notBefore) and not(@notAfter) and not(@to) and not(@from)]" group-by="@type">
+            <xsl:for-each-group select="//t:state" group-by="@type">
                 <h4>
                     <xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/>
                 </h4>
-                <ul>
-                    <xsl:for-each select="current-group()[not(t:desc/@xml:lang = 'en-x-gedsh')]">
-                        <li>
-                            <xsl:apply-templates mode="plain"/>
-                            <xsl:if test="@source">
-                                <xsl:sequence select="local:do-refs(self::*/@source,'')"/>
-                            </xsl:if>
-                        </li>
+                <div class="state indent">
+                    <xsl:for-each select="current-group()"> 
+                        <xsl:if test="@subtype"><h5><xsl:value-of select="concat(upper-case(substring(@subtype,1,1)),substring(@subtype,2))"/>: </h5></xsl:if>
+                        <xsl:for-each select="t:label">
+                            <xsl:apply-templates/><xsl:if test="@xml:lang"> (<xsl:value-of select="local:expand-lang(@xml:lang,'')"/>)</xsl:if><br/>    
+                        </xsl:for-each>
+                        <xsl:if test="@source">
+                            <xsl:sequence select="local:do-refs(self::*/@source,'')"/>
+                        </xsl:if>
+                        <xsl:if test="t:ref">
+                            <span class="small"><xsl:apply-templates select="t:ref"/></span>
+                        </xsl:if>
                     </xsl:for-each>
-                </ul>
+                </div>
             </xsl:for-each-group>
         </xsl:if>
         

@@ -139,7 +139,7 @@ declare function tei2html:summary-view-places($nodes as node()*, $id as xs:strin
 declare function tei2html:summary-view-keyword($nodes as node()*, $id as xs:string?) as item()* {
     let $title := if($nodes/descendant-or-self::tei:term[@syriaca-tags='#syriaca-headword'][@xml:lang='en']) then 
                     $nodes/descendant-or-self::tei:term[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1]/text()
-                  else $nodes/descendant-or-self::tei:term[1]/text()                  
+                  else $nodes/descendant-or-self::tei:titleStmt/tei:title[1]/text()                  
     return 
         <div class="short-rec-view">
             <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">{$title}</a>

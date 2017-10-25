@@ -244,16 +244,16 @@ declare %templates:wrap function app:display-citation($node as node(), $model as
 (:~
  : Process relationships uses lib/rel.xqm module
 :)                   
-declare function app:display-related($node as node(), $model as map(*), $relType as xs:string?){
-    if($relType != '') then 
-        rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''), $relType)
+declare function app:display-related($node as node(), $model as map(*), $type as xs:string?){
+    if($type != '') then
+    rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
     else if($model("data")//tei:body/child::*/tei:listRelation) then 
-            rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''))
+        <p>not</p>(:rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')):)
     else ()
 };
 
 (:~            
- : Get records that reference current record.
+ : TCADRT Get records that reference current record.
 :)       
 declare function app:external-relationships($node as node(), $model as map(*), $relType as xs:string?){
     let $rec := $model("data") 
@@ -261,14 +261,14 @@ declare function app:external-relationships($node as node(), $model as map(*), $
     let $title := $rec/descendant::tei:titleStmt/tei:title[1]/text()
     let $relationshipPath := 
         if($relType != '') then
-                concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$relType,"' or @name = '",$relType,"']]")
+                concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$relType,"']]")
         else concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
     let $relationships := util:eval(concat("collection($global:data-root)/tei:TEI",$relationshipPath))
     return $relationships    
 };
 
 (:~      
- : Get relations to display in body of HTML page
+ : TCADRT Get relations to display in body of HTML page
  : Used by tcadrt for displaying related buildings
  : @param $data TEI record
  : @param $relType name/ref of relation to be displayed in HTML page
@@ -277,14 +277,16 @@ declare %templates:wrap function app:display-external-relationships($node as nod
     let $related := app:external-relationships($node,$model,$relType)
     return 
         if($related) then 
-            <div>
-                <h4>This site contains {count($related)} building(s)</h4>
-                { 
-                    for $r in $related
-                    let $uri := replace($r/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
-                    return 
-                    <div class="indent">{tei2html:summary-view($r, (), $uri)}</div> 
-                }
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">This site contains {count($related)} building(s) </h3></div>
+                <div class="panel-body">
+                    { 
+                        for $r in $related
+                        let $uri := replace($r/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
+                        return 
+                        <div class="indent">{tei2html:summary-view($r, (), $uri)}</div> 
+                    }
+                </div>
             </div>
         else ()
 };
@@ -293,10 +295,10 @@ declare %templates:wrap function app:display-external-relationships($node as nod
  : For tcadrt display related images. 
 :)                   
 declare function app:display-related-images($node as node(), $model as map(*)){
-    if($model("data")//tei:relation[@name='foaf:depicts']) then 
+    if($model("data")//tei:relation[@ref='foaf:depicts']) then 
         <div class="record-images">
         {
-            for $image in $model("data")//tei:relation[@name='foaf:depicts']
+            for $image in $model("data")//tei:relation[@ref='foaf:depicts']
             return 
                 <span class="thumb-images">
                      <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
