@@ -17,7 +17,7 @@ declare namespace gn = "http://www.geonames.org/ontology#";
 declare namespace lawd = "http://lawd.info/ontology";
 declare namespace skos = "http://www.w3.org/2004/02/skos/core#";
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-declare namespace dc="http://purl.org/dc/elements/1.1/";
+declare namespace dc="http://purl.org/dc/terms/";
 declare namespace dcterms="http://purl.org/dc/terms/";
 declare namespace collex="http://www.collex.org/schema#";
 declare namespace ra="http://www.rossettiarchive.org/schema#";
@@ -40,8 +40,13 @@ declare function tei2rdf:rec-type($rec){
 };
 
 declare function tei2rdf:rec-label($rec){
-    for $headword in $rec/descendant::*[@syriaca-tags='#syriaca-headword'][node()]
-    return <skos:prefLabel xml:lang="{string($headword/@xml:lang)}" xmlns:skos="http://www.w3.org/2004/02/skos/core#">{string-join($headword/descendant::text(),' ')}</skos:prefLabel>
+    if($rec/descendant::*[@syriaca-tags='#syriaca-headword']) then 
+        for $headword in $rec/descendant::*[@syriaca-tags='#syriaca-headword'][node()]
+        return <skos:prefLabel xml:lang="{string($headword/@xml:lang)}" xmlns:skos="http://www.w3.org/2004/02/skos/core#">{string-join($headword/text(),' ')}</skos:prefLabel>
+    else if($rec/descendant::tei:body/tei:listPlace/tei:place) then 
+        for $headword in $rec/descendant::tei:body/tei:listPlace/tei:place/tei:placeName[node()]
+        return <skos:prefLabel xml:lang="{string($headword/@xml:lang)}" xmlns:skos="http://www.w3.org/2004/02/skos/core#">{string-join($headword/text(),' ')}</skos:prefLabel>
+    else <skos:prefLabel xml:lang="{string($rec/descendant::tei:title[1]/@xml:lang)}" xmlns:skos="http://www.w3.org/2004/02/skos/core#">{string-join($rec/descendant::tei:title[1]/text(),' ')}</skos:prefLabel>
 };
 
 (:~ 
@@ -53,7 +58,7 @@ for $desc in $rec/descendant::tei:desc
 let $source := $desc/tei:quote/@source
 return
     if($desc[@type='abstract'][not(@source)][not(tei:quote/@source)] or $desc[contains(@xml:id,'abstract')][not(@source)][not(tei:quote/@source)][. != '']) then 
-        <dcterms:description xmlns:dcterms="http://purl.org/dc/terms/">{string-join($desc/text(),' ')}</dcterms:description>
+        <dc:description xmlns:dc="http://purl.org/dc/terms/">{string-join($desc/text(),' ')}</dc:description>
     else ()
     (: this is unclear save for later
         if($desc/child::* != '' or $desc != '') then 
@@ -166,7 +171,7 @@ return
             for $mutual in tokenize($rel,' ') 
             return 
                 if(starts-with($mutual,'#')) then ()
-                else <dcterms:relation xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="{$mutual}"/>
+                else <dc:relation xmlns:dc="http://purl.org/dc/terms/" rdf:resource="{$mutual}"/>
         else if(contains($relation/@name,'-')) then 
             let $related := distinct-values((tokenize($relation/@active,' '), tokenize($relation/@passive,' '), tokenize($relation/@mutual,' ')))
             return 
@@ -186,12 +191,12 @@ let $links := distinct-values($rec/descendant::tei:body//@ref[starts-with(.,'htt
 return 
 if($links != '') then
     for $i in $links
-    return <dcterms:relation xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="{$i}"/>
+    return <dc:relation xmlns:dc="http://purl.org/dc/terms/" rdf:resource="{$i}"/>
 else ()
 };
 
 declare function tei2rdf:rec-title($rec){
-    <dcterms:title xmlns:dcterms="http://purl.org/dc/terms/">{string-join($rec//tei:titleStmt/tei:title/node(),' ')}</dcterms:title>
+    <dc:title xmlns:dc="http://purl.org/dc/terms/">{string-join($rec//tei:titleStmt/tei:title/node(),' ')}</dc:title>
 };
 
 declare function tei2rdf:make-triple-set($rec){
@@ -210,24 +215,24 @@ return
 <rdfs:Resource rdf:about="{concat($id,'/html')}" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     {(
     tei2rdf:rec-title($rec),
-    <dcterms:subject xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="{$id}"/>,
-    <dcterms:format xmlns:dcterms="http://purl.org/dc/terms/">text/html</dcterms:format>,
+    <dc:subject xmlns:dc="http://purl.org/dc/terms/" rdf:resource="{$id}"/>,
+    <dc:format xmlns:dc="http://purl.org/dc/terms/">text/html</dc:format>,
     tei2rdf:bibl-citation($rec)
     )}
 </rdfs:Resource>,
 <rdfs:Resource rdf:about="{concat($id,'/tei')}" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     {(
     tei2rdf:rec-title($rec),
-    <dcterms:subject xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="{$id}"/>,
-    <dcterms:format xmlns:dcterms="http://purl.org/dc/terms/">text/xml</dcterms:format>,
+    <dc:subject xmlns:dc="http://purl.org/dc/terms/" rdf:resource="{$id}"/>,
+    <dc:format xmlns:dc="http://purl.org/dc/terms/">text/xml</dc:format>,
     tei2rdf:bibl-citation($rec)
     )}
 </rdfs:Resource>,
 <rdfs:Resource rdf:about="{concat($id,'/ttl')}" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     {(
     tei2rdf:rec-title($rec),
-    <dcterms:subject xmlns:dcterms="http://purl.org/dc/terms/" rdf:resource="{$id}"/>,
-    <dcterms:format xmlns:dcterms="http://purl.org/dc/terms/">text/turtle</dcterms:format>,
+    <dc:subject xmlns:dc="http://purl.org/dc/terms/" rdf:resource="{$id}"/>,
+    <dc:format xmlns:dc="http://purl.org/dc/terms/">text/turtle</dc:format>,
     tei2rdf:bibl-citation($rec)
     )}
 </rdfs:Resource>
@@ -235,19 +240,17 @@ return
 };
 
 declare function tei2rdf:rdf-output($recs){
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-         xmlns:dc="http://purl.org/dc/terms/"
-         xmlns:dcterms="http://purl.org/dc/terms/"
-         xmlns:lawd="http://lawd.info/ontology/"
-         xmlns:foaf="http://xmlns.com/foaf/0.1/"
-         xmlns:syriaca="http://syriaca.org/schema#"
-         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
-         {
+element rdf:RDF {namespace {""} {"http://www.w3.org/1999/02/22-rdf-syntax-ns#"}, 
+    namespace skos {"http://www.w3.org/2004/02/skos/core#"},
+    namespace dc {"http://purl.org/dc/terms/"},
+    namespace dcterms {"http://purl.org/dc/terms/"},
+    namespace lawd {"http://lawd.info/ontology/"},
+    namespace syriaca {"http://syriaca.org/schema#"},
+    namespace rdfs {"http://www.w3.org/2000/01/rdf-schema#"},
             for $r in $recs
             return tei2rdf:make-triple-set($r) 
-         }
-</rdf:RDF>
+    
+    }
 };
 
 declare function tei2rdf:save-rec($doc){

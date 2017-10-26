@@ -55,8 +55,6 @@ function api:get-page($page) {
 declare
     %rest:GET
     %rest:path("/tcadrt/{$folder}/{$page}")
-    %output:media-type("text/html")
-    %output:method("html5")
 function api:get-page($folder as xs:string?, $page as xs:string?) {
     let $content := concat('../',$folder,'/',$page)
     let $work-uris := 
@@ -77,23 +75,38 @@ function api:get-page($folder as xs:string?, $page as xs:string?) {
                         <http:response status="200"> 
                           <http:header name="Content-Type" value="application/xml; charset=utf-8"/> 
                         </http:response> 
+                        <output:serialization-parameters>
+                            <output:method value='xml'/>
+                            <output:media-type value='text/xml'/>
+                        </output:serialization-parameters>
                       </rest:response>,
                       api:get-tei($id))
                 else if($flag = 'atom') then <message>atom</message>
                 else if($flag = 'rdf') then 
                      (<rest:response> 
                         <http:response status="200"> 
-                            <http:header name="Content-Type" value="application/rdf+xml; charset=utf-8"/>  
+                            <http:header name="Content-Type" value="application/xml; charset=utf-8"/>  
+                            <http:header name="media-type" value="application/xml"/>
                         </http:response> 
+                        <output:serialization-parameters>
+                            <output:method value='xml'/>
+                            <output:media-type value='application/xml'/>
+                        </output:serialization-parameters>
                       </rest:response>, 
                       tei2rdf:rdf-output(api:get-tei($id)))
                 else if($flag = 'turtle') then 
                      (<rest:response> 
-                            <http:response status="200"> 
-                              <http:header name="Content-Type" value="text/turtle; charset=utf-8"/> 
-                            </http:response> 
-                          </rest:response>, 
-                          tei2ttl:ttl-output(api:get-tei($id)))
+                        <http:response status="200"> 
+                              <http:header name="Content-Type" value="text/plain; charset=utf-8"/>
+                              <http:header name="method" value="text"/>
+                              <http:header name="media-type" value="text/plain"/>
+                        </http:response>
+                        <output:serialization-parameters>
+                            <output:method value='text'/>
+                            <output:media-type value='text/plain'/>
+                        </output:serialization-parameters>
+                        </rest:response>, 
+                        tei2ttl:ttl-output(api:get-tei($id)))
                 else if($flag = 'geojson') then 
                      (<rest:response> 
                         <http:response status="200"> 
@@ -107,15 +120,37 @@ function api:get-page($folder as xs:string?, $page as xs:string?) {
                         <http:response status="200"> 
                             <http:header name="Content-Type" value="application/xml; charset=utf-8"/>  
                         </http:response> 
+                        <output:serialization-parameters>
+                            <output:method value='xml'/>
+                            <output:media-type value='application/xml'/>
+                        </output:serialization-parameters>                        
                       </rest:response>, 
                       geokml:kml(api:get-tei($id)))
-                else if($flag = 'json') then <message>atom</message>
+                else if($flag = 'json') then <message>json</message>
                 else 
                     let $collection := $global:get-config//repo:collection[contains(@record-URI-pattern,concat('/',$folder))]/@app-root
                     let $html-path := concat('../',$global:get-config//repo:collection[contains(@record-URI-pattern, $folder)][1]/@app-root,'/record.html') 
-                    return api:render-html($html-path,$id)
+                    return 
+                    (<rest:response> 
+                        <http:response status="200"> 
+                            <http:header name="Content-Type" value="text/html; charset=utf-8"/>  
+                        </http:response> 
+                        <output:serialization-parameters>
+                            <output:method value='html5'/>
+                            <output:media-type value='text/html'/>
+                        </output:serialization-parameters>                        
+                      </rest:response>,
+                        api:render-html($html-path,$id))
                     (:    <message>{$content} collection path: {string($collection)} html path {$html-path} id {$id}</message>:)                                     
-        else api:render-html($content,'')
+        else (<rest:response> 
+                        <http:response status="200"> 
+                            <http:header name="Content-Type" value="text/html; charset=utf-8"/>  
+                        </http:response> 
+                        <output:serialization-parameters>
+                            <output:method value='html5'/>
+                            <output:media-type value='text/html'/>
+                        </output:serialization-parameters>                        
+                      </rest:response>,api:render-html($content,''))
 };
 
 (:----------------------------------------------------------------------------------------------:)
