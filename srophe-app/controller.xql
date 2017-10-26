@@ -52,7 +52,11 @@ else if (contains($exist:path, "/$shared/")) then
             <set-header name="Cache-Control" value="max-age=3600, must-revalidate"/>
         </forward>
     </dispatch>
-
+(: Resource paths starting with $shared are loaded from the shared-resources app :)
+else if ($exist:resource, "webhooks") then
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="/modules/git-sync.xql" absolute="yes"/>
+    </dispatch>
 (: Checks for any record uri patterns as defined in repo.xml :)    
 else if(replace($exist:path, $exist:resource,'') =  ($exist:record-uris) or ends-with($exist:path, ("/atom","/tei","/rdf","/ttl",'.tei','.atom','.rdf','.ttl'))) then
     (: Sends to restxql to handle /atom, /tei,/rdf:)
