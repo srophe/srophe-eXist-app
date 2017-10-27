@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" data-template="app:get-rec">
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title data-template="app:app-title">Syriaca.org: The Syriac Reference Portal</title>
+        <title data-template="app:app-title">Biblia Arabica</title>
         <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"/>
         <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/"/>
         <meta name="DC.type" property="dc.type" content="Text"/>
@@ -29,7 +28,7 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"/>
         <script type="text/javascript" src="$app-root/resources/js/jquery.smartmenus.min.js"/>
         <script type="text/javascript" src="$app-root/resources/js/clipboard.min.js"/>
-        <script src="https://www.google.com/recaptcha/api.js" type="text/javascript" async="async" defer="defer"></script>
+        <script src="https://www.google.com/recaptcha/api.js" type="text/javascript" async="async" defer="defer"/>
         <!-- keyboard widget css & script -->
         <link href="$app-root/resources/keyboard/css/keyboard.min.css" rel="stylesheet"/>
         <link href="$app-root/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet"/>
@@ -60,9 +59,7 @@
                          keyboard.destroy();
                      }
                 });
-                
-                
-                
+                 
                 $('.keyboard-select').click(function () {
                     var keyboardID = '#' + $(this).data("keyboard-id")
                     var kb = $(keyboardID).getkeyboard();
@@ -73,6 +70,17 @@
                     if (kb.last.layout !== kb.options.layout || (new Date().getTime() - kb.last.eventTime) > 200) {
                         kb.reveal();
                     }
+
+                    /*
+                    if (this.checked) {
+            			$kb.keyboard();
+            		} else {
+            			kb = $kb.getkeyboard();
+            			if (kb) {
+            				kb.destroy();
+            			}
+            		}
+                    */
                 });
                 //Change fonts
                 $('.swap-font').on('click', function(){
@@ -99,62 +107,22 @@
                         <span class="icon-bar"/>
                         <span class="icon-bar"/>
                     </button>
-                    <a class="navbar-brand banner-container" href="$app-root/index.html">
+                    <a class="navbar-brand banner-container" href="$app-root/index.html"> 
                         <!--<img property="logo" class="img-responsive" alt="Syriac.org" src="$app-root/resources/img/syriaca-logo.png"/> Draft-->
-                        <span class="syriaca-icon syriaca-syriaca banner-icon">
-                            <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
-                        </span>
-                        <span class="banner-text">Syriaca.org</span>
+                       Biblia Arabica
                     </a>
                 </div>
                 <div class="navbar-collapse collapse pull-right">
                     <ul class="nav navbar-nav sm sm-vertical" id="main-menu">
                         <li>
-                            <a href="$app-root/index.html" style="margin-top:.5em;">
-                                <span class="icon-text">Publications</span>
+                            <a href="$app-root/browse.html" style="margin-top:.5em;">
+                                <span class="icon-text">Browse</span>
                             </a>
                         </li>
-                        <!-- Shared drop-down menu of all submodules -->
-                        <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"/>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> About<b class="caret"/>
+                        <li>
+                            <a href="$app-root/about.html" style="margin-top:.5em;">
+                                <span class="icon-text">About</span>
                             </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li>
-                                    <a href="$app-root/about-syriac.html">What is Syriac?</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="$app-root/about-srophe.html">Project Overview</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="$app-root/project-team.html">Project Team</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="$app-root/project-partners.html">Project Partners</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="$app-root/media-releases.html">Media Releases</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="http://vu.edu/syriac">Support Our Work</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="$app-root/contact-us.html">Contact Us</a>
-                                </li>
-                                <li role="presentation" class="divider"/>
-                                <li>
-                                    <a href="$app-root/documentation/index.html">
-                                        <span class="syriaca-icon syriaca-book icon-nav" style="color:red;"/>
-                                        <span class="icon-text">Documentation</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                     <form class="navbar-form navbar-left navbar-input-group" role="search" action="$app-root/search.html" method="get">
@@ -176,7 +144,7 @@
                         <li>
                             <div class="btn-nav">
                                 <a class="btn btn-default navbar-btn dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span>
+                                     <span class="syriaca-icon syriaca-keyboard">  </span>
                                     <span class="caret"/>
                                 </a>
                                 <ul data-template="app:keyboard-select-menu" data-template-input-id="q"/>
@@ -185,7 +153,7 @@
                         <li>
                             <div class="btn-nav">
                                 <a href="#" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Search Tools">
-                                    &#160;<span class="glyphicon glyphicon-cog"/>&#160;<span class="caret"/>
+                                     <span class="glyphicon glyphicon-cog"/> <span class="caret"/>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -197,7 +165,7 @@
                         <li>
                             <div class="btn-nav">
                                 <a href="#" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Font">
-                                    Font&#160;<span class="caret"/>
+                                    Font <span class="caret"/>
                                 </a>
                                 <ul class="dropdown-menu" id="swap-font">
                                     <li>

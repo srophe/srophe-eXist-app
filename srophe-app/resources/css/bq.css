@@ -1,0 +1,31 @@
+/* Application styles could go here */
+/*
+ * Colors:
+ * Dark red: a62923
+ * Dark brown: 322212
+ * Green: 6b6c44
+ * Blue/grey: A2B1B9
+ * Light Blue: DDEAF1
+ * Dark Grey #333
+ * Light Grey (text): #999
+ */
+
+/* Main content blocks */
+body {background-color:#666;}
+#main {background-color:#cccccc;}
+.navbar {border-bottom:4px solid #a62923 !important;}
+.navbar {border-bottom:4px solid #a62923 !important;}
+/* Banner styles */
+.banner-interior {
+	background-image:url('../img/bq-banner.png');
+	background-position:top center;
+    height:200px;
+    border-bottom:4px solid #a62923;
+}
+
+.banner-solid{ background-color:#456889; border-top:4px solid #456889; padding-top:.5em;}
+
+/* Typography */
+#map {height: 180px;}
+
+#placenames .placeName {font-weight: bold;}

@@ -105,7 +105,7 @@
         </xsl:variable>
         <xsl:variable name="ana">
             <xsl:for-each select="distinct-values(descendant::t:seriesStmt/t:biblScope/t:title)">
-                <xsl:text>  </xsl:text>
+                <xsl:text>&#160; </xsl:text>
                 <xsl:choose>
                     <xsl:when test=". = 'The Syriac Biographical Dictionary'"/>
                     <xsl:when test=". = 'A Guide to Syriac Authors'">
@@ -443,7 +443,7 @@
                             <xsl:sequence select="$syr-title"/>
                         </xsl:if>
                     </a>
-                     
+                    &#160;
                     <xsl:variable name="ref-id" select="generate-id(.)"/>
                     <button type="button" class="btn btn-sm btn-default copy-sm" id="{$ref-id}" data-toggle="tooltip" title="Copies record title &amp; URI to clipboard." data-clipboard-action="copy" data-clipboard-text="{normalize-space($resource-title)} - {normalize-space($resource-id)}">
                         <span class="glyphicon glyphicon-copy" aria-hidden="true"/>

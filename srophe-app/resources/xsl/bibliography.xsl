@@ -76,8 +76,8 @@
             </xsl:choose>
         </xsl:variable>
         <!-- When ptr is available, use full bibl record (indicated by ptr) -->
-        <li id="{@xml:id}">
-            <span class="anchor"/>
+        <li>
+            <span class="anchor" id="{@xml:id}"/>
             <!-- Display footnote number -->
             <span class="footnote-tgt">
                 <xsl:value-of select="$thisnum"/>
@@ -343,13 +343,13 @@
             <xsl:when test="t:title[starts-with(@xml:lang,'en')]">
                 <xsl:text> "</xsl:text>
                 <xsl:apply-templates select="t:title[starts-with(@xml:lang,'en')][1]" mode="footnote"/>
-                <xsl:if test="not(ends-with(t:title[starts-with(@xml:lang,'en')][1],'.|:|,'))">,</xsl:if>
+                <xsl:if test="not(ends-with(t:title[starts-with(@xml:lang,'en')][1],'.|:|,'))">.</xsl:if>
                 <xsl:text>"</xsl:text>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:text> "</xsl:text>
                 <xsl:apply-templates select="t:title[1]" mode="footnote"/>
-                <xsl:if test="not(ends-with(t:title[starts-with(@xml:lang,'en')][1],'.|:|,'))">,</xsl:if>
+                <xsl:if test="not(ends-with(t:title[starts-with(@xml:lang,'en')][1],'.|:|,'))">.</xsl:if>
                 <xsl:text>"</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
@@ -1033,10 +1033,12 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template match="t:idno" mode="footnote">
+        <!-- IDNO should use mode="links" not mode footnote. 
         <xsl:text> </xsl:text>
         <span class="footnote idno">
             <xsl:apply-templates/>
         </span>
+        -->
     </xsl:template>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
@@ -1077,14 +1079,14 @@
                                 </xsl:attribute>
                                 <xsl:call-template name="langattr"/>
                             </xsl:for-each>
-                            <xsl:apply-templates select="." mode="plain"/>
+                            <xsl:apply-templates select="." mode="footnote"/>
                         </bdi>
                     </xsl:if>
                 </xsl:for-each>
             </span>
         </xsl:if>
     </xsl:template>
-
+    
     <!-- Templates for adding links and icons to uris -->
     <xsl:template match="t:idno | t:ref | t:ptr" mode="links">
         <xsl:variable name="ref">
@@ -1175,7 +1177,7 @@
             <xsl:choose>
                 <xsl:when test="@type='URI'">
                     <a href="{text()}">
-                        <xsl:value-of select="text()"/>&#160; <xsl:call-template name="ref-icons">
+                        <xsl:value-of select="text()"/>  <xsl:call-template name="ref-icons">
                             <xsl:with-param name="ref" select="text()"/>
                         </xsl:call-template>
                     </a>
@@ -1197,7 +1199,8 @@
                     <xsl:otherwise>
                         <xsl:value-of select="@target"/>
                     </xsl:otherwise>
-                </xsl:choose> &#160;<xsl:call-template name="ref-icons">
+                </xsl:choose>
+                &#160;<xsl:call-template name="ref-icons">
                     <xsl:with-param name="ref" select="text()"/>
                 </xsl:call-template>
             </a>

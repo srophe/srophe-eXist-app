@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://syriaca.org/srophe" abbrev="srophe" version="2.7" spec="1.0">
-    <title>Syriaca.org</title>
+<package xmlns="http://expath.org/ns/pkg" name="http://biblia-arabica.com/ba" abbrev="ba" version="0.15" spec="1.0">
+    <title>Biblia Arabica bibliography</title>
     <!-- TEI data -->
-    <dependency package="http://syriaca.org/srophe-data"/>
+    <dependency package="http://biblia-arabica.com/ba-data"/>
     <!-- eXist shared resources -->
     <dependency package="http://exist-db.org/apps/shared"/>
     <!-- JSON Parser and Serializer for XQuery -->
