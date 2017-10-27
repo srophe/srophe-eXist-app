@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:rng="http://relaxng.org/ns/structure/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
@@ -29,7 +28,7 @@
                         <attDef ident="syriaca-computed-start" mode="add">
                             <desc>start date</desc>
                             <datatype maxOccurs="unbounded" minOccurs="1">
-                                <rng:text xmlns:rng="http://relaxng.org/ns/structure/1.0"/>
+                                <rng:text/>
                             </datatype>
                         </attDef>
                         <attDef ident="xml:lang" mode="change">
@@ -213,13 +212,13 @@
                         <attDef ident="syriaca-computed-end" mode="add">
                             <desc>End date</desc>
                             <datatype maxOccurs="unbounded" minOccurs="1">
-                                <rng:text xmlns:rng="http://relaxng.org/ns/structure/1.0"/>
+                                <rng:text/>
                             </datatype>
                         </attDef>
                         <attDef ident="syriaca-tags" mode="add">
                             <desc>tags usable</desc>
                             <datatype maxOccurs="unbounded" minOccurs="1">
-                                <rng:text xmlns:rng="http://relaxng.org/ns/structure/1.0"/>
+                                <rng:text/>
                             </datatype>
                             <valList mode="change" type="semi">
                                 <valItem ident="#syriaca-headword">
@@ -241,33 +240,18 @@
                         </attDef>
                     </attList>
                 </classSpec>
-                <moduleRef
-                    except="binaryObject cit distinct email emph gb headItem headLabel index measureGrp media meeting mentioned num postBox postCode rs said soCalled sp speaker stage street teiCorpus term time"
-                    key="core"/>
+                <moduleRef except="binaryObject cit distinct email emph gb headItem headLabel index measureGrp media meeting mentioned num postBox postCode rs said soCalled sp speaker stage street teiCorpus term time" key="core"/>
                 <moduleRef key="tei"/>
-                <moduleRef
-                    except="abstract appInfo application att.patternReplacement biblFull cRefPattern calendar calendarDesc correction creation distributor hyphenation listChange listPrefixDef namespace normalization notesStmt prefixDef quotation refState refsDecl samplingDecl scriptNote segmentation stdVals styleDefDecl tagUsage tagsDecl typeNote rendition"
-                    key="header"/>
+                <moduleRef except="abstract appInfo application att.patternReplacement biblFull cRefPattern calendar calendarDesc correction creation distributor hyphenation listChange listPrefixDef namespace normalization notesStmt prefixDef quotation refState refsDecl samplingDecl scriptNote segmentation stdVals styleDefDecl tagUsage tagsDecl typeNote rendition" key="header"/>
                 <moduleRef except="cell row table notatedMusic" key="figures"/>
                 <moduleRef key="gaiji"/>
                 <moduleRef except="alt altGrp join joinGrp linkGrp timeline when" key="linking"/>
-                <moduleRef except="dim heraldry msItemStruct objectType scriptDesc secFol typeDesc"
-                    key="msdescription"/>
-                <moduleRef
-                    except="bloc listNym geogFeat geogName nym population relationGrp terrain"
-                    key="namesdates"/>
-                <moduleRef
-                    except="app lacunaEnd lacunaStart lem listApp listWit rdg rdgGrp variantEncoding"
-                    key="textcrit"/>
-                <moduleRef
-                    except="line listTranspose metamark mod redo retrace sourceDoc space substJoin surface surfaceGrp surplus transpose undo zone"
-                    key="transcr"/>
-                <moduleRef
-                    except="argument byline dateline div1 div2 div3 div4 div5 div6 div7 docDate group imprimatur trailer floatingText"
-                    key="textstructure"/>
-                <moduleRef
-                    except="altIdent alternate att attDef attList attRef classRef classSpec classes code constraint constraintSpec content datatype defaultVal eg egXML elementRef elementSpec equiv exemplum ident listRef macroRef macroSpec memberOf moduleRef moduleSpec remarks sequence specDesc specGrp specGrpRef specList tag val valDesc valItem valList att.combinable att.deprecated att.identified att.namespaceable att.repeatable"
-                    key="tagdocs"/>
+                <moduleRef except="dim heraldry msItemStruct objectType scriptDesc secFol typeDesc" key="msdescription"/>
+                <moduleRef except="bloc listNym geogFeat geogName nym population relationGrp terrain" key="namesdates"/>
+                <moduleRef except="app lacunaEnd lacunaStart lem listApp listWit rdg rdgGrp variantEncoding" key="textcrit"/>
+                <moduleRef except="line listTranspose metamark mod redo retrace sourceDoc space substJoin surface surfaceGrp surplus transpose undo zone" key="transcr"/>
+                <moduleRef except="argument byline dateline div1 div2 div3 div4 div5 div6 div7 docDate group imprimatur trailer floatingText" key="textstructure"/>
+                <moduleRef except="altIdent alternate att attDef attList attRef classRef classSpec classes code constraint constraintSpec content datatype defaultVal eg egXML elementRef elementSpec equiv exemplum ident listRef macroRef macroSpec memberOf moduleRef moduleSpec remarks sequence specDesc specGrp specGrpRef specList tag val valDesc valItem valList att.combinable att.deprecated att.identified att.namespaceable att.repeatable" key="tagdocs"/>
                 <moduleRef except="certainty respons" key="certainty"/>
                 <moduleRef key="analysis"/>
                 <moduleRef key="dictionaries" include="lang entryFree"/>
@@ -337,16 +321,14 @@
                             <sequence>
                                 <!-- requiring attribute doesn't seem to be working -->
                                 <classRef key="att.typed" minOccurs="1" context="body/bibl/bibl"/>
-                                <elementRef key="lang" minOccurs="0" maxOccurs="unbounded"
-                                    context="body/bibl/bibl[@type='lawd:Translation']"/>
+                                <elementRef key="lang" minOccurs="0" maxOccurs="unbounded" context="body/bibl/bibl[@type='lawd:Translation']"/>
                                 <elementRef key="idno" minOccurs="0" maxOccurs="unbounded" context="body/bibl/bibl[@type='syriaca:Manuscript']"/>
                                 <alternate minOccurs="0" maxOccurs="unbounded">
                                     <elementRef key="author" context="body/bibl/bibl"/>
                                     <elementRef key="editor" context="body/bibl/bibl"/>
                                 </alternate>
                                 <elementRef key="title" minOccurs="0" maxOccurs="unbounded" context="body/bibl/bibl"/>
-                                <elementRef key="ptr" 
-                                        context="body/bibl/bibl[@type=('lawd:Edition','lawd:Translation','lawd:Citation')]"/>
+                                <elementRef key="ptr" context="body/bibl/bibl[@type=('lawd:Edition','lawd:Translation','lawd:Citation')]"/>
                                 <elementRef key="textLang" minOccurs="0" context="body/bibl/bibl"/>
                                 <elementRef key="date" minOccurs="0" maxOccurs="unbounded" context="body/bibl/bibl"/>
                                 <elementRef key="extent" minOccurs="0" context="body/bibl/bibl"/>
@@ -357,8 +339,7 @@
                             </sequence>
                             <!-- Model for references to works in an unstructured format. 
                             This could be locked down more so that it interferes less with the above two models. -->
-                            <alternate minOccurs="0"
-                                maxOccurs="unbounded">
+                            <alternate minOccurs="0" maxOccurs="unbounded">
                                 <textNode/>
                                 <classRef key="model.gLike" context="not(body/bibl[@type='lawd:ConceptualWork']) and not(body/bibl/bibl[@type=('lawd:Edition','lawd:Translation','lawd:Citation','syriaca:Manuscript')])"/>
                                 <classRef key="model.highlighted" context="not(body/bibl[@type='lawd:ConceptualWork']) and not(body/bibl/bibl[@type=('lawd:Edition','lawd:Translation','lawd:Citation','syriaca:Manuscript')])"/>
@@ -483,15 +464,9 @@
                     <exemplum versionDate="2017-03-23">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <title xml:id="name1-1" xml:lang="en" syriaca-tags="#syriaca-headword">Genesis (Peshitta Version)</title>
-                            <title xml:id="name1-2"
-                                xml:lang="syr"
-                                syriaca-tags="#syriaca-headword"
-                                source="#bib1-1">ܣܦܪܐ ܕܒܪܝܫܝܬ</title>
+                            <title xml:id="name1-2" xml:lang="syr" syriaca-tags="#syriaca-headword" source="#bib1-1">ܣܦܪܐ ܕܒܪܝܫܝܬ</title>
                             <title xml:id="name1-3" xml:lang="syr" source="#bib1-1">ܣܦܪܐ ܕܒܪܝܬܐ</title>
-                            <title xml:id="name1-4"
-                                xml:lang="en"
-                                type="abbreviation" syriaca-tags="#canonical"
-                                source="#bib1-9">Gen</title>
+                            <title xml:id="name1-4" xml:lang="en" type="abbreviation" syriaca-tags="#canonical" source="#bib1-9">Gen</title>
                             <title xml:id="name1-5" xml:lang="en" source="#bib1-9">Genesis</title>
                             <title xml:id="name1-6" xml:lang="syr" source="#bib1-1">ܐܣ̣ܬܝܟ ܣܦ̣ܪܐ ܗܢܐ ܩܕܡܝܐ ܕܐܘܪܝܬܐ ܒܦ̈ܬܓܡܐ ܐܪ̈ܒܥܐ ܐܠܦ̈ܝܢ ܘܚܡܫ ܡ̈ܠܐ ܘܬܫܥܐ ܕܒܨ̈ܚܚܐ ܠ̅ܕ̅.</title>
                         </egXML>
@@ -709,16 +684,36 @@
                         <attDef ident="quantity" mode="change" usage="req"/>
                         <attDef ident="unit" mode="change" usage="req">
                             <valList mode="change" type="semi">
-                                <valItem ident="pp"><desc>page</desc></valItem>
-                                <valItem ident="ff"><desc>folio</desc></valItem>
-                                <valItem ident="part"><desc>part</desc></valItem>
-                                <valItem ident="chapter"><desc>chapter</desc></valItem>
-                                <valItem ident="stanza"><desc>stanza</desc></valItem>
-                                <valItem ident="verse"><desc>verse</desc></valItem>
-                                <valItem ident="paragraph"><desc>paragraph</desc></valItem>
-                                <valItem ident="section"><desc>section</desc></valItem>
-                                <valItem ident="word"><desc>word</desc></valItem>
-                                <valItem ident="character"><desc>character</desc></valItem>
+                                <valItem ident="pp">
+                                    <desc>page</desc>
+                                </valItem>
+                                <valItem ident="ff">
+                                    <desc>folio</desc>
+                                </valItem>
+                                <valItem ident="part">
+                                    <desc>part</desc>
+                                </valItem>
+                                <valItem ident="chapter">
+                                    <desc>chapter</desc>
+                                </valItem>
+                                <valItem ident="stanza">
+                                    <desc>stanza</desc>
+                                </valItem>
+                                <valItem ident="verse">
+                                    <desc>verse</desc>
+                                </valItem>
+                                <valItem ident="paragraph">
+                                    <desc>paragraph</desc>
+                                </valItem>
+                                <valItem ident="section">
+                                    <desc>section</desc>
+                                </valItem>
+                                <valItem ident="word">
+                                    <desc>word</desc>
+                                </valItem>
+                                <valItem ident="character">
+                                    <desc>character</desc>
+                                </valItem>
                             </valList>
                             <remarks versionDate="2011-11-24">
                                 <p>When describing the extent of written or conceptual works, the unit is required, but may 
@@ -820,7 +815,8 @@
                                 particularly valuable for its representation of events during <persName ref="http://syriaca.org/person/239">Bar Hebraeus</persName>' 
                                 own lifetime.</note>
                             <note type="scope">Secular world history from Creation through the 13th century A.D. Part of a larger work which also contains 
-                                <bibl>an ecclesiastical history<ptr target="http:/syriaca.org/work/2502"/></bibl>.</note>
+                                <bibl>an ecclesiastical history<ptr target="http:/syriaca.org/work/2502"/>
+                                </bibl>.</note>
                             <note xml:lang="syr" type="incipit" source="#bib2501-2">
                                 <quote>ܐܠܗܐ ܥܕܪ ܠܡܚܝܠܘܬܝ. ܡܒܪܟ ܐܢܬ ܗܘ ܡܪܝܐ ܘܡܪܐ ܕܟܠ ܫܘܪܝܐ ܘܫܪܝܐ: ܐܢܬ ܗܘ ܩܕܡܝܐ ܘܐܢܬ ܗܘ ܐܚܪܝܐ. ܘܠܘܬܟ ܡܬܛܝܒܐ ܟܠ ܡܪܕܝܬܐ:</quote>
                             </note>
@@ -851,11 +847,21 @@
                             <desc>Describes the general category of relationship, which may be used in addition to <att>ref</att> to determine how the 
                                 relation should be displayed in the interface.</desc>
                             <valList mode="change" type="semi">
-                                <valItem ident="part"><desc>A relation between a work and the larger work of which it is a part. See <gi>label</gi>.</desc></valItem>
-                                <valItem ident="disambiguation"><desc>A relation that disambiguates an entity from others.</desc></valItem>
-                                <valItem ident="general"><desc>A relation that does not belong in a more specific category.</desc></valItem>
-                                <valItem ident="mssWitnesses"><desc>A relation pointing to the manuscript witnesses of an edition or translation.</desc></valItem>
-                                <valItem ident="translationSource"><desc>A relation pointing to the original (or other-) language source of a translation.</desc></valItem>
+                                <valItem ident="part">
+                                    <desc>A relation between a work and the larger work of which it is a part. See <gi>label</gi>.</desc>
+                                </valItem>
+                                <valItem ident="disambiguation">
+                                    <desc>A relation that disambiguates an entity from others.</desc>
+                                </valItem>
+                                <valItem ident="general">
+                                    <desc>A relation that does not belong in a more specific category.</desc>
+                                </valItem>
+                                <valItem ident="mssWitnesses">
+                                    <desc>A relation pointing to the manuscript witnesses of an edition or translation.</desc>
+                                </valItem>
+                                <valItem ident="translationSource">
+                                    <desc>A relation pointing to the original (or other-) language source of a translation.</desc>
+                                </valItem>
                             </valList>
                         </attDef>
                         <attDef ident="ref" mode="change" usage="req">
@@ -923,20 +929,26 @@
                             </valList>
                         </attDef>
                         <attDef ident="active" mode="change">
-                            <remarks versionDate="2016-11-24"><p>This should contain either the full URI of a Syriaca.org entity (person, place, work, etc.), 
+                            <remarks versionDate="2016-11-24">
+                                <p>This should contain either the full URI of a Syriaca.org entity (person, place, work, etc.), 
                             or a hash URI (fragment identifier introduced with #) for a node within the document. A full URI is preferred where one exists. 
-                            When the relation is serialized as RDF, the value of <att>active</att> identifies the subject resource.</p></remarks>
+                            When the relation is serialized as RDF, the value of <att>active</att> identifies the subject resource.</p>
+                            </remarks>
                         </attDef>
                         <attDef ident="passive" mode="change">
-                            <remarks versionDate="2016-11-24"><p>This should contain either the full URI of a Syriaca.org entity (person, place, work, etc.), 
+                            <remarks versionDate="2016-11-24">
+                                <p>This should contain either the full URI of a Syriaca.org entity (person, place, work, etc.), 
                                 or a hash URI (fragment identifier introduced with #) for a node within the document. A full URI is preferred where one exists. 
-                                When the relation is serialized as RDF, the value of <att>passive</att> identifies the object resource.</p></remarks>
+                                When the relation is serialized as RDF, the value of <att>passive</att> identifies the object resource.</p>
+                            </remarks>
                         </attDef>
                         <attDef ident="mutual" mode="change">
-                            <remarks versionDate="2016-11-24"><p>This should contain identifiers for two or more Syriaca.org entities or nodes, either as full URIs, 
+                            <remarks versionDate="2016-11-24">
+                                <p>This should contain identifiers for two or more Syriaca.org entities or nodes, either as full URIs, 
                                 or as hash URIs (fragment identifiers introduced with #) in the case of nodes within the document. When the relation is serialized as RDF, 
                                 a triple is created for each pairing of values in <att>mutual</att>, such that each entity referenced in <att>mutual</att> 
-                                is represented in different triples as a subject and as an object.</p></remarks>
+                                is represented in different triples as a subject and as an object.</p>
+                            </remarks>
                         </attDef>
                     </attList>
                     <exemplum versionDate="2016-11-24">
@@ -957,13 +969,16 @@
                     <exemplum versionDate="2016-11-24">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <relation xml:id="relation2501-1" type="part" active="http://syriaca.org/work/2501" ref="dct:isPartOf" passive="http://syriaca.org/work/2500">
-                                <desc><label type="order" subtype="part" n="1">part 1</label></desc>
+                                <desc>
+                                    <label type="order" subtype="part" n="1">part 1</label>
+                                </desc>
                             </relation>
                         </egXML>
                         <p>This relation shows that the work described in this record is part 1 of a larger work.</p>
                     </exemplum>
                     <remarks versionDate="2011-11-24">
-                        <p><gi>relation</gi> is used to link Syriaca.org entities to each other, when possible in a semantically robust, RDF-friendly way. 
+                        <p>
+                            <gi>relation</gi> is used to link Syriaca.org entities to each other, when possible in a semantically robust, RDF-friendly way. 
                         The values of <att>active</att>, <att>ref</att>, and <att>passive</att> should be construable as RDF triples. For this reason, 
                             <att>ref</att> is required, as is either <att>active</att> and <att>passive</att>, or <att>mutual</att>. The <gi>relation</gi> 
                         may also contain text inside a <gi>desc</gi> if such must be visualized on the record, but this text should be standardized 
@@ -982,8 +997,10 @@
                     <attList>
                         <attDef ident="type" mode="change">
                             <valList mode="change" type="semi">
-                                <valItem ident="order"><desc>Indicates that the label is used to designate the order of the parent item within a larger sequence, 
-                                for example, as part of a larger work. If this type is used, a <att>subtype</att> and <att>n</att> are also required.</desc></valItem>
+                                <valItem ident="order">
+                                    <desc>Indicates that the label is used to designate the order of the parent item within a larger sequence, 
+                                for example, as part of a larger work. If this type is used, a <att>subtype</att> and <att>n</att> are also required.</desc>
+                                </valItem>
                             </valList>
                         </attDef>
                         <attDef ident="subtype" mode="change">
@@ -1006,7 +1023,9 @@
                     <exemplum versionDate="2016-11-24">
                         <egXML xmlns="http://www.tei-c.org/ns/Examples">
                             <relation xml:id="relation2501-1" type="part" active="http://syriaca.org/work/2501" ref="dct:isPartOf" passive="http://syriaca.org/work/2500">
-                                <desc><label type="order" subtype="part" n="1">part 1</label></desc>
+                                <desc>
+                                    <label type="order" subtype="part" n="1">part 1</label>
+                                </desc>
                             </relation>
                         </egXML>
                         <p>This relation shows that the work described in this record is part 1 of a larger work.</p>

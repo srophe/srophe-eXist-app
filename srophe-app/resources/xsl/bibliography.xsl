@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
     <!-- ================================================================== 
@@ -1071,22 +1070,12 @@
                     </xsl:choose>
                 </xsl:attribute>
                 <xsl:for-each select="./node()">
-                    <xsl:if test="not(self::text()) or string-length(normalize-space(.))&gt;0 or count(following-sibling::node())=0">
-                        <bdi>
-                            <xsl:for-each select="ancestor-or-self::t:*[@xml:lang][1]">
-                                <xsl:attribute name="dir">
-                                    <xsl:call-template name="getdirection"/>
-                                </xsl:attribute>
-                                <xsl:call-template name="langattr"/>
-                            </xsl:for-each>
-                            <xsl:apply-templates select="." mode="footnote"/>
-                        </bdi>
-                    </xsl:if>
+                    <xsl:apply-templates select="."/>
                 </xsl:for-each>
             </span>
         </xsl:if>
     </xsl:template>
-    
+
     <!-- Templates for adding links and icons to uris -->
     <xsl:template match="t:idno | t:ref | t:ptr" mode="links">
         <xsl:variable name="ref">
@@ -1199,8 +1188,7 @@
                     <xsl:otherwise>
                         <xsl:value-of select="@target"/>
                     </xsl:otherwise>
-                </xsl:choose>
-                &#160;<xsl:call-template name="ref-icons">
+                </xsl:choose>  <xsl:call-template name="ref-icons">
                     <xsl:with-param name="ref" select="text()"/>
                 </xsl:call-template>
             </a>

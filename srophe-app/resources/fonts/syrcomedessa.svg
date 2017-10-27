@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <svg>
     <metadata>
 Created by FontForge 20110222 at Thu Mar  6 18:20:13 2014
@@ -14,7 +13,7 @@ Copyright (c) Syriac Computing Institute. For free distribution. Created by Paul
             <glyph glyph-name="glyph1"/>
             <glyph glyph-name="nonmarkingreturn" horiz-adv-x="1024"/>
             <glyph glyph-name="space" unicode=" " horiz-adv-x="1024"/>
-            <glyph glyph-name="space" unicode="&#160;" horiz-adv-x="1024"/>
+            <glyph glyph-name="space" unicode=" " horiz-adv-x="1024"/>
             <glyph glyph-name="exclam" unicode="!" horiz-adv-x="549" d="M315 496q-3 -60 -41 -60q-40 0 -43 60l-38 712q-1 16 5 30.5t17 25.5t26 17.5t33 6.5q36 0 59 -23.5t21 -58.5zM389 37q-8 -19 -22.5 -33.5t-33.5 -22.5t-40 -8h-39q-21 0 -40 8t-33.5 22t-22.5 32.5t-8 40.5t8 41t22.5 33t33.5 22t40 8h39q21 0 40 -8t33.5 -21.5 t22.5 -32.5t8 -40q0 -22 -8 -41z"/>
             <glyph glyph-name="quotedbl" unicode="&#34;" horiz-adv-x="995" d="M774 750q-9 -68 -61 -68q-55 0 -64 68l-69 487h266zM346 750q-5 -34 -21 -51t-42 -17q-55 0 -64 68l-69 487h266z"/>
             <glyph glyph-name="numbersign" unicode="#" horiz-adv-x="1069" d="M918 739h-185l-18 -264h162q55 0 55 -43q0 -41 -55 -41h-168l-33 -469q-3 -53 -41 -53q-46 0 -43 59l33 463h-191l-31 -469q-3 -53 -43 -53q-46 0 -43 43l33 479h-174q-55 0 -55 41q0 43 55 43h180l19 264h-156q-57 0 -57 41q0 43 57 43h162l33 467q3 56 43 56 q45 0 40 -52l-30 -471h188l33 467q3 56 41 56q46 0 41 -45l-31 -478h179q57 0 57 -43q0 -41 -57 -41zM461 739l-21 -264h191l18 264h-188z"/>

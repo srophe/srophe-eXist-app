@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="enrich-syriaca.rnc" type="compact"?>
-<?xml-stylesheet type="text/css" href="SRPEnrichCSS.css"?>
-<TEI xml:lang="en" xmlns="http://www.tei-c.org/ns/1.0">
-  <teiHeader xmlns="http://www.tei-c.org/ns/1.0">
+<?oxygen RNGSchema="enrich-syriaca.rnc" type="compact"?><?xml-stylesheet type="text/css" href="SRPEnrichCSS.css"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+  <teiHeader>
     <fileDesc>
       <titleStmt>
         <title xml:lang="en"><!-- Typically "BL" followed by the name of the manuscript, e.g. "BL Add MS 14444", without commas or periods --></title>
@@ -233,13 +231,17 @@
                 <list>
                   <item n="1" xml:id="addition1">
                     <locus from="" to=""/><!-- locus may be deleted if addition applies throughout entire document. Does NOT need to be human-readable -->
-                    <p></p><!-- Enter English prose here -->
-                    <p><quote xml:lang="syr"><!-- Enter the Syriac quote here if applicable --></quote></p>
+                    <p/><!-- Enter English prose here -->
+                    <p>
+                                        <quote xml:lang="syr"><!-- Enter the Syriac quote here if applicable --></quote>
+                                    </p>
                   </item><!-- See manual for how to link the person and/or the handnote to the addition, when possible do both or at least handnote if no person is mentioned-->
                   <item n="2" xml:id="addition2">
                     <locus from="" to=""/>
-                    <p></p>
-                    <p><quote xml:lang="syr"></quote></p>
+                    <p/>
+                    <p>
+                                        <quote xml:lang="syr"/>
+                                    </p>
                   </item>
                 </list>
               </additions><!-- IF <additions> IS NOT USED, delete nested elements and make it an empty element.-->
@@ -271,7 +273,9 @@
             <additional>
               <adminInfo>
                 <recordHist>
-                  <source>Manuscript description based on <bibl><ref target="#Wright">Wright's Catalogue</ref></bibl>. abbreviated by the Syriaca.org editors.</source>
+                  <source>Manuscript description based on <bibl>
+                                        <ref target="#Wright">Wright's Catalogue</ref>
+                                    </bibl>. abbreviated by the Syriaca.org editors.</source>
                 </recordHist>
                 <availability status="restricted"/>
                 <custodialHist><!-- If there is a history of conservation efforts on the <msPart> -->
@@ -311,7 +315,10 @@
       </editorialDecl>
         <classDecl>
             <taxonomy xml:id="Wright-BL-Taxonomy">
-              <bibl><ref target="#Wright"/><ptr target="http://syriaca.org/documentation/Wright-BL-Taxonomy.html"/></bibl>
+              <bibl>
+                        <ref target="#Wright"/>
+                        <ptr target="http://syriaca.org/documentation/Wright-BL-Taxonomy.html"/>
+                    </bibl>
             <category xml:id="biblical-manuscripts">
               <category xml:id="bible-ot"/>
               <category xml:id="bible-nt"/>
@@ -419,4 +426,3 @@
     </body>
   </text>
 </TEI>
-

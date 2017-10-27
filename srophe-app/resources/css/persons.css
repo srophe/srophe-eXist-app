@@ -13,7 +13,7 @@ body {background-color:#666;}
 .navbar {border-bottom:4px solid #BCA7C4 !important;}
 .advanced-search > a {color:#999; text-decoration:none;}
 .banner-interior {
-	background-image:url('../img/persons-banner.jpg');
+	/*background-image:url('../img/persons.jpg');*/
 	border-bottom:4px solid #BCA7C4;
     height:200px;	
 }
@@ -29,6 +29,7 @@ h3.label {
     background-color:#ccc;
 
 }
+
 
 .title {border-bottom:2px solid #666666;margin-bottom:1em;}
 .about {padding-top: .5em; border-bottom:2px solid #666666;margin-bottom:1em;}

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -63,13 +62,10 @@
             <head>Language and Script Codes Used in Syriaca.org Resources</head>
             <p>In order to effectively share digital data, Syriaca.org has made a commitment to
                 using international standards. In the case of indicating the languages and scripts
-                of data, Syriaca.org relies on identifier codes published by the <ref
-                    target="http://www.iso.org">International Organization for Standardization</ref>
+                of data, Syriaca.org relies on identifier codes published by the <ref target="http://www.iso.org">International Organization for Standardization</ref>
                 (ISO) for the representation of language names and scripts. Syriaca.org's usage is
-                based on the Internet Engineering Task Force's (IETF) <ref 
-                    target="http://tools.ietf.org/html/bcp47">"Best Current Practices Memo 47"</ref> as
-                well as guidance by the <ref
-                    target="http://www.w3.org/International/articles/language-tags/">World Wide Web
+                based on the Internet Engineering Task Force's (IETF) <ref target="http://tools.ietf.org/html/bcp47">"Best Current Practices Memo 47"</ref> as
+                well as guidance by the <ref target="http://www.w3.org/International/articles/language-tags/">World Wide Web
                     Consortium</ref> (W3C). Because there are some inconsistencies between these codes
                 and scholarly usage, Syriaca.org is actively working to bring the ISO standards and
                 scholarly best practices into agreement. Contributors to Syriaca.org are requested
@@ -83,8 +79,7 @@
                 databases or internet browsers (For example "mal" is the code for Malayalam and "en"
                 is the code for English). These language codes are defined in four lists maintained
                 by the <ref target="http://www.loc.gov/standards/iso639-2/">Library of Congress</ref>
-                (LOC): ISO 639-1, ISO 639-2, ISO 639-5 and the <ref
-                    target="http://www-01.sil.org/iso639-3/default.asp">Summer Institute of
+                (LOC): ISO 639-1, ISO 639-2, ISO 639-5 and the <ref target="http://www-01.sil.org/iso639-3/default.asp">Summer Institute of
                     Linguistics</ref> (SIL): ISO 693-3.</p>
             <p>Syriaca.org contributors should use the following guidelines when encoding languages
                 in XML:</p>
@@ -106,27 +101,44 @@
                     the following codes: 
                     <!-- Add to this the actual codes in use. -->
                     <list>
-                        <item xml:id="syr"><label>Syriac of any variety or period</label></item>
-                        <item xml:id="ar"><label>Arabic of any variety or period</label></item>
-                        <item xml:id="cop"><label>Coptic of any variety or period</label></item>
-                        <item xml:id="en"><label>English of any variety or period</label></item>
-                        <item xml:id="fr"><label>French of any variety or period</label></item>
-                        <item xml:id="de"><label>German of any variety or period</label></item>
-                        <item xml:id="grc"><label>Ancient Greek to A.D. 1453</label></item>
-                        <item xml:id="el"><label>Modern Greek after A.D. 1453</label></item>
-                        <item xml:id="la"><label>Latin of any variety or period</label></item>
-                        <item xml:id="mal"><label>Malayalam of any variety or period</label></item>
+                        <item xml:id="syr">
+                            <label>Syriac of any variety or period</label>
+                        </item>
+                        <item xml:id="ar">
+                            <label>Arabic of any variety or period</label>
+                        </item>
+                        <item xml:id="cop">
+                            <label>Coptic of any variety or period</label>
+                        </item>
+                        <item xml:id="en">
+                            <label>English of any variety or period</label>
+                        </item>
+                        <item xml:id="fr">
+                            <label>French of any variety or period</label>
+                        </item>
+                        <item xml:id="de">
+                            <label>German of any variety or period</label>
+                        </item>
+                        <item xml:id="grc">
+                            <label>Ancient Greek to A.D. 1453</label>
+                        </item>
+                        <item xml:id="el">
+                            <label>Modern Greek after A.D. 1453</label>
+                        </item>
+                        <item xml:id="la">
+                            <label>Latin of any variety or period</label>
+                        </item>
+                        <item xml:id="mal">
+                            <label>Malayalam of any variety or period</label>
+                        </item>
                     </list>
                 </item>
                 <item>For cases not covered by the list above, contributors should refer to the
-                    standards directly on the <ref
-                        target="http://www.loc.gov/standards/iso639-2/php/code_list.php">LOC</ref> and
+                    standards directly on the <ref target="http://www.loc.gov/standards/iso639-2/php/code_list.php">LOC</ref> and
                     <ref target="http://www-01.sil.org/iso639-3/codes.asp">SIL</ref> websites and
                     consult with a Syriaca.org editor.</item>
                 <item>When both a two-letter and three-letter ISO language code exists (such as "en"
-                    and "eng" for English), the preferred code is the one listed in the <ref
-                        target="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry"
-                        >IANA Subtag Registry</ref>. In practice, this means that the two-letter code
+                    and "eng" for English), the preferred code is the one listed in the <ref target="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">IANA Subtag Registry</ref>. In practice, this means that the two-letter code
                     is always preferred.</item>
             </list>
             <p>Script Codes - ISO 15924</p>
@@ -163,17 +175,32 @@
                         <item>When script is not specified, the default code for unvocalized 
                             Syriac of any variety or period is "syr". [Note: Syriaca.org considers "syr" and
                             "syr-syrc" to have equivalent meaning and prefers the shorter.]</item>
-                        <item xml:id="syr-Syre"><label>Syriac in Estrangela script</label></item>
-                        <item xml:id="syr-Syrj"><label>Syriac in vocalized West Syriac script</label></item>
-                        <item xml:id="syr-Syrn"><label>Syriac in vocalized East Syriac script</label></item>
-                        <item xml:id="syr-x-syrm"><label>Syriac in Melkite script</label> [Note: This is not an ISO code
+                        <item xml:id="syr-Syre">
+                            <label>Syriac in Estrangela script</label>
+                        </item>
+                        <item xml:id="syr-Syrj">
+                            <label>Syriac in vocalized West Syriac script</label>
+                        </item>
+                        <item xml:id="syr-Syrn">
+                            <label>Syriac in vocalized East Syriac script</label>
+                        </item>
+                        <item xml:id="syr-x-syrm">
+                            <label>Syriac in Melkite script</label> [Note: This is not an ISO code
                             but a private use code for Melkite employed by Syriaca.org until an ISO
                             code is created] </item>
-                        <item xml:id="ar-Syrc"><label>Arabic Garshuni in unvocalized or undetermined Syriac
-                            script</label></item>
-                        <item xml:id="ar-Syrj"><label>Arabic Garshuni in vocalized West Syriac script</label></item>
-                        <item xml:id="ar-Syrn"><label>Arabic Garshuni in vocalized East Syriac script</label></item>
-                        <item xml:id="mal-Syrn"><label>Malayalam Garshuni in vocalized East Syriac script</label></item>
+                        <item xml:id="ar-Syrc">
+                            <label>Arabic Garshuni in unvocalized or undetermined Syriac
+                            script</label>
+                        </item>
+                        <item xml:id="ar-Syrj">
+                            <label>Arabic Garshuni in vocalized West Syriac script</label>
+                        </item>
+                        <item xml:id="ar-Syrn">
+                            <label>Arabic Garshuni in vocalized East Syriac script</label>
+                        </item>
+                        <item xml:id="mal-Syrn">
+                            <label>Malayalam Garshuni in vocalized East Syriac script</label>
+                        </item>
                     </list>
                 </item>
                 <item>At present, the ISO script codes do not allow a specific way to indicate if a
@@ -189,8 +216,7 @@
                     "Isḥaq of Nineveh". This name is marked as "en-x-gedsh" to indicate that it is
                     English in the GEDSH transliteration script.</item>
                 <item>For scripts not covered by the list above, contributors should refer to the
-                    standards directly on the <ref
-                        target="http://unicode.org/iso15924/iso15924-codes.html">Unicode
+                    standards directly on the <ref target="http://unicode.org/iso15924/iso15924-codes.html">Unicode
                         Consortium</ref> website and consult with a Syriaca.org editor.</item>
             </list>
             

@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title xml:lang="en">Place Types used in <title>The Syriac Gazetteer</title></title>
+                <title xml:lang="en">Place Types used in <title>The Syriac Gazetteer</title>
+                </title>
                 <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
                 <funder>The Andrew W. Mellon Foundation</funder>
                 <funder>The National Endowment for the Humanities</funder>
@@ -128,8 +128,13 @@
     </teiHeader>
     <text>
         <body xml:lang="en">
-            <head>Place Types used in <title>The Syriac Gazetteer</title></head>
-            <p><bibl><title>The Syriac Gazetteer</title><ptr target="http://syriaca.org/geo"/></bibl> categorizes places using a controlled vocabulary of types, which is defined here.</p>
+            <head>Place Types used in <title>The Syriac Gazetteer</title>
+            </head>
+            <p>
+                <bibl>
+                    <title>The Syriac Gazetteer</title>
+                    <ptr target="http://syriaca.org/geo"/>
+                </bibl> categorizes places using a controlled vocabulary of types, which is defined here.</p>
         </body>
     </text>
 </TEI>

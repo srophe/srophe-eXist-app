@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
@@ -48,7 +47,10 @@
         <body xml:lang="en">
             <head>Religious Communities</head>
             <p>
-                <bibl><title>The Syriac Gazetteer</title><ptr target="http://syriaca.org/geo"/></bibl> refers to religious communities using a nested controlled vocabulary.  These terms are used according
+                <bibl>
+                    <title>The Syriac Gazetteer</title>
+                    <ptr target="http://syriaca.org/geo"/>
+                </bibl> refers to religious communities using a nested controlled vocabulary.  These terms are used according
                 to scholarly convention and for scholars' convenience, without asserting that members of these groups would have called themselves by these labels.
                 In this context, "religious communities" is not intended to imply a plurality of members in any one location, nor any harmonious existence
                 among people identified with the same label.  Nor are the existence of multiple labels intended to suggest that these categories are immutable

@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?oxygen RNGSchema="enrich-syriaca.rnc" type="compact"?>
-<?xml-stylesheet type="text/css" href="SRPEnrichCSS.css"?>
-<TEI xml:lang="en" xmlns="http://www.tei-c.org/ns/1.0">
-  <teiHeader xmlns="http://www.tei-c.org/ns/1.0">
+<?oxygen RNGSchema="enrich-syriaca.rnc" type="compact"?><?xml-stylesheet type="text/css" href="SRPEnrichCSS.css"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+  <teiHeader>
     <fileDesc>
       <titleStmt>
         <title xml:lang="en"><!-- Typically "BL" followed by the name of the manuscript, e.g. "BL Add MS 14444", without commas or periods --></title>
@@ -240,13 +238,17 @@
                 <list>
                   <item n="1" xml:id="p1addition1">
                     <locus from="" to=""/><!-- locus may be deleted if addition applies throughout entire msPart. Does NOT need to be human-readable -->
-                    <p></p><!-- Enter English prose here -->
-                    <p><quote xml:lang="syr"><!-- Enter the Syriac quote here if applicable --></quote></p>
+                    <p/><!-- Enter English prose here -->
+                    <p>
+                                            <quote xml:lang="syr"><!-- Enter the Syriac quote here if applicable --></quote>
+                                        </p>
                   </item><!-- See manual for how to link the person and/or the handnote to the addition, when possible do both or at least handnote if no person is mentioned-->
                   <item n="2" xml:id="p1addition2">
                     <locus from="" to=""/>
-                    <p></p>
-                    <p><quote xml:lang="syr"></quote></p>
+                    <p/>
+                    <p>
+                                            <quote xml:lang="syr"/>
+                                        </p>
                   </item>
                 </list>
               </additions><!-- IF <additions> IS NOT USED, delete nested elements and make it an empty element.-->
@@ -277,7 +279,9 @@
             <additional>
               <adminInfo>
                 <recordHist>
-                  <source>Manuscript description based on <bibl><ref target="#Wrightpart1">Wright's Catalogue</ref></bibl>. abbreviated by the Syriaca.org editors.</source>
+                  <source>Manuscript description based on <bibl>
+                                            <ref target="#Wrightpart1">Wright's Catalogue</ref>
+                                        </bibl>. abbreviated by the Syriaca.org editors.</source>
                 </recordHist>
                 <availability status="restricted"/>
                 <custodialHist><!-- If there is a history of conservation efforts on the <msPart> -->
@@ -322,12 +326,23 @@
                 <locus from="" to=""/>
                 <author ref=""/>
                 <title ref="" type="supplied"/>
-                <rubric xml:lang="syr"><locus from="" to=""/></rubric><!-- Remember that <rubric>, <incipit>, <quote>, <explicit>, <finalRubric>, <colophon>, <note>, and <listBibl> should be deleted if they are not used -->
-                <incipit xml:lang="syr"><locus from="" to=""/></incipit>
-                <quote xml:lang="syr"><locus from="" to=""/></quote>
-                <explicit xml:lang="syr"><locus from="" to=""/></explicit>
-                <finalRubric xml:lang="syr"><locus from="" to=""/></finalRubric>
-                <colophon><ref target=""/>See below.</colophon>
+                <rubric xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </rubric><!-- Remember that <rubric>, <incipit>, <quote>, <explicit>, <finalRubric>, <colophon>, <note>, and <listBibl> should be deleted if they are not used -->
+                <incipit xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </incipit>
+                <quote xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </quote>
+                <explicit xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </explicit>
+                <finalRubric xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </finalRubric>
+                <colophon>
+                                    <ref target=""/>See below.</colophon>
                 <note/>
                 <listBibl>
                   <bibl/>
@@ -337,12 +352,23 @@
                 <locus from="" to=""/>
                 <author ref=""/>
                 <title ref="" type="supplied"/>
-                <rubric xml:lang="syr"><locus from="" to=""/></rubric>
-                <incipit xml:lang="syr"><locus from="" to=""/></incipit>
-                <quote xml:lang="syr"><locus from="" to=""/></quote>
-                <explicit xml:lang="syr"><locus from="" to=""/></explicit>
-                <finalRubric xml:lang="syr"><locus from="" to=""/></finalRubric>
-                <colophon><ref target=""/>See below.</colophon>
+                <rubric xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </rubric>
+                <incipit xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </incipit>
+                <quote xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </quote>
+                <explicit xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </explicit>
+                <finalRubric xml:lang="syr">
+                                    <locus from="" to=""/>
+                                </finalRubric>
+                <colophon>
+                                    <ref target=""/>See below.</colophon>
                 <note/>
                 <listBibl>
                   <bibl/>
@@ -352,7 +378,9 @@
             <physDesc>
               <objectDesc form="">
                 <supportDesc material="">
-                  <support><material/></support>
+                  <support>
+                                        <material/>
+                                    </support>
                   <extent>
                     <measure type="composition" unit="leaf" quantity=""/>
                     <dimensions type="" unit="in">
@@ -388,19 +416,31 @@
               </objectDesc>
               <handDesc hands="">
                 <handNote xml:id="p2handNote1" scope="" script="" medium=""><!-- Note that @xml:id reflects part 2 -->
-                  <desc></desc>
+                  <desc/>
                 </handNote>
               </handDesc>
               <decoDesc>
                 <decoNote xml:id="p2decoNote1" type="" medium="">
-                  <desc></desc>
+                  <desc/>
                 </decoNote>
               </decoDesc>
               <additions>
                 <p/>
                 <list>
-                  <item n="" xml:id="p2addition1"><locus from="" to=""/><p/><p><quote/></p></item>
-                  <item n="" xml:id="p2addition2"><locus from="" to=""/><p/><p><quote/></p></item>
+                  <item n="" xml:id="p2addition1">
+                                        <locus from="" to=""/>
+                                        <p/>
+                                        <p>
+                                            <quote/>
+                                        </p>
+                                    </item>
+                  <item n="" xml:id="p2addition2">
+                                        <locus from="" to=""/>
+                                        <p/>
+                                        <p>
+                                            <quote/>
+                                        </p>
+                                    </item>
                 </list>
               </additions>
               <bindingDesc>
@@ -421,7 +461,7 @@
               <summary/>
               <origin>
                 <origDate notBefore="" notAfter=""/>
-                <origPlace></origPlace>
+                <origPlace/>
               </origin>
               <provenance/>
               <acquisition/>
@@ -429,7 +469,9 @@
             <additional>
               <adminInfo>
                 <recordHist>
-                  <source>Manuscript description based on <bibl><ref target="#Wrightpart2">Wright's Catalogue</ref></bibl>. abbreviated by the Syriaca.org editors.</source>
+                  <source>Manuscript description based on <bibl>
+                                            <ref target="#Wrightpart2">Wright's Catalogue</ref>
+                                        </bibl>. abbreviated by the Syriaca.org editors.</source>
                 </recordHist>
                 <availability status="restricted"/>
                 <custodialHist>
@@ -470,7 +512,10 @@
       </editorialDecl>
         <classDecl>
             <taxonomy xml:id="Wright-BL-Taxonomy">
-              <bibl><ref target="#Wright"/><ptr target="http://syriaca.org/documentation/Wright-BL-Taxonomy.html"/></bibl>
+              <bibl>
+                        <ref target="#Wright"/>
+                        <ptr target="http://syriaca.org/documentation/Wright-BL-Taxonomy.html"/>
+                    </bibl>
             <category xml:id="biblical-manuscripts">
               <category xml:id="bible-ot"/>
               <category xml:id="bible-nt"/>
@@ -583,4 +628,3 @@
     </body>
   </text>
 </TEI>
-

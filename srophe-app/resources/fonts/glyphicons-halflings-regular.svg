@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg">
     <metadata/>
     <defs>
@@ -11,7 +10,7 @@
             <glyph unicode=" "/>
             <glyph unicode="*" d="M100 500v200h259l-183 183l141 141l183 -183v259h200v-259l183 183l141 -141l-183 -183h259v-200h-259l183 -183l-141 -141l-183 183v-259h-200v259l-183 -183l-141 141l183 183h-259z"/>
             <glyph unicode="+" d="M0 400v300h400v400h300v-400h400v-300h-400v-400h-300v400h-400z"/>
-            <glyph unicode="&#160;"/>
+            <glyph unicode=" "/>
             <glyph unicode=" " horiz-adv-x="652"/>
             <glyph unicode=" " horiz-adv-x="1304"/>
             <glyph unicode=" " horiz-adv-x="652"/>

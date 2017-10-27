@@ -102,7 +102,8 @@ else if(replace($exist:path, $exist:resource,'') =  ($exist:record-uris) or ends
                     <forward url="{$exist:controller}/error-page.html" method="get"/>
                     <forward url="{$exist:controller}/modules/view.xql"/>
                 </error-handler>
-         </dispatch>        
+         </dispatch> 
+(: Passes any api requests to restxq:)    
 else if (contains($exist:path,'/api/')) then
   if (ends-with($exist:path,"/")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -120,10 +121,13 @@ else if (contains($exist:path,'/api/')) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{concat('/restxq/ba', $exist:path)}" absolute="yes"/>
     </dispatch>
-else if (ends-with($exist:path, "/atom") or ends-with($exist:path, "/tei")) then
+
+else if ($exist:resource eq '' or ends-with($exist:path,"/")) then 
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="{concat('/restxq', $exist:path)}" absolute="yes"/>
+        <redirect url="index.html"/>
     </dispatch>
+    
+(: Sends all other html pages through eXist templating module for processing. :)    
 else if (ends-with($exist:resource, ".html")) then
     (: the html page is run through view.xql to expand templates :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
@@ -135,20 +139,7 @@ else if (ends-with($exist:resource, ".html")) then
 			<forward url="{$exist:controller}/modules/view.xql"/>
 		</error-handler>
     </dispatch>
-(: Resource paths starting with $app-root are resolved relative to app :)
-else if (contains($exist:path, "/$app-root/")) then
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <forward url="{concat($exist:controller,'/', substring-after($exist:path, '/$app-root/'))}">
-                <set-header name="Cache-Control" value="max-age=3600, must-revalidate"/>
-            </forward>
-        </dispatch>        
-(: Resource paths starting with $shared are loaded from the shared-resources app :)
-else if (contains($exist:path, "/$shared/")) then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="/shared-resources/{substring-after($exist:path, '/$shared/')}">
-            <set-header name="Cache-Control" value="max-age=3600, must-revalidate"/>
-        </forward>
-    </dispatch>
+
 (: Redirects paths with directory, and no trailing slash to index.html in that directory :)    
 else if (matches($exist:resource, "^([^.]+)$")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

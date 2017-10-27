@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title xml:lang="en">Author and Editor Roles used in <title>The New Handbook of Syriac Literature</title></title>
+                <title xml:lang="en">Author and Editor Roles used in <title>The New Handbook of Syriac Literature</title>
+                </title>
                 <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
                 <funder>The Andrew W. Mellon Foundation</funder>
                 <funder>The National Endowment for the Humanities</funder>
@@ -186,8 +186,13 @@
     </teiHeader>
     <text>
         <body xml:lang="en">
-            <head>Author and Editor Roles used in <title>The New Handbook of Syriac Literature</title></head>
-            <p><bibl><title>The New Handbook of Syriac Literature</title><ptr target="http://syriaca.org/nhsl"/></bibl> 
+            <head>Author and Editor Roles used in <title>The New Handbook of Syriac Literature</title>
+            </head>
+            <p>
+                <bibl>
+                    <title>The New Handbook of Syriac Literature</title>
+                    <ptr target="http://syriaca.org/nhsl"/>
+                </bibl> 
             uses the vocabulary defined here to specify the roles of persons in relation to works. Regrettably, it is 
             not always possible for the editors to investigate the precise roles of authors or editors, especially in 
             the cases where our information is based on datasets that were contributed by external 
@@ -203,7 +208,8 @@
             <p>Technical Discussion: This vocabulary defines the values allowed for the <att>role</att> attribute 
                 on <tag>author</tag> and <tag>editor</tag> tags on Syriaca.org pages.
                 <list>
-                    <label><att>role</att> Attribute Definition and Examples</label>
+                    <label>
+                        <att>role</att> Attribute Definition and Examples</label>
                     <item>The definition for the <att>role</att> attribute in TEI-XML can be found at 
                         <ptr target="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/ref-att.naming.html#tei_att.role"/>. 
                         See also the examples for editor/@role at <ptr target="http://www.tei-c.org/release/doc/tei-p5-doc/en/html/examples-editor.html"/>.</item>
