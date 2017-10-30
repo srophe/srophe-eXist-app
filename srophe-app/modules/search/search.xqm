@@ -6,6 +6,7 @@ import module namespace page="http://syriaca.org/page" at "../lib/paging.xqm";
 import module namespace rel="http://syriaca.org/related" at "../lib/get-related.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "../lib/facet.xqm";
 import module namespace facet-defs="http://syriaca.org/facet-defs" at "../facet-defs.xqm";
+import module namespace tei2html="http://syriaca.org/tei2html" at "../lib/tei2html.xqm";
 import module namespace maps="http://syriaca.org/maps" at "../lib/maps.xqm";
 import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
 (: Search modules :)
@@ -277,37 +278,14 @@ declare function search:show-rec($hit, $p, $collection){
     <div class="row record" xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em">
             <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">
                 <span class="badge" style="margin-right:1em;">
-                    {
-                        if(request:get-parameter('relId', '') != '' and request:get-parameter('showPart', '') = 'true') then
-                            string($hit/descendant::tei:relation[@passive[matches(.,request:get-parameter('relId', ''))]][1]/tei:desc[1]/tei:label[@type='order'][1]/@n)
-                        else $search:start + $p - 1
-                    }
+                    {$search:start + $p - 1}
                 </span>
              </div>
             <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                 {
-                    if(starts-with(request:get-parameter('author', ''),$global:base-uri)) then global:display-recs-short-view($hit,'',request:get-parameter('author', ''))
-                    else if($collection = 'spear') then 
-                        <div class="results-list inline">
-                            {
-                                if($hit/tei:title) then (' ', <a href="aggregate.html?id={replace($hit//tei:idno,'/tei','')}" class="syr-label">{string-join($hit/descendant-or-self::tei:title[1]/node(),' ')}</a>)
-                                else (
-                                        if($hit/tei:listRelation) then <span class="srp-label">[{concat(' ', functx:camel-case-to-words(substring-after($hit/tei:listRelation/tei:relation/@name,':'),' '))} relation] </span>
-                                        else if($hit/tei:listPerson) then <span class="srp-label">[Person factoid] </span>
-                                        else if($hit/tei:listEvent) then <span class="srp-label">[Event factoid] </span>
-                                        else (),
-                                        <a href="factoid.html?id={string($hit/@uri)}" class="syr-label">{
-                                            if($hit/descendant-or-self::tei:titleStmt) then $hit/descendant-or-self::tei:titleStmt[1]/text()
-                                            else if($hit/tei:listRelation) then 
-                                                <span> {rel:build-short-relationships($hit/tei:listRelation/tei:relation,'')}</span>
-                                            else substring(string-join($hit/child::*[1]/descendant-or-self::*/text(),' '),1,550)
-                                             }</a>
-                                      )}
-                        </div>  
-                        else if(request:get-parameter('relation', '') and $collection = 'spear') then 
-                            <a href="factoid.html?id={string($hit/@uri)}">{rel:build-relationship-sentence($hit/descendant::tei:relation,$spears:relation)}</a>
-                        else global:display-recs-short-view($hit,'')
-                    }
+                let $uri := $hit/descendant::tei:idno[@type='URI'][1]/text()
+                return tei2html:summary-view($hit,'',$uri) 
+                } 
             </div>
     </div>                   
 };

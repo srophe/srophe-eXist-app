@@ -239,8 +239,6 @@ declare function tei2html:summary-view-bibl($nodes as node()*, $id as xs:string?
     let $title := if($nodes/descendant-or-self::tei:title[@syriaca-tags='#syriaca-headword'][@xml:lang='en']) then 
                     $nodes/descendant-or-self::tei:title[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1]/text()
                   else $nodes/descendant-or-self::tei:title[1]/text()
-    let $series := for $a in distinct-values($nodes/descendant::tei:seriesStmt/tei:biblScope/tei:title)
-                   return tei2html:translate-series($a)
     return 
         <div class="short-rec-view">
             <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">{$title}</a>

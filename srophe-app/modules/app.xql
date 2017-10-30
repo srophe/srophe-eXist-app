@@ -300,14 +300,44 @@ return rel:external-relationships($recid, $title, $relType, $collection, $sort, 
  : bibl module relationships
 :)                   
 declare function app:subject-headings($node as node(), $model as map(*)){
-    rel:subject-headings($model("data")//tei:idno[@type='URI'][ends-with(.,'/tei')])
+  (:  rel:subject-headings($model("data")//tei:idno[@type='URI'][ends-with(.,'/tei')]) :)
+    if($model("data")//tei:relation[@ref='dc:subject']) then
+     <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Subject Headings</h3></div>
+         <div class="panel-body">
+             {
+                 for $subject in $model("data")//tei:relation[@ref='dc:subject']
+                 return 
+                     <span class="related-subject">
+                     {$subject/tei:desc/text()}&#160;
+                     <a href="../search.html?subject={$subject/tei:desc/text()}">
+                     <span class="glyphicon glyphicon-search" aria-hidden="true">
+                     </span></a></span>
+             }
+         </div>
+     </div>
+    else ()
 };
 
 (:~
  : bibl modulerelationships
 :)                   
 declare function app:cited($node as node(), $model as map(*)){
-    rel:cited($model("data")//tei:idno[@type='URI'][ends-with(.,'/tei')], request:get-parameter('start', 1),request:get-parameter('perpage', 5))
+    (:rel:cited($model("data")//tei:idno[@type='URI'][ends-with(.,'/tei')], request:get-parameter('start', 1),request:get-parameter('perpage', 5)):)
+    if($model("data")//tei:relation[@ref='dcterms:references']) then
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Cited Manuscripts</h3></div>
+            <div class="panel-body">
+                {
+                    for $cited in $model("data")//tei:relation[@ref='dcterms:references']
+                    return 
+                        <span class="related-subject">{$cited/tei:desc/tei:bibl/text()}&#160;
+                        <a href="../search.html?subject={$cited/tei:desc/tei:bibl/text()}">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span>
+                }
+            </div>
+        </div>
+  else ()
 };
 
 (:~      
