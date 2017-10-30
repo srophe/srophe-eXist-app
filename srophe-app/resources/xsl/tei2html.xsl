@@ -484,20 +484,24 @@
                     <h4>Preferred Citation</h4>
                     <xsl:apply-templates select="self::*" mode="bibliography"/>.
                 </div>
+                <xsl:if test="//t:note[@type='abstract']">
+                    <h3>Abstract</h3>
+                    <div class="section indent"><xsl:apply-templates select="//t:note[@type='abstract']"/></div>
+                </xsl:if>
                 <h3>Full Citation Information</h3>
                 <div class="section indent">
-                    <xsl:apply-templates mode="full"/>
+                    <xsl:apply-templates select="*[not(self::t:note[@type= ('tag','abstract')])]" mode="full"/>
                 </div>
             </xsl:when>
             <xsl:otherwise>
-                <span class="section indent">
+                <span class="citation">
                     <xsl:apply-templates mode="footnote"/>
                 </span>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="t:listRelation">
-        <xsl:apply-templates/>
+        <!--<xsl:apply-templates/>-->
     </xsl:template>
     <!-- Template to print out confession section -->
     <xsl:template match="t:state[@type='confession']">
