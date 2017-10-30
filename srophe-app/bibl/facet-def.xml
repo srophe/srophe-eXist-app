@@ -21,17 +21,17 @@
         <order-by direction="descending">order</order-by>
     </facet-definition>
     <facet-definition name="Subjects">
-        <group-by function="facet:group-by-array">
-            <sub-path>descendant::tei:relation[@ref="dc:subject"]/@passive</sub-path>
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dc:subject"]/tei:desc</sub-path>
         </group-by>
-        <max-values show="5">40</max-values>
+        <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
     <facet-definition name="Manuscripts">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:bibl</sub-path>
         </group-by>
-        <max-values show="5">40</max-values>
+        <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
 </facets>
