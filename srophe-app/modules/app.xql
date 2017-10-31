@@ -92,6 +92,40 @@ return
     else ()
 }; 
 
+(:~ 
+ : Data formats and sharing
+ : to replace app-link
+ :)
+declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
+    if($formats) then
+        <div class="container" style="width:100%;clear:both;margin-bottom:1em; text-align:right;">
+            {
+                for $f in tokenize($formats,',')
+                return 
+                    if($f = 'tei') then
+                        (<a href="{concat(replace(request:get-parameter('id', ''),$global:base-uri,concat($global:nav-base,'/entry')),'/tei')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
+                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
+                        </a>, '&#160;')
+                    else if($f = 'print') then                        
+                        (<a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
+                             <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
+                        </a>, '&#160;')  
+                   else if($f = 'rdf') then
+                        (<a href="{concat(replace(request:get-parameter('id', ''),$global:base-uri,concat($global:nav-base,'/entry')),'/rdf')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
+                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/XML
+                        </a>, '&#160;')
+                  else if($f = 'ttl') then
+                        (<a href="{concat(replace(request:get-parameter('id', ''),$global:base-uri,concat($global:nav-base,'/entry')),'/ttl')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
+                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
+                        </a>, '&#160;')                        
+                   else () 
+                
+            }
+            <br/>
+        </div>
+    else ()
+};
+
 (:~  
  : Display any TEI nodes passed to the function via the paths parameter
  : Used by templating module, defaults to tei:body if no nodes are passed. 
