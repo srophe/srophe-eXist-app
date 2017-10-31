@@ -168,6 +168,22 @@ body {font-family: arial, sans-serif; background-color:#385978;}
     width:100%;
 }
 
+.ba-home {
+    height:300px; 
+    border:2px solid #456889; 
+    background-color:#456889; 
+    display:block;
+}
+.ba-home .image {
+    position:relative;
+    padding-top:0;
+	background-image:url('../img/bibl-home.png');
+	background-size:250px;;
+	background-position:top;
+    height:250px;
+    width:100%;
+	}
+.ba-home .text {height:300px;}
 /* Bibl banner*/
 .banner-bibl {
     position:relative;
