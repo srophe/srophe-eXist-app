@@ -245,9 +245,9 @@ declare %templates:wrap function app:display-citation($node as node(), $model as
 :)                   
 declare function app:display-related($node as node(), $model as map(*), $type as xs:string?){
     if($type != '') then
-    rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
+        rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
     else if($model("data")//tei:body/child::*/tei:listRelation) then 
-        <p>not</p>(:rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')):)
+        rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''))
     else ()
 };
 
