@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" data-template="app:get-rec" data-template-collection="bibl">
     <head>
         <meta charset="utf-8"/>
@@ -25,7 +24,7 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"/>
         <script type="text/javascript" src="$app-root/resources/js/jquery.smartmenus.min.js"/>
         <script type="text/javascript" src="$app-root/resources/js/clipboard.min.js"/>
-        <script src="https://www.google.com/recaptcha/api.js" type="text/javascript" async="async" defer="defer"></script>
+        <script src="https://www.google.com/recaptcha/api.js" type="text/javascript" async="async" defer="defer"/>
         <!-- keyboard widget css & script -->
         <link href="$app-root/resources/keyboard/css/keyboard.min.css" rel="stylesheet"/>
         <link href="$app-root/resources/keyboard/css/keyboard-previewkeyset.min.css" rel="stylesheet"/>
@@ -104,6 +103,9 @@
                             <a href="$app-root/bibl/browse.html?view=A-Z" class="nav-text">Browse </a>
                         </li>
                         <li>
+                            <a href="$app-root/bibl/index.html" class="nav-text">About</a>
+                        </li>                        
+                        <li>
                             <a href="$app-root/index.html" class="nav-text">Biblia-Arabica.com</a>
                         </li>                        
                         <!-- Shared drop-down menu of all submodules -->
@@ -113,7 +115,7 @@
                         <li>
                             <div class="btn-nav">
                                 <a class="btn btn-default navbar-btn dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span>
+                                     <span class="syriaca-icon syriaca-keyboard">  </span>
                                     <span class="caret"/>
                                 </a>
                                 <ul data-template="app:keyboard-select-menu" data-template-input-id="q"/>
@@ -122,7 +124,7 @@
                         <li>
                             <div class="btn-nav">
                                 <a href="#" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Search Tools">
-                                    &#160;<span class="glyphicon glyphicon-cog"/>&#160;<span class="caret"/>
+                                     <span class="glyphicon glyphicon-cog"/> <span class="caret"/>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -134,7 +136,7 @@
                         <li>
                             <div class="btn-nav">
                                 <a href="#" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Font">
-                                    Font&#160;<span class="caret"/>
+                                    Font <span class="caret"/>
                                 </a>
                                 <ul class="dropdown-menu" id="swap-font">
                                     <li>
