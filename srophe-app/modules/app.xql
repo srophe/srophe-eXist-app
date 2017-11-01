@@ -181,7 +181,7 @@ return
                 for $f in tokenize($formats,',')
                 return 
                     if($f = 'tei') then
-                        (<a href="{concat(replace($id,$global:base-uri,concat($global:nav-base,'/entry')),'/tei')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
+                        (<a href="{concat(replace($id,$global:base-uri,$global:nav-base),'.tei')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the TEI XML data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
                         </a>, '&#160;')
                     else if($f = 'print') then                        
@@ -189,13 +189,25 @@ return
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                         </a>, '&#160;')  
                    else if($f = 'rdf') then
-                        (<a href="{concat(replace($id,$global:base-uri,concat($global:nav-base,'/entry')),'/rdf')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
+                        (<a href="{concat(replace($id,$global:base-uri,$global:nav-base),'.rdf')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/XML
                         </a>, '&#160;')
                   else if($f = 'ttl') then
-                        (<a href="{concat(replace($id,$global:base-uri,concat($global:nav-base,'/entry')),'/ttl')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
+                        (<a href="{concat(replace($id,$global:base-uri,$global:nav-base),'.ttl')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
-                        </a>, '&#160;')                        
+                        </a>, '&#160;')
+                  else if($f = 'geojson') then
+                        if($model("data")/descendant::tei:location/tei:geo) then 
+                        (<a href="{concat(replace($id,$global:base-uri,$global:nav-base),'.geojson')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
+                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> GeoJSON
+                        </a>, '&#160;')
+                        else()
+                  else if($f = 'kml') then
+                        if($model("data")/descendant::tei:location/tei:geo) then
+                            (<a href="{concat(replace($id,$global:base-uri,$global:nav-base),'.kml')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the KML data for this record." >
+                             <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> KML
+                            </a>, '&#160;')
+                         else()                           
                    else () 
                 
             }
@@ -203,6 +215,7 @@ return
         </div>
     else ()
 };
+
 
 (:~  
  : Display any TEI nodes passed to the function via the paths parameter
