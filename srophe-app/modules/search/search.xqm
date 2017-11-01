@@ -183,7 +183,7 @@ declare  %templates:wrap function search:pageination($node as node()*, $model as
  : @param $node search resuls with coords
 :)
 declare function search:build-geojson($node as node()*, $model as map(*)){
-let $data := $model("hits")//tei:rec
+let $data := $model("hits")
 let $geo-hits := $data//tei:geo
 return
     if(count($geo-hits) gt 0) then
