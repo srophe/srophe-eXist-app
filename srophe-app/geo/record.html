@@ -5,62 +5,35 @@
             <div class="row">
                 <!-- Column 1 -->
                 <div class="col-md-8 column1">
-                    <div data-template="place:abstract"/>
                     <div class="well">
-                        <div data-template="place:location-details"/>
+                        <div data-template="app:display-map"/>    
+                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:placeName" data-template-wrap="tei:place"/>
+                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:location" data-template-wrap="tei:place"/>                        
                     </div>
-                    <div data-template="place:description"/>
-                    <div data-template="place:nested-loc"/>
-                    <div data-template="place:events"/>
-                    <div data-template="place:confessions"/>
-                    <div data-template="place:notes"/>
-                    
-                    <!-- Contact forms -->
-                    <div style="margin-bottom:1em;">  
-                        <!-- Button trigger corrections email modal -->
-                        <button class="btn btn-default" data-toggle="modal" data-target="#feedback">Corrections/Additions?</button> 
-                        <!--<button class="btn btn-default" data-toggle="modal" data-target="#selection" id="showSection">Is this record complete?</button>-->
-                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#selection" data-ref="../documentation/faq.html" id="showSection">
-                            Is this record complete?
-                        </a>
-                        <!-- Modal email form-->
-                        <div data-template="app:contact-form" data-template-collection="places"/>
-                        
-                        <!-- Modal faq popup -->
-                        <div class="modal fade" id="selection" tabindex="-1" role="dialog" aria-labelledby="selectionLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">
-                                            <span aria-hidden="true"> x </span>
-                                            <span class="sr-only">Close</span>
-                                        </button>
-                                        <h2 class="modal-title" id="selectionLabel">Is this record complete?</h2>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div>
-                                            <div id="recComplete" style="border:none; margin:0;padding:0;margin-top:-2em;">T</div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a class="btn" href="../documentation/faq.html" aria-hidden="true">See all FAQs</a>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Citation -->
-                    <div data-template="place:sources"/>
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:desc" data-template-wrap="tei:place"/>
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:state" data-template-wrap="tei:place"/>
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:note" data-template-wrap="tei:place"/>
+                    <div data-template="app:display-related-images"/>
+                    <!--<div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>-->
                 </div>
                 <!-- Column 2 -->
                 <div class="col-md-4 column2">
-                    <div data-template="place:place-name"/>
-                    <div data-template="place:related-places"/>
-                    <div data-template="place:link-icons-list"/>
+                    <div data-template="app:rec-status"/>
+                    <div class="info-btns">  
+                        <!-- Button trigger corrections email modal -->
+                        <button class="btn btn-default" data-toggle="modal" data-target="#feedback">Corrections/Additions?</button> 
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#selection" data-ref="../documentation/faq.html" id="showSection">
+                            Is this record complete?
+                        </a>
+                    </div>
+                    <br/>
+                    <div data-template="app:display-external-relationships" data-template-type="dct:isPartOf"/>
+                    <div data-template="app:display-related" data-template-type="dct:isPartOf"/>
+                    <div data-template="app:display-related" data-template-type="dc:subject"/>
+                    <!--<div data-template="app:display-related"/>-->
                 </div>
             </div>
-            <div data-template="place:citation"/>
+            <div data-template="app:display-citation"/>
         </div>
     </div>
 </div>

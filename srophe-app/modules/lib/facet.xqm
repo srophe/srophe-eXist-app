@@ -370,14 +370,11 @@ return
 :)
 
 declare function facet:get-label($uri as item()*){
-if(starts-with($uri,'http://syriaca.org/')) then 
-  if(contains($uri,'/keyword/')) then
-    lower-case(functx:camel-case-to-words(substring-after($uri,'/keyword/'),' '))
-  else 
+if(starts-with($uri,$global:base-uri)) then  
       let $doc := collection($global:data-root)//tei:TEI[.//tei:idno = concat($uri,"/tei")][1]
       return 
-      if (exists($doc)) then
-        replace(string-join($doc/descendant::tei:fileDesc/tei:titleStmt[1]/tei:title[1]/text()[1],' '),' — ','')
-      else $uri 
+          if (exists($doc)) then
+            replace(string-join($doc/descendant::tei:fileDesc/tei:titleStmt[1]/tei:title[1]/text()[1],' '),' — ','')
+          else $uri 
 else $uri
 };

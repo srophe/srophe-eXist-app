@@ -24,7 +24,7 @@
         <max-values show="5">40</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="省" xml:lang="zn-Hans">
+    <facet-definition name="省" xml:lang="zh-Hans">
         <group-by>
             <sub-path>descendant::tei:region[@type='province-name']/tei:placeName[@xml:lang='zn-Hans']</sub-path>
         </group-by>
@@ -38,9 +38,23 @@
         <max-values show="5">40</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="王朝" xml:lang="zn-Hans">
+    <facet-definition name="王朝" xml:lang="zh-Hans">
         <group-by>
             <sub-path>descendant::tei:state[@type='existence']/tei:label[@xml:lang='zn-Hans']</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Architectural Feature">
+        <group-by function="facet:group-by-array">
+            <sub-path>descendant::tei:relation[@ref="dc:subject"]/@passive</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Sites">
+        <group-by function="facet:group-by-array">
+            <sub-path>descendant::tei:relation[@ref="dcterms:isPartOf"]/@passive</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
         <order-by direction="ascending">count</order-by>

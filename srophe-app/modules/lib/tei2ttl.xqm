@@ -134,9 +134,9 @@ return
             else tei2ttl:make-triple('','lawd:variantForm',tei2ttl:make-literal($name/text(),$name/@xml:lang)), 
         '];')    
     else   
-        if($name/ancestor::tei:location[@type='nested'][starts-with(@ref,'http://syriaca.org/')]) then
+        if($name/ancestor::tei:location[@type='nested'][starts-with(@ref,$global:base-uri)]) then
            tei2ttl:make-triple('','dcterms:isPartOf',tei2ttl:make-uri($name/@ref)) 
-        else if($name[starts-with(@ref,'http://syriaca.org/')]) then  
+        else if($name[starts-with(@ref,$global:base-uri)]) then  
             tei2ttl:make-triple('','skos:related',tei2ttl:make-uri($name/@ref))
         else (),'')
 };
@@ -192,7 +192,7 @@ return
                     ,', ')     
             )       
         else (),
-for $location-relation in $rec/descendant::tei:location[@type='nested']/child::*[starts-with(@ref,'http://syriaca.org/')]/@ref
+for $location-relation in $rec/descendant::tei:location[@type='nested']/child::*[starts-with(@ref,$global:base-uri)]/@ref
 return tei2ttl:make-triple('','dcterms:isPartOf',tei2ttl:make-uri($location-relation))
     ),'')
 };
@@ -295,19 +295,22 @@ return
 };
 :)
 declare function tei2ttl:make-triple-set($rec){
-let $id := replace($rec/descendant::tei:idno[starts-with(.,'http://syriaca.org/')][1],'/tei','')
+let $id := replace($rec/descendant::tei:idno[starts-with(.,$global:base-uri)][1],'/tei','')
 (: rdfs:Resource for bibl:)
 return 
 concat(
     (: skos:Concept :)
     tei2ttl:record(concat(
-        tei2ttl:make-triple(tei2ttl:make-uri($id), 'rdf:type', tei2ttl:resource-class($rec)),
-        tei2ttl:make-triple('', 'a', tei2ttl:rec-type($rec)),
-        tei2ttl:make-triple('','skos:prefLabel', 
-            string-join(
-            for $headword in $rec/descendant::*[@syriaca-tags='#syriaca-headword'][. != '']
-            return tei2ttl:make-literal($headword/descendant::text(),if($headword/@xml:lang) then string($headword/@xml:lang) else ())
-            ,', ')),
+        tei2ttl:make-triple(tei2ttl:make-uri($id), 'a', tei2ttl:rec-type($rec)),
+        tei2ttl:make-triple(tei2ttl:make-uri($id), 'a',  tei2ttl:resource-class($rec)),
+        tei2ttl:make-triple((),'skos:prefLabel',
+                if($rec/descendant::*[@syriaca-tags='#syriaca-headword']) then
+                    string-join(for $headword in $rec/descendant::*[@syriaca-tags='#syriaca-headword'][. != '']
+                        return tei2ttl:make-literal($headword/descendant::text(),if($headword/@xml:lang) then string($headword/@xml:lang) else ()),', ')
+                else if($rec/descendant::tei:body/tei:listPlace/tei:place) then
+                    string-join(for $headword in $rec/descendant::tei:body/tei:listPlace/tei:place/tei:placeName[. != '']
+                        return tei2ttl:make-literal($headword/descendant::text(),if($headword/@xml:lang) then string($headword/@xml:lang) else ()),', ')                        
+                else tei2ttl:make-literal($rec/descendant::tei:title[1]/text(),if($rec/descendant::tei:title[1]/@xml:lang) then string($rec/descendant::tei:title[1]/@xml:lang) else ())),
        tei2ttl:idnos($rec, $id),
        tei2ttl:bibl($rec), 
        tei2ttl:make-triple('','dcterms:relation', 

@@ -1,0 +1,29 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div class="grey-dark">
+        <div class="section interior-content white">
+            <div data-template="app:h1"/>
+            <div class="row">
+                <!-- Column 1 -->
+                <div class="col-md-8 column1">
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
+                    <hr/>
+                    <div data-template="app:display-external-relationships" data-template-type="dc:subject"/>
+                </div>
+                <!-- Column 2 -->
+                <div class="col-md-4 column2">
+                    <div data-template="app:rec-status"/>
+                    <div class="info-btns">  
+                        <!-- Button trigger corrections email modal -->
+                        <button class="btn btn-default" data-toggle="modal" data-target="#feedback">Corrections/Additions?</button> 
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#selection" data-ref="../documentation/faq.html" id="showSection">
+                            Is this record complete?
+                        </a>
+                    </div>
+                    <br/>
+
+                </div>
+            </div>
+            <div data-template="app:display-citation"/>
+        </div>
+    </div>
+</div>

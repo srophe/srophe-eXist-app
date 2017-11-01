@@ -6,6 +6,7 @@ import module namespace page="http://syriaca.org/page" at "../lib/paging.xqm";
 import module namespace rel="http://syriaca.org/related" at "../lib/get-related.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "../lib/facet.xqm";
 import module namespace facet-defs="http://syriaca.org/facet-defs" at "../facet-defs.xqm";
+import module namespace tei2html="http://syriaca.org/tei2html" at "lib/tei2html.xqm";
 import module namespace maps="http://syriaca.org/maps" at "../lib/maps.xqm";
 import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
 
@@ -228,7 +229,7 @@ declare %templates:wrap  function search:show-form($node as node()*, $model as m
     if(exists(request:get-parameter-names())) then ''
     else <div>{search:search-form($collection)}</div>
 };
-
+(:
 declare function search:show-grps($nodes, $p, $collection){
     for $node in $nodes
     return 
@@ -238,27 +239,8 @@ declare function search:show-grps($nodes, $p, $collection){
             case element(tei:rec) return search:show-rec($node, $p,$collection)
             default return search:show-grps($node/node(),$p,$collection)
 };
+:)
 
-declare function search:show-rec($hit, $p, $collection){
-    <div class="row record" xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em">
-            <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">
-                <span class="badge" style="margin-right:1em;">
-                    {
-                        if(request:get-parameter('relId', '') != '' and request:get-parameter('showPart', '') = 'true') then
-                            string($hit/descendant::tei:relation[@passive[matches(.,request:get-parameter('relId', ''))]][1]/tei:desc[1]/tei:label[@type='order'][1]/@n)
-                        else $search:start + $p - 1
-                    }
-                </span>
-             </div>
-            <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
-                {
-                    if(starts-with(request:get-parameter('author', ''),$global:base-uri)) then 
-                        global:display-recs-short-view($hit,'',request:get-parameter('author', ''))
-                    else global:display-recs-short-view($hit,'')
-                    }
-            </div>
-    </div>                   
-};
 
 (:~ 
  : Builds results output
@@ -271,7 +253,18 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
     {
         let $hits := $model("hits")
         for $hit at $p in subsequence($hits, $search:start, $search:perpage)
-        return search:show-rec($hit, $p, $collection)   
+        let $id := replace($hit/descendant::tei:idno[1],'/tei','')
+        return 
+            <div class="row record" xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em">
+                <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">
+                    <span class="badge" style="margin-right:1em;">
+                        {$search:start + $p - 1}
+                    </span>
+                 </div>
+                <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
+                    {tei2html:summary-view(root($hit), '', $id)}
+                </div>
+            </div> 
      } 
 </div>
 };
