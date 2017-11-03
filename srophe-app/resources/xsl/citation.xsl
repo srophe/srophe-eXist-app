@@ -291,7 +291,7 @@
                     <xsl:text>, editor</xsl:text>
                     <xsl:if test="count(t:editor[@role='general'])&gt; 1">s</xsl:if>
                     <xsl:text>, </xsl:text>
-                    <em>Syriaca.org Works Cited</em>
+                    <em>A Bibliography of the Arabic Bible</em>
                 </li>
                 <xsl:for-each select="t:editor[@role= ('creator','contributor')]">
                     <li>
