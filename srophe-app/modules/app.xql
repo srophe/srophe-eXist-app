@@ -95,6 +95,28 @@ return
  : Data formats and sharing
  : to replace app-link
  :)
+declare %templates:wrap function app:see-also($node as node(), $model as map(*)){
+let $ids := $model("data")/descendant::tei:idno[not(matches(.,'^(http://biblia-arabica.com|https://zotero.org|http://www.worldcat.org)'))] | $model("data")/descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://zotero.org|http://www.worldcat.org)'))]
+return 
+    if($ids) then
+        <div class="container" style="width:100%;clear:both;margin-bottom:1em; text-align:right;">
+            {
+                for $id in $ids
+                let $linkType := replace($id,'https?://(.*?)/.*','$1') 
+                return 
+                        (<a href="{$id}" class="btn btn-default see-also" data-toggle="tooltip" title="View at {$linkType}" >
+                             <span class="glyphicon glyphicon-share" aria-hidden="true"></span>&#160;{$linkType}
+                        </a>, '&#160;')
+            }
+            <br/>
+        </div>
+    else ()
+};
+
+(:~ 
+ : Data formats and sharing
+ : to replace app-link
+ :)
 declare %templates:wrap function app:other-data-formats($node as node(), $model as map(*), $formats as xs:string?){
 let $id := replace($model("data")/descendant::tei:idno[contains(., $global:base-uri)][1],'/tei','')
 return 

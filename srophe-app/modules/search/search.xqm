@@ -10,12 +10,7 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "../lib/tei2ht
 import module namespace maps="http://syriaca.org/maps" at "../lib/maps.xqm";
 import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
 (: Search modules :)
-import module namespace persons="http://syriaca.org/persons" at "persons-search.xqm";
-import module namespace places="http://syriaca.org/places" at "places-search.xqm";
-import module namespace spears="http://syriaca.org/spears" at "spear-search.xqm";
-import module namespace bhses="http://syriaca.org/bhses" at "bhse-search.xqm";
 import module namespace bibls="http://syriaca.org/bibls" at "bibl-search.xqm";
-import module namespace ms="http://syriaca.org/ms" at "ms-search.xqm";
 
 import module namespace functx="http://www.functx.com";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
@@ -44,12 +39,7 @@ declare variable $search:collection {request:get-parameter('collection', '') cas
 declare %templates:wrap function search:get-results($node as node(), $model as map(*), $collection as xs:string?, $view as xs:string?){
     let $coll := if($search:collection != '') then $search:collection else $collection
     let $eval-string := 
-                        if($coll = ('sbd','q','authors','saints','persons')) then persons:query-string($coll)
-                        else if($coll ='spear') then spears:query-string()
-                        else if($coll = 'places') then places:query-string()
-                        else if($coll = ('bhse','nhsl','bible')) then bhses:query-string($collection)
-                        else if($coll = 'bibl') then bibls:query-string()
-                        else if($coll = 'manuscripts') then ms:query-string()
+                        if($coll = 'bibl') then bibls:query-string()
                         else search:query-string($collection)
                         
     return map {"hits" := data:search($eval-string) }  
@@ -59,13 +49,8 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
 declare function search:search-xpath($collection as xs:string?){
    let $coll := if($search:collection != '') then $search:collection else $collection
     return
-                        if($coll = ('sbd','q','authors','saints','persons')) then persons:query-string($coll)
-                        else if($coll ='spear') then spears:query-string()
-                        else if($coll = 'places') then places:query-string()
-                        else if($coll = ('bhse','nhsl','bible')) then bhses:query-string($collection)
-                        else if($coll = 'bibl') then bibls:query-string()
-                        else if($coll = 'manuscripts') then ms:query-string()
-                        else search:query-string($collection)                    
+        if($coll = 'bibl') then bibls:query-string()
+        else search:query-string($collection)                    
 };
 
 (:~   
@@ -177,12 +162,7 @@ declare function search:search-string(){
  : @param $collection passed from search page templates
 :)
 declare function search:search-string($collection as xs:string?){
-    if($collection = ('persons','authors','saints','sbd','q')) then persons:search-string()
-    else if($collection ='spear') then spears:search-string()
-    else if($collection = 'places') then places:search-string()
-    else if($collection = 'bhse') then bhses:search-string()
-    else if($collection = 'bibl') then bibls:search-string()
-    else if($collection = 'manuscripts') then ms:search-string()
+    if($collection = 'bibl') then bibls:search-string()
     else search:search-string()
 };
 
@@ -255,12 +235,7 @@ return
 declare %templates:wrap  function search:show-form($node as node()*, $model as map(*), $collection as xs:string?) {   
     if(exists(request:get-parameter-names())) then ''
     else 
-        if($collection = ('persons','sbd','authors','q','saints')) then <div>{persons:search-form($collection)}</div>
-        else if($collection ='spear') then <div>{spears:search-form()}</div>
-        else if($collection ='manuscripts') then <div>{ms:search-form()}</div>
-        else if($collection = ('bhse','nhsl')) then <div>{bhses:search-form($collection)}</div>
-        else if($collection ='bibl') then <div>{bibls:search-form()}</div>
-        else if($collection ='places') then <div>{places:search-form()}</div> 
+        if($collection ='bibl') then <div>{bibls:search-form()}</div> 
         else <div>{search:search-form($collection)}</div>
 };
 
@@ -301,10 +276,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
     {
         let $hits := $model("hits")
         return 
-            if($collection = 'spear') then
-                for $hit at $p in subsequence($hits, $search:start, $search:perpage)
-                return search:show-rec($hit, $p, $collection)
-            else if($collection = 'subjects') then
+            if($collection = 'subjects') then
                 for $hit at $p in subsequence($hits, $search:start, $search:perpage)
                 return search:show-rec($hit, $p, $collection)            
             else

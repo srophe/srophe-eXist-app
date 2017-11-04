@@ -884,6 +884,8 @@ select.keyboardSelect {display:none;}
 .jump-menu {margin:1em;}
 .jump-menu .jump {margin-right:1em;}
 
+.related-subject {display:block !important;}
+
 button.bibl-show {margin: .5em -1em;}
 .slide {font-weight:400;}
 .more-info a {font-weight:600; color:white;}
