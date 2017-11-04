@@ -18,7 +18,6 @@ import module namespace facet-defs="http://syriaca.org/facet-defs" at "facet-def
 import module namespace page="http://syriaca.org/page" at "lib/paging.xqm";
 import module namespace maps="http://syriaca.org/maps" at "lib/maps.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "lib/tei2html.xqm";
-import module namespace bs="http://syriaca.org/bs" at "browse-spear.xqm";
 import module namespace functx="http://www.functx.com";
 import module namespace templates="http://exist-db.org/xquery/templates";
 
@@ -323,12 +322,4 @@ return
         {$text}
         </a>
     </li> 
-};
-
-
-(:~
- : Browse Tabs - SPEAR
-:)
-declare  %templates:wrap function browse:build-tabs-spear($node, $model){    
-    bs:build-tabs-spear($node, $model)
 };
