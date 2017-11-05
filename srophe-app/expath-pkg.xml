@@ -1,4 +1,4 @@
-<package xmlns="http://expath.org/ns/pkg" name="http://biblia-arabica.com/ba" abbrev="ba" version="0.16" spec="1.0">
+<package xmlns="http://expath.org/ns/pkg" name="http://biblia-arabica.com/ba" abbrev="ba" version="0.18" spec="1.0">
     <title>Biblia Arabica bibliography</title>
     <!-- TEI data -->
     <dependency package="http://biblia-arabica.com/ba-data"/>
