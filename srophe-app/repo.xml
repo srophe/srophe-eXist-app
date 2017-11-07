@@ -39,14 +39,11 @@
             <option>google</option>
             <option selected="true">leaflet</option>
         </maps>
-        <!-- Keyboard options -->
+        <!-- Keyboard options make sure your desired keyboard is in resources/keyboard/layout or download it from https://github.com/Mottie/Keyboard -->
         <keyboard-options>
-            <option id="syriac-phonetic">Syriac Phonetic</option>
-            <option id="syriac-standard">Syriac Standard</option>
             <option id="ms-Arabic (101)">Arabic Mod. Standard</option>
+            <option id="ms-Hebrew">Hebrew</option>
             <option id="qwerty">English QWERTY</option>
-            <option id="ms-Greek">Greek Mod. Standard</option>
-            <option id="ms-Russian">Russian Mod. Standard</option>
         </keyboard-options>
         <collections>
             <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
@@ -62,5 +59,6 @@
 
 
 
-<deployed>2017-10-27T11:43:46.039-04:00</deployed>
+
+<deployed>2017-11-07T10:27:57.093-05:00</deployed>
 </meta>
