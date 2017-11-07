@@ -34,4 +34,11 @@
         <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
+    <facet-definition name="Viewable Online">
+        <group-by function="facet:viewable-online">
+            <sub-path>/</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
 </facets>
