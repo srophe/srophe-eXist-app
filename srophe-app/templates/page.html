@@ -35,9 +35,8 @@
         <script type="text/javascript" src="$app-root/resources/keyboard/syr/jquery.keyboard.extension-autocomplete.js"/>
         <script type="text/javascript" src="$app-root/resources/keyboard/syr/keyboardSupport.js"/>
         <script type="text/javascript" src="$app-root/resources/keyboard/syr/syr.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Greek.min.js"/>
-        <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Russian.min.js"/>
         <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Arabic.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/keyboard/layouts/ms-Hebrew.min.js"/>
         <script type="text/javascript">
             $(document).ready(function () {
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
@@ -50,16 +49,15 @@
                     usePreview: false,
                     initialFocus: true,
                     rtl : true,
-                    layout: 'syriac-phonetic',
+                    layout: 'qwerty',
                     hidden: function(event, keyboard, el){
-                         keyboard.destroy();
+                       //  keyboard.destroy();
                      }
                 });
                 
                 $('.keyboard-select').click(function () {
                     var keyboardID = '#' + $(this).data("keyboard-id")
                     var kb = $(keyboardID).getkeyboard();
-                    //var kb = $('#searchField').getkeyboard();
                     // change layout based on link ID
                     kb.options.layout = this.id
                     // open keyboard if layout is different, or time from it last closing is > 200 ms
