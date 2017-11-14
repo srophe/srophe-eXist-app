@@ -158,13 +158,31 @@ function app:google-analytics($node as node(), $model as map(*)){
  : Used by templating module, not needed if full record is being displayed 
 :)
 declare function app:h1($node as node(), $model as map(*)){
- global:tei2html(
- <srophe-title xmlns="http://www.tei-c.org/ns/1.0">{(
-    if($model("data")/descendant::*[@syriaca-tags='#syriaca-headword']) then
-        $model("data")/descendant::*[@syriaca-tags='#syriaca-headword']
-    else $model("data")/descendant::tei:titleStmt[1]/tei:title[1], $model("data")/descendant::tei:idno[1]
-    )}
- </srophe-title>)
+    let $english := <span xml:lang="en">{$model("data")/descendant::tei:placeName[@xml:lang = "en"][1]}</span>
+    let $chinese := 
+        if($model("data")/descendant::tei:placeName[@xml:lang="zh-Hant"]) then  
+            <span xml:lang="zh-Hant">{$model("data")/descendant::tei:placeName[@xml:lang = "zh-Hant"][1]}</span>
+        else ()
+    return   
+        <div class="title">
+            <h1>{($english, ' ' , $chinese)}</h1>
+            <span class="uri">
+                <button type="button" class="btn btn-default btn-xs" id="idnoBtn" data-clipboard-action="copy" data-clipboard-target="#syriaca-id">
+                    <span class="srp-label">URI</span>
+                </button>
+                <span id="syriaca-id">{$model("data")/descendant::tei:idno[1]}</span>
+                <script><![CDATA[
+                        var clipboard = new Clipboard('#idnoBtn');
+                        clipboard.on('success', function(e) {
+                        console.log(e);
+                        });
+                        
+                        clipboard.on('error', function(e) {
+                        console.log(e);
+                        });]]>
+                </script>   
+            </span>
+        </div>
 }; 
 
 
