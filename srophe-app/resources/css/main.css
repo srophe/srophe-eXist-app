@@ -314,7 +314,9 @@ td {
 .textBox {display:block;}
 .caveat, .note {font-size: .785em; font-style:italic; margin-top:-.5em; padding-top:0;}
 .teiNote {display:block;}
-.title {border-bottom:2px solid #666666;margin-bottom:1em; margin-top:0;padding:0;}
+.title {display:block; margin-bottom:1em;}
+.title h1{border-bottom:2px solid #666666; margin-bottom:.5em; margin-top:0; padding:0 1em;}
+.title .uri{padding:0 1em; color: #999999;}
 .about {padding-top: .5em; border-bottom:2px solid #666666;margin-bottom:1em;}
 .caption{text-align:center; font-size:.75em;color:grey;}
 .funding {margin:1em;}
@@ -745,7 +747,7 @@ label.error {
 .citationinfo {padding:1em; color: #555; border-top:1px solid #666666; background-color:#eee; }
 .preferred-citation {font-size:1.2em;}
 .hint{margin:.5em; color: grey; font-style:italic;}
-.uri {margin:0 0 1em; color: #999999;}
+
 p.single-space{padding:.25em;}
 .teiDocs {padding:.25em; border-bottom:1px solid #eee;}
 
