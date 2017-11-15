@@ -1,34 +1,21 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="container top-padding">
         <!-- Calls xquery functions -->
+        <h1>All Sites/<span lang="zh-Hant">繁体中文</span></h1>
         <div data-template="browse:get-all" data-template-element="tei:place/tei:placeName" data-template-collection="places">
-            <div class="tabbable"> 
-                <ul class="nav nav-tabs" id="nametabs">
-                    <li data-template="browse:tabs" data-template-text="All Sites" 
-                        data-template-param="view" 
-                        data-template-value="all"
-                        data-template-alpha-filter-value="ALL"
-                        data-template-default="true"/>
-                    <li data-template="browse:tabs" 
-                        data-template-text="繁体中文" 
-                        data-template-param="lang" 
-                        data-template-value="zh-Hant" 
-                        data-template-alpha-filter-value="ALL"/>
-                    <li data-template="browse:tabs" 
-                        data-template-text="简体中文 " 
-                        data-template-param="lang" 
-                        data-template-value="zh-Hans" 
-                        data-template-alpha-filter-value="ALL"/>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active">
-                        <div class="row">
-                            <div data-template="browse:display-map" data-template-collection="places"/>
-                            <div data-template="browse:results-panel" data-template-collection="places"/>
-                            <div class="page-bottom">
-                                <div data-template="browse:pageination"/>
-                            </div>
-                        </div>
+            <div data-template="browse:display-map" data-template-collection="places"/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div data-template="browse:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
+                </div>
+                <div class="col-md-8">
+                    <br/>
+                    <div class="page-bottom">
+                        <div data-template="browse:pageination"/>
+                    </div>
+                    <div data-template="browse:results" data-template-collection="places"/>
+                    <div class="page-bottom">
+                        <div data-template="browse:pageination"/>
                     </div>
                 </div>
             </div>

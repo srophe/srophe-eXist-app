@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
     <!-- ================================================================== 
@@ -251,7 +250,7 @@
                             <xsl:call-template name="persons"/>
                             <xsl:text> </xsl:text>
                             <xsl:for-each select="t:title">
-                                <xsl:apply-templates select="self::*" mode="footnote"/>
+                                <xsl:apply-templates mode="footnote"/>
                                 <xsl:if test="following-sibling::t:title[@level = 'j']">
                                     <xsl:text> In</xsl:text>
                                 </xsl:if>
@@ -260,6 +259,7 @@
                                 </xsl:if>
                             </xsl:for-each>
                             <xsl:apply-templates select="text()"/>
+                            <xsl:apply-templates select="t:publisher" mode="footnote"/>
                             <xsl:sequence select="$passThrough"/>
                             <xsl:if test="descendant::t:idno[@type='URI']">
                                 <span class="footnote-links">
@@ -1070,7 +1070,12 @@
                         </xsl:when>
                     </xsl:choose>
                 </xsl:attribute>
-                <xsl:for-each select="./node()"><xsl:apply-templates select="."/></xsl:for-each></span></xsl:if></xsl:template>
+                <xsl:for-each select="./node()">
+                    <xsl:apply-templates select="."/>
+                </xsl:for-each>
+            </span>
+        </xsl:if>
+    </xsl:template>
 
     <!-- Templates for adding links and icons to uris -->
     <xsl:template match="t:idno | t:ref | t:ptr" mode="links">

@@ -8,16 +8,21 @@
                     <div class="well">
                         <div data-template="app:display-map"/>    
                         <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:placeName" data-template-wrap="tei:place"/>
-                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:location" data-template-wrap="tei:place"/>                        
+                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:trait"/>
+                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:location" data-template-wrap="tei:place"/>
                     </div>
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:desc" data-template-wrap="tei:place"/>
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:state" data-template-wrap="tei:place"/>
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:note" data-template-wrap="tei:place"/>
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/child::*[not(self::tei:location) and not(self::tei:placeName) and not(self::tei:bibl)]" data-template-wrap="tei:place"/>
+                    <br/>
+                    <div data-template="app:display-sources"/>
                     <div data-template="app:display-related-images"/>
                     <!--<div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>-->
                 </div>
                 <!-- Column 2 -->
                 <div class="col-md-4 column2">
+                    <div data-template="app:other-data-formats" data-template-formats="print,tei,rdf,ttl,geojson"/>
+                    <div data-template="app:display-external-relationships" data-template-type="dcterms:isPartOf"/>
+                    <div data-template="app:display-related" data-template-type="dcterms:isPartOf"/>
+                    <div data-template="app:display-related" data-template-type="dc:subject"/>
                     <div data-template="app:rec-status"/>
                     <div class="info-btns">  
                         <!-- Button trigger corrections email modal -->
@@ -26,14 +31,12 @@
                             Is this record complete?
                         </a>
                     </div>
-                    <br/>
-                    <div data-template="app:display-external-relationships" data-template-type="dct:isPartOf"/>
-                    <div data-template="app:display-related" data-template-type="dct:isPartOf"/>
-                    <div data-template="app:display-related" data-template-type="dc:subject"/>
                     <!--<div data-template="app:display-related"/>-->
                 </div>
             </div>
+            <!-- Cite this record teiHeader information  -->
             <div data-template="app:display-citation"/>
+            
         </div>
     </div>
 </div>

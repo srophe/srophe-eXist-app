@@ -60,7 +60,7 @@ let $type := if($node//tei:relationType != '') then
               else if($node//tei:place/@type) then 
                 string($node//tei:place/@type)
               else ()   
-let $coords := $node//tei:geo[1]
+let $coords := $node/descendant::tei:geo[1]
 return 
 <item type="object">
     <pair name="type" type="string">Feature</pair>

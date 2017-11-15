@@ -109,6 +109,8 @@ declare function rel:get-subject-type($rel as xs:string*) as xs:string*{
     else
         if(contains($rel,'subject')) then 
             'keywords'
+        else if(contains($rel,'isPartOf')) then 
+            'Is Part Of'                
         else tokenize(string($rel[1]),'/')[4]
 };
 
@@ -270,7 +272,7 @@ else()
  : @param $idno record idno
 :)
 declare function rel:build-relationship($node as item()*, $idno as xs:string?, $relType as xs:string?){
-    let $relationship := if($relType = 'dct:isPartOf') then 'Is part of'
+    let $relationship := if($relType = 'dcterms:isPartOf') then 'Is part of'
                          else if($relType = 'dc:subject') then 'Architectural Features'
                          else $relType
     let $related := $node/descendant-or-self::tei:relation[@ref=$relType]                      
@@ -289,7 +291,7 @@ declare function rel:build-relationship($node as item()*, $idno as xs:string?, $
                         return 
                             (<p class="rel-label"> 
                                 {
-                                    if($relType = 'dct:isPartOf') then 
+                                    if($relType = 'dcterms:isPartOf') then 
                                         ('This ', rel:get-subject-type($related[1]/@active), ' is contained by ',$count, rel:get-subject-type($related[1]/@passive),'.')
                                      else if($relType = 'dc:subject') then 
                                         ('This ', rel:get-subject-type($related[1]/@active), ' has ',$count, ' feature(s).')

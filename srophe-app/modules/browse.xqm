@@ -120,8 +120,13 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                 <div class="col-md-4">{facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@xml:lang="zn-Hans"]))}</div>
             else 
                 <div class="col-md-4">{facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[not(@xml:lang)]))}</div>
-     else(),   
-        <div class="col-md-8">{(
+     else(),   <div class="col-md-8">{browse:results($node,$model, $collection,$sort-options,$facets)}</div>)
+};
+
+declare function browse:results($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
+    let $hits := $model("browse-data")
+    let $facet-config := doc(concat($global:app-root, '/', string(global:collection-vars($collection)/@app-root),'/facet-def.xml'))
+    return   
                 <div class="{if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
                     <div class="row">
                         <div class="col-sm-12">
@@ -130,8 +135,6 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                         </div>
                     </div>
                 </div>
-                )}
-            </div>)
 };
 
 declare function browse:total-places(){
@@ -202,18 +205,13 @@ declare function browse:get-map($hits){
  : Pass each TEI result through xslt stylesheet
 :)
 declare function browse:display-hits($hits){
-    let $sites := $hits
-    (:
-    let $sites := collection($global:data-root || '/places/buildings')
-    let $buildings := collection($global:data-root || '/places/buildings')
-    :)
-    for $hit in $hits    
+    for $hit at $p in subsequence($hits, $browse:start, $browse:perpage)    
     let $sort-title := 
         if($browse:computed-lang != 'en' and $browse:computed-lang != 'zh-latn-pinyin') then 
             <span class="sort-title" lang="{$browse:computed-lang}" xml:lang="{$browse:computed-lang}">{(if($browse:computed-lang='ar') then attribute dir { "rtl" } else (), string($hit/@sort-title))}</span> 
         else () 
     let $uri := replace($hit/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
-    order by $hit//tei:title[1]
+    order by $hit/descendant::tei:title[1]
     return 
         <div xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em" class="short-rec-result">
             {
