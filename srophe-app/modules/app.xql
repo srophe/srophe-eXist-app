@@ -158,7 +158,10 @@ function app:google-analytics($node as node(), $model as map(*)){
  : Used by templating module, not needed if full record is being displayed 
 :)
 declare function app:h1($node as node(), $model as map(*)){
-    let $english := <span xml:lang="en">{$model("data")/descendant::tei:placeName[@xml:lang = "en"][1]}</span>
+    let $english := 
+            if($model("data")/descendant::tei:place/tei:placeName[@xml:lang = "en"]) then
+                <span xml:lang="en">{$model("data")/descendant::tei:placeName[@xml:lang = "en"][1]}</span>
+            else string-join($model("data")/descendant::tei:titleStmt/tei:title[1]/descendant::text())
     let $chinese := 
         if($model("data")/descendant::tei:placeName[@xml:lang="zh-Hant"]) then  
             <span xml:lang="zh-Hant">{$model("data")/descendant::tei:placeName[@xml:lang = "zh-Hant"][1]}</span>
@@ -170,7 +173,7 @@ declare function app:h1($node as node(), $model as map(*)){
                 <button type="button" class="btn btn-default btn-xs" id="idnoBtn" data-clipboard-action="copy" data-clipboard-target="#syriaca-id">
                     <span class="srp-label">URI</span>
                 </button>
-                <span id="syriaca-id">{$model("data")/descendant::tei:idno[1]}</span>
+                <span id="syriaca-id">{replace($model("data")/descendant::tei:idno[1],'/tei','')}</span>
                 <script><![CDATA[
                         var clipboard = new Clipboard('#idnoBtn');
                         clipboard.on('success', function(e) {
@@ -303,7 +306,7 @@ declare function app:display-timeline($node as node(), $model as map(*)){
  : Return tei:body/descendant/tei:bibls for use in sources
 :)
 declare %templates:wrap function app:display-citation($node as node(), $model as map(*)){
-    global:tei2html(<citation xmlns="http://www.tei-c.org/ns/1.0">{$model("data")//tei:teiHeader | $model("data")//tei:bibl}</citation>) 
+    global:tei2html(<citation xmlns="http://www.tei-c.org/ns/1.0">{$model("data")//tei:teiHeader}</citation>) 
 
 };
 
@@ -321,16 +324,16 @@ declare function app:display-related($node as node(), $model as map(*), $type as
 (:~            
  : TCADRT Get records that reference current record.
 :)       
-declare function app:external-relationships($node as node(), $model as map(*), $relType as xs:string?){
+declare function app:external-relationships($node as node(), $model as map(*), $type as xs:string?){
     let $rec := $model("data") 
-    let $recid := replace($rec/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
+    let $id := $rec/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1]
+    let $recid := replace($id,'/tei','')
     let $title := $rec/descendant::tei:titleStmt/tei:title[1]/text()
     let $relationshipPath := 
-        if($relType != '') then
-                concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$relType,"']]")
-        else concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
-    let $relationships := util:eval(concat("collection($global:data-root)/tei:TEI",$relationshipPath))
-    return $relationships    
+        if($type != '') then
+                concat("[descendant::tei:publicationStmt/tei:idno[@type='URI'] != '",$id,"'][descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @active[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$type,"']]")
+        else concat("[descendant::tei:publicationStmt/tei:idno[@type='URI'] != '",$id,"'][descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @active[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
+    return util:eval(concat("collection($global:data-root)/tei:TEI",$relationshipPath)) 
 };
 
 (:~      
@@ -339,12 +342,20 @@ declare function app:external-relationships($node as node(), $model as map(*), $
  : @param $data TEI record
  : @param $relType name/ref of relation to be displayed in HTML page
 :)
-declare %templates:wrap function app:display-external-relationships($node as node(), $model as map(*), $relType as xs:string?, $collection as xs:string?, $sort as xs:string?, $count as xs:string?){
-    let $related := app:external-relationships($node,$model,$relType)
+declare %templates:wrap function app:display-external-relationships($node as node(), $model as map(*), $type as xs:string?, $collection as xs:string?, $sort as xs:string?, $count as xs:string?){
+    let $related := app:external-relationships($node,$model,$type)
+    let $count := count($related)
+    let $recid := replace($model("data")/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
     return 
         if($related) then 
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">This site contains {count($related)} building(s) </h3></div>
+                <div class="panel-heading">
+                <h3 class="panel-title">
+                    {if($model("data")/descendant::tei:body/tei:listPlace/tei:place) then 
+                        ('This site contains ', $count, ' building(s)')
+                    else  ($count, 'related place(s)')} 
+                </h3>
+                </div>
                 <div class="panel-body">
                     { 
                         for $r in $related

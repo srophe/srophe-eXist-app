@@ -142,7 +142,7 @@ declare function search:search-string(){
     for  $parameter in $parameters
     return 
         if(request:get-parameter($parameter, '') != '') then
-            if($parameter = 'start' or $parameter = 'sort-element') then ()
+            if($parameter = 'start' or $parameter = 'sort-element' or $parameter = 'fq') then ()
             else if($parameter = 'q') then 
                 (<span class="param">Keyword: </span>,<span class="match">{$search:q}&#160;</span>)
             else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
@@ -241,7 +241,13 @@ declare function search:show-grps($nodes, $p, $collection){
 };
 :)
 
+declare function search:display-map($node as node()*, $model as map(*), $collection as xs:string?) {
+    <div>{search:build-geojson($node,$model)}</div>
+};
 
+declare function search:display-facets($node as node()*, $model as map(*), $collection as xs:string?) {
+    <div>{facet:html-list-facets-as-buttons(facet:count($model("hits"), facet-defs:facet-definition($collection)/descendant::facet:facet-definition[not(@xml:lang)]))}</div>
+};
 (:~ 
  : Builds results output
 :)
@@ -249,23 +255,20 @@ declare
     %templates:default("start", 1)
 function search:show-hits($node as node()*, $model as map(*), $collection as xs:string?) {
 <div class="indent" id="search-results">
-    <div>{search:build-geojson($node,$model)}</div>
     {
         let $hits := $model("hits")
         for $hit at $p in subsequence($hits, $search:start, $search:perpage)
         let $id := replace($hit/descendant::tei:idno[1],'/tei','')
         return 
-            <div class="row record" xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em">
-                <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">
-                    <span class="badge" style="margin-right:1em;">
-                        {$search:start + $p - 1}
-                    </span>
-                 </div>
-                <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
-                    {tei2html:summary-view(root($hit), '', $id)}
-                </div>
-            </div> 
-     } 
+        <div class="row record" xmlns="http://www.w3.org/1999/xhtml" style="border-bottom:1px dotted #eee; padding-top:.5em">
+            <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">        
+                <span class="badge" style="margin-right:1em;">{$search:start + $p - 1}</span>
+            </div>
+            <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
+                {tei2html:summary-view(root($hit), '', $id)}
+            </div>
+        </div>     
+    } 
 </div>
 };
 
