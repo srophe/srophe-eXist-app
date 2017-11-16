@@ -1,4 +1,4 @@
-xquery version "3.0";
+xquery version "3.1";
 
 (:~ 
  : Webhook endpoint for tcadrt.com data repository, /master/ branch: 
@@ -10,11 +10,11 @@ xquery version "3.0";
  :
  : @Notes 
  : This module is for the PRODUCTION server and picks up calls from refs/heads/master
+ : This version uses eXistdb's native JSON parser elminating the need for the xqjson library
  :
  : @author Winona Salesky
- : @version 1.1 
- :
- : @see https://github.com/joewiz/xqjson   
+ : @version 1.20 
+ : 
  : @see http://expath.org/spec/crypto 
  : @see http://expath.org/spec/http-client
  : 
@@ -22,7 +22,7 @@ xquery version "3.0";
  
 import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
+(:import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";:)
 import module namespace crypto="http://expath.org/ns/crypto";
 import module namespace http="http://expath.org/ns/http-client";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
@@ -62,19 +62,15 @@ return
 };
 
 declare function local:get-file-data($file-name, $contents-url){
-let $url := concat($contents-url,'/',$file-name)
-(:let $file-data :=
-        parse-json(util:binary-to-string(http:send-request(<http:request href="{xs:anyURI($url)}" method="get">
-                <http:header name="Authorization" value="{concat('token ',$gitToken)}"/>
-                <http:header name="Connection" value="close"/>
-            </http:request>)[2]))
-:)            
+let $url := concat($contents-url,'/',$file-name)         
 let $raw-url := concat(replace(replace($contents-url,'https://api.github.com/repos/','https://raw.githubusercontent.com/'),'/contents','/master'),$file-name)            
 return 
-        http:send-request(<http:request href="{xs:anyURI($raw-url)}" method="get">
-                     <http:header name="Authorization" value="{concat('token ',$gitToken)}"/>
-                     <http:header name="Connection" value="close"/>
-                   </http:request>)[2]
+        http:send-request(<http:request http-version="1.1" href="{xs:anyURI($raw-url)}" method="get">
+                            {if($gitToken != '') then
+                                <http:header name="Authorization" value="{concat('token ',$gitToken)}"/>
+                            else() }
+                            <http:header name="Connection" value="close"/>
+                        </http:request>)[2]
 };
 
 (:~
@@ -89,7 +85,7 @@ declare function local:do-update($commits as xs:string*, $contents-url as xs:str
         if(contains($file-name,'.xar')) then ()
         else local:get-file-data($file,$contents-url)
     let $resource-path := substring-before(replace($file,$repo-name,''),$file-name)
-    let $exist-collection-url := xs:anyURI(replace(concat($exist-collection,'/',$resource-path),'/$',''))
+    let $exist-collection-url := xs:anyURI(replace(concat($exist-collection,'/',$resource-path),'/$',''))        
     return 
         try {
              if(contains($file-name,'.xar')) then ()
@@ -102,16 +98,15 @@ declare function local:do-update($commits as xs:string*, $contents-url as xs:str
                     {(local:create-collections($exist-collection-url),xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), $file-data))}
                </response>  
         } catch * {
+        (response:set-status-code( 500 ),
             <response status="fail">
                 <message>Failed to update resource {xs:anyURI(concat($exist-collection-url,'/',$file-name))}: {concat($err:code, ": ", $err:description)}</message>
-            </response>
+            </response>)
         } 
-        
 };
 
-
 (:~
- : Adds new files to eXistdb. Changes permissions for group write. 
+ : Adds new files to eXistdb. 
  : Pulls data from github repository, parses file information and passes data to xmldb:store
  : @param $commits serilized json data
  : @param $contents-url string pointing to resource on github
@@ -137,9 +132,10 @@ declare function local:do-add($commits as xs:string*, $contents-url as xs:string
                  {(local:create-collections($exist-collection-url),xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), xs:base64Binary($file-data)))}
                </response>  
                } catch * {
+               (response:set-status-code( 500 ),
             <response status="fail">
                 <message>Failed to add resource {xs:anyURI(concat($exist-collection-url,$file-name))}: {concat($err:code, ": ", $err:description)}</message>
-            </response>
+            </response>)
         }
 };
 
@@ -162,9 +158,10 @@ declare function local:do-delete($commits as xs:string*, $contents-url as xs:str
                     <message>{xmldb:remove($exist-collection-url, $file-name)}</message>
                 </response>
             } catch * {
+            (response:set-status-code( 500 ),
                 <response status="fail">
                     <message>Failed to remove resource {xs:anyURI(concat($exist-collection-url,$file-name))}: {concat($err:code, ": ", $err:description)}</message>
-                </response>
+                </response>)
             }
    
 };
@@ -173,23 +170,18 @@ declare function local:do-delete($commits as xs:string*, $contents-url as xs:str
  : Parse request data and pass to appropriate local functions
  : @param $json-data github response serializing as xml xqjson:parse-json()  
  :)
-declare function local:parse-request($json-data){
-let $contents-url := substring-before($json-data//*:pair[@name="contents_url"]/text(),'{')   
+declare function local:parse-request($json-data as item()*){
+let $contents-url := substring-before($json-data?repository?contents_url,'{')
 return 
     try {
-           if($json-data//*:pair[@name="commits"]) then 
-                let $commits := $json-data//*:pair[@name="commits"]
-                return 
-                       (
-                        local:do-update(distinct-values($commits/descendant::*/*:pair[@name="modified"]/*:item/text()), $contents-url),  
-                        local:do-add(distinct-values($commits/descendant::*/*:pair[@name="added"]/*:item/text()), $contents-url),
-                        local:do-delete(distinct-values($commits/descendant::*/*:pair[@name="removed"]/*:item/text()), $contents-url)
-                        )
-            else (response:set-status-code( 500 ),<response status="fail"><message>This is a GitHub request, however there were no commits.</message></response>)   
+      (
+            local:do-update(distinct-values($json-data?commits?*?modified?*), $contents-url),  
+            local:do-add(distinct-values($json-data?commits?*?added?*), $contents-url),
+            local:do-delete(distinct-values($json-data?commits?*?removed?*), $contents-url))   
     } catch * {
     (response:set-status-code( 500 ),
         <response status="fail">
-            <message>{(:concat($err:code, ": ", $err:description):)'Error message HERE'}</message>
+            <message>Failed to parse JSON {concat($err:code, ": ", $err:description)}</message>
         </response>)
     }
 };
@@ -205,15 +197,15 @@ return
 declare function local:execute-webhook($post-data){
 if(not(empty($post-data))) then 
     let $payload := util:base64-decode($post-data)
-    let $json-data := xqjson:parse-json($payload)
+    let $json-data := parse-json($payload)
+    let $branch := if($git-config//github-branch/text() != '') then $git-config//github-branch/text() else 'refs/heads/master'
     return
-        if($json-data//*:pair[@name="ref"] = "refs/heads/master") then 
+        if($json-data?ref[. = $branch]) then 
              try {
                 if(matches(request:get-header('User-Agent'), '^GitHub-Hookshot/')) then
                     if(request:get-header('X-GitHub-Event') = 'push') then 
                         let $signiture := request:get-header('X-Hub-Signature')
                         let $expected-result := <expected-result>{request:get-header('X-Hub-Signature')}</expected-result>
-                        let $private-key := $private-key
                         let $actual-result :=
                             <actual-result>
                                 {crypto:hmac($payload, $private-key, "HMAC-SHA-1", "hex")}
@@ -229,7 +221,7 @@ if(not(empty($post-data))) then
             } catch * {
                 (response:set-status-code( 401 ),
                 <response status="fail">
-                    <message>Unacceptable headers {(:concat($err:code, ": ", $err:description):)'Error message'}</message>
+                    <message>Unacceptable headers {concat($err:code, ": ", $err:description)}</message>
                 </response>)
             }
         else (response:set-status-code( 401 ),<response status="fail"><message>Not from the master branch.</message></response>)
