@@ -102,7 +102,7 @@ declare function local:do-update($commits as xs:string*, $contents-url as xs:str
             <response status="fail">
                 <message>Failed to update resource {xs:anyURI(concat($exist-collection-url,'/',$file-name))}: {concat($err:code, ": ", $err:description)}</message>
             </response>)
-        } 
+        }
 };
 
 (:~
