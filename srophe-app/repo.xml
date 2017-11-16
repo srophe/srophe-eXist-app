@@ -1,7 +1,7 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Architectura Sinica</description>
     <author>Winona Salesky</author>
-    <website>http://tcadrt.jelastic.servint.net/</website>
+    <website>http://architecturasinica.org</website>
     <status>beta</status>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
@@ -27,7 +27,7 @@
         <!-- eXist data app root for gazetteer data -->
         <data-root>tcadrt-data</data-root>
         <!-- Base URI for identifiers in app data -->
-        <base_uri>http://tcadrt.org</base_uri>
+        <base_uri>http://architecturasinica.org</base_uri>
         <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
         <odd>/documentation/syriaca-tei-main.odd</odd>
         <!-- xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
@@ -50,8 +50,8 @@
                 record-URI-pattern="URI for building links to record views."
                 app-root="folder name in app" 
                 data-root="folder name in data"/>-->
-            <collection name="places" app-root="geo" data-root="places" record-URI-pattern="http://tcadrt.org/place/"/>
-            <collection name="keyword" title="Architectural Feature" app-root="keyword" data-root="keywords" record-URI-pattern="http://tcadrt.org/keyword/"/>
+            <collection name="places" app-root="geo" data-root="places" record-URI-pattern="http://architecturasinica.org/place/"/>
+            <collection name="keyword" title="Architectural Feature" app-root="keyword" data-root="keywords" record-URI-pattern="http://architecturasinica.org/keyword/"/>
         </collections>
         <!--
     <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];

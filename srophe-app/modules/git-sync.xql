@@ -30,14 +30,22 @@ declare namespace syriaca = "http://syriaca.org";
 
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
-(: Private key for authentication :)
-declare variable $private-key := '';
+(: Access git-api configuration file :) 
+declare variable $git-config := doc('git-config.xml');
 
-declare variable $gitToken := '';
-(: eXist collection :)
-declare variable $exist-collection := '/db/apps/tcadrt';
-(: eXist collection :)
-declare variable $repo-name := 'tcadrt';
+(: Private key for authentication :)
+declare variable $private-key := if($git-config//private-key-variable != '') then 
+                                    environment-variable($git-config//private-key-variable/text())
+                                 else $git-config//private-key/text();
+
+declare variable $gitToken := if($git-config//gitToken-variable != '') then 
+                                    environment-variable($git-config//gitToken-variable/text())
+                              else $git-config//gitToken/text();
+(: eXist db collection location :)
+declare variable $exist-collection := $git-config//exist-collection/text();
+
+(: Github repository :)
+declare variable $repo-name := $git-config//repo-name/text();
 
 (:~  
  : Recursively creates new collections if necessary  
