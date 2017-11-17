@@ -161,6 +161,10 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
             for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsArabic}','i')]
             order by  global:build-sort-string(page:add-sort-options($hit,$sort),'ar') collation "?lang=ar&amp;decomposition=full"
             return $hit/ancestor::tei:TEI 
+    else if(request:get-parameter('view', '') = 'א-ת') then
+            for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsHebrew}','i')]
+            order by  global:build-sort-string(page:add-sort-options($hit,$sort),'ar') collation "?lang=ar&amp;decomposition=full"
+            return $hit/ancestor::tei:TEI             
     else if(request:get-parameter('view', '') = 'other') then
             for $hit in $hits-main//tei:titleStmt/tei:title[1][not(matches(substring(global:build-sort-string(.,''),1,1),'\p{IsSyriac}|\p{IsArabic}|\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i'))]
             order by global:build-sort-string(page:add-sort-options($hit,$sort),'') collation "?lang=en&lt;syr&lt;ar&amp;decomposition=full"
