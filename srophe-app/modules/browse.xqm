@@ -124,8 +124,8 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
         else if($browse:view = 'categories') then 
             <div class="col-md-12 indent">
                 {browse:display-hits($hits)}
-            </div>            
-        else if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other') then 
+            </div>                        
+        else if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other' or $browse:view = 'א-ת') then 
             <div class="col-md-12">
                 <div>{page:pages($hits, $browse:start, $browse:perpage,'', $sort-options)}</div>
                 <div>{browse:display-hits($hits)}</div>
