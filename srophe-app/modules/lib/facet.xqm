@@ -192,6 +192,20 @@ declare function facet:viewable-online($results as item()*, $facet-definitions a
          <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Yes"/>
 };
 
+(: biblia-arabica special facet :)
+declare function facet:authors($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $sort := $facet-definitions/facet:order-by
+    for $f in $results/descendant::tei:body/tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor]
+    group by $facet-grp := string-join($f/descendant::text(),' ')
+    order by 
+        if($sort/text() = 'value') then $facet-grp
+        else count($f)
+        descending
+   return    
+        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp[1]}" label="{concat($f[1]/tei:surname,', ', $f[1]/tei:forename)}"/>   
+};
+
+
 (: Syriaca.org specific function that uses the syiraca.org ODD file to establish labels for controlled values 
  : Uses global:odd2text($element-name,$label)) for translation. 
 :)
@@ -265,7 +279,9 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                 else if($facet/facet:group-by[@function="facet:viewable-online"]) then 
                     "[descendant::tei:idno[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]]"    
                 else if($facet/facet:group-by[@function="facet:spear-type"]) then 
-                    concat('[',substring-before($path,'/name(.)'),'[name(.) = "',$facet-value,'"]',']')                    
+                    concat('[',substring-before($path,'/name(.)'),'[name(.) = "',$facet-value,'"]',']')
+                else if($facet/facet:group-by[@function="facet:authors"]) then
+                    concat("[descendant::tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor][string-join(descendant::text(),' ') = '",$facet-value,"']]")                 
                 else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
             else(),'')    
     else ()   
@@ -307,7 +323,6 @@ declare function facet:selected-facets-display(){
             </span>
         else()
 };
-
 
 (:~
  : Create 'Add' button 
@@ -352,7 +367,7 @@ return
                 return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{facet:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a> 
                 }
             </div>
-            <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
+            <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),'\s|/',''))}">{
                 for $key at $l in subsequence($f/facet:key,$f/@show + 1,$f/@max)
                 let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
                 let $new-fq := 
@@ -363,7 +378,7 @@ return
             </div>
             {if($count gt ($f/@show - 1)) then 
                 <a class="facet-label togglelink btn btn-info" 
-                data-toggle="collapse" data-target="#{concat('show',replace(string($f/@name),' ',''))}" href="#{concat('show',replace(string($f/@name),' ',''))}" 
+                data-toggle="collapse" data-target="#{concat('show',replace(string($f/@name),'\s|/',''))}" href="#{concat('show',replace(string($f/@name),'\s|/',''))}" 
                 data-text-swap="Less"> More &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
             else()}
     </div>
