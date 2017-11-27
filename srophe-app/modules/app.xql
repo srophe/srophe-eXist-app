@@ -379,7 +379,7 @@ declare function app:subject-headings($node as node(), $model as map(*)){
                  return 
                      <span class="related-subject">
                      {$subject/tei:desc/text()}&#160;
-                     <a href="../search.html?subject={$subject/tei:desc/text()}">
+                     <a href='../search.html?subject="{$subject/tei:desc/text()}"'>
                      <span class="glyphicon glyphicon-search" aria-hidden="true">
                      </span></a></span>
              }
@@ -401,7 +401,7 @@ declare function app:cited($node as node(), $model as map(*)){
                     for $cited in $model("data")//tei:relation[@ref='dcterms:references']
                     return 
                         <span class="related-subject">{$cited/tei:desc/tei:bibl/text()}&#160;
-                        <a href="../search.html?subject={$cited/tei:desc/tei:bibl/text()}">
+                        <a href='../search.html?mss="{$cited/tei:desc/tei:bibl/text()}"'>
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span>
                 }
             </div>
