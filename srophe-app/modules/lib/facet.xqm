@@ -111,7 +111,9 @@ declare function facet:group-by-range($results as item()*, $facet-definitions as
     let $ranges := $facet-definitions/facet:range
     let $sort := $facet-definitions/facet:order-by 
     for $range in $ranges/facet:bucket
-    let $path := concat('$results/',$facet-definitions/descendant::facet:sub-path/text(),'[. gt "', facet:type($range/@gt, $ranges/@type),'" and . lt "',facet:type($range/@lt, $ranges/@type),'"]')
+    let $path := if($range/@lt and $range/@lt != '') then
+                    concat('$results/',$facet-definitions/descendant::facet:sub-path/text(),'[. >= "', facet:type($range/@gt, $ranges/@type),'" and . <= "',facet:type($range/@lt, $ranges/@type),'"]')
+                 else concat('$results/',$facet-definitions/descendant::facet:sub-path/text(),'[. >= "', facet:type($range/@gt, $ranges/@type),'"]')
     let $f := util:eval($path)
     order by 
             if($sort/text() = 'value') then $f[1]
@@ -189,7 +191,7 @@ declare function facet:spear-type($results as item()*, $facet-definitions as ele
 declare function facet:viewable-online($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
     let $r := $results[descendant::tei:idno[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]]
     return 
-         <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Yes"/>
+         <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Online"/>
 };
 
 (: biblia-arabica special facet :)
@@ -202,7 +204,7 @@ declare function facet:authors($results as item()*, $facet-definitions as elemen
         else count($f)
         descending
    return    
-        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp[1]}" label="{concat($f[1]/tei:surname,', ', $f[1]/tei:forename)}"/>   
+        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{normalize-space($facet-grp[1])}" label="{concat($f[1]/tei:surname,', ', $f[1]/tei:forename)}"/>   
 };
 
 
@@ -273,7 +275,9 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
             return 
             if($facet-value != '') then 
                 if($facet/facet:range) then
-                    concat('[',$path,'[string(.) gt "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" and string(.) lt "',facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@lt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'"]]')
+                    if($facet/facet:range/facet:bucket[@name = $facet-value]/@lt and $facet/facet:range/facet:bucket[@name = $facet-value]/@lt != '') then
+                        concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" and string(.) <= "',facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@lt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'"]]')                        
+                    else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
                 else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
                     concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')
                 else if($facet/facet:group-by[@function="facet:viewable-online"]) then 
@@ -281,7 +285,7 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                 else if($facet/facet:group-by[@function="facet:spear-type"]) then 
                     concat('[',substring-before($path,'/name(.)'),'[name(.) = "',$facet-value,'"]',']')
                 else if($facet/facet:group-by[@function="facet:authors"]) then
-                    concat("[descendant::tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor][string-join(descendant::text(),' ') = '",$facet-value,"']]")                 
+                    concat("[descendant::tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor][normalize-space(string-join(descendant::text(),' ')) = '",$facet-value,"']]")                 
                 else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
             else(),'')    
     else ()   

@@ -20,6 +20,10 @@ declare variable $bibls:id-type {request:get-parameter('id-type', '')};
 declare variable $bibls:pub-place {request:get-parameter('pub-place', '')};
 declare variable $bibls:publisher {request:get-parameter('publisher', '')};
 declare variable $bibls:date {request:get-parameter('date', '')};
+declare variable $bibls:start-date {request:get-parameter('start-date', '')};
+declare variable $bibls:end-date {request:get-parameter('end-date', '')};
+declare variable $bibls:online {request:get-parameter('online', '')};
+
 
 declare function bibls:title() as xs:string? {
     if($bibls:title != '') then concat("[ft:query(descendant::tei:title,'",data:clean-string($bibls:title),"',data:search-options())]")
@@ -68,9 +72,37 @@ declare function bibls:date() as xs:string? {
     else ()  
 };
 
+declare function bibls:online() as xs:string? {
+    if($bibls:online = 'on') then 
+        "[descendant::tei:idno[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]]"
+    else ()  
+};
+
+(:~
+ : Build date search string
+ : @param $bibls:date-type indicates element to restrict date searches on, if empty, no element restrictions
+ : @param $bibls:start-date start date
+ : @param $bibls:end-date end date       
+:)
+declare function bibls:date-range() as xs:string?{
+    if($bibls:start-date != '' and $bibls:end-date != '') then 
+        concat("[descendant::tei:imprint/tei:date[(. >='", global:make-iso-date($bibls:start-date),"') and (. <= '",global:make-iso-date($bibls:end-date) ,"')]]")
+    else if($bibls:start-date != ''  and $bibls:end-date = '') then
+        concat("[descendant::tei:imprint/tei:date[. >= '",global:make-iso-date($bibls:start-date),"']]")
+    else if($bibls:end-date != ''  and $bibls:start-date = '') then
+        concat("[descendant::tei:imprint/tei:date[. <= '",global:make-iso-date($bibls:end-date) ,"']]")
+    else ()
+}; 
+
 declare function bibls:subject() as xs:string?{
     if(request:get-parameter('subject', '') != '') then 
-        concat("[descendant::tei:relation/descendant::text() = '",request:get-parameter('subject', ''),"']")
+       concat("[descendant::tei:relation[@ref='dc:subject']/descendant::tei:desc[ft:query(.,'",data:clean-string(request:get-parameter('subject', '')),"',data:search-options())]]")
+    else ()  
+};
+
+declare function bibls:mss() as xs:string?{
+    if(request:get-parameter('mss', '') != '') then
+        concat("[descendant::tei:relation[@ref='dcterms:references']/descendant::tei:desc[ft:query(.,'",data:clean-string(request:get-parameter('mss', '')),"',data:search-options())]]")
     else ()  
 };
 
@@ -85,7 +117,10 @@ declare function bibls:query-string() as xs:string? {
     bibls:pub-place(),
     bibls:publisher(),
     bibls:date(),
+    bibls:date-range(),
     bibls:subject(),
+    bibls:mss(),
+    bibls:online(),
     bibls:idno()
     )
 };
@@ -106,7 +141,6 @@ declare function bibls:search-string(){
                 else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
             else ()               
 };
-
 
 (:~
  : Builds advanced search form for persons
@@ -164,6 +198,34 @@ declare function bibls:search-form() {
                 </div>
             </div>  
             <div class="form-group">            
+                <label for="subject" class="col-sm-2 col-md-3  control-label">Subject: </label>
+                <div class="col-sm-10 col-md-6 ">
+                    <div class="input-group">
+                        <input type="text" id="subject" name="subject" class="form-control keyboard"  placeholder="Subject"/>
+                        <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
+                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
+                                </button>
+                                {global:keyboard-select-menu('subject')}
+                        </div>
+                    </div>                 
+                </div>
+            </div>
+            <div class="form-group">            
+                <label for="mss" class="col-sm-2 col-md-3  control-label">Manuscript: </label>
+                <div class="col-sm-10 col-md-6 ">
+                    <div class="input-group">
+                        <input type="text" id="mss" name="mss" class="form-control keyboard"  placeholder="Manuscript"/>
+                        <div class="input-group-btn">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
+                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
+                                </button>
+                                {global:keyboard-select-menu('mss')}
+                        </div>
+                    </div>                 
+                </div>
+            </div>            
+            <div class="form-group">            
                 <label for="pub-place" class="col-sm-2 col-md-3  control-label">Publication Place: </label>
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
@@ -190,18 +252,37 @@ declare function bibls:search-form() {
                             </div>
                     </div>                 
                 </div>
-            </div>   
+            </div>
+            <!--
             <div class="form-group">            
                 <label for="date" class="col-sm-2 col-md-3  control-label">Date: </label>
                 <div class="col-sm-10 col-md-6 ">
                     <input type="text" id="date" name="date" class="form-control" placeholder="Year as YYYY"/>
                 </div>
-            </div>   
+            </div> 
+            -->
+            <div class="form-group">
+                <label for="start-date" class="col-sm-2 col-md-3  control-label">Date: </label>
+                <div class="col-sm-10 col-md-6 form-inline">
+                    <input type="text" id="start-date" name="start-date" placeholder="Start Date" class="form-control"/>&#160;
+                    <input type="text" id="end-date" name="end-date" placeholder="End Date" class="form-control"/>&#160;
+                    <p class="hint">* Dates should be entered as YYYY or YYYY-MM-DD. Add a minus sign (-) in front of BC dates. <span><a href="http://syriaca.org/documentation/dates.html">more <i class="glyphicon glyphicon-circle-arrow-right"></i></a></span></p>
+                </div>
+            </div>  
             <hr/>
             <div class="form-group">            
-                <label for="idno" class="col-sm-2 col-md-3  control-label">Id Number: </label>
+                <label for="idno" class="col-sm-2 col-md-3  control-label">ISBN / DOI / URI: </label>
                 <div class="col-sm-10 col-md-2 ">
                     <input type="text" id="idno" name="idno" class="form-control"  placeholder="Ex: 3490"/>
+                </div>
+            </div>
+            <div class="form-group">     
+                <label for="idno" class="col-sm-2 col-md-3  control-label">Only items viewable online: </label>
+                <div class="col-sm-10 col-md-2 ">
+                    <label class="switch">
+                        <input id="online" name="online" type="checkbox"/>
+                        <span class="slider round"></span>
+                    </label>
                 </div>
             </div> 
         </div>

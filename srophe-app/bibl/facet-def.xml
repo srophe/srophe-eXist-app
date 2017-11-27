@@ -22,7 +22,7 @@
     </facet-definition>
     <facet-definition name="Publication Date">
         <range type="xs:year">
-            <bucket gt="2000-01-01" name="2000 +" order="14"/>
+            <bucket gt="2000-01-01" name="2000 >" order="14"/>
             <bucket gt="1975-01-01" lt="2000-01-01" name="1975-2000" order="13"/>
             <bucket gt="1950-01-01" lt="1975-01-01" name="1950-1975" order="12"/>
             <bucket gt="1925-01-01" lt="1950-01-01" name="1925-1950" order="11"/>
