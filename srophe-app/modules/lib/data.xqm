@@ -126,12 +126,12 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
             if(data:get-alpha-filter() = 'ALL' or data:get-alpha-filter() != '') then 
                 for $hit in $hits-main
                 let $title := global:build-sort-string($hit,$data:computed-lang)
-                order by $title collation "?lang=en&lt;syr&amp;decomposition=full"
+                order by $title collation "?lang=en&lt;syr&amp;decomposition=standard"
                 return <browse xmlns="http://www.tei-c.org/ns/1.0" sort-title="{$hit}">{$hit/ancestor::tei:TEI}</browse>
             else
                 for $hit in $hits-main[matches(substring(global:build-sort-string(.,$data:computed-lang),1,1),data:get-alpha-filter(),'i')]
                 let $title := global:build-sort-string($hit,$data:computed-lang)
-                order by $title collation "?lang=en&lt;syr&amp;decomposition=full"
+                order by $title collation "?lang=en&lt;syr&amp;decomposition=standard"
                 return <browse xmlns="http://www.tei-c.org/ns/1.0" sort-title="{$hit}">{$hit/ancestor::tei:TEI}</browse>
         else if(request:get-parameter('view', '') = 'numeric') then
             for $hit in $hits-main/ancestor::tei:TEI/descendant::tei:idno[starts-with(.,$global:base-uri)][1]
@@ -141,7 +141,7 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
         else
             for $hit in $hits-main
             let $title := global:build-sort-string($hit,$data:computed-lang)
-            order by $title collation "?lang=en&lt;syr&amp;decomposition=full"
+            order by $title collation "?lang=en&lt;syr&amp;decomposition=standard"
             return
                 <browse xmlns="http://www.tei-c.org/ns/1.0" sort-title="{$hit}">{$hit/ancestor-or-self::tei:TEI}</browse>
 };

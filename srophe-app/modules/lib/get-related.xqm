@@ -125,7 +125,7 @@ let $data :=
     let $id := $r/ancestor::tei:TEI/descendant::tei:idno[@type='URI'][1]
     let $sort := global:build-sort-string($headword,'')
     where $sort != ''
-    order by $sort collation "?lang=en&lt;syr&amp;decomposition=full"
+    order by $sort collation "?lang=en&lt;syr&amp;decomposition=standard"
     return concat($id, 'headword:=', $headword)
 return  map { "cited" := $data}    
 };
