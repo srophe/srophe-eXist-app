@@ -95,8 +95,12 @@ declare function bibls:date-range() as xs:string?{
 }; 
 
 declare function bibls:subject() as xs:string?{
-    if(request:get-parameter('subject', '') != '') then 
-       concat("[descendant::tei:relation[@ref='dc:subject']/descendant::tei:desc[ft:query(.,'",data:clean-string(request:get-parameter('subject', '')),"',data:search-options())]]")
+    if(request:get-parameter('subject', '') != '' or request:get-parameter('subject-exact', '')) then 
+        if(request:get-parameter('subject', '')) then 
+            concat("[descendant::tei:relation[@ref='dc:subject']/descendant::tei:desc[ft:query(.,'",data:clean-string(request:get-parameter('subject', '')),"',data:search-options())]]")     
+        else if(request:get-parameter('subject-exact', '')) then 
+            concat("[descendant::tei:relation[@ref='dc:subject']/descendant::tei:desc[. = '",request:get-parameter('subject-exact', ''),"']]")
+        else()
     else ()  
 };
 
@@ -138,8 +142,18 @@ declare function bibls:search-string(){
                     (<span class="param">Keyword: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
                 else if ($parameter = 'author') then 
                     (<span class="param">Author/Editor: </span>,<span class="match">{$bibls:author}&#160; </span>)
+                else if ($parameter = 'subject-exact') then 
+                    (<span class="param">Subject: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
                 else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
             else ()               
+};
+
+(: BA specific function to list all available subjects for dropdown list in search form :)
+declare function bibls:get-subjects(){
+ for $s in collection($global:data-root)//tei:relation[@ref='dc:subject']/descendant::tei:desc
+ group by $subject-facet := $s/text()
+ order by $subject-facet
+ return <option value="{$subject-facet}">{$subject-facet}</option>
 };
 
 (:~
@@ -197,6 +211,7 @@ declare function bibls:search-form() {
                     </div>                
                 </div>
             </div>  
+            <!--
             <div class="form-group">            
                 <label for="subject" class="col-sm-2 col-md-3  control-label">Subject: </label>
                 <div class="col-sm-10 col-md-6 ">
@@ -208,6 +223,17 @@ declare function bibls:search-form() {
                                 </button>
                                 {global:keyboard-select-menu('subject')}
                         </div>
+                    </div>                 
+                </div>
+            </div>
+            -->
+            <div class="form-group">            
+                <label for="subject-exact" class="col-sm-2 col-md-3  control-label">Select Subject: </label>
+                <div class="col-sm-10 col-md-6 ">
+                    <div class="input-group">
+                    <select name="subject-exact">
+                        {bibls:get-subjects()}
+                    </select>
                     </div>                 
                 </div>
             </div>
