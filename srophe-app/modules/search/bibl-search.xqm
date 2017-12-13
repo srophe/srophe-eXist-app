@@ -152,7 +152,7 @@ declare function bibls:search-string(){
 declare function bibls:get-subjects(){
  for $s in collection($global:data-root)//tei:relation[@ref='dc:subject']/descendant::tei:desc
  group by $subject-facet := $s/text()
- order by $subject-facet
+ order by global:build-sort-string($subject-facet,'')
  return <option value="{$subject-facet}">{$subject-facet}</option>
 };
 
