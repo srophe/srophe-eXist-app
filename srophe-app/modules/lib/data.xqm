@@ -150,7 +150,7 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
    (: <p>{concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element))}</p>:)
     if($collection = 'bibl' and empty(request:get-parameter-names()) or request:get-parameter('view', '') = 'A-Z') then 
             for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}','i')]
-            where $hit[matches(substring(global:build-sort-string(.,$data:computed-lang),1,1),data:get-alpha-filter(),'i')]
+            where if(data:get-alpha-filter() = 'ALL') then $hit else $hit[matches(substring(global:build-sort-string(.,$data:computed-lang),1,1),data:get-alpha-filter(),'i')]
             order by global:build-sort-string(page:add-sort-options($hit,$sort),'')
             return $hit/ancestor::tei:TEI
    else if(request:get-parameter('view', '') = 'ܐ-ܬ') then
@@ -166,7 +166,7 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
             order by  global:build-sort-string(page:add-sort-options($hit,$sort),'ar') collation "?lang=ar&amp;decomposition=standard"
             return $hit/ancestor::tei:TEI             
     else if(request:get-parameter('view', '') = 'other') then
-            for $hit in $hits-main//tei:titleStmt/tei:title[1][not(matches(substring(global:build-sort-string(.,''),1,1),'\p{IsSyriac}|\p{IsArabic}|\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i'))]
+            for $hit in $hits-main//tei:titleStmt/tei:title[1][not(matches(substring(global:build-sort-string(.,''),1,1),'\p{IsSyriac}|\p{IsArabic}|\p{IsHebrew}|\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i'))]
             order by global:build-sort-string(page:add-sort-options($hit,$sort),'') collation "?lang=en&amp;decomposition=standard"
             return $hit/ancestor::tei:TEI         
     else if(request:get-parameter('view', '') = ('all','ALL','All')) then

@@ -354,7 +354,7 @@ td {
 
 /* Browse page styles */
 .syr-list{padding-right:7em; padding-top:2em; text-align: right;}
-.en-list{padding-left:5em; padding-top:2em;}
+.en-list{padding-top:2em;}
 
 .alpha-pages {margin-top:-1.85em;}
 .browse-alpha {border-bottom:1px solid #ccc; padding-left:1em; padding:0; margin-bottom:1em; text-align: justify;}

@@ -21,7 +21,6 @@ import module namespace tei2html="http://syriaca.org/tei2html" at "lib/tei2html.
 import module namespace functx="http://www.functx.com";
 import module namespace templates="http://exist-db.org/xquery/templates";
 
-
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace transform="http://exist-db.org/xquery/transform";
 declare namespace util="http://exist-db.org/xquery/util";
@@ -101,7 +100,7 @@ return
 declare function browse:results-panel($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
     let $hits := $model("browse-data")
     return 
-       if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then
+        (: if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then
             (<div class="col-md-4">
                 {if($browse:view='type') then facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@name="Type"]))
                  else if($browse:view = 'facets') then browse:display-facets($node, $model, $collection, $facets)
@@ -116,20 +115,22 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                         <div class="col-md-12 map-md">{browse:get-map($hits)}</div>,
                             browse:display-hits($hits)
                         )}</div>)
-                }</div>)
-        else if($browse:view = 'map') then 
+                }</div>)    
+        else :) if($browse:view = 'map') then 
             <div class="col-md-12 map-lg">
                 {browse:get-map($hits)}
             </div>
         else if($browse:view = 'categories') then 
             <div class="col-md-12 indent">
                 {browse:display-hits($hits)}
-            </div>                        
+            </div>     
+        (:    
         else if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other' or $browse:view = 'א-ת') then 
             <div class="col-md-12">
                 <div>{page:pages($hits, $browse:start, $browse:perpage,'', $sort-options)}</div>
                 <div>{browse:display-hits($hits)}</div>
             </div>
+         :)   
         else 
             <div class="col-md-12">
                 {(
@@ -138,18 +139,22 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                     <div class="{if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then "pull-left" else "pull-right"}">
                          <div>{page:pages($hits, $browse:start, $browse:perpage,'', $sort-options)}</div>
                     </div>
-                    {browse:browse-abc-menu()}
+                    {if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other' or $browse:view = 'א-ת') then () else browse:browse-abc-menu()}
                 </div>,
-                <h3>{(
-                    if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) 
-                    else attribute class {"label"},
-                    if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>,
                 <div class="{if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
                     <div class="row">
-                        <div class="col-sm-12">
-                        {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
-                        {browse:display-hits($hits)}
-                        </div>
+                        <div class="col-md-4">
+                            {facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition))}
+                         </div>
+                         <!--
+                         <div class="col-md-1">
+                         <h3>{(if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) else attribute class {"label"},
+                                  if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>
+                         </div>-->
+                         <div class="col-sm-8 top-padding">
+                            {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
+                            {browse:display-hits($hits)}
+                         </div>
                     </div>
                 </div>
                 )}
