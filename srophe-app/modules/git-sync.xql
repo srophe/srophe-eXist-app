@@ -13,7 +13,7 @@ xquery version "3.1";
  : This version uses eXistdb's native JSON parser elminating the need for the xqjson library
  :
  : @author Winona Salesky
- : @version 1.20 
+ : @version 2.0 
  : 
  : @see http://expath.org/spec/crypto 
  : @see http://expath.org/spec/http-client
@@ -31,7 +31,7 @@ declare namespace syriaca = "http://syriaca.org";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 (: Access git-api configuration file :) 
-declare variable $git-config := doc('git-config.xml');
+declare variable $git-config := if(doc('../config.xml')) then doc('../config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
 
 (: Private key for authentication :)
 declare variable $private-key := if($git-config//private-key-variable != '') then 
@@ -186,7 +186,6 @@ return
     }
 };
 
-
 (:~
  : Validate github post request.
  : Check user agent and github event, only accept push events from master branch.
@@ -208,7 +207,7 @@ if(not(empty($post-data))) then
                         let $expected-result := <expected-result>{request:get-header('X-Hub-Signature')}</expected-result>
                         let $actual-result :=
                             <actual-result>
-                                {crypto:hmac($payload, $private-key, "HMAC-SHA-1", "hex")}
+                                {crypto:hmac($payload, string($private-key), "HMAC-SHA-1", "hex")}
                             </actual-result>
                         let $condition := contains(normalize-space($expected-result/text()),normalize-space($actual-result/text()))                	
                         return
