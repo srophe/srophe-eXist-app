@@ -31,7 +31,7 @@ declare function geojson:json-wrapper($nodes as node()*) as element()*{
     <pair name="features"  type="array">
         {
              for $n in $nodes[descendant-or-self::tei:geo]
-             return geojson:geojson-object($n)
+             return geojson:geojson-object(root($n))
         }
     </pair>
 </json>
@@ -51,11 +51,14 @@ declare function geojson:geojson-object($node as node()*) as element()*{
 let $id := if($node//tei:idno[@type='URI']) then $node//tei:idno[@type='URI'][1]
            else $node//tei:idno[1]
 let $title := if($node/descendant::*[@syriaca-tags="#syriaca-headword"]) then $node/descendant::*[@syriaca-tags="#syriaca-headword"][1] 
-              else $node/descendant::tei:titleStmt/tei:title[1]
+              else $node/descendant::tei:titleStmt/tei:title[1]/text()
 let $desc := if($node/descendant::tei:desc[1]/tei:quote) then 
                 concat('"',$node/descendant::tei:desc[1]/tei:quote,'"')
              else $node/descendant::tei:desc[1]
-let $type := if($node/descendant::tei:relationType != '') then 
+let $type := 
+            if($node/descendant::tei:trait[@type="building-type"]) then
+                string($node/descendant::tei:trait[@type="building-type"]/tei:desc[1])
+             else if($node/descendant::tei:relationType != '') then 
                 string($node/descendant::tei:relationType)
               else if($node/descendant::tei:place/@type) then 
                 string($node/descendant::tei:place/@type)
@@ -74,9 +77,9 @@ return
     <pair name="properties"  type="object">
         <pair name="uri" type="string">{replace($id[1],'/tei','')}</pair>
         <pair name="name" type="string">{string-join($title,' ')}</pair>
-        {if($desc != '') then
+        {(:if($desc != '') then
             <pair name="desc" type="string">{string-join($desc,' ')}</pair> 
-        else(),
+        else(),:)
         if($type != '') then
             <pair name="type" type="string">{$type}</pair> 
         else ()
