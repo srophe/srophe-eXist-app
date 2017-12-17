@@ -158,14 +158,8 @@ function app:google-analytics($node as node(), $model as map(*)){
  : Used by templating module, not needed if full record is being displayed 
 :)
 declare function app:h1($node as node(), $model as map(*)){
-    let $english := 
-            if($model("data")/descendant::tei:place/tei:placeName[@xml:lang = "en"]) then
-                <span xml:lang="en">{$model("data")/descendant::tei:placeName[@xml:lang = "en"][1]}</span>
-            else string-join($model("data")/descendant::tei:titleStmt/tei:title[1]/descendant::text())
-    let $chinese := 
-        if($model("data")/descendant::tei:placeName[@xml:lang="zh-Hant"]) then  
-            <span xml:lang="zh-Hant">{$model("data")/descendant::tei:placeName[@xml:lang = "zh-Hant"][1]}</span>
-        else ()
+    let $english := <span xml:lang="en">{$model("data")/descendant::tei:titleStmt/tei:title[1]/text()[1]}</span>
+    let $chinese := <span xml:lang="zh-Hant">{$model("data")/descendant::tei:titleStmt/tei:title[1]/tei:foreign[@xml:lang = "zh-Hant"][1]}</span>
     return   
         <div class="title">
             <h1>{($english, ' ' , $chinese)}</h1>
@@ -294,7 +288,7 @@ declare function app:display-timeline($node as node(), $model as map(*)){
                 <ul class="list-unstyled">
                     {
                         for $date in $model("data")/descendant::tei:body/descendant::*[@when or @notBefore or @notAfter] 
-                        return <li>{global:tei2html($date)}</li>
+                        return <li>{tei2html:tei2html($date)}</li>
                     }
                 </ul> 
             </div>     
