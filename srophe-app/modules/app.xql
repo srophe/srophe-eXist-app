@@ -346,16 +346,31 @@ declare %templates:wrap function app:display-external-relationships($node as nod
                 <div class="panel-heading">
                 <h3 class="panel-title">
                     {if($model("data")/descendant::tei:body/tei:listPlace/tei:place) then 
-                        ('This site contains ', $count, ' building(s)')
+                        ('This site contains ', $count, ' building(s)/artifact(s)')
                     else  ($count, 'related place(s)')} 
                 </h3>
                 </div>
                 <div class="panel-body">
                     { 
                         for $r in $related
-                        let $uri := replace($r/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
-                        return 
-                        <div class="indent">{tei2html:summary-view($r, (), $uri)}</div> 
+                        let $title := $r/descendant-or-self::tei:place/tei:placeName[1]
+                        let $id := replace($r/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
+                        return
+                            <div class="indent">
+                                <div class="short-rec-view">
+                                   <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">{tei2html:tei2html($title)}</a>
+                                   <button type="button" class="btn btn-sm btn-default copy-sm clipboard"  
+                                        data-toggle="tooltip" title="Copies record title &amp; URI to clipboard." 
+                                        data-clipboard-action="copy" data-clipboard-text="{normalize-space($title)} - {normalize-space($id)}">
+                                            <span class="glyphicon glyphicon-copy" aria-hidden="true"/>
+                                    </button>
+                                    {
+                                    if($id != '') then 
+                                        <span class="results-list-desc uri"><span class="srp-label">URI: </span><a href="{replace($id,$global:base-uri,$global:nav-base)}">{$id}</a></span>
+                                    else()
+                                    }
+                                </div>
+                            </div>
                     }
                 </div>
             </div>
