@@ -1,7 +1,7 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Biblia Arabica bibliography</description>
     <author>Winona Salesky</author>
-    <website>http://syriaca.org/</website>
+    <website>http://biblia-arabica.com/</website>
     <status>beta</status>
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
@@ -15,7 +15,8 @@
         <!-- App description -->
         <description/>
         <!-- Contact email -->
-        <contact/>
+        <contact>nathan.gibson@lmu.de</contact>
+        <contact>ronny.vollandt@lmu.de</contact>
         <!-- Logo name (assumes path to logo is $app-root/resources/img/) -->
         <logo/>
         <!-- Web Site URL -->
@@ -50,15 +51,11 @@
             <collection name="bibl" title="Biblia Arabica" app-root="bibl" data-root="bibl" record-URI-pattern="http://biblia-arabica.com/bibl/"/>
         </collections>  
         <!--
-    <google_analytics>var _gaq=[['_setAccount','UA-333143-26'],['_trackPageview']];
+    <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
         s.parentNode.insertBefore(g,s)}(document,'script'));</google_analytics>
     -->
     </config>
-
-
-
-
-<deployed>2017-11-07T10:27:57.093-05:00</deployed>
+    <deployed>2017-12-08T08:48:21.036-05:00</deployed>
 </meta>
