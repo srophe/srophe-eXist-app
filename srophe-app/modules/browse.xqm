@@ -139,11 +139,15 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                     <div class="{if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then "pull-left" else "pull-right"}">
                          <div>{page:pages($hits, $browse:start, $browse:perpage,'', $sort-options)}</div>
                     </div>
-                    {if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other' or $browse:view = 'א-ת') then () else browse:browse-abc-menu()}
+                    {(:
+                    if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other' or $browse:view = 'א-ת') then () 
+                    else browse:browse-abc-menu()
+                    :)''}
                 </div>,
                 <div class="{if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
                     <div class="row">
                         <div class="col-md-4">
+                        <br/>
                             {facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition))}
                          </div>
                          <!--
@@ -153,6 +157,7 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                          </div>-->
                          <div class="col-sm-8 top-padding">
                             {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
+                            <span style="font-size: 1.25em; font-weight: 500; color: #666; margin:-1em 0 1em -.5em;">Results: {count($hits)}</span>
                             {browse:display-hits($hits)}
                          </div>
                     </div>
