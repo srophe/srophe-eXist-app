@@ -531,7 +531,8 @@ declare %templates:wrap function app:contact-form($node as node(), $model as map
                 <input type="hidden" name="collection" value="{$collection}"/>
                 <!-- start reCaptcha API-->
                 {if($global:recaptcha != '') then  
-                    (<script src="https://www.google.com/recaptcha/api.js?fallback=true"></script>,
+                    (
+                    <script src='https://www.google.com/recaptcha/api.js?onload=captchaCallback&amp;render=explicit' async="false" defer="defer"></script>,
                     <div class="g-recaptcha" data-sitekey="{$global:recaptcha}"></div>)
                 else ()}
             </div>
