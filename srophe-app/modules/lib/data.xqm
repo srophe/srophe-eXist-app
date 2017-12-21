@@ -145,60 +145,12 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
         else if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
         else ()        
     let $hits-main := util:eval(concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element)))
-    (:let $hits-main := $hits[not(descendant::tei:relation[@name='skos:broadMatch'])]:)
     return 
-   (: <p>{concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element))}</p>:)
-    if($collection = 'bibl' and empty(request:get-parameter-names())) then 
             for $hit in $hits-main//tei:titleStmt/tei:title[1][. != '']
-            order by global:build-sort-string(page:add-sort-options($hit,$sort),'') collation "?lang=en&amp;decomposition=standard"
+            let $sort-order := if($sort) then page:add-sort-options($hit,$sort) else global:build-sort-string($hit,'')
+            order by $sort-order  collation "?lang=en&amp;decomposition=standard"
             return $hit/ancestor::tei:TEI
-    else if(request:get-parameter('view', '') = 'A-Z') then 
-            for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}','i')]
-            where if(data:get-alpha-filter() = 'ALL') then $hit else $hit[matches(substring(global:build-sort-string(.,$data:computed-lang),1,1),data:get-alpha-filter(),'i')]
-            order by global:build-sort-string(page:add-sort-options($hit,$sort),'')
-            return $hit/ancestor::tei:TEI
-   else if(request:get-parameter('view', '') = 'ܐ-ܬ') then
-            for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsSyriac}','i')]
-            order by global:build-sort-string(page:add-sort-options($hit,$sort),'') collation "?lang=syr&amp;decomposition=standard"
-            return $hit/ancestor::tei:TEI                            
-    else if(request:get-parameter('view', '') = 'ا-ي') then
-            for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsArabic}','i')]
-            order by  global:build-sort-string(page:add-sort-options($hit,$sort),'ar') collation "?lang=ar&amp;decomposition=standard"
-            return $hit/ancestor::tei:TEI 
-    else if(request:get-parameter('view', '') = 'א-ת') then
-            for $hit in $hits-main//tei:titleStmt/tei:title[1][matches(.,'\p{IsHebrew}','i')]
-            order by  global:build-sort-string(page:add-sort-options($hit,$sort),'ar') collation "?lang=ar&amp;decomposition=standard"
-            return $hit/ancestor::tei:TEI             
-    else if(request:get-parameter('view', '') = 'other') then
-            for $hit in $hits-main//tei:titleStmt/tei:title[1][not(matches(substring(global:build-sort-string(.,''),1,1),'\p{IsSyriac}|\p{IsArabic}|\p{IsHebrew}|\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i'))]
-            order by global:build-sort-string(page:add-sort-options($hit,$sort),'') collation "?lang=en&amp;decomposition=standard"
-            return $hit/ancestor::tei:TEI         
-    else if(request:get-parameter('view', '') = ('all','ALL','All')) then
-            for $hit in $hits-main/ancestor::tei:TEI/descendant::tei:titleStmt/tei:title[1]
-            order by global:build-sort-string(page:add-sort-options($hit,$sort),'') collation "?lang=en&amp;decomposition=standard"
-            return $hit/ancestor::tei:TEI
-    else if($data:computed-lang != '') then 
-            if(data:get-alpha-filter() = 'ALL') then 
-                for $hit in $hits-main
-                let $title := global:build-sort-string($hit,$data:computed-lang)
-                order by $title collation "?lang=en&amp;decomposition=standard"
-                return <browse xmlns="http://www.tei-c.org/ns/1.0" sort-title="{$hit}">{$hit/ancestor::tei:TEI}</browse>
-            else
-                for $hit in $hits-main[matches(substring(global:build-sort-string(.,$data:computed-lang),1,1),data:get-alpha-filter(),'i')]
-                let $title := global:build-sort-string($hit,$data:computed-lang)
-                order by $title collation "?lang=en&amp;decomposition=standard"
-                return <browse xmlns="http://www.tei-c.org/ns/1.0" sort-title="{$hit}">{$hit/ancestor::tei:TEI}</browse>
-    else if(request:get-parameter('view', '') = 'numeric') then
-            for $hit in $hits-main/ancestor::tei:TEI/descendant::tei:idno[starts-with(.,$global:base-uri)][1]
-            let $rec-id := tokenize(replace($hit,'/tei|/source',''),'/')[last()]
-            order by xs:integer($rec-id)
-            return $hit/ancestor::tei:TEI    
-    else 
-            for $hit in $hits-main
-            let $title := global:build-sort-string($hit,$data:computed-lang)
-            order by $title collation "?lang=en&amp;decomposition=standard"
-            return $hit/ancestor-or-self::tei:TEI
-    
+
 };
 
 (:
