@@ -113,6 +113,8 @@ declare function facet:group-by-range($results as item()*, $facet-definitions as
     for $range in $ranges/facet:bucket
     let $path := if($range/@lt and $range/@lt != '') then
                     concat('$results/',$facet-definitions/descendant::facet:sub-path/text(),'[. >= "', facet:type($range/@gt, $ranges/@type),'" and . <= "',facet:type($range/@lt, $ranges/@type),'"]')
+                 else if($range/@eq) then
+                    concat('$results/',$facet-definitions/descendant::facet:sub-path/text(),'[', $range/@eq ,']')
                  else concat('$results/',$facet-definitions/descendant::facet:sub-path/text(),'[. >= "', facet:type($range/@gt, $ranges/@type),'"]')
     let $f := util:eval($path)
     order by 
@@ -205,6 +207,7 @@ declare function facet:authors($results as item()*, $facet-definitions as elemen
         descending
    return    
         <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{normalize-space($facet-grp[1])}" label="{concat($f[1]/tei:surname,', ', $f[1]/tei:forename)}"/>   
+
 };
 
 
@@ -277,6 +280,8 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                 if($facet/facet:range) then
                     if($facet/facet:range/facet:bucket[@name = $facet-value]/@lt and $facet/facet:range/facet:bucket[@name = $facet-value]/@lt != '') then
                         concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" and string(.) <= "',facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@lt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'"]]')                        
+                    else if($facet/facet:range/facet:bucket[@name = $facet-value]/@eq and $facet/facet:range/facet:bucket[@name = $facet-value]/@eq != '') then
+                        concat('[',$path,'[', $facet/facet:range/facet:bucket[@name = $facet-value]/@eq ,']]')
                     else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
                 else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
                     concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')
@@ -368,7 +373,7 @@ return
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',normalize-space($facet-query))
                 let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{facet:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a> 
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}"><bdi>{facet:get-label(string($key/@label))}</bdi> <span class="count"> ({string($key/@count)})</span></a> 
                 }
             </div>
             <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),'\s|/',''))}">{
