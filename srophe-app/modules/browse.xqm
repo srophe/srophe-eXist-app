@@ -100,37 +100,14 @@ return
 declare function browse:results-panel($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
     let $hits := $model("browse-data")
     return 
-        (: if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then
-            (<div class="col-md-4">
-                {if($browse:view='type') then facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@name="Type"]))
-                 else if($browse:view = 'facets') then browse:display-facets($node, $model, $collection, $facets)
-                 else if($browse:view = 'date') then facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition[@name="Century"]))
-                 else facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition))
-                 }
-             </div>,
-             <div class="col-md-8">{
-                 (page:pages($hits, $browse:start, $browse:perpage,'', $sort-options),
-                      <h3>Results {concat(upper-case(substring($browse:type,1,1)),substring($browse:type,2))} ({count($hits)})</h3>,
-                      <div>{(
-                        <div class="col-md-12 map-md">{browse:get-map($hits)}</div>,
-                            browse:display-hits($hits)
-                        )}</div>)
-                }</div>)    
-        else :) if($browse:view = 'map') then 
+        if($browse:view = 'map') then 
             <div class="col-md-12 map-lg">
                 {browse:get-map($hits)}
             </div>
         else if($browse:view = 'categories') then 
             <div class="col-md-12 indent">
                 {browse:display-hits($hits)}
-            </div>     
-        (:    
-        else if($browse:view = 'all' or $browse:view = 'ܐ-ܬ' or $browse:view = 'ا-ي' or $browse:view = 'other' or $browse:view = 'א-ת') then 
-            <div class="col-md-12">
-                <div>{page:pages($hits, $browse:start, $browse:perpage,'', $sort-options)}</div>
-                <div>{browse:display-hits($hits)}</div>
-            </div>
-         :)   
+            </div>       
         else 
             <div class="col-md-12">
                 {(
@@ -150,11 +127,6 @@ declare function browse:results-panel($node as node(), $model as map(*), $collec
                         <br/>
                             {facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/descendant::facet:facet-definition))}
                          </div>
-                         <!--
-                         <div class="col-md-1">
-                         <h3>{(if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) else attribute class {"label"},
-                                  if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>
-                         </div>-->
                          <div class="col-sm-8 top-padding">
                             {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
                             <span style="font-size: 1.25em; font-weight: 500; color: #666; margin:-1em 0 1em -.5em;">Results: {count($hits)}</span>

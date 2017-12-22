@@ -16,7 +16,7 @@ declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare function page:add-sort-options($hit, $sort-element as xs:string*){
     if($sort-element != '') then
         if($sort-element = 'title') then 
-            $hit/ancestor::tei:TEI/descendant::tei:title[1]
+            global:build-sort-string($hit/ancestor::tei:TEI/descendant::tei:title[1],'')
         else if($sort-element = 'author') then 
             if($hit/ancestor::tei:TEI/descendant::tei:author[1]) then 
                 if($hit/ancestor::tei:TEI/descendant::tei:author[1]/descendant-or-self::tei:surname) then 
