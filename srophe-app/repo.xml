@@ -38,11 +38,12 @@
             <option>google</option>
             <option selected="true">leaflet</option>
         </maps>
-        <!-- Keyboard options -->
+        <!-- Keyboard options 
         <keyboard-options>
             <option id="chinese">Chinese</option>
             <option id="qwerty">English QWERTY</option>
         </keyboard-options>
+        -->
         <collections>
             <!--<collection name="Short-name used in html pages to reference collection, module name" 
                 series="Series name used in TEI biblScope @depreciated, use collection-URI" 
@@ -54,11 +55,11 @@
             <collection name="keyword" title="Architectural Feature" app-root="keyword" data-root="keywords" record-URI-pattern="http://architecturasinica.org/keyword/"/>
         </collections>
         <!--
-    <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
+        <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
         s.parentNode.insertBefore(g,s)}(document,'script'));</google_analytics>
-    -->
+        -->
     </config>
     
     <deployed>2017-10-24T13:31:13.753-04:00</deployed>
