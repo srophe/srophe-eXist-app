@@ -51,8 +51,6 @@
  <!-- =================================================================== -->
     <xsl:import href="helper-functions.xsl"/>
     <xsl:import href="link-icons.xsl"/>
-    <xsl:import href="manuscripts.xsl"/>
-    <xsl:import href="spear.xsl"/>
     <xsl:import href="citation.xsl"/>
     <xsl:import href="bibliography.xsl"/>
     <xsl:import href="json-uri.xsl"/>
