@@ -27,9 +27,11 @@ else maps:build-leaflet-map($nodes,$total-count)
 :)
 declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:integer?){
     <div id="map-data" style="margin-bottom:3em;">
-        <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js?2"/>
-        <script src="http://isawnyu.github.com/awld-js/lib/requirejs/require.min.js" type="text/javascript"/>
-        <script src="http://isawnyu.github.com/awld-js/awld.js?autoinit" type="text/javascript"/>
+        <script type="text/javascript" src="{$global:nav-base}/resources/leaflet/leaflet.js?2"/>
+        <!-- TCADRT does not need these layers
+        <script src="{$global:nav-base}/resources/isawnyu/awld-js/lib/requirejs/require.min.js" type="text/javascript"/>
+        <script src="{$global:nav-base}/resources/isawnyu/awld-js/awld.js?autoinit" type="text/javascript"/>
+        -->
         <script type="text/javascript" src="{$global:nav-base}/resources/leaflet/leaflet.awesome-markers.js"/>
         <div id="map"/>
         {
@@ -47,7 +49,7 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
             /* Not added by default, only through user control action */
             var streets = L.tileLayer('http://api.tiles.mapbox.com/v3/sgillies.map-pmfv2yqx/{z}/{x}/{y}.png', {attribution: "ISAW, 2012"});
                                 
-            var imperium = L.tileLayer('http://pelagios.dme.ait.ac.at/tilesets/imperium//{z}/{x}/{y}.png', {attribution: 'Tiles: &lt;a href="http://pelagios-project.blogspot.com/2012/09/a-digital-map-of-roman-empire.html"&gt;Pelagios&lt;/a&gt;, 2012; Data: NASA, OSM, Pleiades, DARMC', maxZoom: 11 });
+            //var imperium = L.tileLayer('http://pelagios.dme.ait.ac.at/tilesets/imperium//{z}/{x}/{y}.png', {attribution: 'Tiles: &lt;a href="http://pelagios-project.blogspot.com/2012/09/a-digital-map-of-roman-empire.html"&gt;Pelagios&lt;/a&gt;, 2012; Data: NASA, OSM, Pleiades, DARMC', maxZoom: 11 });
                                 
             var placesgeo = ]]>{geojson:geojson($nodes)}
             <![CDATA[                                
@@ -99,8 +101,9 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
                                         
         L.control.layers({
                         "Terrain (default)": terrain,
-                        "Streets": streets,
-                        "Imperium": imperium }).addTo(map);
+                        "Streets": streets
+                        //,"Imperium": imperium 
+                        }).addTo(map);
         geojson.addTo(map);     
         ]]>
         </script>
