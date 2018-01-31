@@ -226,9 +226,10 @@ return
  : @param $collection
 :)
 declare %templates:wrap  function search:show-form($node as node()*, $model as map(*), $collection as xs:string?) {   
-    if(exists(request:get-parameter-names())) then ''
+    if(exists(request:get-parameter-names())) then ()
     else <div>{search:search-form($collection)}</div>
 };
+
 (:
 declare function search:show-grps($nodes, $p, $collection){
     for $node in $nodes
@@ -289,155 +290,65 @@ let $search-config := concat($global:app-root, '/', string(global:collection-var
 return 
     if(doc-available($search-config)) then 
         search:build-form($search-config) 
-    else search:default-search-form()
+    else ()
+};
+
+declare function search:keyboard-select-button($node as node()*, $model as map(*), $input-name){
+<div class="input-group-btn" xmlns="http://www.w3.org/1999/xhtml">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
+        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
+    </button>
+    {global:keyboard-select-menu($input-name)}
+</div>
 };
 
 declare function search:build-form($search-config){
 let $config := if(doc-available($search-config)) then doc($search-config) else ()
 return 
-<form method="get" action="search.html" xmlns:xi="http://www.w3.org/2001/XInclude"  class="form-horizontal indent" role="form">
-    <h1 class="search-header">{if($config//label != '') then $config//label else 'Search'}</h1>
-    {if($config//desc != '') then 
-        <p class="indent">{$config//desc}</p>
-    else() 
-    }
-    <div class="well well-small">
-        <div class="well well-small" style="background-color:white; margin-top:2em;">
-            <div class="row">
-                <div class="col-md-10">
-                    {
-                        for $input in $config//input
-                        let $label := string($input/@label)
-                        let $name := string($input/@name)
-                        let $id := concat('s',$name)
-                        (:<input type="text" label="Headword" name="headword" element="tei:term[@type='headword']" keyboard="yes"/>:)
-                        return 
-                            <div class="form-group">
-                                <label for="{$name}" class="col-sm-2 col-md-3  control-label">{$label}: </label>
-                                <div class="col-sm-10 col-md-9 ">
-                                    <div class="input-group">
-                                        <input type="text" id="{$id}" name="{$name}" class="form-control keyboard"/>
-                                        {
-                                            if($input/@keyboard='yes') then 
-                                                <div class="input-group-btn">
-                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                                        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                                    </button>{global:keyboard-select-menu($id)}
-                                                </div>
-                                            else ()
-                                        }
-                                    </div> 
-                                </div>
-                            </div>     
-                    }
-            </div>
-         </div> 
-         </div>
-         <div class="pull-right">
-            <button type="submit" class="btn btn-info">Search</button>&#160;
-            <button type="reset" class="btn">Clear</button>
-         </div>
-        <br class="clearfix"/><br/>
-    </div>
-</form>
+    <form method="get" action="search.html" xmlns:xi="http://www.w3.org/2001/XInclude"  class="form-horizontal indent" role="form">
+        <h1 class="search-header">{if($config//label != '') then $config//label else 'Search'}</h1>
+        {if($config//desc != '') then 
+            <p class="indent">{$config//desc}</p>
+        else() 
+        }
+        <div class="well well-small">
+            <div class="well well-small" style="background-color:white; margin-top:2em;">
+                <div class="row">
+                    <div class="col-md-10">
+                        {
+                            for $input in $config//input
+                            let $label := string($input/@label)
+                            let $name := string($input/@name)
+                            let $id := concat('s',$name)
+                            (:<input type="text" label="Headword" name="headword" element="tei:term[@type='headword']" keyboard="yes"/>:)
+                            return 
+                                <div class="form-group">
+                                    <label for="{$name}" class="col-sm-2 col-md-3  control-label">{$label}: </label>
+                                    <div class="col-sm-10 col-md-9 ">
+                                        <div class="input-group">
+                                            <input type="text" id="{$id}" name="{$name}" class="form-control keyboard"/>
+                                            {
+                                                if($input/@keyboard='yes') then 
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
+                                                            &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
+                                                        </button>{global:keyboard-select-menu($id)}
+                                                    </div>
+                                                else ()
+                                            }
+                                        </div> 
+                                    </div>
+                                </div>     
+                        }
+                </div>
+             </div> 
+             </div>
+             <div class="pull-right">
+                <button type="submit" class="btn btn-info">Search</button>&#160;
+                <button type="reset" class="btn">Clear</button>
+             </div>
+            <br class="clearfix"/><br/>
+        </div>
+    </form>
 };
 
-(:~
- : Builds advanced search form
- :)
-declare function search:default-search-form() {   
-<form method="get" action="search.html" xmlns:xi="http://www.w3.org/2001/XInclude"  class="form-horizontal indent" role="form">
-    <h1 class="search-header">Search Syriaca.org (All Publications)</h1>
-    <p class="indent">More detailed search functions are available in each individual <a href="/">publication</a>.</p>
-    <div class="well well-small">
-          <button type="button" class="btn btn-info pull-right" data-toggle="collapse" data-target="#searchTips">
-                Search Help <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-            </button>&#160;
-            <xi:include href="{$global:app-root}/searchTips.html"/>
-        <div class="well well-small" style="background-color:white; margin-top:2em;">
-            <div class="row">
-                <div class="col-md-7">
-                    <div class="form-group">
-                        <label for="box0" class="col-sm-4 control-label" id="boxLabel0"> Language/语言/語言</label>
-                        <div class="col-sm-5 radio-row">
-                            <input type="radio" id="radio-en" name="language_selected" value='en'> English </input>
-                            <input type="radio" id="radio-zh-hans"  name="language_selected"  value="zh-hans"> 简体中文 </input>
-                            <input type="radio" id="radio-zh-hant"  name="language_selected"  value="zh-hant"> 繁体中文 </input>
-                        </div>
-                    </div>
-            
-                    <div class="form-group">
-                        <label for="box1" class="col-sm-4 control-label" id="boxLabel1">Province</label>
-                        <div class="col-sm-5">
-                            <select name="provinceDropdown" id="box1" class="form-control">
-                                <option value='?province' selected='selected'>Any province/任何省份</option>
-                            </select>
-                        </div>
-                    </div>
-            
-                    <div class="form-group">
-                        <label for="box3" class="col-sm-4 control-label" id="boxLabel3">Dynasty range for site</label>
-                        <div class="col-sm-5">
-                            <select name="dynastyDropdown" id="box3" class="form-control">
-                                <option value='?dynasty' selected='selected'>Any dynasty/任何一个朝代</option>
-                            </select>
-                        </div>
-                    </div>
-            
-                    <div class="form-group">
-                        <label for="box2" class="col-sm-4 control-label" id="boxLabel2">Historic site</label>
-                        <div class="col-sm-5">
-                            <select name="siteDropdown" id="box2" class="form-control">
-                                <option value='?site' selected='selected'>Any temple/任何寺庙</option>
-                            </select>
-                        </div>
-                    </div>
-                    <hr/>
-                <!-- Keyword -->
-                  <div class="form-group">
-                    <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: </label>
-                    <div class="col-sm-10 col-md-9 ">
-                        <div class="input-group">
-                            <input type="text" id="qs" name="q" class="form-control keyboard"/>
-                            <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                    </button>
-                                    {global:keyboard-select-menu('qs')}
-                            </div>
-                         </div> 
-                    </div>
-                  </div>
-                  <!-- Place Name-->
-                  <div class="form-group">
-                    <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: </label>
-                    <div class="col-sm-10 col-md-9 ">
-                        <div class="input-group">
-                            <input type="text" id="placeName" name="placeName" class="form-control keyboard"/>
-                            <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                    </button>
-                                    {global:keyboard-select-menu('placeName')}
-                            </div>
-                         </div>   
-                    </div>
-                </div>
-                  <div class="form-group">
-                         <label for="uri" class="col-sm-2 col-md-3  control-label">URI: </label>
-                         <div class="col-sm-10 col-md-9 ">
-                             <input type="text" id="uri" name="uri" class="form-control"/>
-                         </div>
-                  </div>
-                  <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"></i>           
-            </div>
-            </div>    
-        </div>
-        <div class="pull-right">
-            <button type="submit" class="btn btn-info">Search</button>&#160;
-            <button type="reset" class="btn">Clear</button>
-        </div>
-        <br class="clearfix"/><br/>
-    </div>    
-</form>
-};
