@@ -1,9 +1,129 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="row top-padding indent">
+        <script type="text/javascript">
+            <![CDATA[
+                //show/hide search forms
+                var getUrlParameter = function getUrlParameter(sParam) {
+                    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                        sURLVariables = sPageURL.split('&'),
+                        sParameterName,
+                        i;
+                
+                    for (i = 0; i < sURLVariables.length; i++) {
+                        sParameterName = sURLVariables[i].split('=');
+                
+                        if (sParameterName[0] === sParam) {
+                            return sParameterName[1] === undefined ? true : sParameterName[1];
+                        }
+                    }
+                };
+                
+                $(function() {
+                    if (getUrlParameter('q') != null) {
+                        console.log('There are parameters! hide the search please' + qs)
+                        $("#search-form").hide();
+                    }
+                });
+            ]]>
+        </script>
         <div class="container">
-            <!-- To do -->
             <div class="col-md-12">
-                <div data-template="search:show-form"/>
+                <div id="search-form">
+                    <form method="get" action="search.html" class="form-horizontal indent" role="form">
+                        <h1 class="search-header">Search Syriaca.org (All Publications)</h1>
+                        <p class="indent">More detailed search functions are available in each individual <a href="/">publication</a>.</p>
+                        <div class="well well-small">
+                            <button type="button" class="btn btn-info pull-right" data-toggle="collapse" data-target="#searchTips">
+                                Search Help <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+                            </button>&#160;
+                            <xi:include href="searchTips.html"/>
+                            <div class="well well-small" style="background-color:white; margin-top:2em;">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <!--
+                                        <div class="form-group">
+                                            <label for="box0" class="col-sm-4 control-label" id="boxLabel0"> Language/语言/語言</label>
+                                            <div class="col-sm-5 radio-row">
+                                                <input type="radio" id="radio-en" name="language_selected" value='en'> English </input>
+                                                <input type="radio" id="radio-zh-hans"  name="language_selected"  value="zh-hans"> 简体中文 </input>
+                                                <input type="radio" id="radio-zh-hant"  name="language_selected"  value="zh-hant"> 繁体中文 </input>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="box1" class="col-sm-4 control-label" id="boxLabel1">Province</label>
+                                            <div class="col-sm-5">
+                                                <select name="provinceDropdown" id="box1" class="form-control">
+                                                    <option value='?province' selected='selected'>Any province/任何省份</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="box3" class="col-sm-4 control-label" id="boxLabel3">Dynasty range for site</label>
+                                            <div class="col-sm-5">
+                                                <select name="dynastyDropdown" id="box3" class="form-control">
+                                                    <option value='?dynasty' selected='selected'>Any dynasty/任何一个朝代</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="box2" class="col-sm-4 control-label" id="boxLabel2">Historic site</label>
+                                            <div class="col-sm-5">
+                                                <select name="siteDropdown" id="box2" class="form-control">
+                                                    <option value='?site' selected='selected'>Any temple/任何寺庙</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        -->
+                                        <!-- Keyword -->
+                                        <div class="form-group">
+                                            <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: </label>
+                                            <div class="col-sm-10 col-md-9 ">
+                                                <div class="input-group">
+                                                    <input type="text" id="qs" name="q" class="form-control keyboard"/>
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
+                                                            &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
+                                                        </button>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <!-- Place Name-->
+                                        <div class="form-group">
+                                            <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: </label>
+                                            <div class="col-sm-10 col-md-9 ">
+                                                <div class="input-group">
+                                                    <input type="text" id="placeName" name="placeName" class="form-control keyboard"/>
+                                                    <div class="input-group-btn">
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
+                                                            &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
+                                                        </button>
+                                                    </div>
+                                                </div>   
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="uri" class="col-sm-2 col-md-3  control-label">URI: </label>
+                                            <div class="col-sm-10 col-md-9 ">
+                                                <input type="text" id="uri" name="uri" class="form-control"/>
+                                            </div>
+                                        </div>
+                                        <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"></i>           
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-info">Search</button>&#160;
+                                <button type="reset" class="btn">Clear</button>
+                            </div>
+                            <br class="clearfix"/><br/>
+                        </div>    
+                    </form>
+                </div>
                 <div data-template="search:get-results" class="search-results">
                     <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
                     <div class="row">
@@ -12,9 +132,9 @@
                         </div>
                         <div class="col-md-8">
                             <div data-template="search:display-map" data-template-collection="places"/>
-                            <div data-template="search:build-page" data-template-collection="places" />
+                            <div data-template="search:build-page" data-template-collection="places"/>
                             <div class="page-bottom">
-                                <div data-template="search:pageination" data-template-collection="places"  data-template-sort-options="relevance,title"/>
+                                <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
                             </div>
                         </div>
                     </div>
