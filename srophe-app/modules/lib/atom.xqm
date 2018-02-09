@@ -8,6 +8,7 @@ xquery version "3.0";
  : @param $perpage default set to 25 can be changed via perpage param
 :)
 module namespace feed="http://syriaca.org/atom";
+import module namespace global="http://syriaca.org/global" at "global.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace atom="http://www.w3.org/2005/Atom";
@@ -28,20 +29,6 @@ declare function feed:build-search-feed($nodes as node()*,$start as xs:integer?,
     for $rec in subsequence($nodes,$start, $perpage)
     return feed:build-entry($rec)
 };
-
-(:~
- : @depreciated
- : Get most recently updated date from feed results
- : @param $collection name of syriaca.org subcollection 
- : @return A string
-:)
-(:
-declare function feed:updated-date($collection as xs:string?) as xs:string?{
-    for $recent in feed:get-feed($collection)[1]
-    let $date := $recent/ancestor::tei:TEI//tei:publicationStmt[1]/tei:date[1]/text()
-    return $date
-};
-:)
 
 (:~
  : Correctly format dates in the TEI
@@ -68,12 +55,12 @@ declare function feed:get-entry($node as node()?) as element()?{
     let $subtitle := if($rec//tei:titleStmt/tei:title[2]) then concat(': ',$rec//tei:titleStmt/tei:title[2]) else ()
     let $title := concat(string($rec//tei:titleStmt/tei:title[1]),$subtitle)
     let $date := $node[1]//tei:publicationStmt[1]/tei:date[1]/text()
-    let $rec-id := substring-before($rec//tei:idno[@type='URI'][starts-with(.,'http://syriaca.org/')][1],'/tei')
+    let $rec-id := substring-before($rec//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei')
     return 
         <feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"> 
             <title>{$title}</title>
             <link rel="self" type="application/atom+xml" href="{$rec-id}/atom"/>
-            <id>tag:syriaca.org,2013:{$rec-id}/atom</id>
+            <id>tag:{replace($global:base-uri,'http://','')},{if($rec//tei:publicationStmt/tei:date[. != '']) then substring($rec//tei:publicationStmt/tei:date[. != ''],1,4) else '2013'}:{$rec-id}/atom</id>
             <updated xmlns="http://www.w3.org/2005/Atom">{feed:format-dates($date)}</updated>
             {feed:build-entry($rec)}
         </feed>
@@ -110,7 +97,7 @@ declare function feed:build-entry($node as element()*) as element(entry){
         <link rel="alternate" type="text/html" href="{$rec-id}"/>
         <link rel="alternate" type="text/xml" href="{$rec-id}/tei"/>
         <link rel="self" type="application/atom+xml" href="{$rec-id}/atom"/>
-        <id>tag:syriaca.org,2013:{$rec-id}</id>
+        <id>tag:{replace($global:base-uri,'http://','')},2013:{$rec-id}</id>
         {$geo}
         <updated>{feed:format-dates($date)}</updated>
         {($summary, $res-pers)}
@@ -120,39 +107,20 @@ declare function feed:build-entry($node as element()*) as element(entry){
 (:~
  : Build atom feed
  : @param $nodes passed to module from search or browse 
- : @param $start
- : @param $perpage
  : @return A atom feed element
 :)
-declare function feed:build-atom-feed($nodes as node()*, $start as xs:integer?, $perpage as xs:integer?, $q as xs:string*, $total as xs:integer?) as element(feed)?{
-let $self := 
-            if($q != '') then concat('http://syriaca.org/api/search?q=', $q) 
-            else 'http://syriaca.org/api/atom'
-let $next := 
-            if($total gt $perpage) then 
-                if($q !='') then 
-                    <link rel="next" href="{concat('http://syriaca.org/api/search?q=', $q,'&amp;start=',$start + $perpage)}"/>
-                else 
-                    <link rel="next" href="{concat('http://syriaca.org/api/atom?start=',$start + $perpage)}"/>
-            else ()
-let $last :=
-            if($total gt $perpage) then 
-                if($q !='') then <link rel="last" href="{concat('http://syriaca.org/api/search?q=', $q,'&amp;start=',$total - $perpage)}"/>
-                else <link rel="last" href="{concat('http://syriaca.org/api/atom?start=',$total - $perpage)}"/>
-                
-            else ()    
-let $title := if($q !='') then concat(':search.api.results.',$q) 
-            else ()
+declare function feed:build-atom-feed($nodes as node()*, $title as xs:string*) as element(feed)?{ 
+let $title := if($title !='') then $title else $global:app-title 
 return             
     <feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss"> 
-        <title>Syriaca.org: {$total} Results</title>
+        <title>{$title}</title>
         <link href="http://syriaca.org/"/>
         <link rel="self" type="application/atom+xml" href="{$self}"/>
         {($next)}
-        <id>tag:syriaca.org,2013{$title}</id>
+        <id>tag:{replace($global:base-uri,'http://','')},{if($rec//tei:publicationStmt/tei:date[. != '']) then substring($rec//tei:publicationStmt/tei:date[. != ''],1,4) else '2013'}:{$title}/atom</id>
         <updated xmlns="http://www.w3.org/2005/Atom">{feed:format-dates($nodes[1]//tei:publicationStmt[1]/tei:date[1])}</updated>
         <author>
-          <name>syriaca.org</name>
+          <name>{if($rec//tei:publicationStmt/tei:authority) then $rec//tei:publicationStmt/tei:authority else $global:app-title}</name>
         </author>
         {feed:build-search-feed($nodes,$start,$perpage)}
     </feed>
