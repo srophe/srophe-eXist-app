@@ -1,11 +1,15 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="container top-padding">
         <!-- Calls xquery functions -->
-        <h1>All Sites/<span lang="zh-Hant">繁体中文</span></h1>
+        <h1>All Sites/<span lang="zh-Hant">繁体中文</span>
+        </h1>
         <div data-template="browse:get-all" data-template-element="tei:place/tei:placeName" data-template-collection="places">
             <div data-template="browse:display-map" data-template-collection="places"/>
             <div class="row">
                 <div class="col-md-4">
+                    <div class="slider-container">
+                        <div id="slider" data-template="browse:display-slider"/>
+                    </div>
                     <div data-template="browse:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
                 </div>
                 <div class="col-md-8">

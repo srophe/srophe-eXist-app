@@ -6,6 +6,7 @@ import module namespace page="http://syriaca.org/page" at "../lib/paging.xqm";
 import module namespace rel="http://syriaca.org/related" at "../lib/get-related.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "../lib/facet.xqm";
 import module namespace facet-defs="http://syriaca.org/facet-defs" at "../facet-defs.xqm";
+import module namespace slider = "http://localhost/ns/slider" at "../lib/date-slider.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "lib/tei2html.xqm";
 import module namespace maps="http://syriaca.org/maps" at "../lib/maps.xqm";
 import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
@@ -37,7 +38,6 @@ declare variable $search:collection {request:get-parameter('collection', '') cas
 declare %templates:wrap function search:get-results($node as node(), $model as map(*), $collection as xs:string?, $view as xs:string?){
     let $coll := if($search:collection != '') then $search:collection else $collection
     let $eval-string := search:query-string($collection)
-                        
     return map {"hits" := data:search($eval-string) }  
 };
 
@@ -55,9 +55,11 @@ let $search-config := concat($global:app-root, '/', string(global:collection-var
 return
 if($collection != '') then 
     if(doc-available($search-config)) then 
-       concat("collection('",$global:data-root,"/",$collection,"')//tei:body",search:dynamic-paths($search-config))
+       concat("collection('",$global:data-root,"/",$collection,"')//tei:body",facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()),search:dynamic-paths($search-config))
     else
         concat("collection('",$global:data-root,"/",$collection,"')//tei:body",
+        facet:facet-filter(facet-defs:facet-definition($collection)),
+        slider:date-filter(()),
         data:keyword(),
         search:persName(),
         search:placeName(), 
@@ -67,6 +69,8 @@ if($collection != '') then
       )
 else 
 concat("collection('",$global:data-root,"')//tei:body",
+    facet:facet-filter(facet-defs:facet-definition($collection)),
+    slider:date-filter(()),
     data:keyword(),
     search:persName(),
     search:placeName(), 
@@ -189,7 +193,7 @@ return
     if(count($geo-hits) gt 0) then
          (
          maps:build-map($data[descendant::tei:geo], count($data)),
-         <div>
+         <div xmlns="http://www.w3.org/1999/xhtml">
             <div class="modal fade" id="map-selection" tabindex="-1" role="dialog" aria-labelledby="map-selectionLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -210,7 +214,7 @@ return
                 </div>
             </div>
          </div>,
-         <script type="text/javascript">
+         <script type="text/javascript" xmlns="http://www.w3.org/1999/xhtml">
          <![CDATA[
             $('#mapFAQ').click(function(){
                 $('#popup').load( '../documentation/faq.html #map-selection',function(result){
@@ -221,41 +225,34 @@ return
     else ()         
 };
 
+declare function search:display-slider($node as node(), $model as map(*), $collection as xs:string*){
+    slider:browse-date-slider($model("hits"),())
+};
+
 (:~
  : Calls advanced search forms from sub-collection search modules
  : @param $collection
 :)
 declare %templates:wrap  function search:show-form($node as node()*, $model as map(*), $collection as xs:string?) {   
     if(exists(request:get-parameter-names())) then ()
-    else <div>{search:search-form($collection)}</div>
+    else <div xmlns="http://www.w3.org/1999/xhtml">{search:search-form($collection)}</div>
 };
-
-(:
-declare function search:show-grps($nodes, $p, $collection){
-    for $node in $nodes
-    return 
-        typeswitch($node)
-            case element(tei:grp) return 
-                <div class="indent group">{search:show-grps($node/node(),$p,$collection)}</div>
-            case element(tei:rec) return search:show-rec($node, $p,$collection)
-            default return search:show-grps($node/node(),$p,$collection)
-};
-:)
 
 declare function search:display-map($node as node()*, $model as map(*), $collection as xs:string?) {
-    <div>{search:build-geojson($node,$model)}</div>
+    <div xmlns="http://www.w3.org/1999/xhtml">{search:build-geojson($node,$model)}</div>
 };
 
 declare function search:display-facets($node as node()*, $model as map(*), $collection as xs:string?) {
-    <div>{facet:html-list-facets-as-buttons(facet:count($model("hits"), facet-defs:facet-definition($collection)/descendant::facet:facet-definition[not(@xml:lang)]))}</div>
+    <div xmlns="http://www.w3.org/1999/xhtml">{facet:html-list-facets-as-buttons(facet:count($model("hits"), facet-defs:facet-definition($collection)/descendant::facet:facet-definition[not(@xml:lang)]))}</div>
 };
+
 (:~ 
  : Builds results output
 :)
 declare 
     %templates:default("start", 1)
 function search:show-hits($node as node()*, $model as map(*), $collection as xs:string?) {
-<div class="indent" id="search-results">
+<div class="indent" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
     {
         let $hits := $model("hits")
         for $hit at $p in subsequence($hits, $search:start, $search:perpage)
