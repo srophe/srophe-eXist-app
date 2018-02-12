@@ -12,6 +12,7 @@ module namespace data="http://syriaca.org/data";
 import module namespace global="http://syriaca.org/global" at "global.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
 import module namespace facet-defs="http://syriaca.org/facet-defs" at "../facet-defs.xqm";
+import module namespace slider = "http://localhost/ns/slider" at "date-slider.xqm";
 import module namespace page="http://syriaca.org/page" at "paging.xqm";
 import module namespace functx="http://www.functx.com";
 
@@ -118,7 +119,7 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
     let $hits := util:eval(concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element)))
     let $hits-main := $hits[not(descendant::tei:relation[@name='skos:broadMatch'])]
     :)
-    let $hits-main := util:eval(concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element)))
+    let $hits-main := util:eval(concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()),data:lang-filter($element)))
     return 
     (:<p>{concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element))}</p>:)
     (: Generic options :) 

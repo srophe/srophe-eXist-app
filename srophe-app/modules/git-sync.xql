@@ -205,20 +205,16 @@ if(not(empty($post-data))) then
                     if(request:get-header('X-GitHub-Event') = 'push') then 
                         let $signiture := request:get-header('X-Hub-Signature')
                         let $expected-result := <expected-result>{request:get-header('X-Hub-Signature')}</expected-result>
-                        (:
                         let $actual-result :=
                             <actual-result>
                                 {crypto:hmac($payload, string($private-key), "HMAC-SHA-1", "hex")}
                             </actual-result>
-                        let $condition := contains(normalize-space($expected-result/text()),normalize-space($actual-result/text()))
-                        :)
-                        return try {crypto:hmac($payload, util:binary-to-string($private-key), "HmacSha1", "hex")} catch* {concat($err:code, ": ", $err:description)}
-                        (:
+                        let $condition := contains(normalize-space($expected-result/text()),normalize-space($actual-result/text()))                	
+                        return
                             if ($condition) then 
                                 local:parse-request($json-data)
             			    else 
             			     (response:set-status-code( 401 ),<response status="fail"><message>Invalid secret. </message></response>)
-            			     :)
                     else (response:set-status-code( 401 ),<response status="fail"><message>Invalid trigger.</message></response>)
                 else (response:set-status-code( 401 ),<response status="fail"><message>This is not a GitHub request.</message></response>)    
             } catch * {
@@ -237,3 +233,4 @@ else
 
 let $post-data := request:get-data()
 return local:execute-webhook($post-data)
+    
