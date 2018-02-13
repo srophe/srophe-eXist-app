@@ -353,7 +353,7 @@ declare %templates:wrap function app:display-external-relationships($node as nod
                 <div class="panel-body">
                     { 
                         for $r in $related
-                        let $title := $r/descendant-or-self::tei:place/tei:placeName[1]
+                        let $title := if(contains($recid,'/keyword/')) then $r/descendant-or-self::tei:title[1] else $r/descendant-or-self::tei:place/tei:placeName[1]
                         let $id := replace($r/descendant::tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei','')
                         return
                             <div class="indent">
