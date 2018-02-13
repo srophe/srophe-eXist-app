@@ -764,6 +764,19 @@ unpublished
 .facet-label {margin-left:.5em; display:block; text-align:left; white-space: normal;}
 .facet .icon{margin-left:.25em;}
 
+/* slider styles */
+h4.slider {
+  display: block;
+  margin: 0 0 1.5em;
+  padding: 0 0 1em;
+  background: transparent;
+}
+.slider-container {
+  display: block;
+  min-height: 20px;
+  padding: 1em 0;
+}
+
 /* Manuscripts */
 .msItem {margin:0 1em;}
 .msExtent {display:block; margin:0 1em;}
