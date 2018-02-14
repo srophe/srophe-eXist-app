@@ -1,64 +1,9 @@
-/* Application styles could go here */
-/**
- * Colors: 
- * Blue: 456889
- */
 
-/* Dev only: corner ribbon */
-/* The ribbons */
-.corner-ribbon{
-  width: 200px;
-  background: #e43;
-  position: absolute;
-  top: 25px;
-  left: -50px;
-  text-align: center;
-  letter-spacing: 1px;
-  color: #f0f0f0;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-   z-index: 1500;
-}
-
-.corner-ribbon.sticky{
-  position: fixed;
-}
-
-.corner-ribbon.shadow{
-  box-shadow: 0 0 3px rgba(0,0,0,.3);
-}
-
-.corner-ribbon.top-left{
-  top: 25px;
-  left: -50px;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-}
-
-.corner-ribbon.grey{background: #999; background-color: rgba(128,128,128, 0.75);}
-.corner-ribbon.blue{background: #39d;}
-
-.draft-info a{color:white;}
-#draft-info{
-  width: 410px;
-  position: absolute;
-  top: 45px;
-  left: -96px;
-  padding:1.5em 2em;
-  text-align: center;
-  letter-spacing: .75px;
-  color: #f0f0f0;
-  background: #999; background-color: rgba(128,128,128, 0.95);
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-   z-index: 1500;
-}
    
-
 /* Main content blocks */
-body {font-family: arial, sans-serif; background-color:#385978;}
-#main { padding: 0; background-color:#999; }
-#content{background-color:white; padding-top: 50px;}
+body {font-family: arial, sans-serif; background-color:#4d7775;}
+#main { padding: 0; background-color:#4d7775; }
+#content{background-color:#FFFFFF; padding-top: 50px;}
 
 /* Removed extra padding introduced by Bootstrap for rows. Was causing issues with background images */
 .row { margin-left: 0px; margin-right: 0px;}
@@ -69,15 +14,13 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 .full-page {margin-top:0;}
 
 /* Navbar styles*/
-.navbar {border-bottom:4px solid #456889 !important;}
-.navbar-inner {border-bottom:.5em solid #456889 !important;}
-.navbar-inner .container{height: 45px !important; padding-top:.5em; margin-left:.5em;}
+.navbar {border-bottom:2px solid #771210 !important; background-color:#4d7775 !important; color:#FFFFFF !important;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
 .navbar-brand img {padding:0; margin:0; }
 .brand {margin-top:-.75em; margin-left:40px;padding-left:0;}
 .brand img {margin-left:1.5em;padding-left:0;}
 .navbar-inner .nav > li > a:hover, .advanced-search > a:hover {
-        border-bottom: 4px solid #DDEAF1 !important;  
+        border-bottom: 4px solid #4d7775 !important;  
 }
 .navbar-inner > .container > .nav > li.selected {border-bottom: 4px solid #E69849 !important; }
 .advanced-search > a {color:#999; text-decoration:none;}
@@ -86,6 +29,20 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 .keboard-btn {margin-left:-1em;}
 .navbar-input-group {
   font-size: 0px; /*removes whitespace between button and input*/
+}
+
+.navbar-default .navbar-brand {
+  color: #FFF !important;
+}
+
+.navbar-default .navbar-text {
+  color: #FFF !important;
+  text-transform: uppercase;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #FFF !important;
+  text-transform: uppercase;
 }
 
 /*.navbar-form {max-width: 350px;}*/
