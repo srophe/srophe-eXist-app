@@ -3,17 +3,17 @@
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title data-template="app:page-title">Traditional Chinese Architecture Digital Research Tool</title>
-        <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"/>
-        <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/"/>
+        <title data-template="app:page-title">Architectura Sinica</title>
+        <link rel="schema.DC" href="https://purl.org/dc/elements/1.1/"/>
+        <link rel="schema.DCTERMS" href="https://purl.org/dc/terms/"/>
         <meta name="DC.type" property="dc.type" content="Text"/>
         <link data-template="app:metadata"/>
         <link rel="shortcut icon" href="$app-root/resources/img/tcadrt-favicon.ico"/>
         <!-- Architectura Sinica css -->
         <link rel="stylesheet" type="text/css" href="$app-root/resources/css/bootstrap.min.css"/>
-        <!-- <link rel="stylesheet" type="text/css" href="$app-root/resources/css/main-syriaca.css"/> -->
-        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/main.css"/>
+        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/arch-sinica-main.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$app-root/resources/css/print.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100"/>
         <!-- Used with smart menus -->
         <link rel="stylesheet" type="text/css" href="$app-root/resources/css/sm-core-css.css"/>
         <!-- Leaflet -->
@@ -44,6 +44,9 @@
         <!-- Fixed navbar -->
         <!-- <div data-template="app:shared-content" data-template-path="/templates/draft-info.html"/> -->
         <div class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+            <a class="navbar-brand banner-container" href="$app-root/index.html">
+                <span>Architectura Sinica</span>
+            </a>
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -52,9 +55,7 @@
                         <span class="icon-bar"/>
                         <span class="icon-bar"/>
                     </button>
-                    <a class="navbar-brand banner-container" href="$app-root/index.html"> 
-                        <span>Architectura Sinica</span>
-                    </a>
+                    
                 </div>
                 <div class="navbar-collapse collapse pull-right">
                     <ul class="nav navbar-nav sm sm-vertical" id="main-menu">
