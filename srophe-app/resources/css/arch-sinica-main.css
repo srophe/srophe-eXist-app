@@ -1,8 +1,8 @@
 
    
 /* Main content blocks */
-body {font-family: arial, sans-serif; background-color:#4d7775;}
-#main { padding: 0; background-color:#4d7775; }
+body {font-family: arial, sans-serif; background-color:#4d7775; }
+#main { padding: 0; background-color:#FFFFF; }
 #content{background-color:#FFFFFF; padding-top: 50px;}
 
 /* Adding a clear class to use around the site */
@@ -11,17 +11,17 @@ body {font-family: arial, sans-serif; background-color:#4d7775;}
 
 /* Removed extra padding introduced by Bootstrap for rows. Was causing issues with background images */
 .row { margin-left: 0px; margin-right: 0px;}
-.container{width:95%; padding:0;}
+.container{width:95%; padding:0; background-color:#FFFFF;}
 
 /* Adds a little extra padding around interior content, useful when for when nav wraps. */
 .interior-content {padding:0; padding-top: 50px;}
 .full-page {margin-top:0;}
 
 /* Navbar styles*/
-.navbar {border-bottom:2px solid #771210 !important; background-color:#4d7775 !important; color:#FFFFFF !important;}
+.navbar {margin-left: 0; padding-left: 0; border-bottom:2px solid #771210 !important;   background-color:#4d7775  !important; color:#FFFFFF !important;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
 .navbar-brand img {padding:0; margin:0; }
-.brand {margin-top:-.75em; margin-left:40px;padding-left:0;}
+.brand {margin-top:-.75em; margin-left:40px; padding-left:0;}
 .brand img {margin-left:1.5em;padding-left:0;}
 .navbar-inner .nav > li > a:hover, .advanced-search > a:hover {
         border-bottom: 4px solid #4d7775 !important;  
@@ -93,6 +93,7 @@ body {font-family: arial, sans-serif; background-color:#4d7775;}
 .nav-text {display:inline-block; line-height:1.5em; margin-top:.25em;}
 
 .banner-container {font-size:1.75em; display:inline-block; line-height:2.5em; font-family: 'Alegreya Sans SC', sans-serif;}
+.banner-container span {margin-left: 0px; padding: .5em .5em .4em 2.5em; background-image:url('../img/arch-sinica-logo.png'); background-repeat: no-repeat;}
 .banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
 
  /*
@@ -168,7 +169,7 @@ body {font-family: arial, sans-serif; background-color:#4d7775;}
     position:relative;
     padding-top:0;
     border-bottom:4px solid #456889;
-	background-image:url('../img/resafa_arch.jpg');
+	background-image:url('../img/tcadrt-logo.png');
 	background-size:cover;
 	background-position:center;
 	height:150px;
@@ -196,12 +197,12 @@ body {font-family: arial, sans-serif; background-color:#4d7775;}
 
 
 /* Footer styles */
-footer {text-align:left; color:white;}
+footer {text-align:left; color:white; }
 
 footer a, footer a:hover {color:white;text-decoration: underline;}
 
 
-.logo {float:left; display:block;  border:1px solid red; padding:5px;}
+.logo {float:left; display:block; padding-right: 1em; padding-bottom: 1em;}
 .license {float:left;}
 
 /* Simple background color styles */
@@ -217,7 +218,7 @@ footer a, footer a:hover {color:white;text-decoration: underline;}
 
 /* Typography */
 h1 {font-size:1.5em; margin:.25em 0 .25em 0; color:#456889; font-weight:500;}
-h2 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; color:#999; font-weight:500;}
+h2 {font-size: 1.25em; margin:1em 0 .25em 0 padding-bottom:0; color:#999; font-weight:500;}
 h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;  padding-bottom:0; margin-bottom:1em;}
 h3.banner-solid {color:white;}
 h3.underline {color:#999; border-bottom:3px solid #456889; padding-bottom:-.75em; margin-bottom:1em; margin-top:0;}
