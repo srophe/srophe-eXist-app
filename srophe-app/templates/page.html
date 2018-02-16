@@ -1,0 +1,101 @@
+<html xmlns="https://www.w3.org/1999/xhtml" data-template="app:get-rec" data-template-id="page">
+    <head data-template="app:fix-links">
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title data-template="app:page-title">Architectura Sinica</title>
+        <link rel="schema.DC" href="https://purl.org/dc/elements/1.1/"/>
+        <link rel="schema.DCTERMS" href="https://purl.org/dc/terms/"/>
+        <meta name="DC.type" property="dc.type" content="Text"/>
+        <link data-template="app:metadata"/>
+        <link rel="shortcut icon" href="$app-root/resources/img/tcadrt-favicon.ico"/>
+        <!-- Architectura Sinica css -->
+        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/arch-sinica-main.css"/>
+        <link rel="stylesheet" type="text/css" media="print" href="$app-root/resources/css/print.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:100"/>
+        <!-- Used with smart menus -->
+        <link rel="stylesheet" type="text/css" href="$app-root/resources/css/sm-core-css.css"/>
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="$app-root/resources/leaflet/leaflet.css"/>
+        <link rel="stylesheet" href="$app-root/resources/leaflet/leaflet.awesome-markers.css"/>
+        <!-- jquery -->
+        <!-- temporary until migrate to bootstrap 3.0 -->
+        <script type="text/javascript" src="$app-root/resources/js/jquery.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/jquery-ui.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/jquery.smartmenus.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/clipboard.min.js"/>
+        <script src="https://www.google.com/recaptcha/api.js" type="text/javascript" async="async" defer="defer"/>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
+            })
+        </script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+                <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+            <![endif]-->
+        <!-- Fixed navbar -->
+        <!-- <div data-template="app:shared-content" data-template-path="/templates/draft-info.html"/> -->
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                    </button>
+                    <a class="navbar-brand banner-container" href="$app-root/index.html">
+                        <span>Architectura Sinica</span>
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse pull-right">
+                    <ul class="nav navbar-nav sm sm-vertical" id="main-menu">
+                        <li>
+                            <a href="$app-root/browse.html"> Browse </a>
+                        </li>
+                        <li>
+                            <a href="$app-root/index.html"> About </a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left navbar-input-group" role="search" action="$app-root/search.html" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control keyboard" placeholder="search" name="q" id="q"/>
+                            <div class="input-group-btn">
+                            </div><!-- /btn-group -->
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right keboard-btn">
+                        <li>
+                            <div class="btn-nav">
+                                <a href="#" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Search Tools">
+                                     <span class="glyphicon glyphicon-cog"/> <span class="caret"/>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="$app-root/search.html">Advanced Search</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <div id="main">
+            <div id="content"/>
+        </div>
+        <!-- Footer -->
+        <footer data-template="app:shared-content" data-template-path="/templates/footer.html"/>
+        
+        <!-- Additional Javascript -->
+        <script type="text/javascript" src="$app-root/resources/js/bootstrap.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/jquery.validate.min.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/main.js"/>
+        <script type="text/javascript" src="$app-root/resources/js/lightslider.min.js"/>
+        <!-- Google analytics. Values pulled from config.xml -->
+        <script data-template="app:google-analytics"/>
+    </body>
+</html>
