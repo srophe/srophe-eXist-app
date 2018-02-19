@@ -837,6 +837,19 @@ button.bibl-show {margin: .5em -1em;}
 .slide {font-weight:400;}
 .more-info a {font-weight:600; color:white;}
 
+/* slider styles */
+h4.slider {
+  display: block;
+  margin: 0 0 1.5em;
+  padding: 0 0 1em;
+  background: transparent;
+}
+.slider-container {
+  display: block;
+  min-height: 20px;
+  padding: 1em 0;
+}
+
 /* Special styles for small screens */
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}
