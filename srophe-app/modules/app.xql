@@ -384,7 +384,7 @@ declare function app:display-related-images($node as node(), $model as map(*)){
     if($model("data")//tei:relation[@ref='foaf:depicts']) then 
         <div class="record-images">
         {
-            for $image in $model("data")//tei:relation[@ref='foaf:depicts']
+            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@type="main")]
             return 
                 <span class="thumb-images">
                      <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
@@ -398,6 +398,27 @@ declare function app:display-related-images($node as node(), $model as map(*)){
     else ()        
 };
 
+(:~
+ : For tcadrt display featured images. 
+:)                   
+declare function app:display-featured-image($node as node(), $model as map(*)){
+    if($model("data")//tei:relation[@ref='foaf:depicts'][@type="main"]) then 
+        <div class="record-images">
+        {
+            for $image in $model("data")//tei:relation[@ref='foaf:depicts']
+            let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')
+            return 
+                <span class="featured-images">
+                     <a href="{$imageURL}" target="_blank">
+                         <span class="helper"></span>
+                         <img src="{$imageURL}" />
+                         {if($image/tei:desc) then <span class="caption">{$image/tei:desc}</span> else ()}
+                     </a>
+                </span>
+        }    
+        </div>            
+    else ()        
+};
 
 (:~
  : bibl modulerelationships
