@@ -14,8 +14,10 @@ import module namespace global="http://syriaca.org/global" at "lib/global.xqm";
 import module namespace data="http://syriaca.org/data" at "lib/data.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace facet-defs="http://syriaca.org/facet-defs" at "facet-defs.xqm";
+import module namespace slider = "http://localhost/ns/slider" at "lib/date-slider.xqm";
 import module namespace page="http://syriaca.org/page" at "lib/paging.xqm";
 import module namespace maps="http://syriaca.org/maps" at "lib/maps.xqm";
+import module namespace timeline="http://syriaca.org/timeline" at "lib/timeline.xqm";
 import module namespace tei2html="http://syriaca.org/tei2html" at "lib/tei2html.xqm";
 import module namespace functx="http://www.functx.com";
 import module namespace templates="http://exist-db.org/xquery/templates";
@@ -104,6 +106,10 @@ return
     else if(exists(facet-defs:facet-definition($collection))) then 
         facet:html-list-facets-as-buttons(facet:count($hits, facet-defs:facet-definition($collection)/child::*))
     else ()               
+};
+
+declare function browse:display-slider($node as node(), $model as map(*), $collection as xs:string*){
+    slider:browse-date-slider($model("browse-data"),())
 };
 
 (:
@@ -200,6 +206,19 @@ declare function browse:get-map($hits){
              else()
     else ()
 };
+
+(:
+ : Display Timeline from HTML page 
+ : For place records map coordinates
+ : For other records, check for place relationships
+ : @param $collection passed from html 
+:)
+declare function browse:display-timeline($node as node(), $model as map(*), $collection, $sort-options as xs:string*){
+    let $hits := $model("browse-data")//tei:body[tei:state[@type="existence"][@to or @from]]
+    return <div>{timeline:timeline($model("browse-data")//tei:body, 'Timeline')}</div>
+
+};
+
 
 (:
  : Pass each TEI result through xslt stylesheet

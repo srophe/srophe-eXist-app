@@ -631,7 +631,8 @@
     </xsl:template>
     <!-- Descriptions for place abstract  added template for abstracts, handles quotes and references.-->
     <xsl:template match="t:desc[starts-with(@xml:id, 'abstract-en')]" mode="abstract">
-        <p><xsl:call-template name="langattr"/>
+        <p>
+            <xsl:call-template name="langattr"/>
             <xsl:apply-templates/>
         </p>
     </xsl:template>
@@ -672,7 +673,9 @@
             </xsl:when>
             <xsl:when test="t:label">
                 <xsl:for-each select="t:label">
-                    <span><xsl:call-template name="langattr"/><xsl:apply-templates/> </span>
+                    <span>
+                        <xsl:call-template name="langattr"/>
+                        <xsl:apply-templates/> </span>
                 </xsl:for-each>
                 <xsl:if test="t:desc">
                     <xsl:for-each select="t:desc">
@@ -689,9 +692,11 @@
     <xsl:template match="t:trait">
         <xsl:variable name="xmlid" select="@xml:id"/>
         <div class="trait">
-            <h4><xsl:value-of select="t:label"/> <xsl:if test="@source">
+            <h4>
+                <xsl:value-of select="t:label"/> <xsl:if test="@source">
                 <xsl:sequence select="local:do-refs(@source,@xml:lang)"/>
-            </xsl:if></h4>
+            </xsl:if>
+            </h4>
             <xsl:call-template name="langattr"/>
             <xsl:apply-templates select="*[not(self::t:label)]"/>  
         </div>
@@ -988,7 +993,7 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
-    <xsl:template match="t:persName | t:term" mode="list">
+    <xsl:template match="t:persName" mode="list">
         <xsl:variable name="nameID" select="concat('#',@xml:id)"/>
         <xsl:choose>
             <!-- Suppress depreciated names here -->
@@ -1024,7 +1029,7 @@
             <xsl:text> </xsl:text>
         </xsl:if>
     </xsl:template>
-    <xsl:template match="t:placeName | t:title" mode="list">
+    <xsl:template match="t:placeName | t:title | t:term" mode="list">
         <xsl:variable name="nameID" select="concat('#',@xml:id)"/>
         <xsl:choose>
             <!-- Suppress depreciated names here -->
@@ -1537,7 +1542,16 @@
                 </div>
             </xsl:if>
         </xsl:if>
-        
+        <xsl:if test="self::t:entryFree">
+            <xsl:if test="t:term">
+                <div id="terms">
+                    <h3>Terms</h3>
+                    <ul>
+                        <xsl:apply-templates select="t:term" mode="list"/>
+                    </ul>
+                </div>
+            </xsl:if>
+        </xsl:if>
         <xsl:if test="t:location">
             <div class="location">
                 <h4>Location</h4>
@@ -1574,7 +1588,9 @@
                 <h4>
                     <xsl:choose>
                         <xsl:when test="self::t:state[@type='existence']">Dynasty <xsl:value-of select="concat(upper-case(substring(@subtype,1,1)),substring(@subtype,2))"/>:</xsl:when>
-                        <xsl:otherwise><xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/></xsl:otherwise>
+                        <xsl:otherwise>
+                            <xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/>
+                        </xsl:otherwise>
                     </xsl:choose>
                     <xsl:sequence select="local:do-refs(@source,@xml:lang)"/>
                 </h4>

@@ -35,7 +35,9 @@
                             <button type="button" class="btn btn-info pull-right" data-toggle="collapse" data-target="#searchTips">
                                 Search Help <span class="glyphicon glyphicon-question-sign" aria-hidden="true"/>
                             </button> 
+
                             <div xmlns="" class="panel panel-default collapse" id="searchTips">
+
     <div class="panel-body">
         <h3 class="panel-title">Search Tips</h3>
         <p>For best results, users are recommended to use the <a href="search.html">advanced search</a> functions.
@@ -203,10 +205,13 @@
                         </div>    
                     </form>
                 </div>
-                <div data-template="search:get-results" class="search-results">
+                <div data-template="search:get-results" class="search-results" data-template-collection="places">
                     <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
                     <div class="row">
                         <div class="col-md-4">
+                            <div class="slider-container">
+                                <div id="slider" data-template="search:display-slider"/>
+                            </div>
                             <div data-template="search:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
                         </div>
                         <div class="col-md-8">
