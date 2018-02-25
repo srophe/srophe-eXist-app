@@ -2,14 +2,15 @@ xquery version "3.0";
 
 module namespace api="http://syriaca.org/api";
 import module namespace config="http://syriaca.org/config" at "config.xqm";
-import module namespace app="http://syriaca.org/templates" at "app.xql";
+import module namespace templates="http://exist-db.org/xquery/templates" ;
+import module namespace req="http://exquery.org/ns/request";
+
 import module namespace global="http://syriaca.org/global" at "lib/global.xqm";
+(: Used for content negotiation :)
 import module namespace tei2ttl="http://syriaca.org/tei2ttl" at "lib/tei2ttl.xqm";
 import module namespace tei2rdf="http://syriaca.org/tei2rdf" at "lib/tei2rdf.xqm";
 import module namespace geojson="http://syriaca.org/geojson" at "lib/geojson.xqm";
 import module namespace geokml="http://syriaca.org/geokml" at "lib/geokml.xqm";
-import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace req="http://exquery.org/ns/request";
 
 (: Namespaces :)
 declare namespace json="http://www.json.org";
@@ -18,37 +19,31 @@ declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace http="http://expath.org/ns/http-client";
 
-(:----------------------------------------------------------------------------------------------:)
 
-
-(: Get all data, specify serialization in request headers or using the $format parameter 
+(:~ 
+ : Get all data, specify serialization in request headers or using the $format parameter 
+ : @param $format acceptable formats tei/ttl/rdf/geojson
+ : @param $start start of results set
+ : @param $limit number of results to return 
+:)
 declare
     %rest:GET
     %rest:path("/tcadrt/api/data")
     %rest:query-param("format", "{$format}", "")
     %rest:query-param("start", "{$start}", 1)
-    %rest:query-param("limit", "{$limit}", 1)
+    %rest:query-param("limit", "{$limit}", 50)
     %rest:header-param("Content-Type", "{$content-type}")
-function api:bulk-by-headers($content-type, $format as xs:string*, $start as xs:integer?, $limit as xs:integer?) {
-    let $all-data := collection($global:data-root)/tei:TEI
-    let $data := subsequence($all-data,$start,$limit)
-    let $request-format := if($format != '') then $format else $content-type
-    return api:content-negotiation($data, $request-format, ())
-};
-:)
-
-declare
-    %rest:GET
-    %rest:path("/tcadrt/api/data")
-    %rest:query-param("format", "{$format}", "")
-    %rest:header-param("Content-Type", "{$content-type}")
-function api:bulk-by-headers($content-type, $format as xs:string*) {
-    let $data := collection($global:data-root)/tei:TEI
+function api:bulk-by-headers($content-type, $format as xs:string*, $start as xs:integer*, $limit as xs:integer*) {
+    let $data := subsequence(collection($global:data-root)/tei:TEI, $start, $limit)
     let $request-format := if($format != '') then $format else $content-type
     return api:content-negotiation($data, $request-format, ())
 };
 
-(: Serialization for internal pages, mostly place and features :)
+(:~ 
+ : Serialization for internal pages, mostly place and features
+ : Pass in path to page. 
+ : Pass in content type via header or page extension 
+ :)
 declare
     %rest:GET
     %rest:path("/tcadrt/{$folder}/{$page}")
