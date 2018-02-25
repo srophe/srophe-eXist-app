@@ -4,7 +4,7 @@ module namespace api="http://syriaca.org/api";
 import module namespace config="http://syriaca.org/config" at "config.xqm";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace req="http://exquery.org/ns/request";
-
+import module namespace app="http://syriaca.org/templates" at "app.xql";
 import module namespace global="http://syriaca.org/global" at "lib/global.xqm";
 (: Used for content negotiation :)
 import module namespace tei2ttl="http://syriaca.org/tei2ttl" at "lib/tei2ttl.xqm";
