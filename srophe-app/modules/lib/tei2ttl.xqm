@@ -175,7 +175,7 @@ return
  : @param $rec
 :)
 declare function tei2ttl:bibl-citation($rec) as xs:string*{
-let $citation := string-join(bibl2html:citation(root($rec)))
+let $citation := string-join(bibl2html:citation($rec/ancestor-or-self::tei:TEI))
 return 
     tei2ttl:make-triple('','dcterms:bibliographicCitation', tei2ttl:make-literal($citation,()))
 };
@@ -278,7 +278,7 @@ declare function tei2ttl:prefix() as xs:string{
 };
 
 (: Triples for a single record :)
-declare function tei2ttl:make-triple-set($rec){
+declare function tei2ttl:make-triple-set($rec as item()?){
 let $rec := if($rec/tei:div[@uri[starts-with(.,$global:base-uri)]]) then $rec/tei:div[@uri[starts-with(.,$global:base-uri)]] else $rec
 let $id := if($rec/descendant::tei:idno[starts-with(.,$global:base-uri)]) then replace($rec/descendant::tei:idno[starts-with(.,$global:base-uri)][1],'/tei','')
            else if($rec/@uri[starts-with(.,$global:base-uri)]) then $rec/@uri[starts-with(.,$global:base-uri)]
@@ -290,6 +290,9 @@ concat(
     (: skos:Concept :)
     tei2ttl:record(concat(
         tei2ttl:make-triple(tei2ttl:make-uri($id), 'a', tei2ttl:rec-type($rec)),
+        if($rec/descendant::tei:place/@type='schema:LandmarksOrHistoricalBuildings') then 
+            tei2ttl:make-triple((), 'a', 'schema:LandmarksOrHistoricalBuildings')
+        else (),
         tei2ttl:make-triple((),'rdfs:label',
                 if($rec/descendant::*[@syriaca-tags='#syriaca-headword']) then
                     string-join(for $headword in $rec/descendant::*[@syriaca-tags='#syriaca-headword'][. != '']
@@ -366,10 +369,10 @@ concat(
 };
 
 (: Make sure record ends with a '.' :)
-declare function tei2ttl:record($triple) as xs:string*{
+declare function tei2ttl:record($triple as xs:string*) as xs:string*{
     replace($triple,';$','.&#xa;')
 };
 
-declare function tei2ttl:ttl-output($recs) {
-    (concat(tei2ttl:prefix(), tei2ttl:make-triple-set($recs)))
+declare function tei2ttl:ttl-output($recs as item()*) {
+    (concat(tei2ttl:prefix(), string-join(for $r in $recs return tei2ttl:make-triple-set($r)),''))
 };

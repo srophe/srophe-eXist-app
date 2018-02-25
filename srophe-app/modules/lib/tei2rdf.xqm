@@ -221,8 +221,9 @@ return
     (element { xs:QName('rdf:Description') } {(
                 attribute {xs:QName("rdf:about")} { $id }, 
                 tei2rdf:create-element('rdf:type', (), tei2rdf:rec-type($rec), ()),
-                (:NOTE: Not sure about the resource class, I think this was from Nathan ?:)
-                (:tei2rdf:create-element($resource-class, (), $id, ()),:)
+                if($rec/descendant::tei:place/@type='schema:LandmarksOrHistoricalBuildings') then 
+                    tei2rdf:create-element('rdf:type', (), 'schema:LandmarksOrHistoricalBuildings', ())
+                else (),
                 tei2rdf:rec-label-and-titles($rec, 'rdfs:label'),
                 tei2rdf:names($rec),
                 if(contains($id,'/spear/')) then ()
