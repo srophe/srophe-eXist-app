@@ -107,7 +107,9 @@ declare function api:render-html($content as xs:string, $id as xs:string?){
         else $content (:api:not-found():)        
 };
 
-(: Function to generate a 404 Not found response :)
+(: Function to generate a 404 Not found response 
+response:redirect-to()
+:)
 declare function api:not-found(){
   (<rest:response>
     <http:response status="404" message="Not found.">
