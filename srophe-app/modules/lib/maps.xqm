@@ -37,8 +37,9 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
         {
             if($total-count gt 0) then 
                <div class="hint map pull-right small">
-                * This map displays {count($nodes)} of {$total-count} places. Only places with coordinates in {$global:app-title} are displayed. 
-                   <!--  <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#map-selection" id="mapFAQ">See why?</button>-->
+                <!-- * This map displays {count($nodes)} of {$total-count} places.
+                     <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#map-selection" id="mapFAQ">See why?</button> -->
+
                </div>
             else ()
             }
