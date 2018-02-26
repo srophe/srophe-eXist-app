@@ -53,13 +53,17 @@ let $coords := $node//tei:geo[1]
 return 
   <kml xmlns="http://www.opengis.net/kml/2.2">
         <Placemark>
-            <name>{string-join($title,' ')} - {replace($id,'/tei','')}</name>
+            <name>{string-join($title,' ')} - {replace($id[1],'/tei','')}</name>
             {if($desc != '') then 
                 <description>{string-join($desc,' ')}</description>
             else()}
-            <Point>
-                <coordinates>{replace($coords,' ',',')}</coordinates>
-            </Point>
+            {
+                for $c in $coords
+                return 
+                    <Point>
+                        <coordinates>{replace($coords,' ',',')}</coordinates>
+                    </Point>   
+            }
         </Placemark>
     </kml> 
 };

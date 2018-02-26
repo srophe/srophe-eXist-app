@@ -133,7 +133,7 @@ declare function tei2rdf:location($rec){
  : See if there is an abstract element?
  :)
 declare function tei2rdf:desc($rec)  {
-    for $desc in $rec/descendant::tei:body/descendant::tei:desc | $rec/descendant::tei:body/descendant::tei:note
+    for $desc in $rec/descendant::tei:body/descendant::tei:desc[not(ancestor-or-self::tei:relation)] | $rec/descendant::tei:body/descendant::tei:note
     let $source := $desc/tei:quote/@source
     return 
         if($source != '') then 
@@ -188,15 +188,24 @@ declare function tei2rdf:relations-with-attestation($rec, $id){
 (: Handle TEI relations:)
 declare function tei2rdf:relations($rec, $id){
     for $rel in $rec/descendant::tei:listRelation/tei:relation
-    let $ids := distinct-values((
-                    for $r in tokenize($rel/@active,' ') return $r,
-                    for $r in tokenize($rel/@passive,' ') return $r,
-                    for $r in tokenize($rel/@mutual,' ') return $r
-                    ))
-    for $i in $ids 
     return 
-        if(contains($id,'/spear/')) then tei2rdf:create-element('dcterms:subject', (), $i, ())
-        else tei2rdf:create-element('dcterms:relation', (), $i, ())
+        if($rel/@mutual) then 
+            for $s in tokenize($rel/@mutual,' ')
+            return
+                for $o in tokenize($rel/@mutual,' ')[. != $s]
+                let $element-name := if($rel/@ref and $rel/@ref != '') then string($rel/@ref) else if($rel/@name and $rel/@name != '') then string($rel/@name) else 'dcterms:relation'
+                let $element-name := if(starts-with($element-name,'dct:')) then replace($element-name,'dct:','dcterms:') else $element-name
+                return 
+                    (tei2rdf:create-element('dcterms:relation', (), $o, ()),
+                      tei2rdf:create-element($element-name, (), $o, ()))
+        else 
+            for $s in tokenize($rel/@active,' ')
+            return 
+                for $o in tokenize($rel/@passive,' ')
+                let $element-name := if($rel/@ref and $rel/@ref != '') then string($rel/@ref) else if($rel/@name and $rel/@name != '') then string($rel/@name) else 'dcterms:relation'
+                let $element-name := if(starts-with($element-name,'dct:')) then replace($element-name,'dct:','dcterms:') else $element-name
+                return (tei2rdf:create-element('dcterms:relation', (), $o, ()),
+                        tei2rdf:create-element($element-name, (), $o, ()))
 };
 
 (: Internal references :)
@@ -221,8 +230,9 @@ return
     (element { xs:QName('rdf:Description') } {(
                 attribute {xs:QName("rdf:about")} { $id }, 
                 tei2rdf:create-element('rdf:type', (), tei2rdf:rec-type($rec), ()),
-                (:NOTE: Not sure about the resource class, I think this was from Nathan ?:)
-                (:tei2rdf:create-element($resource-class, (), $id, ()),:)
+                if($rec/descendant::tei:place/@type='schema:LandmarksOrHistoricalBuildings') then 
+                    tei2rdf:create-element('rdf:type', (), 'schema:LandmarksOrHistoricalBuildings', ())
+                else (),
                 tei2rdf:rec-label-and-titles($rec, 'rdfs:label'),
                 tei2rdf:names($rec),
                 if(contains($id,'/spear/')) then ()
@@ -252,7 +262,7 @@ return
                 tei2rdf:create-element('foaf:primaryTopicOf', (), concat($id,'/ttl'), ()),
                 tei2rdf:create-element('foaf:primaryTopicOf', (), concat($id,'/rdf'), ())
         )},
-            (tei2rdf:relations-with-attestation($rec,$id),
+            (
             <rdfs:Resource rdf:about="{concat($id,'/html')}" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
                 {(
                 tei2rdf:rec-label-and-titles($rec, 'dcterms:title'),

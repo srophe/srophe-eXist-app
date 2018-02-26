@@ -79,7 +79,7 @@ declare function tei2ttl:attestation($rec, $source){
  :)
 declare function tei2ttl:desc($rec) as xs:string* {
 string-join((
-for $desc in $rec/descendant::tei:desc
+for $desc in $rec/descendant::tei:desc[not(ancestor-or-self::tei:relation)]
 let $source := $desc/tei:quote/@source
 return
     if($desc[@type='abstract'][not(@source)][not(tei:quote/@source)] or $desc[contains(@xml:id,'abstract')][not(@source)][not(tei:quote/@source)][. != '']) then 
@@ -175,7 +175,7 @@ return
  : @param $rec
 :)
 declare function tei2ttl:bibl-citation($rec) as xs:string*{
-let $citation := string-join(bibl2html:citation(root($rec)))
+let $citation := string-join(bibl2html:citation($rec/ancestor-or-self::tei:TEI))
 return 
     tei2ttl:make-triple('','dcterms:bibliographicCitation', tei2ttl:make-literal($citation,()))
 };
@@ -248,14 +248,30 @@ string-join((for $rel in $rec/descendant::tei:listRelation/tei:relation
 
 declare function tei2ttl:relations($rec, $id){
 string-join((for $rel in $rec/descendant::tei:listRelation/tei:relation
-    let $ids := distinct-values((
-                    for $r in tokenize($rel/@active,' ') return $r,
-                    for $r in tokenize($rel/@passive,' ') return $r,
-                    for $r in tokenize($rel/@mutual,' ') return $r
-                    ))
-    for $i in $ids 
-    return tei2ttl:make-triple('', 'dcterms:relation', tei2ttl:make-uri($i))
-    ),' ')
+    return 
+        if($rel/@mutual) then 
+            for $s in tokenize($rel/@mutual,' ')
+            return
+                string-join((
+                    for $o in tokenize($rel/@mutual,' ')[. != $s]
+                    let $element-name := if($rel/@ref and $rel/@ref != '') then string($rel/@ref) else if($rel/@name and $rel/@name != '') then string($rel/@name) else 'dcterms:relation'
+                    let $element-name := if(starts-with($element-name,'dct:')) then replace($element-name,'dct:','dcterms:') else $element-name
+                    return 
+                        concat(tei2ttl:make-triple('', $element-name, tei2ttl:make-uri($o)),
+                               tei2ttl:make-triple('', 'lawd:hasAttestation', tei2ttl:make-uri($id)))
+                                ),' ')
+        else 
+            for $s in tokenize($rel/@active,' ')
+            return 
+                string-join((
+                    for $o in tokenize($rel/@passive,' ')
+                    let $element-name := if($rel/@ref and $rel/@ref != '') then string($rel/@ref) else if($rel/@name and $rel/@name != '') then string($rel/@name) else 'dcterms:relation'
+                    let $element-name := if(starts-with($element-name,'dct:')) then replace($element-name,'dct:','dcterms:') else $element-name
+                    return 
+                        concat(tei2ttl:make-triple('', $element-name, tei2ttl:make-uri($o)),
+                            tei2ttl:make-triple('', 'lawd:hasAttestation', tei2ttl:make-uri($id)))
+                            ),'')
+ ),'')
 };
 
 
@@ -278,7 +294,7 @@ declare function tei2ttl:prefix() as xs:string{
 };
 
 (: Triples for a single record :)
-declare function tei2ttl:make-triple-set($rec){
+declare function tei2ttl:make-triple-set($rec as item()?){
 let $rec := if($rec/tei:div[@uri[starts-with(.,$global:base-uri)]]) then $rec/tei:div[@uri[starts-with(.,$global:base-uri)]] else $rec
 let $id := if($rec/descendant::tei:idno[starts-with(.,$global:base-uri)]) then replace($rec/descendant::tei:idno[starts-with(.,$global:base-uri)][1],'/tei','')
            else if($rec/@uri[starts-with(.,$global:base-uri)]) then $rec/@uri[starts-with(.,$global:base-uri)]
@@ -290,6 +306,9 @@ concat(
     (: skos:Concept :)
     tei2ttl:record(concat(
         tei2ttl:make-triple(tei2ttl:make-uri($id), 'a', tei2ttl:rec-type($rec)),
+        if($rec/descendant::tei:place/@type='schema:LandmarksOrHistoricalBuildings') then 
+            tei2ttl:make-triple((), 'a', 'schema:LandmarksOrHistoricalBuildings')
+        else (),
         tei2ttl:make-triple((),'rdfs:label',
                 if($rec/descendant::*[@syriaca-tags='#syriaca-headword']) then
                     string-join(for $headword in $rec/descendant::*[@syriaca-tags='#syriaca-headword'][. != '']
@@ -366,10 +385,10 @@ concat(
 };
 
 (: Make sure record ends with a '.' :)
-declare function tei2ttl:record($triple) as xs:string*{
+declare function tei2ttl:record($triple as xs:string*) as xs:string*{
     replace($triple,';$','.&#xa;')
 };
 
-declare function tei2ttl:ttl-output($recs) {
-    (concat(tei2ttl:prefix(), tei2ttl:make-triple-set($recs)))
+declare function tei2ttl:ttl-output($recs as item()*) {
+    (concat(tei2ttl:prefix(), string-join(for $r in $recs return tei2ttl:make-triple-set($r)),''))
 };
