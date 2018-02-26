@@ -248,14 +248,30 @@ string-join((for $rel in $rec/descendant::tei:listRelation/tei:relation
 
 declare function tei2ttl:relations($rec, $id){
 string-join((for $rel in $rec/descendant::tei:listRelation/tei:relation
-    let $ids := distinct-values((
-                    for $r in tokenize($rel/@active,' ') return $r,
-                    for $r in tokenize($rel/@passive,' ') return $r,
-                    for $r in tokenize($rel/@mutual,' ') return $r
-                    ))
-    for $i in $ids 
-    return tei2ttl:make-triple('', 'dcterms:relation', tei2ttl:make-uri($i))
-    ),' ')
+    return 
+        if($rel/@mutual) then 
+            for $s in tokenize($rel/@mutual,' ')
+            return
+                string-join((
+                    for $o in tokenize($rel/@mutual,' ')[. != $s]
+                    let $element-name := if($rel/@ref and $rel/@ref != '') then string($rel/@ref) else if($rel/@name and $rel/@name != '') then string($rel/@name) else 'dcterms:relation'
+                    let $element-name := if(starts-with($element-name,'dct:')) then replace($element-name,'dct:','dcterms:') else $element-name
+                    return 
+                        concat(tei2ttl:make-triple('', $element-name, tei2ttl:make-uri($o)),
+                               tei2ttl:make-triple('', 'lawd:hasAttestation', tei2ttl:make-uri($id)))
+                                ),' ')
+        else 
+            for $s in tokenize($rel/@active,' ')
+            return 
+                string-join((
+                    for $o in tokenize($rel/@passive,' ')
+                    let $element-name := if($rel/@ref and $rel/@ref != '') then string($rel/@ref) else if($rel/@name and $rel/@name != '') then string($rel/@name) else 'dcterms:relation'
+                    let $element-name := if(starts-with($element-name,'dct:')) then replace($element-name,'dct:','dcterms:') else $element-name
+                    return 
+                        concat(tei2ttl:make-triple('', $element-name, tei2ttl:make-uri($o)),
+                            tei2ttl:make-triple('', 'lawd:hasAttestation', tei2ttl:make-uri($id)))
+                            ),'')
+ ),'')
 };
 
 
