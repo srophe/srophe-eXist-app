@@ -133,7 +133,7 @@ declare function tei2rdf:location($rec){
  : See if there is an abstract element?
  :)
 declare function tei2rdf:desc($rec)  {
-    for $desc in $rec/descendant::tei:body/descendant::tei:desc | $rec/descendant::tei:body/descendant::tei:note
+    for $desc in $rec/descendant::tei:body/descendant::tei:desc[not(ancestor-or-self::tei:relation)] | $rec/descendant::tei:body/descendant::tei:note
     let $source := $desc/tei:quote/@source
     return 
         if($source != '') then 

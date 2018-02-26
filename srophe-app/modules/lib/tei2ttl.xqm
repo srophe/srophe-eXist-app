@@ -79,7 +79,7 @@ declare function tei2ttl:attestation($rec, $source){
  :)
 declare function tei2ttl:desc($rec) as xs:string* {
 string-join((
-for $desc in $rec/descendant::tei:desc
+for $desc in $rec/descendant::tei:desc[not(ancestor-or-self::tei:relation)]
 let $source := $desc/tei:quote/@source
 return
     if($desc[@type='abstract'][not(@source)][not(tei:quote/@source)] or $desc[contains(@xml:id,'abstract')][not(@source)][not(tei:quote/@source)][. != '']) then 
