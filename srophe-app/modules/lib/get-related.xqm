@@ -275,7 +275,7 @@ declare function rel:build-relationships($node as item()*,$idno as xs:string?){
  : @param $relType relationship type for filtering by relationship.
 :)
 declare function rel:build-relationship($node as item()*, $idno as xs:string?, $relType as xs:string?){
-    let $relationship := if($relType = 'dcterms:isPartOf') then 'Is part of'
+    let $relationship := if($relType = 'schema:containedInPlace') then 'Contained in Place'
                          else if($relType = 'dcterms:subject') then 'Architectural Features'
                          else $relType
     let $related := $node/descendant-or-self::tei:relation[@ref=$relType]                      

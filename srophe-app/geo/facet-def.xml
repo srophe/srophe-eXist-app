@@ -66,7 +66,7 @@
     </facet-definition>
     <facet-definition name="Architectural Feature">
         <group-by function="facet:group-by-array">
-            <sub-path>descendant::tei:relation[@ref="dc:subject"]/@passive</sub-path>
+            <sub-path>descendant::tei:relation[@ref="dcterms:subject"]/@passive</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
         <order-by direction="ascending">count</order-by>
@@ -74,7 +74,7 @@
     
     <facet-definition name="Sites">
         <group-by function="facet:group-by-array">
-            <sub-path>descendant::tei:relation[@ref="dcterms:isPartOf"]/@passive</sub-path>
+            <sub-path>descendant::tei:relation[@ref="schema:containedInPlace"]/@passive</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
         <order-by direction="ascending">count</order-by>
