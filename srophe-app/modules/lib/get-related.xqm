@@ -44,7 +44,9 @@ declare function rel:get-names($uris as xs:string?) {
                     let $string := normalize-space(string-join($rec/child::*/child::*[not(self::tei:bibl)]/descendant::text(),' '))
                     let $last-words := tokenize($string, '\W+')[position() = 5]
                     return $string (:concat(substring-before($string, $last-words),'...'):)
-                else substring-before($rec[1]/descendant::tei:titleStmt[1]/tei:title[1]/text()[1],' — ')
+                else if(contains($rec[1]/descendant::tei:titleStmt[1]/tei:title[1]/text()[1],' — ')) then 
+                    substring-before($rec[1]/descendant::tei:titleStmt[1]/tei:title[1]/text()[1],' — ')
+                else $rec[1]/descendant::tei:titleStmt[1]/tei:title[1]/text()[1]    
     return
         (
         if($i gt 1 and $count gt 2) then  
@@ -222,58 +224,59 @@ declare function rel:subject-headings($idno){
  : @param $idno record idno
 :)
 declare function rel:build-relationships($node as item()*,$idno as xs:string?){
-if($node) then
-   <div class="panel panel-default">
-       <div class="panel-heading"><h3 class="panel-title">Relationships </h3></div>
-       <div class="panel-body">
-       {       
-           for $related in $node/descendant-or-self::tei:relation
-           let $rel-id := index-of($node, $related[1])
-           let $rel-type := if($related/@ref) then $related/@ref else $related/@name
-           group by $relationship := $rel-type
-           return
-               let $names := rel:get-uris(string-join(($related/@active/string(),$related/@passive/string(),$related/@mutual/string()),' '),$idno)
-               let $count := count($names)
-               return 
-                   (<p class="rel-label"> 
-                       {
-                        if(contains($idno,'/subject/') and $relationship = 'skos:broadMatch') then
-                           concat('This keyword has broader match with', $count,' keyword',if($count gt 1) then 's' else())
-                        else if($related/@mutual) then 
-                           ('This ', rel:get-subject-type($related[1]/@mutual), ' ', rel:decode-relationship($related[1]), ' ', $count, ' other ', rel:get-subject-type($related[1]/@mutual),'.')
-                         else if($related/@active) then 
-                           ('This ', rel:get-subject-type($related[1]/@active), ' ',
-                           rel:decode-relationship($related[1]), ' ',$count, ' ',rel:get-subject-type($related[1]/@passive),'.')
-                         else rel:decode-relationship($related[1])
-                       }
-                   </p>,
-                   <div class="rel-list">{
-                       for $r in subsequence($names,1,2)
-                       return rel:display($r),
-                       if($count gt 2) then
-                           <span>
-                               <span class="collapse" id="showRel-{$rel-id}">{
-                                   for $r in subsequence($names,3,$count)
-                                   return rel:display($r)
-                               }</span>
-                               <a class="togglelink btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="collapse" data-target="#showRel-{$rel-id}" data-text-swap="Hide"> See all {$count} &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
-                           </span>
-                       else ()
-                   }</div>)
-           }
+    if($node) then
+       <div class="panel panel-default">
+           <div class="panel-heading"><h3 class="panel-title">Relationships </h3></div>
+           <div class="panel-body">
+           {       
+               for $related in $node/descendant-or-self::tei:relation
+               let $rel-id := index-of($node, $related[1])
+               let $rel-type := if($related/@ref) then $related/@ref else $related/@name
+               group by $relationship := $rel-type
+               return
+                   let $names := rel:get-uris(string-join(($related/@active/string(),$related/@passive/string(),$related/@mutual/string()),' '),$idno)
+                   let $count := count($names)
+                   return 
+                       (<p class="rel-label"> 
+                           {
+                            if(contains($idno,'/subject/') and $relationship = 'skos:broadMatch') then
+                               concat('This keyword has broader match with', $count,' keyword',if($count gt 1) then 's' else())
+                            else if($related/@mutual) then 
+                               ('This ', rel:get-subject-type($related[1]/@mutual), ' ', rel:decode-relationship($related[1]), ' ', $count, ' other ', rel:get-subject-type($related[1]/@mutual),'.')
+                             else if($related/@active) then 
+                               ('This ', rel:get-subject-type($related[1]/@active), ' ',
+                               rel:decode-relationship($related[1]), ' ',$count, ' ',rel:get-subject-type($related[1]/@passive),'.')
+                             else rel:decode-relationship($related[1])
+                           }
+                       </p>,
+                       <div class="rel-list">{
+                           for $r in subsequence($names,1,2)
+                           return rel:display($r),
+                           if($count gt 2) then
+                               <span>
+                                   <span class="collapse" id="showRel-{$rel-id}">{
+                                       for $r in subsequence($names,3,$count)
+                                       return rel:display($r)
+                                   }</span>
+                                   <a class="togglelink btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="collapse" data-target="#showRel-{$rel-id}" data-text-swap="Hide"> See all {$count} &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                               </span>
+                           else ()
+                       }</div>)
+               }
+           </div>
        </div>
-   </div>
-else()
+    else()
 };
 
 (:~ 
  : Build a single relationship type relation/@ref or @name
  : @param $node all relationship elements
  : @param $idno record idno
+ : @param $relType relationship type for filtering by relationship.
 :)
 declare function rel:build-relationship($node as item()*, $idno as xs:string?, $relType as xs:string?){
     let $relationship := if($relType = 'dcterms:isPartOf') then 'Is part of'
-                         else if($relType = 'dc:subject') then 'Architectural Features'
+                         else if($relType = 'dcterms:subject') then 'Architectural Features'
                          else $relType
     let $related := $node/descendant-or-self::tei:relation[@ref=$relType]                      
     return 
@@ -282,35 +285,26 @@ declare function rel:build-relationship($node as item()*, $idno as xs:string?, $
                 <div class="panel-heading"><h3 class="panel-title">{$relationship}</h3></div>
                 <div class="panel-body">
                 {       
-                    for $related in $node/descendant-or-self::tei:relation[@ref=$relType]
-                    let $rel-id := index-of($node, $related[1])
-                    group by $relationship := $relType
-                    return
-                        let $names := rel:get-uris(string-join(($related/@active/string(),$related/@passive/string(),$related/@mutual/string()),' '),$idno)
-                        let $count := count($names)
-                        return 
-                            (<p class="rel-label"> 
-                                {
-                                    if($relType = 'dcterms:isPartOf') then 
-                                        ('This ', rel:get-subject-type($related[1]/@active), ' is contained by ',$count, rel:get-subject-type($related[1]/@passive),'.')
-                                     else if($relType = 'dc:subject') then 
-                                        ('This ', rel:get-subject-type($related[1]/@active), ' has ',$count, ' feature(s).')
-                                     else $relType
-                                }
-                            </p>,
-                            <div class="rel-list">{
+                    for $related at $p in $node/descendant-or-self::tei:relation[@ref=$relType]
+                    let $desc := $related/descendant::tei:desc
+                    let $names := rel:get-uris(string-join(($related/@active/string(),$related/@passive/string(),$related/@mutual/string()),' '),$idno)
+                    let $count := count($names)
+                    return 
+                       <div class="rel-list">{
+                            if($relType = 'dcterms:subject') then 
+                                <div class="short-rec-view">{
+                                    for $r in $names
+                                    return
+                                        (<span class="badge">{$p}&#160;</span>,
+                                        <span class="title">
+                                        <a href="{replace($r,$global:base-uri,$global:nav-base)}">{rel:get-names($r)}</a>
+                                        {if($desc != '') then concat(' (',normalize-space($desc/text()),')') else ()}
+                                        </span> )
+                                }</div>
+                            else 
                                 for $r in subsequence($names,1,2)
-                                return rel:display($r),
-                                if($count gt 2) then
-                                    <span>
-                                        <span class="collapse" id="showRel-{$rel-id}">{
-                                            for $r in subsequence($names,3,$count)
-                                            return rel:display($r)
-                                        }</span>
-                                        <a class="togglelink btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="collapse" data-target="#showRel-{$rel-id}" data-text-swap="Hide"> See all {$count} &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
-                                    </span>
-                                else ()
-                            }</div>)
+                                return rel:display($r)
+                       }</div>
                     }
                 </div>
                 </div>

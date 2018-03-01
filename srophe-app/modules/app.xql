@@ -182,7 +182,6 @@ declare function app:h1($node as node(), $model as map(*)){
         </div>
 }; 
 
-
 (:~ 
  : Data formats and sharing
  : to replace app-link
@@ -230,7 +229,6 @@ return
         </div>
     else ()
 };
-
 
 (:~  
  : Display any TEI nodes passed to the function via the paths parameter
@@ -438,7 +436,6 @@ return
     else
     <span class="rec-status {$status} btn btn-info">Status: {$status}</span>
 };
-
 
 (:~ 
  : Used by teiDocs
