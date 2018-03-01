@@ -383,7 +383,7 @@ declare function app:display-related-images($node as node(), $model as map(*)){
     if($model("data")//tei:relation[@ref='foaf:depicts']) then 
         <div class="record-images">
         {
-            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@type="main")]
+            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@type="featured")]
             return 
                 <span class="thumb-images">
                      <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
@@ -401,7 +401,7 @@ declare function app:display-related-images($node as node(), $model as map(*)){
  : For tcadrt display featured images. 
 :)                   
 declare function app:display-featured-image($node as node(), $model as map(*)){
-    if($model("data")//tei:relation[@ref='foaf:depicts'][@type="main"]) then 
+    if($model("data")//tei:relation[@ref='foaf:depicts'][@type="featured"]) then 
         <div class="record-images">
         {
             for $image in $model("data")//tei:relation[@ref='foaf:depicts']
