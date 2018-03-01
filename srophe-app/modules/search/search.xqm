@@ -38,7 +38,20 @@ declare variable $search:collection {request:get-parameter('collection', '') cas
 declare %templates:wrap function search:get-results($node as node(), $model as map(*), $collection as xs:string?, $view as xs:string?){
     let $coll := if($search:collection != '') then $search:collection else $collection
     let $eval-string := search:query-string($collection)
-    return map {"hits" := data:search($eval-string) }  
+    let $hits := util:eval($eval-string)
+    return 
+        if($collection = 'places') then  
+            map {"hits" := 
+                        for $r in $hits
+                        let $id := $r/descendant::tei:idno[1]
+                        return 
+                            if($r/descendant::tei:entryFree) then 
+                                let $related := collection('/db/apps/tcadrt-data/data')/tei:TEI[descendant::tei:relation[@passive = $id]]
+                                return $related
+                            else root($id)
+                }
+        else map {"hits" := $hits }
+    (:map {"hits" := data:search($eval-string) }:)  
 };
 
 (: for debugging :)
@@ -56,6 +69,17 @@ return
 if($collection != '') then 
     if(doc-available($search-config)) then 
        concat("collection('",$global:data-root,"/",$collection,"')//tei:body",facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()),search:dynamic-paths($search-config))
+    else if($collection = 'places') then  
+        concat("collection('",$global:data-root,"')//tei:body",
+        facet:facet-filter(facet-defs:facet-definition($collection)),
+        slider:date-filter(()),
+        data:keyword(),
+        search:persName(),
+        search:placeName(), 
+        search:title(),
+        search:bibl(),
+        data:uri()
+      )
     else
         concat("collection('",$global:data-root,"/",$collection,"')//tei:body",
         facet:facet-filter(facet-defs:facet-definition($collection)),
