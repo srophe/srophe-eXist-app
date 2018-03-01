@@ -368,6 +368,7 @@ declare %templates:wrap function app:display-external-relationships($node as nod
                                     else()
                                     }
                                 </div>
+                                <hr/>
                             </div>
                     }
                 </div>

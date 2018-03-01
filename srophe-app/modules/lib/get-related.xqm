@@ -292,14 +292,13 @@ declare function rel:build-relationship($node as item()*, $idno as xs:string?, $
                     return 
                        <div class="rel-list">{
                             if($relType = 'dcterms:subject') then 
-                                <div class="short-rec-view">{
+                                <div class="short-rec-view feature">{
                                     for $r in $names
                                     return
-                                        (<span class="badge">{$p}&#160;</span>,
-                                        <span class="title">
+                                        (<span class="num">{$p}. </span>,<span class="feature-title">
                                         <a href="{replace($r,$global:base-uri,$global:nav-base)}">{rel:get-names($r)}</a>
-                                        {if($desc != '') then concat(' (',normalize-space($desc/text()),')') else ()}
-                                        </span> )
+                                        {if($desc != '') then concat(' (',normalize-space(string-join($desc/descendant::text(),'')),')') else ()}
+                                        </span>)
                                 }</div>
                             else 
                                 for $r in subsequence($names,1,2)
