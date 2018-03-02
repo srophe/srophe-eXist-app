@@ -47,6 +47,9 @@ declare variable $exist-collection := $git-config//exist-collection/text();
 (: Github repository :)
 declare variable $repo-name := $git-config//repo-name/text();
 
+(: Github branch :)
+declare variable $branch := if($git-config//github-branch/text() != '') then concat('refs/heads/',$git-config//github-branch/text()) else 'refs/heads/master';
+
 (:~  
  : Recursively creates new collections if necessary  
  : @param $uri url to resource being added to db 
@@ -63,7 +66,8 @@ return
 
 declare function local:get-file-data($file-name, $contents-url){
 let $url := concat($contents-url,'/',$file-name)         
-let $raw-url := concat(replace(replace($contents-url,'https://api.github.com/repos/','https://raw.githubusercontent.com/'),'/contents','/master'),$file-name)            
+let $raw-url := 
+concat(replace(replace($contents-url,'https://api.github.com/repos/','https://raw.githubusercontent.com/'),'/contents',substring-after($branch,'refs/heads')),$file-name)            
 return 
         http:send-request(<http:request http-version="1.1" href="{xs:anyURI($raw-url)}" method="get">
                             {if($gitToken != '') then
@@ -197,7 +201,6 @@ declare function local:execute-webhook($post-data){
 if(not(empty($post-data))) then 
     let $payload := util:base64-decode($post-data)
     let $json-data := parse-json($payload)
-    let $branch := if($git-config//github-branch/text() != '') then $git-config//github-branch/text() else 'refs/heads/master'
     return
         if($json-data?ref[. = $branch]) then 
              try {
@@ -223,7 +226,7 @@ if(not(empty($post-data))) then
                     <message>Unacceptable headers {concat($err:code, ": ", $err:description)}</message>
                 </response>)
             }
-        else (response:set-status-code( 401 ),<response status="fail"><message>Not from the master branch.</message></response>)
+        else (response:set-status-code( 401 ),<response status="fail"><message>Not from the {$branch} branch.</message></response>)
 else    
             (response:set-status-code( 401 ),
             <response status="fail">

@@ -5,7 +5,10 @@
             <div class="row">
                 <!-- Column 1 -->
                 <div class="col-md-8 column1">
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
+                    <div class="container keep-together">
+                        <div data-template="app:display-featured-image"/>
+                        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
+                    </div>
                     <hr/>
                     <div data-template="app:display-external-relationships" data-template-type="dcterms:subject"/>
                 </div>
