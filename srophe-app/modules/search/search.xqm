@@ -40,18 +40,20 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
     let $eval-string := search:query-string($collection)
     let $hits := util:eval($eval-string)
     return 
-        if($collection = 'places') then  
-            map {"hits" := 
-                        for $r in $hits
-                        let $id := $r/descendant::tei:idno[1]
-                        return 
-                            if($r/descendant::tei:entryFree) then 
-                                let $related := collection('/db/apps/tcadrt-data/data')/tei:TEI[descendant::tei:relation[@passive = $id]]
-                                return $related
-                            else root($id)
-                }
-        else map {"hits" := $hits }
-    (:map {"hits" := data:search($eval-string) }:)  
+        if(exists(request:get-parameter-names()) or ($view = 'all')) then 
+            if($collection = 'places') then  
+                map {"hits" := 
+                            for $r in $hits
+                            let $id := $r/descendant::tei:idno[1]
+                            return 
+                                if($r/descendant::tei:entryFree) then 
+                                    let $related := util:eval(concat("collection('",$global:data-root,"')//tei:body[descendant::tei:relation[@passive ='", $id,"']]",facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(())))
+                                    return $related
+                                else util:eval(concat("root($id)",facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(())))
+                    }
+            else map {"hits" := util:eval(concat("$hits",facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()))) }
+        else ()
+
 };
 
 (: for debugging :)
@@ -71,8 +73,6 @@ if($collection != '') then
        concat("collection('",$global:data-root,"/",$collection,"')//tei:body",facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()),search:dynamic-paths($search-config))
     else if($collection = 'places') then  
         concat("collection('",$global:data-root,"')//tei:body",
-        facet:facet-filter(facet-defs:facet-definition($collection)),
-        slider:date-filter(()),
         data:keyword(),
         search:persName(),
         search:placeName(), 
@@ -178,7 +178,6 @@ declare function search:search-string(){
         }
 </span>
 };
-
 (:~
  : Display search string in browser friendly format for search results page
  : @param $collection passed from search page templates
@@ -311,7 +310,7 @@ let $search-config := concat($global:app-root, '/', string(global:collection-var
 return 
     if(doc-available($search-config)) then 
         search:build-form($search-config) 
-    else ()
+    else search:default-form()
 };
 
 declare function search:keyboard-select-button($node as node()*, $model as map(*), $input-name){
@@ -373,3 +372,52 @@ return
     </form>
 };
 
+declare function search:default-form(){
+                <div id="search-form">
+                    <form method="get" action="search.html" class="form-horizontal indent" role="form">
+                        <h1 class="search-header">Search Architectura Sinica</h1>
+                        <div class="well well-small">
+                            <button type="button" class="btn btn-info pull-right" data-toggle="collapse" data-target="#searchTips">
+                                Search Help <span class="glyphicon glyphicon-question-sign" aria-hidden="true"/>
+                            </button> 
+                            <div class="well well-small" style="background-color:white; margin-top:2em;">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <!-- Keyword -->
+                                        <div class="form-group">
+                                            <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: </label>
+                                            <div class="col-sm-10 col-md-9 ">
+                                                <div class="input-group">
+                                                    <input type="text" id="qs" name="q" class="form-control keyboard"/>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                        <!-- Place Name-->
+                                        <div class="form-group">
+                                            <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: </label>
+                                            <div class="col-sm-10 col-md-9 ">
+                                                <div class="input-group">
+                                                    <input type="text" id="placeName" name="placeName" class="form-control keyboard"/>
+                                                </div>   
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="uri" class="col-sm-2 col-md-3  control-label">URI: </label>
+                                            <div class="col-sm-10 col-md-9 ">
+                                                <input type="text" id="uri" name="uri" class="form-control"/>
+                                            </div>
+                                        </div>
+                                        <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"/>           
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-info">Search</button> 
+                                <button type="reset" class="btn">Clear</button>
+                            </div>
+                            <br class="clearfix"/>
+                            <br/>
+                        </div>    
+                    </form>
+                </div>
+};
