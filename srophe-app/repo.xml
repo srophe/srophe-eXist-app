@@ -16,7 +16,7 @@
         <description>A digital image archive of the monumental architecture of pre-modern China. </description>
         <!-- Contact email -->
         <contact/>
-        <!-- Logo name (assumes path to logo is $app-root/resources/img/) -->
+        <!--  Logo name (assumes path to logo is $app-root/resources/img/) -->
         <logo/>
         <!-- Web Site URL -->
         <url>http://tcadrt.jelastic.servint.net/</url>
