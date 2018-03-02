@@ -25,7 +25,8 @@ body {font-family: arial, sans-serif; background-color:#4d7775; }
 .featured-images {
  display: block;
  float:right;
- width:70%;
+ width:60%;
+ padding-left:1em;
  margin-left:.5em;
  margin-bottom:.5em;
 }
