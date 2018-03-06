@@ -17,6 +17,35 @@ body {font-family: arial, sans-serif; background-color:#4d7775; }
 .interior-content {padding:0; padding-top: 50px;}
 .full-page {margin-top:0;}
 
+/* Homepage styles */
+
+#homepage-image {
+  display: block; 
+  margin-left: auto; 
+  margin-right: auto;
+  width: 100%; 
+  padding-bottom: 1em;
+}
+
+/* Detail Page styles */
+#placenames {
+ 
+
+}
+.featured-images {
+ display: block;
+ float:right;
+ width:70%;
+ margin-left:.5em;
+ margin-bottom:.5em;
+}
+
+
+.featured-images a img {
+  width:100%;
+
+}
+
 /* Navbar styles*/
 .navbar {margin-left: 0; padding-left: 0; border-bottom:2px solid #771210 !important;   background-color:#4d7775  !important; color:#FFFFFF !important;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
