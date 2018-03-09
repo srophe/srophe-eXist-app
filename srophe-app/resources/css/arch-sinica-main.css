@@ -1,7 +1,11 @@
-
+/*
+ * Colors
+ * Deep Red for nav border: 771210
+ * Darker red for text: 501A1A 
+ */
    
 /* Main content blocks */
-body {font-family: arial, sans-serif; background-color:#4d7775; }
+body {font-family: arial, sans-serif; background-color:#fff; }
 #main { padding: 0; background-color:#FFFFF; }
 #content{background-color:#FFFFFF; padding-top: 50px;}
 
@@ -38,7 +42,7 @@ body {font-family: arial, sans-serif; background-color:#4d7775; }
 }
 
 /* Navbar styles*/
-.navbar {margin-left: 0; padding-left: 0; border-bottom:2px solid #771210 !important;   background-color:#4d7775  !important; color:#FFFFFF !important;}
+.navbar {margin-left: 0; padding-left: 0; border-bottom:15px solid #771210 !important;   background-color:#fff  !important; color:#333 !important;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
 .navbar-brand img {padding:0; margin:0; }
 .brand {margin-top:-.75em; margin-left:40px; padding-left:0;}
@@ -56,16 +60,17 @@ body {font-family: arial, sans-serif; background-color:#4d7775; }
 }
 
 .navbar-default .navbar-brand {
-  color: #FFF !important;
+  color: #333 !important;
+  font-weight:600;
 }
 
 .navbar-default .navbar-text {
-  color: #FFF !important;
+  color: #333 !important;
  
 }
 
 .navbar-default .navbar-nav > li > a {
-  color: #FFF !important;
+  color: #333 !important;
 
 }
 
@@ -162,30 +167,15 @@ ul.pagination li.active a, ul.pagination li.active a:link, ul.pagination li.acti
 .icon-text {display:inline-block; margin-top:-.85em; vertical-align: middle; font-weight:500;}
 .nav-text {display:inline-block; line-height:1.5em; margin-top:.25em;}
 
-.banner-container {font-size:1.75em; display:inline-block; line-height:2.5em; font-family: 'Alegreya Sans SC', sans-serif;}
-.banner-container span {margin-left: 0px; padding: .5em .5em .4em 2.5em; background-image:url('../img/arch-sinica-logo.png'); background-repeat: no-repeat;}
-.banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
-
- /*
- * font-family: Tahoma, Geneva, sans-serif;
- */
-.banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
-
-/* Small Syrica.org icons images for submodules in nav menus */
-.geo-sm-icon {background-image: url(../img/icons-geo-sm.png);}
-.saints-sm-icon {background-image: url(../img/icons-saints-sm.png);}
-.persons-sm-icon {background-image: url(../img/icons-persons-sm.png);}
-.authors-sm-icon {background-image: url(../img/icons-authors-sm.png);}
-.spear-sm-icon {background-image: url(../img/icons-spear-sm.png);}
-.mss-sm-icon {background-image: url(../img/icons-mss-sm.png);}
-.bhse-sm-icon {background-image: url(../img/icons-bhse-sm.png);}
-.nhsl-sm-icon {background-image: url(../img/icons-nhsl-sm.png);}
-.q-sm-icon {background-image: url(../img/icons-q-sm.png);}
-.syriaca-sm-icon {background-image: url(../img/icons-syriaca-sm.png);}
-.rec-status {display:block; width:100% !important; margin-bottom:1em; padding:1em;}
-.info-btns {width:100%; margin-bottom:1em;}
-
 /* Banner styles index page (Colors and images are set by internal css for submodules) */
+.banner-container {font-size:1.75em; display:inline-block; line-height:2.5em; font-family: 'Alegreya Sans SC', sans-serif;}
+.banner-container span {
+    margin-left: 0px; 
+    padding: .5em .5em .4em 2.5em; 
+   /* background-image:url('../img/arch-sinica-logo.png');*/ 
+    background-repeat: no-repeat;}
+.banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
+.banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .banner-index {
     position:relative;
     margin-top:0;
@@ -195,32 +185,6 @@ ul.pagination li.active a, ul.pagination li.active a:link, ul.pagination li.acti
 	background-position:center;
 	height:200px;
     width:100%;
-}
-
-/* Bibl banner*/
-.banner-bibl {
-    position:relative;
-    margin-top:-1em;
-    padding-top:0;
-	background-image:url('../img/bibl-banner.png');
-	background-size:cover;
-	background-position:top;
-    height:250px;
-    width:100%;
-    border-bottom:4px solid #456889;
-}
-   
-/* Bibl banner*/
-.banner-bible {
-    position:relative;
-    margin-top:-1em;
-    padding-top:0;
-	background-image:url('../img/bible-banner.png');
-	background-size:cover;
-	background-position:top;
-    height:250px;
-    width:100%;
-    border-bottom:4px solid #456889;
 }
 
 .overlay {
@@ -265,12 +229,10 @@ ul.pagination li.active a, ul.pagination li.active a:link, ul.pagination li.acti
     box-decoration-break: clone;
 }
 
-
 /* Footer styles */
-footer {text-align:left; color:white; }
+footer {text-align:center; width:100%; padding:1em 3em; border-top:15px solid #771210;}
 
-footer a, footer a:hover {color:white;text-decoration: underline;}
-
+footer a, footer a:hover {color:#333;text-decoration: underline;}
 
 .logo {float:left; display:block; padding-right: 1em; padding-bottom: 1em;}
 .license {float:left;}
@@ -288,7 +250,7 @@ footer a, footer a:hover {color:white;text-decoration: underline;}
 
 /* Typography */
 h1 {font-size:1.5em; margin:.25em 0 .25em 0; color:#456889; font-weight:500;}
-h2 {font-size: 1.25em; margin:1em 0 .25em 0 padding-bottom:0; color:#999; font-weight:500;}
+h2 {font-size: 1.25em; margin:1em 0 .25em 0 padding-bottom:0; color:#501A1A; font-weight:500;}
 h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;  padding-bottom:0; margin-bottom:1em;}
 h3.banner-solid {color:white;}
 h3.underline {color:#999; border-bottom:3px solid #456889; padding-bottom:-.75em; margin-bottom:1em; margin-top:0;}
@@ -959,4 +921,38 @@ h4.slider {
     display: inline-block;
     height: 100%;
     vertical-align: middle;
+}
+
+/* Test home page styles*/
+.home-page {
+    position:relative;
+    margin-top:0;
+    padding-top:0;
+	background-image:url('../img/home-page.png');
+	background-size:cover;
+	background-repeat: no-repeat;
+	background-position: left;
+	height:500px;
+    width:100%; 
+    overflow:hidden;
+    border-top:15px solid #771210;
+    border-bottom:15px solid #771210;
+}
+
+.home-page-title { 
+    width:100%;
+    clear:both;
+    margin-top:-4em;
+    padding-top:0;
+    }
+.home-page-content {
+    font-weight:200;
+    background: rgb(255,255,255); /* for IE */
+    background: rgba(255,255,255,0.65);
+    color: #501A1A; 
+    padding: 1em;
+    height:500px;
+    /*width:30%;*/
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
