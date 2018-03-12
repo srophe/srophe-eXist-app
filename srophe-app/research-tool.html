@@ -1,0 +1,52 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div data-template="browse:get-all" data-template-element="tei:place/tei:placeName" data-template-collection="places">
+        <div data-template="browse:display-map" data-template-collection="places"/>   
+        <form method="get" action="research-tool.html" class="center-block form-horizontal indent" role="form" 
+            style="padding:1em; margin-top:-3em; background-color:#F7F7F9;">  
+        <h1 class="search-header indent">Search Architectura Sinica 
+            &#160;<small>
+                (<a class="togglelink text-info" 
+                    data-toggle="collapse" data-target="#showSearch" href="#showSearch" 
+                    data-text-swap="+ Show"> - Hide </a>)
+            </small></h1>
+        <div class="row collapse in" id="showSearch">
+            <div class="col-md-7 col-sm-offset-1">
+                <!-- Keyword -->
+                <div class="form-group">
+                    <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: </label>
+                    <div class="col-sm-10 col-md-9 ">    
+                        <input type="text" id="qs" name="q" class="form-control keyboard"/>
+                    </div>
+                </div>
+                <!-- Place Name-->
+                <div class="form-group">
+                    <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: </label>
+                    <div class="col-sm-10 col-md-9 ">   
+                        <input type="text" id="placeName" name="placeName" class="form-control keyboard"/>
+                    </div>
+                </div>
+                <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"/>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-success">Search</button> 
+                    <button type="reset" class="btn btn-info">Clear</button>
+                </div>
+            </div>
+        </div>        
+    </form>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="slider-container">
+                <div id="slider" data-template="browse:display-slider"/>
+            </div>
+            <div data-template="browse:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
+        </div>
+        <div class="col-md-8">
+            <br/>
+            <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
+            <div data-template="browse:results" data-template-collection="places"/>
+            <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
+        </div>
+    </div>
+    </div>
+</div>
+    

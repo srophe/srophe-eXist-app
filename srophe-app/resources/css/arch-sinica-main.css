@@ -932,7 +932,7 @@ h4.slider {
 	background-size:cover;
 	background-repeat: no-repeat;
 	background-position: left;
-	height:500px;
+	height:550px;
     width:100%; 
     overflow:hidden;
     border-top:15px solid #771210;
@@ -951,7 +951,7 @@ h4.slider {
     background: rgba(255,255,255,0.65);
     color: #501A1A; 
     padding: 1em;
-    height:500px;
+    height:550px;
     /*width:30%;*/
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
