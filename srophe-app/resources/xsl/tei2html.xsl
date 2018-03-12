@@ -1514,15 +1514,16 @@
     </xsl:template>
     <!-- Main page modules for syriaca.org display -->
     <xsl:template match="t:place | t:person | t:bibl[starts-with(@xml:id,'work-')] | t:entryFree">
-        <xsl:if test="not(empty(t:desc[not(starts-with(@xml:id,'abstract'))][1]))">
-            <div id="description">
-                <h3>Brief Descriptions</h3>
-                    <xsl:for-each select="t:desc">
-                           <xsl:apply-templates/>
-                    </xsl:for-each>
-            </div>
-        </xsl:if>
-        
+        <xsl:for-each select="t:desc[not(starts-with(@xml:id,'abstract'))]">
+            <h3>
+                <xsl:choose>
+                    <xsl:when test="@type='site-data'">Site Information</xsl:when>
+                    <xsl:when test="@type='building-data'">Building Information</xsl:when>
+                    <xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
+                </xsl:choose>
+            </h3>
+            <xsl:apply-templates/>
+        </xsl:for-each>
         <xsl:if test="self::t:place">
             <xsl:if test="t:placeName">
                 <div id="placenames">
