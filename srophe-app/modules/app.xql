@@ -307,11 +307,43 @@ declare %templates:wrap function app:display-citation($node as node(), $model as
 :)                   
 declare function app:display-related($node as node(), $model as map(*), $type as xs:string?){
     if($type != '') then
-        rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
+        if($type = 'dcterms:subject') then rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation/tei:relation[@ana='architectural-feature'], replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
+        else rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
     else if($model("data")//tei:body/child::*/tei:listRelation) then 
         rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''))
     else ()
 };
+
+(:~            
+ : TCADRT build term tree.
+:)
+declare function app:keyword-tree($node as node(), $model as map(*)){
+    let $rec := $model("data") 
+    for $broadMatch in $rec/descendant::tei:relation[@ref='skos:broadMatch']
+    return 
+        <p><strong>Broad Match:</strong>&#160;<a href="{$global:nav-base}/architectural-features.html?fq=;fq-Category:{string($broadMatch/@passive)}">{string($broadMatch/@passive)}</a> </p>
+};
+
+(:~            
+ : TCADRT build term tree.
+:)
+declare function app:place-type($node as node(), $model as map(*)){
+    let $rec := $model("data") 
+    for $broadMatch in $rec/descendant::tei:relation[@ref='dcterms:subject'][@ana = ('building-type','site-type')]
+    let $uri := string($broadMatch/@passive)
+    let $type := if($broadMatch/@ana = 'building-type') then 'Building Type' else 'Site Type'
+    let $label := 
+        if(starts-with($uri,$global:base-uri)) then  
+          let $doc := collection($global:data-root)//tei:TEI[.//tei:idno = concat($uri,"/tei")][1]
+          return 
+              if (exists($doc)) then
+                replace(string-join($doc/descendant::tei:fileDesc/tei:titleStmt[1]/tei:title[1]/text()[1],' '),' — ','')
+              else $uri 
+        else $uri
+    return 
+        <p><strong>Place Type:</strong>&#160;<a href="{$global:nav-base}/research-tool.html?fq=;fq-{$type}:{$uri}">{$label}</a> </p>
+};
+
 
 (:~            
  : TCADRT Get records that reference current record.
@@ -383,7 +415,7 @@ declare function app:display-related-images($node as node(), $model as map(*)){
     if($model("data")//tei:relation[@ref='foaf:depicts']) then 
         <div class="record-images">
         {
-            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@type="featured")]
+            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@ana="featured")]
             return 
                 <span class="thumb-images">
                      <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
@@ -401,7 +433,7 @@ declare function app:display-related-images($node as node(), $model as map(*)){
  : For tcadrt display featured images. 
 :)                   
 declare function app:display-featured-image($node as node(), $model as map(*)){
-    if($model("data")//tei:relation[@ref='foaf:depicts'][@type="featured"]) then 
+    if($model("data")//tei:relation[@ref='foaf:depicts'][@ana="featured"]) then 
         <div class="record-images">
         {
             for $image in $model("data")//tei:relation[@ref='foaf:depicts']

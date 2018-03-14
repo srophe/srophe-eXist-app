@@ -1,0 +1,18 @@
+<facets xmlns="http://expath.org/ns/facet">
+    <!--
+    <facet-definition name="Type">
+        <group-by>
+            <sub-path>descendant::tei:entryFree/@type</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    -->
+    <facet-definition name="Category">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref='skos:broadMatch']/@passive</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+</facets>

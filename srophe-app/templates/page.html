@@ -8,7 +8,7 @@
         <link rel="schema.DCTERMS" href="https://purl.org/dc/terms/"/>
         <meta name="DC.type" property="dc.type" content="Text"/>
         <link data-template="app:metadata"/>
-        <link rel="shortcut icon" href="$app-root/resources/img/tcadrt-logo-vs.png"/>
+        <link rel="shortcut icon" href="$app-root/resources/img/fav-icons/favicon.ico"/>
         <!-- Architectura Sinica css -->
         <link rel="stylesheet" type="text/css" href="$app-root/resources/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="$app-root/resources/css/arch-sinica-main.css"/>
@@ -60,13 +60,27 @@
                 <div class="navbar-collapse collapse pull-right">
                     <ul class="nav navbar-nav sm sm-vertical" id="main-menu">
                         <li>
+                            <a href="$app-root/research-tool.html"> RESEARCH TOOL </a>
+                        </li>
+                        <li>
+                            <a href="$app-root/geolocation.html"> GEOLOCATION </a>
+                        </li>
+                        <li>
+                            <a href="$app-root/architectural-features.html"> ARCHITECTURAL FEATURES </a>
+                        </li>
+                        <li>
+                            <a href="$app-root/about.html"> ABOUT US </a>
+                        </li>
+                        <!--
+                        <li>
                             <a href="$app-root/browse.html"> BROWSE | <span lang="zh-Hant">瀏覽</span> </a>
                         </li>
                         <li>
                             <a href="$app-root/about.html"> ABOUT US | <span lang="zh-Hant">關於我們</span> </a>
                         </li>
+                        -->
                     </ul>
-                    <form class="navbar-form navbar-left navbar-input-group" role="search" action="$app-root/search.html" method="get">
+                    <form class="navbar-form navbar-left navbar-input-group" role="search" action="$app-root/research-tool.html" method="get">
                         <div class="input-group">
                             <input type="text" class="form-control keyboard" placeholder="search" name="q" id="q"/>
                             <div class="input-group-btn">
@@ -76,14 +90,9 @@
                     <ul class="nav navbar-nav navbar-right keboard-btn">
                         <li>
                             <div class="btn-nav">
-                                <a href="#" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Search Tools">
-                                     <span class="glyphicon glyphicon-cog"/> <span class="caret"/>
+                                <a href="$app-root/research-tool.html" class="btn btn-default navbar-btn" title="Search Tools">
+                                     <span class="glyphicon glyphicon-search"/> 
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="$app-root/search.html">Advanced Search</a>
-                                    </li>
-                                </ul>
                             </div>
                         </li>
                     </ul>
