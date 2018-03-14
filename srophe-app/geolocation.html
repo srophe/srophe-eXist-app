@@ -1,0 +1,40 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+        <!-- Calls xquery functions -->
+        <div data-template="browse:get-all-map" data-template-element="tei:place/tei:placeName" data-template-collection="places">
+            <div class="map-lg">
+                <div id="map-filters" class="map-overlay">
+                    <span class="filter-label">Filter Map
+                        <a class="pull-right small togglelink text-info" data-toggle="collapse" data-target="#filterMap" href="#filterMap" data-text-swap="+ Show"> - Hide </a>
+                    </span>
+                    <div class="collapse in" id="filterMap">
+                        <div class="slider-container">
+                            <div id="slider" data-template="browse:display-slider"/>
+                        </div>
+    
+                        <div data-template="browse:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/> 
+                    </div>
+                </div>
+                <div data-template="browse:display-map" data-template-collection="places"/>
+            </div> 
+            <!--
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="slider-container">
+                        <div id="slider" data-template="browse:display-slider"/>
+                    </div>
+                    <div data-template="browse:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
+                </div>
+                <div class="col-md-8">
+                    <br/>
+                    <div class="page-bottom">
+                        <div data-template="browse:pageination"/>
+                    </div>
+                    <div data-template="browse:results" data-template-collection="places"/>
+                    <div class="page-bottom">
+                        <div data-template="browse:pageination"/>
+                    </div>
+                </div>
+            </div>
+            -->
+        </div>    
+</div>

@@ -21,41 +21,37 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 .interior-content {padding:0; padding-top: 50px;}
 .full-page {margin-top:0;}
 
-
-/* Homepage styles */
-
-#homepage-image {
-  display: block; 
-  margin-left: auto; 
-  margin-right: auto;
-  width: 100%; 
-  padding-bottom: 1em;
-}
-
-/* Detail Page styles */
-
 /* Detail Page Styles */
+
 #placenames {
  
 
 }
-
 .featured-images {
- display: block;
- float:right;
-
- width:70%;
-
- padding-left:1em;
-
- margin-left:.5em;
- margin-bottom:.5em;
+    display: block;
+    float:right;
+    width:60%;
+    margin-left:.5em;
+    margin-bottom:.5em;
+    border: 12px solid #eee;
 }
 
-
 .featured-images a img {
-  width:100%;
+    width:100%;
+}
 
+/* Keyword pages */
+.keyword-content{     
+    display: block;
+    width:60%;
+    }
+    
+.keywords .featured-images {
+    width:95%;
+    float: left; 
+    padding:2px; 
+    margin:1em; 
+    border: 12px solid #eee;
 }
 
 /* Navbar styles*/
@@ -116,11 +112,12 @@ h4.slider, #content h1 {
 .short-rec-view a, .short-rec-view a:link, .short-rec-view a:hover, .short-rec-view a:visited, .short-rec-view a:active {
   color:#4d7775;
 }
-
+/*
 a.togglelink, a:hover.togglelink, a:active.togglelink, a:visited.togglelink, a:link.togglelink   {
   background-color: #4d7775;
   border-color:#4d7775;
 }
+*/
 
 ul.pagination li a, ul.pagination li a:link, ul.pagination li a:hover, ul.pagination li a:active, ul.pagination li a:visited {
   color:#4d7775;
@@ -134,10 +131,8 @@ ul.pagination li.active a, ul.pagination li.active a:link, ul.pagination li.acti
 /* Search Box Styles */
 
 .global-search {
-
   display: block;
   float:left;
-
   background-color: #CCCCCC;
 }
 
@@ -187,9 +182,9 @@ ul.pagination li.active a, ul.pagination li.active a:link, ul.pagination li.acti
 /* Banner styles index page (Colors and images are set by internal css for submodules) */
 .banner-container {font-size:1.75em; display:inline-block; line-height:2.5em; font-family: 'Alegreya Sans SC', sans-serif;}
 .banner-container span {
-    margin-left: 0px; 
-    padding: .5em .5em .4em 2.5em; 
-   /* background-image:url('../img/arch-sinica-logo.png');*/ 
+    margin-left: 2em; 
+    padding: .45em .5em .4em 2.5em; 
+    background-image:url('../img/logo.png');
     background-repeat: no-repeat;}
 .banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
 .banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
@@ -379,7 +374,7 @@ td {
 
 .browse-map {margin:0;}
 .inline-map {margin-left:-2em; margin-bottom:1em;}
-.map-lg #map {height:500px !important;}
+.map-lg #map {height:600px !important; margin-top:1.25em;}
 .map-md #map {height:300px !important;}
 .map-sm #map {height:250px !important;}
 #map {height:325px !important;}
@@ -390,6 +385,25 @@ td {
 .pers-label {background-color:#999; font-weight:400; margin-right:4px;}
 .results-list-desc .pers-label .footnote-refs,.results-list .footnote-refs, .relation .footnote-refs {display:none; visability:hidden;}
 
+.map-overlay
+{
+    position: fixed; /* Sit on top of the page content */
+    width: 25%; /* Full width (cover the whole page) */
+    max-height:400px;
+    overflow-y:scroll;
+    top: 70px; 
+    left: 50px;
+    /* default fallback */
+    background: rgb(255, 255, 255) transparent;
+    /* nice browsers */
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 2;
+    border-radius: 20px;
+    padding:1em;
+    font-size: 12px;
+}
+.map-overlay .btn {font-size: 12px !important;}
+.map-overlay .filter-label {font-size: 14px !important; font-weight: 600; color:#333;}
 /* Browse tabs and side menues */  	
 .tab-pane {
 	padding: 1em;
@@ -758,7 +772,7 @@ label.error {
 */
 #map {height: 200px;}
 
-.citationinfo {padding:1em; color: #555; border-top:1px solid #666666; background-color:#eee; }
+.citationinfo {padding:1em; color: #555; border-top:1px solid #666666; }
 .preferred-citation {font-size:1.2em;}
 .hint{margin:.5em; color: grey; font-style:italic;}
 
@@ -949,7 +963,7 @@ h4.slider {
 	background-size:cover;
 	background-repeat: no-repeat;
 	background-position: left;
-	height:550px;
+	height:600px;
     width:100%; 
     overflow:hidden;
     border-top:15px solid #771210;
@@ -962,6 +976,7 @@ h4.slider {
     margin-top:-4em;
     padding-top:0;
     }
+    
 .home-page-content {
     font-weight:200;
     background: rgb(255,255,255); /* for IE */
@@ -973,3 +988,4 @@ h4.slider {
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
 }
+.home-page-content a {color: #501A1A; text-decoration:none;}

@@ -59,7 +59,7 @@ declare function tei2html:summary-view-places($nodes as node()*, $id as xs:strin
                    return tei2html:translate-series($a)                
     return 
         <div class="short-rec-view">
-                        <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">
+          <a href="{replace($id,$global:base-uri,$global:nav-base)}" dir="ltr">
                         {(tei2html:tei2html($title),
                         if($nodes/descendant::tei:place/@type) then 
                         concat(' (',string($nodes/descendant::tei:place/@type),') ') else ())}</a>
