@@ -65,8 +65,9 @@ declare %templates:wrap function search:get-results($node as node(), $model as m
 
 declare function search:group-results($node as node(), $model as map(*), $collection as xs:string?){
     let $hits := $model("hits")
+    let $groups := distinct-values($hits//tei:relation[@ref="schema:containedInPlace"]/@passive)
     return 
-        map {"group-by-sites" := 
+        map {"group-by-sites" :=            
             for $place in $hits 
             let $site := $place/descendant::tei:relation[@ref="schema:containedInPlace"]/@passive
             group by $facet-grp-p := $site[1]
@@ -86,7 +87,17 @@ declare function search:group-results($node as node(), $model as map(*), $collec
                                     <div class="indent" style="border-bottom:1px dotted #eee; padding:1em">{tei2html:summary-view(root($p), '', $id)}</div>
                             }</div>
                     </div>
-               else if($site = '' or not($site)) then
+                else if($site = '' or not($site)) then
+                    for $p in $place
+                    let $id := replace($p/descendant::tei:idno[1],'/tei','')
+                    return
+                        if($groups[. = $id]) then () 
+                        else 
+                            <div class="col-md-11" style="margin-right:-1em; padding-top:.5em;">
+                                 {tei2html:summary-view(root($p), '', $id)}
+                            </div>
+                        
+                (:
                     for $p in $place
                     let $label := string-join($p/descendant::tei:titleStmt/tei:title[1]//text())
                     let $id := replace($p/descendant::tei:idno[1],'/tei','')
@@ -96,7 +107,8 @@ declare function search:group-results($node as node(), $model as map(*), $collec
                            <div class="col-md-11" style="margin-right:-1em; padding-top:.5em;">
                                  {tei2html:summary-view(root($p), '', $id)}
                             </div>
-               else ()
+                :)                            
+                else ()
                
         } 
 };
@@ -219,6 +231,7 @@ declare function search:terms(){
         data:element-search('term',request:get-parameter('term', '')) 
     else '' 
 };
+
 (: TCADRT architectural feature search functions :)
 declare function search:features(){
     string-join(for $feature in request:get-parameter-names()[starts-with(., 'feature:' )]
@@ -365,7 +378,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                  <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                      {tei2html:summary-view(root($hit), '', $id)}
                  </div>
-             </div>    
+             </div>   
    } 
 </div>
 };
