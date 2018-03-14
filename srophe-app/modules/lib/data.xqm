@@ -25,8 +25,8 @@ declare namespace util="http://exist-db.org/xquery/util";
 :)
 declare variable $data:computed-lang{ 
     if(request:get-parameter('lang', '') != '') then request:get-parameter('lang', '')
-    else if(request:get-parameter('lang', '') = '' and request:get-parameter('sort', '')) then 'zh-latn-pinyin'
-    else if(request:get-parameter('view', '') = '') then 'zh-latn-pinyin'
+    else if(request:get-parameter('lang', '') = '' and request:get-parameter('sort', '')) then 'en'
+    else if(request:get-parameter('view', '') = '') then 'en'
     else ()
 };
 
@@ -119,7 +119,9 @@ declare function data:get-browse-data($collection as xs:string*, $element as xs:
     let $hits := util:eval(concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element)))
     let $hits-main := $hits[not(descendant::tei:relation[@name='skos:broadMatch'])]
     :)
-    let $hits-main := util:eval(concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()),data:lang-filter($element)))
+    let $hits-main := util:eval(concat(data:build-collection-path($collection),
+    facet:facet-filter(facet-defs:facet-definition($collection)),slider:date-filter(()),
+    data:lang-filter($element)))
     return 
     (:<p>{concat(data:build-collection-path($collection),facet:facet-filter(facet-defs:facet-definition($collection)),data:lang-filter($element))}</p>:)
     (: Generic options :) 
