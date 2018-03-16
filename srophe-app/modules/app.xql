@@ -439,7 +439,7 @@ declare function app:display-featured-image($node as node(), $model as map(*)){
 };
 
 declare function app:get-flickr-info($imageURL,$image-class){
-    let $flickr-api-key := doc($global:app-root || 'config.xml')//*:flickr-api-key/text()
+    let $flickr-api-key := doc($global:app-root || '/config.xml')//*:flickr-api-key/text()
     let $imageID := tokenize($imageURL,'/')[last()]
     let $id := tokenize($imageID,'_')[1]
     let $secret := tokenize($imageID,'_')[2]
