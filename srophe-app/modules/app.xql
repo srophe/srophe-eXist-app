@@ -325,7 +325,7 @@ declare function app:keyword-tree($node as node(), $model as map(*)){
 };
 
 (:~            
- : TCADRT build term tree.
+ : TCADRT build place type display.
 :)
 declare function app:place-type($node as node(), $model as map(*)){
     let $rec := $model("data") 
@@ -416,14 +416,8 @@ declare function app:display-related-images($node as node(), $model as map(*)){
         <div class="record-images">
         {
             for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@ana="featured")]
-            return 
-                <span class="thumb-images">
-                     <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
-                         <span class="helper"></span>
-                         <img src="{concat('https://',$image/@active,'t.jpg')}" />
-                         {if($image/tei:desc) then <span class="caption">{$image/tei:desc}</span> else ()}
-                     </a>
-                </span>
+            let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')    
+            return app:get-flickr-info($imageURL, 'thumb-images')
         }    
         </div>            
     else ()        
@@ -438,19 +432,45 @@ declare function app:display-featured-image($node as node(), $model as map(*)){
         {
             for $image in $model("data")//tei:relation[@ref='foaf:depicts']
             let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')
-            return 
-                <span class="featured-images">
-                     <a href="{$imageURL}" target="_blank">
-                         <span class="helper"></span>
-                         <img src="{$imageURL}" />
-                         {if($image/tei:desc) then <span class="caption">{$image/tei:desc}</span> else ()}
-                     </a>
-                </span>
+            return app:get-flickr-info($imageURL, 'featured-images')
         }    
         </div>            
     else ()        
 };
 
+declare function app:get-flickr-info($imageURL,$image-class){
+    let $flickr-api-key := doc($global:app-root || 'config.xml')//*:flickr-api-key/text()
+    let $imageID := tokenize($imageURL,'/')[last()]
+    let $id := tokenize($imageID,'_')[1]
+    let $secret := tokenize($imageID,'_')[2]
+    let $request-url := 
+        concat('https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&amp;api_key=',$flickr-api-key,'&amp;photo_id=',$id,'&amp;secret=',$secret)
+    return              
+        try{
+           let $response := 
+                http:send-request(<http:request http-version="1.1" href="{xs:anyURI($request-url)}" method="get">
+                             <http:header name="Connection" value="close"/>
+                           </http:request>)[2]
+            let $desc :=  $response/descendant::description/text()
+            let $title := $response/descendant::title/text()
+            let $photo-page := $response/descendant::url[@type="photopage"]/text()
+            return 
+                <span class="{$image-class}">
+                     <a href="{$imageURL}" target="_blank">
+                         <span class="helper"></span>
+                         {
+                            if($image-class = 'thumb-images') then <img src="{replace($imageURL,'b.jpg','t.jpg')}"/>
+                            else <img src="{$imageURL}" />
+                         }
+                     </a>
+                     <div class="caption">{if($desc != '') then $desc else $title}</div>
+                </span>  
+        } catch* {
+                    <response status="fail">
+                        <message>{concat($err:code, ": ", $err:description)} {$request-url}</message>
+                    </response>
+        }             
+};
 (:~
  : bibl modulerelationships
 :)                   
