@@ -1518,9 +1518,7 @@
                 <xsl:choose>
                     <xsl:when test="@type='site-data'">Site Information</xsl:when>
                     <xsl:when test="@type='building-data'">Building Information</xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="@type"/>
-                    </xsl:otherwise>
+                    <xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
                 </xsl:choose>
             </h3>
             <xsl:apply-templates/>
