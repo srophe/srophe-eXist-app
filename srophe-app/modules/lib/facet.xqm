@@ -83,7 +83,6 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
     return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{(:global:odd2text($f[1],string($f[1])):)$facet-grp}"/>
 };
 
-
 (:~
  : Syriaca.org specific group-by function for correctly labeling attributes with arrays.
 :)
@@ -284,11 +283,11 @@ return
         let $fn := string($f/@name)
         let $label := string($f/facet:key[@value = substring-after($facet,concat($facet-name,':'))]/@label)
         let $value := if(starts-with($label,'http://syriaca.org/')) then 
-                         facet:get-label($label)   
+                         global:get-label($label)   
                       else $label
         return 
                 <span class="label label-facet" title="Remove {$value}">
-                    {concat($fn,': ', facet:get-label($value))} <a href="{$href}" class="facet icon"> x</a>
+                    {concat($fn,': ', global:get-label($value))} <a href="{$href}" class="facet icon"> x</a>
                 </span>
     else(),
 for $f in $facets/facet:facet
@@ -304,7 +303,7 @@ return
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',normalize-space($facet-query))
                 let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{facet:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a> 
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{global:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a> 
                 }
             </div>
             <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
@@ -313,7 +312,7 @@ return
                 let $new-fq := 
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',$facet-query)
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{facet:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a>
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{global:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a>
                 }
             </div>
             {if($count gt ($f/@show - 1)) then 
@@ -324,21 +323,4 @@ return
     </div>
     else()
 )    
-};
-
-(:~
- : Syriaca.org specific function to label URI's with human readable labels. 
- : @param $uri Syriaca.org uri to be used for lookup. 
- : URI can be a record or a keyword
- : NOTE: this function will probably slow down the facets.
-:)
-
-declare function facet:get-label($uri as item()*){
-if(starts-with($uri,$global:base-uri)) then  
-      let $doc := collection($global:data-root)//tei:TEI[.//tei:idno = concat($uri,"/tei")][1]
-      return 
-          if (exists($doc)) then
-            replace(string-join($doc/descendant::tei:fileDesc/tei:titleStmt[1]/tei:title[1]/text()[1],' '),' — ','')
-          else $uri 
-else $uri
 };

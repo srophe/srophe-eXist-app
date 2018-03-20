@@ -71,7 +71,7 @@ declare function search:group-results($node as node(), $model as map(*), $collec
             for $place in $hits 
             let $site := $place/descendant::tei:relation[@ref="schema:containedInPlace"]/@passive
             group by $facet-grp-p := $site[1]
-            let $label := facet:get-label($site[1])
+            let $label := global:get-label($site[1])
             order by $label
             return  
                 if($site != '') then 
@@ -258,7 +258,7 @@ declare function search:search-string(){
         if(request:get-parameter($parameter, '') != '') then
             if($parameter = 'start' or $parameter = 'sort-element' or $parameter = 'fq') then ()
             else if(starts-with($parameter,'feature-num:')) then request:get-parameter($parameter, '')
-            else if(starts-with($parameter,'feature:')) then facet:get-label(substring-after($parameter,'feature:'))
+            else if(starts-with($parameter,'feature:')) then global:get-label(substring-after($parameter,'feature:'))
             else if($parameter = 'q') then 
                 (<span class="param">Keyword: </span>,<span class="match">{$search:q}&#160;</span>)
             else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
@@ -402,7 +402,7 @@ declare %templates:wrap function search:architectural-features($node as node()*,
     <div class="row">{
         let $features := collection($global:data-root || '/keywords')/tei:TEI[descendant::tei:entryFree/@type='architectural-feature']
         for $feature in $features
-        let $type := string($feature/descendant::tei:relation[@ref = 'skos:broadMatch']/@passive)
+        let $type := string($feature/descendant::tei:relation[@ref = 'skos:broadMatch'][1]/@passive)
         group by $group-type := $type
         return  
             <div class="col-md-6">
