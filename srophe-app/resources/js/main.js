@@ -24,7 +24,6 @@ $.validator.setDefaults({
 	}
 });
 
-
 $("#email").validate({
 		rules: {
 			recaptcha_challenge_field: "required",
@@ -51,6 +50,19 @@ $("#email").validate({
 		}
 });
 
+//Reload only search-results-panel for research-tool form
+$("#research-tool").submit(function(e){
+    e.preventDefault();
+    var url = $(this).attr('action')
+    $.get(url, $(this).serialize(), function(data) {
+        var content = $(data).find('#search-results-panel')
+        $("#search-results-panel").html(content);
+    }).fail( function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus);
+    });
+});
+          
+
 //Expand works authored-by in persons page
 $('a.getData').click(function(event) {
     event.preventDefault();
@@ -76,7 +88,6 @@ $('.togglelink').click(function(e){
           el.text(el.data("text-swap"));
         }
 });           
-
 
 
 if (navigator.appVersion.indexOf("Mac") > -1 || navigator.appVersion.indexOf("Linux") > -1) {

@@ -307,11 +307,43 @@ declare %templates:wrap function app:display-citation($node as node(), $model as
 :)                   
 declare function app:display-related($node as node(), $model as map(*), $type as xs:string?){
     if($type != '') then
-        rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
+        if($type = 'dcterms:subject') then rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation/tei:relation[@ana='architectural-feature'], replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
+        else rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
     else if($model("data")//tei:body/child::*/tei:listRelation) then 
         rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''))
     else ()
 };
+
+(:~            
+ : TCADRT build term tree.
+:)
+declare function app:keyword-tree($node as node(), $model as map(*)){
+    let $rec := $model("data") 
+    for $broadMatch in $rec/descendant::tei:relation[@ref='skos:broadMatch']
+    return 
+        <p><strong>Broad Match:</strong>&#160;<a href="{$global:nav-base}/architectural-features.html?fq=;fq-Category:{string($broadMatch/@passive)}">{string($broadMatch/@passive)}</a> </p>
+};
+
+(:~            
+ : TCADRT build place type display.
+:)
+declare function app:place-type($node as node(), $model as map(*)){
+    let $rec := $model("data") 
+    for $broadMatch in $rec/descendant::tei:relation[@ref='dcterms:subject'][@ana = ('building-type','site-type')]
+    let $uri := string($broadMatch/@passive)
+    let $type := if($broadMatch/@ana = 'building-type') then 'Building Type' else 'Site Type'
+    let $label := 
+        if(starts-with($uri,$global:base-uri)) then  
+          let $doc := collection($global:data-root)//tei:TEI[.//tei:idno = concat($uri,"/tei")][1]
+          return 
+              if (exists($doc)) then
+                replace(string-join($doc/descendant::tei:fileDesc/tei:titleStmt[1]/tei:title[1]/text()[1],' '),' — ','')
+              else $uri 
+        else $uri
+    return 
+        <p><strong>Place Type:</strong>&#160;<a href="{$global:nav-base}/research-tool.html?fq=;fq-{$type}:{$uri}">{$label}</a> </p>
+};
+
 
 (:~            
  : TCADRT Get records that reference current record.
@@ -383,15 +415,9 @@ declare function app:display-related-images($node as node(), $model as map(*)){
     if($model("data")//tei:relation[@ref='foaf:depicts']) then 
         <div class="record-images">
         {
-            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@type="featured")]
-            return 
-                <span class="thumb-images">
-                     <a href="{concat('https://',$image/@active,'b.jpg')}" target="_blank">
-                         <span class="helper"></span>
-                         <img src="{concat('https://',$image/@active,'t.jpg')}" />
-                         {if($image/tei:desc) then <span class="caption">{$image/tei:desc}</span> else ()}
-                     </a>
-                </span>
+            for $image in $model("data")//tei:relation[@ref='foaf:depicts'][not(@ana="featured")]
+            let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')    
+            return app:get-flickr-info($imageURL, 'thumb-images')
         }    
         </div>            
     else ()        
@@ -401,24 +427,50 @@ declare function app:display-related-images($node as node(), $model as map(*)){
  : For tcadrt display featured images. 
 :)                   
 declare function app:display-featured-image($node as node(), $model as map(*)){
-    if($model("data")//tei:relation[@ref='foaf:depicts'][@type="featured"]) then 
+    if($model("data")//tei:relation[@ref='foaf:depicts'][@ana="featured"]) then 
         <div class="record-images">
         {
             for $image in $model("data")//tei:relation[@ref='foaf:depicts']
             let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')
-            return 
-                <span class="featured-images">
-                     <a href="{$imageURL}" target="_blank">
-                         <span class="helper"></span>
-                         <img src="{$imageURL}" />
-                         {if($image/tei:desc) then <span class="caption">{$image/tei:desc}</span> else ()}
-                     </a>
-                </span>
+            return app:get-flickr-info($imageURL, 'featured-images')
         }    
         </div>            
     else ()        
 };
 
+declare function app:get-flickr-info($imageURL,$image-class){
+    let $flickr-api-key := doc($global:app-root || '/config.xml')//*:flickr-api-key/text()
+    let $imageID := tokenize($imageURL,'/')[last()]
+    let $id := tokenize($imageID,'_')[1]
+    let $secret := tokenize($imageID,'_')[2]
+    let $request-url := 
+        concat('https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&amp;api_key=',$flickr-api-key,'&amp;photo_id=',$id,'&amp;secret=',$secret)
+    return              
+        try{
+           let $response := 
+                http:send-request(<http:request http-version="1.1" href="{xs:anyURI($request-url)}" method="get">
+                             <http:header name="Connection" value="close"/>
+                           </http:request>)[2]
+            let $desc :=  $response/descendant::description/text()
+            let $title := $response/descendant::title/text()
+            let $photo-page := $response/descendant::url[@type="photopage"]/text()
+            return 
+                <span class="{$image-class}">
+                     <a href="{$imageURL}" target="_blank">
+                         <span class="helper"></span>
+                         {
+                            if($image-class = 'thumb-images') then <img src="{replace($imageURL,'b.jpg','t.jpg')}"/>
+                            else <img src="{$imageURL}" />
+                         }
+                     </a>
+                     <div class="caption">{if($desc != '') then $desc else $title}</div>
+                </span>  
+        } catch* {
+                    <response status="fail">
+                        <message>{concat($err:code, ": ", $err:description)} {$request-url}</message>
+                    </response>
+        }             
+};
 (:~
  : bibl modulerelationships
 :)                   

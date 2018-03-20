@@ -1,28 +1,40 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div data-template="browse:get-all" data-template-element="tei:place/tei:placeName" data-template-collection="places">
-        <div data-template="browse:display-map" data-template-collection="places"/>   
-        <form method="get" action="research-tool.html" class="center-block form-horizontal indent" role="form" 
-            style="padding:1em; margin-top:-3em; background-color:#F7F7F9;">  
+    <form method="get" action="research-tool.html" id="research-tool" class="center-block form-horizontal indent" role="form" style="padding:2em; background-color:#F7F7F9;">  
         <h1 class="search-header indent">Search Architectura Sinica 
-            &#160;<small>
-                (<a class="togglelink text-info" 
-                    data-toggle="collapse" data-target="#showSearch" href="#showSearch" 
-                    data-text-swap="+ Show"> - Hide </a>)
-            </small></h1>
+             <small class="pull-right" style="margin-right:2em;">
+                (<a class="togglelink text-info" data-toggle="collapse" data-target="#showSearch" href="#showSearch" data-text-swap="+ Show"> - Hide </a>)
+            </small>
+        </h1>
         <div class="row collapse in" id="showSearch">
             <div class="col-md-7 col-sm-offset-1">
                 <!-- Keyword -->
                 <div class="form-group">
-                    <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: </label>
+                    <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: 
+                        <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Search any text in a place record."/>
+                    </label>
                     <div class="col-sm-10 col-md-9 ">    
                         <input type="text" id="qs" name="q" class="form-control keyboard"/>
                     </div>
                 </div>
                 <!-- Place Name-->
                 <div class="form-group">
-                    <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: </label>
+                    <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: 
+                        <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Search only Site/Building names. Names may be searched in English, Pinyin or Chinese."/>
+                    </label>
                     <div class="col-sm-10 col-md-9 ">   
                         <input type="text" id="placeName" name="placeName" class="form-control keyboard"/>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="search-header">Limit by Architectural Features 
+                        <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Limit results based on type or number of Architectural Features."/>
+                         <small class="pull-right" style="margin-right:2em;">
+                            (<a class="togglelink text-info" data-toggle="collapse" data-target="#showArchSearch" href="#showArchSearch" data-text-swap=" - Hide"> + Show </a>)
+                        </small>
+                    </h2>
+                    <div id="showArchSearch" class="collapse">
+                        <p class="note small">For descriptions of all architectural features. browse the <a href="dictionary.html">dictionary</a>. </p>
+                        <div data-template="search:architectural-features"/>    
                     </div>
                 </div>
                 <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"/>
@@ -33,20 +45,28 @@
             </div>
         </div>        
     </form>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="slider-container">
-                <div id="slider" data-template="browse:display-slider"/>
-            </div>
-            <div data-template="browse:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
-        </div>
-        <div class="col-md-8">
+    <div data-template="search:get-results" data-template-collection="places" id="search-results-panel">   
+        <div class="container padding-top">
             <br/>
             <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
-            <div data-template="browse:results" data-template-collection="places"/>
-            <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="slider-container">
+                        <div id="slider" data-template="search:display-slider"/>
+                    </div>
+                    <div data-template="search:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
+                </div>
+                <div class="col-md-8">
+                    <div data-template="search:display-map" data-template-collection="places"/>
+                    <div data-template="search:group-results" data-template-collection="places" id="search-results-panel">
+                        <div data-template="search:build-page" data-template-collection="places"/>
+                    </div>
+                    <div class="page-bottom">
+                        <div data-template="search:pageination" data-template-collection="places" data-template-sort-options="relevance,title"/>
+                    </div>
+                </div>
+            </div>
+            <br/>
         </div>
     </div>
-    </div>
 </div>
-    

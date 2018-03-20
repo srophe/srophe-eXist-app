@@ -150,7 +150,7 @@
     </xsl:template>
     <xsl:template match="t:teiHeader" mode="#all">
         <div class="citationinfo">
-            <h3>How to Cite This Entry</h3>
+            <h3>How to Cite This Entry <a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></h3>
             <div id="citation-note" class="well">
                 <xsl:apply-templates select="t:fileDesc/t:titleStmt" mode="cite-foot"/>
                 <div class="collapse" id="showcit">
@@ -175,7 +175,6 @@
                         <xsl:apply-templates select="t:fileDesc/t:publicationStmt/t:availability/t:licence"/>
                     </div>
                 </div>
-                <a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>
             </div>
         </div>
     </xsl:template>
@@ -1790,6 +1789,7 @@
     <!-- Named template for sources calls bibliography.xsl -->
     <xsl:template name="sources">
         <xsl:param name="node"/>
+        <xsl:if test="descendant-or-self::t:bibl">
         <div class="well">
             <!-- Sources -->
             <div id="sources">
@@ -1805,6 +1805,7 @@
                 </ul>
             </div>
         </div>
+        </xsl:if>
     </xsl:template>
     
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

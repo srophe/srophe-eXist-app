@@ -69,13 +69,14 @@ let $pagination-links :=
             {
             if($search-string != '') then             
                 <div class="col-sm-5 search-string">
-                    <h3 class="hit-count paging">Search results:</h3>
-                    <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}.</p>
+                    <h3 class="hit-count paging">{$total-result-count} Search results</h3>
+                    <!--<p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}.</p>-->
+                    <!--
                     <p class="col-md-offset-1 hit-count note">
                         You may wish to expand your search by using our advanced <a href="search.html">search functions</a> or by 
-                        using wildcard characters to increase results. See  
-                        <a href="#" data-toggle="collapse" data-target="#searchTips">search tips</a> for more details.
-                    </p>        
+                        using wildcard characters to increase results. 
+                    </p>
+                    -->
                  </div>
              else ()
              }
@@ -112,7 +113,7 @@ let $pagination-links :=
                         else(),
                         <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
                         if($search-string != '') then
-                            <li class="pull-right search-new"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
+                           <li class="pull-right"><a href="{request:get-url()}"><span class="glyphicon glyphicon-search"/> Reset</a></li>
                         else ()    
                         )}
                 </ul>
@@ -120,18 +121,13 @@ let $pagination-links :=
                 <ul class="pagination pull-right">
                 {(
                     if($sort-options != '') then page:sort($param-string, $start, $sort-options)
-                    else(),
-                    if($search-string != '') then   
-                        <li class="pull-right"><a href="search.html"><span class="glyphicon glyphicon-search"/> New</a></li>
-                    else() 
+                    else(), 
+                    <li class="pull-right"><a href="{request:get-url()}"><span class="glyphicon glyphicon-search"/> Reset</a></li>
                     )}
                 </ul>
                 }
             </div>
-    </div>,
-    if($search-string != '') then 
-        <xi:include href="{$global:app-root}/searchTips.html"/>
-    else ()
+    </div>
     )    
 return $pagination-links
    

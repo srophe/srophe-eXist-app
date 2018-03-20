@@ -21,7 +21,7 @@
         <!-- Web Site URL -->
         <url>http://tcadrt.jelastic.servint.net/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base></nav-base>
+        <nav-base>/exist/apps/tcadrt</nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>tcadrt</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -52,7 +52,7 @@
                 app-root="folder name in app" 
                 data-root="folder name in data"/>-->
             <collection name="places" app-root="geo" data-root="places" record-URI-pattern="http://architecturasinica.org/place/"/>
-            <collection name="keyword" title="Architectural Feature" app-root="keyword" data-root="keywords" record-URI-pattern="http://architecturasinica.org/keyword/"/>
+            <collection name="keywords" title="Architectural Features" app-root="keyword" data-root="keywords" record-URI-pattern="http://architecturasinica.org/keyword/"/>
         </collections>
         <!--
         <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];

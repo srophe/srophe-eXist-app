@@ -67,20 +67,12 @@ declare variable $browse:computed-lang{
  : Calls data function data:get-browse-data($collection as xs:string*, $series as xs:string*, $element as xs:string?)
 :)  
 declare function browse:get-all($node as node(), $model as map(*), $collection as xs:string*, $element as xs:string?){
-   map{"browse-data" :=  data:get-browse-data($collection, $element)}
-   (:
-   map{"browse-data" := 
-    let $all := data:get-browse-data($collection, $element)
-    let $buildings := collection($global:data-root || '/places/buildings')
-    let $sites := $all[.//tei:place[@type='site']]
-    for $r in $sites
-    let $uri := replace($r/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
-    return ($r, $buildings[.//tei:relation[@name="contained"][@active= $uri]])}
-    :)
+   map{"browse-data" :=  data:get-browse-data($collection, $element)}  
+};
 
-(:
-   map{"browse-data" := data:get-browse-data($collection, $element) }
-:)   
+(: TCADRT map only browse :)
+declare function browse:get-all-map($node as node(), $model as map(*), $collection as xs:string*, $element as xs:string?){
+   map{"browse-data" :=  data:get-browse-data($collection, $element)[descendant::tei:geo]}
 };
 
 (:~
