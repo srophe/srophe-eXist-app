@@ -28,36 +28,18 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare function slider:date-filter($mode) {
 let $startDate := 
                if(request:get-parameter('startDate', '') != '') then
-                    if(request:get-parameter('startDate', '') castable as xs:date) then 
-                      xs:gYear(xs:date(request:get-parameter('startDate', '')))
-                  else request:get-parameter('startDate', '')
+                    request:get-parameter('startDate', '')
                 else()   
 let $endDate := 
                 if(request:get-parameter('endDate', '') != '') then  
-                     if(request:get-parameter('endDate', '') castable as xs:date) then 
-                           xs:gYear(xs:date(request:get-parameter('endDate', '')))
-                      else request:get-parameter('endDate', '')
+                     request:get-parameter('endDate', '')
                 else() 
 return                 
     if(not(empty($startDate)) and not(empty($endDate))) then 
-        if($mode = 'bibl') then 
-            concat('[descendant::tei:imprint[1]/tei:date[1]
-            [
-            (xs:gYear(xs:date(slider:expand-dates(@when))) gt xs:gYear("', $startDate,'") 
-            and xs:gYear(xs:date(slider:expand-dates(@when))) lt xs:gYear("', $endDate,'"))
-            or 
-            (xs:gYear(xs:date(slider:expand-dates(@from))) gt xs:gYear("', $startDate,'") 
-            and xs:gYear(xs:date(slider:expand-dates(@from))) lt xs:gYear("', $endDate,'"))
-            or 
-            (xs:gYear(xs:date(slider:expand-dates(@to))) gt xs:gYear("', $startDate,'") 
-            and xs:gYear(xs:date(slider:expand-dates(@to))) lt xs:gYear("', $endDate,'"))
-            ]
-            ]')
-        else concat('[descendant::tei:state[@type="existence"][
-        (xs:gYear(xs:date(slider:expand-dates(@from))) gt xs:gYear("', $startDate,'") 
-        and xs:gYear(xs:date(slider:expand-dates(@from))) lt xs:gYear("', $endDate,'"))
-        or (xs:gYear(xs:date(slider:expand-dates(@to))) gt xs:gYear("',$startDate,'") 
-        and xs:gYear(xs:date(slider:expand-dates(@to))) lt xs:gYear("',$endDate,'"))]]')
+           concat('[descendant::tei:state[@type="existence"][
+            (@from gt "', $startDate,'" and @from lt "', $endDate,'") and
+            (@to gt "', $startDate,'" and @to lt "', $endDate,'")
+            ]]')
     else ()
 };
 
@@ -93,11 +75,6 @@ let $startDate := request:get-parameter('startDate', '')
 let $endDate := request:get-parameter('endDate', '')
 (: Dates in current results set :)  
 let $d := 
-    if($mode = 'bibl') then
-        for $dates in $hits/descendant::tei:imprint[1]/tei:date[1]/@when | $hits/descendant::tei:imprint[1]/tei:date[1]/@from | $hits/descendant::tei:imprint[1]/tei:date[1]/@to
-        order by xs:date(slider:expand-dates($dates)) 
-        return $dates    
-    else 
         for $dates in $hits/descendant::tei:state[@type="existence"]/@to | 
         $hits/descendant::tei:state[@type="existence"]/@from
         order by xs:date(slider:expand-dates($dates)) 
@@ -123,7 +100,6 @@ return
 if(not(empty($min)) and not(empty($max))) then
     <div>
         <h4 class="slider">Date range</h4>
-        <!--<div>Min: {$min}, Max: {$max} Min padding: {$minPadding}, Max padding: {$maxPadding}<br/><br/><br/></div>-->
         <div class="sliderContainer">
         <div id="slider"/>
         {if($startDate != '') then
@@ -131,8 +107,8 @@ if(not(empty($min)) and not(empty($max))) then
         else()}
         <script type="text/javascript">
         <![CDATA[
-            var minPadding = "]]>{$minPadding}<![CDATA["
-            var maxPadding = "]]>{$maxPadding}<![CDATA["
+            var minPadding = "]]>{'0001-01-01'}<![CDATA["
+            var maxPadding = "]]>{'2020-01-01'}<![CDATA["
             var minValue = "]]>{$min}<![CDATA["
             var maxValue = "]]>{$max}<![CDATA["
             $("#slider").dateRangeSlider({  
