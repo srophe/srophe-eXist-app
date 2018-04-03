@@ -70,7 +70,7 @@ let $pagination-links :=
             if($search-string != '') then             
                 <div class="col-sm-5 search-string">
                     <h3 class="hit-count paging">Search results:</h3>
-                    <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}.</p>
+                    <p class="col-md-offset-1 hit-count">{$total-result-count} matches for {$search-string}</p>
                     <p class="col-md-offset-1 hit-count note">
                         You may wish to expand your search by using our advanced <a href="search.html">search functions</a> or by 
                         using wildcard characters to increase results. See  
