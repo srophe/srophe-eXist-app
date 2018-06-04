@@ -12,9 +12,30 @@
         <max-values show="5">25</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
+    <facet-definition name="Biblical Parts">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="part"]/tei:desc</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Biblical Sections">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="section"]/tei:desc</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Biblical Books">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="book"]/tei:desc</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
     <facet-definition name="Subjects">
         <group-by>
-            <sub-path>descendant::tei:relation[@ref="dc:subject"]/tei:desc</sub-path>
+            <sub-path>descendant::tei:relation[@ref="dc:subject" and not(@type=("part","section","book"))]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
