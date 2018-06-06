@@ -7,11 +7,7 @@
                 <!-- Column 1 -->
                 <div class="col-md-7 column1">
                     <div data-template="app:display-featured-image"/>
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:placeName" data-template-wrap="tei:place"/>
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/tei:location" data-template-wrap="tei:place"/>
-
-                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place/child::*[not(self::tei:location) and not(self::tei:placeName) and not(self::tei:bibl)]" data-template-wrap="tei:place"/>
-                    <!--<div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>-->
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place"/>
                 </div>
                 <!-- Column 2 -->
                 <div class="col-md-5 column2">

@@ -250,6 +250,7 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
         else global:tei2html($model("data")/descendant::tei:body)       
 }; 
 
+
 (:
  : Return tei:body/descendant/tei:bibls for use in sources
 :)
@@ -311,6 +312,14 @@ declare function app:display-related($node as node(), $model as map(*), $type as
         else rel:build-relationship($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''),$type)
     else if($model("data")//tei:body/child::*/tei:listRelation) then 
         rel:build-relationships($model("data")//tei:body/child::*/tei:listRelation, replace($model("data")//tei:idno[@type='URI'][starts-with(.,$global:base-uri)][1],'/tei',''))
+    else ()
+};
+
+declare function app:display-place-body($node as node(), $model as map(*)){
+    if($model("data")/descendant::tei:place/child::*[not(name(.) = ('location','placeName','bibl'))]) then
+            global:tei2html(<place xmlns="http://www.tei-c.org/ns/1.0">{(
+                    for $child in $model("data")/descendant::tei:place/child::*[not(name(.) = ('location','placeName','bibl'))]
+                    return $child)}</place>)
     else ()
 };
 

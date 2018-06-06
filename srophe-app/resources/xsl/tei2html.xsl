@@ -55,7 +55,7 @@
     <xsl:import href="bibliography.xsl"/>
     <xsl:import href="json-uri.xsl"/>
     <xsl:import href="langattr.xsl"/>
-    <xsl:import href="collations.xsl"/>
+    <!--<xsl:import href="collations.xsl"/>-->
     
  <!-- =================================================================== -->
  <!-- set output so we get (mostly) indented HTML -->
@@ -150,7 +150,8 @@
     </xsl:template>
     <xsl:template match="t:teiHeader" mode="#all">
         <div class="citationinfo">
-            <h3>How to Cite This Entry <a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a></h3>
+            <h3>How to Cite This Entry <a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>
+            </h3>
             <div id="citation-note" class="well">
                 <xsl:apply-templates select="t:fileDesc/t:titleStmt" mode="cite-foot"/>
                 <div class="collapse" id="showcit">
@@ -1513,16 +1514,6 @@
     </xsl:template>
     <!-- Main page modules for syriaca.org display -->
     <xsl:template match="t:place | t:person | t:bibl[starts-with(@xml:id,'work-')] | t:entryFree">
-        <xsl:for-each select="t:desc[not(starts-with(@xml:id,'abstract'))]">
-            <h3>
-                <xsl:choose>
-                    <xsl:when test="@type='site-data'">Site Information</xsl:when>
-                    <xsl:when test="@type='building-data'">Building Information</xsl:when>
-                    <xsl:otherwise><xsl:value-of select="@type"/></xsl:otherwise>
-                </xsl:choose>
-            </h3>
-            <xsl:apply-templates/>
-        </xsl:for-each>
         <xsl:if test="self::t:place">
             <xsl:if test="t:placeName">
                 <div id="placenames">
@@ -1558,6 +1549,18 @@
                 <xsl:apply-templates select="t:location"/>
             </div>
         </xsl:if>
+        <xsl:for-each select="t:desc[not(starts-with(@xml:id,'abstract'))]">
+            <h3>
+                <xsl:choose>
+                    <xsl:when test="@type='site-data'">Site Information</xsl:when>
+                    <xsl:when test="@type='building-data'">Building Information</xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@type"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </h3>
+            <xsl:apply-templates/>
+        </xsl:for-each>
         <!-- Confessions/Religious Communities -->
         <xsl:if test="t:confessions/t:state[@type='confession'] | t:state[@type='confession'][parent::t:place]">
             <div>
