@@ -47,7 +47,21 @@
         <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="Manuscripts">
+    <facet-definition name="Manuscript City">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tokenize(tei:bibl, ",")[1]</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Manuscript Collection">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tokenize(tei:bibl, ",")[2]</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Manuscript Shelfmark">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:bibl</sub-path>
         </group-by>
