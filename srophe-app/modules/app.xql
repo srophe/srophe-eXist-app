@@ -400,8 +400,8 @@ declare function app:cited($node as node(), $model as map(*)){
                 {
                     for $cited in $model("data")//tei:relation[@ref='dcterms:references']
                     return 
-                        <span class="related-subject">{$cited/tei:desc/tei:bibl/text()}&#160;
-                        <a href='../search.html?mss="{$cited/tei:desc/tei:bibl/text()}"'>
+                        <span class="related-subject">{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}&#160;
+                        <a href='../search.html?mss="{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}"'>
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span>
                 }
             </div>
