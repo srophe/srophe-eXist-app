@@ -35,7 +35,7 @@
     </facet-definition>
     <facet-definition name="Subjects">
         <group-by>
-            <sub-path>descendant::tei:relation[@ref="dc:subject" and not(@type)]/tei:desc</sub-path>
+            <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="subject"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
