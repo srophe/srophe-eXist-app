@@ -1,108 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    
-    <div class="full-page hide-search" style="background-color:#666; border-bottom:4px solid #456889;margin:0 0 1em 0; padding:1em 0;">
-            <ul id="lightSlider">
-                <li class="slide top-button nhsl-slide overlay">
-                    <a href="/exist/apps/ba/bibl/browse.html" class="gradient">All Entries</a>
-                    <span class="more-info">
-                        <br/>
-                        <p>
-                            <b>
-                                <em>The Bibliography of the Arabic Bible</em>
-                            </b>  is a guide to scholarly literature on translations of the Bible into Arabic.</p>
-                        <p>
-                            Example record:<br/>
-                            <a href="/exist/apps/ba/bibl/A76I9I4E" style="color:white;" class="indent">Curt Peters. "Proben eines bedeutsamen 
-                                arabischen Evangelientextes." <em>Oriens Christianus</em>, (1936): 188-211.</a>
-                        </p>
-                    </span>
-                    <!--<span class="slide-credit">
-                        <a href="/exist/apps/ba/bibl/index.html" class="icon-container">
-                            <span class="syriaca-icon syriaca-nhsl icon-nav">
-                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
-                            </span>
-                            <span class="icon-text">NHSL</span>
-                        </a>
-                    </span>-->
-                </li>
-                <li class="slide top-button works-slide overlay">
-                    <a href="/exist/apps/ba/bibl/browse.html?fq=;fq-Subjects:Generalia" class="gradient">Generalia</a>
-                    <span class="more-info">
-                        <br/>
-                        <p>Edited by Ronny Vollandt. General overviews and broad-ranging resources on the Arabic Bible.</p>
-                        <p>Example record:<br/>
-                            <a href="/exist/apps/ba/bibl/JC2AQ6VN" style="color:white;" class="indent">E. A. Livingstone, ed. 
-                                <em>Arabic Versions of the Bible</em>. Oxford: Oxford University Press, 2005.</a>
-                        </p>
-                    </span>
-                    <!--<span class="slide-credit row">
-                        <span class="icon-container col-md-3 col-sm-4 col-xs-6" style="text-align:left; margin-top:.5em;">
-                            <span class="icon-text">Volume 1</span>
-                        </span>
-                        <a href="/bhse/index.html" class="icon-container col-md-9">
-                            <span class="syriaca-icon syriaca-bhse icon-nav">
-                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
-                            </span>
-                            <span class="icon-text">BHSE</span>
-                        </a>
-                    </span>-->
-                </li>
-                <li class="slide top-button bible-slide overlay">
-                    <a href="/exist/apps/ba/bibl/browse.html?fq=;fq-;fq-Biblical Sections:Gospels" class="gradient">Gospels</a>
-                    <span class="more-info">
-                        <br/>
-                        <p>Edited by Robert Turnbull. Scholarship on Arabic versions of the Gospels.</p>
-                        <p>&#160;</p>
-                    </span>
-                    <!--<span class="slide-credit row">
-                        <span class="icon-container col-md-3 col-sm-4 col-xs-6" style="text-align:left; margin-top:.5em;">
-                            <span class="icon-text">Volume 2</span>
-                        </span>
-                        <a href="#" class="icon-container col-md-9">
-                            <span class="syriaca-icon syriaca-nhsl icon-nav">
-                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
-                            </span>
-                            <span class="icon-text">Bible</span>
-                        </a>
-                    </span>-->
-                </li>
-            </ul>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                $("#lightSlider").lightSlider({
-                item: 3,
-                autoWidth: false,
-                slideMove: 1, // slidemove will be 1 if loop is true
-                loop:false,
-                easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
-                speed:600,
-                slideMargin:5,
-                prevHtml:'<span class="glyphicon glyphicon-chevron-left slider-control" aria-hidden="true"/>',
-                nextHtml:'<span class="glyphicon glyphicon-chevron-right slider-control" aria-hidden="true"/>',
-                responsive : [
-                {
-                breakpoint:768,
-                settings: {
-                item:3,
-                slideMove:1,
-                slideMargin:5
-                }
-                },
-                {
-                breakpoint:320,
-                settings: {
-                item:1,
-                slideMove:1
-                }
-                }
-                ]
-                });
-                });
-                
-            </script>
-        </div>
-    <!--<div xmlns="" class="banner-bibl">
+<div xmlns="" class="banner-bibl">
     <span class="img-credit">
         <label>Source:</label> <a href="http://gallica.bnf.fr/ark:/12148/btv1b84192173/f12">gallica.bnf.fr</a> 
         / Bibliothèque nationale de France, Arabe 12, f. 1v
@@ -113,7 +11,7 @@
             Image in the public domain.
         </div>
     </span>
-</div>-->
+</div>
     <div class="banner hide-search">
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
@@ -135,7 +33,7 @@
         </div>
     </div>
     <div class="row grey">
-        <div class="col-md-8 content-block">
+        <div class="col-md-4 content-block">
             <div class="container">
                 <h1>
                     <em>Bibliography of the Arabic Bible: A Classified and Annotated History of Scholarship</em>
@@ -226,6 +124,15 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="col-md-4">
+            <h2>Collections</h2>
+               <div class="panel panel-default">
+                   <div class="panel-heading">
+                       <h3 class="panel-title"><a href="/exist/apps/ba/bibl/browse.html?fq=;fq-Subjects:Generalia">Generalia</a></h3>
+                       <p>Edited by Ronny Vollandt</p>
+                   </div>
+               </div>
         </div>
         <div class="col-md-4">
             <h2>Example entries</h2>
