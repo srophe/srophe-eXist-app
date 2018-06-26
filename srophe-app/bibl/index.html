@@ -1,5 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div xmlns="" class="banner-bibl">
+    
+    <div class="full-page hide-search" style="background-color:#666; border-bottom:4px solid #456889;margin:0 0 1em 0; padding:1em 0;">
+            <ul id="lightSlider">
+                <li class="slide top-button nhsl-slide overlay">
+                    <a href="/exist/apps/ba/bibl/browse.html" class="gradient">All Entries</a>
+                    <span class="more-info">
+                        <br/>
+                        <p>
+                            <b>
+                                <em>The Bibliography of the Arabic Bible</em>
+                            </b>  is a guide to scholarly literature on translations of the Bible into Arabic.</p>
+                        <p>
+                            Example record:<br/>
+                            <a href="/exist/apps/ba/bibl/A76I9I4E" style="color:white;" class="indent">Curt Peters. "Proben eines bedeutsamen 
+                                arabischen Evangelientextes." <em>Oriens Christianus</em>, (1936): 188-211.</a>
+                        </p>
+                    </span>
+                    <!--<span class="slide-credit">
+                        <a href="/exist/apps/ba/bibl/index.html" class="icon-container">
+                            <span class="syriaca-icon syriaca-nhsl icon-nav">
+                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
+                            </span>
+                            <span class="icon-text">NHSL</span>
+                        </a>
+                    </span>-->
+                </li>
+                <li class="slide top-button works-slide overlay">
+                    <a href="/exist/apps/ba/bibl/browse.html?fq=;fq-Subjects:Generalia" class="gradient">Generalia</a>
+                    <span class="more-info">
+                        <br/>
+                        <p>Edited by Ronny Vollandt. General overviews and broad-ranging resources on the Arabic Bible.</p>
+                        <p>Example record:<br/>
+                            <a href="/exist/apps/ba/bibl/JC2AQ6VN" style="color:white;" class="indent">E. A. Livingstone, ed. 
+                                <em>Arabic Versions of the Bible</em>. Oxford: Oxford University Press, 2005.</a>
+                        </p>
+                    </span>
+                    <!--<span class="slide-credit row">
+                        <span class="icon-container col-md-3 col-sm-4 col-xs-6" style="text-align:left; margin-top:.5em;">
+                            <span class="icon-text">Volume 1</span>
+                        </span>
+                        <a href="/bhse/index.html" class="icon-container col-md-9">
+                            <span class="syriaca-icon syriaca-bhse icon-nav">
+                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
+                            </span>
+                            <span class="icon-text">BHSE</span>
+                        </a>
+                    </span>-->
+                </li>
+                <li class="slide top-button bible-slide overlay">
+                    <a href="/exist/apps/ba/bibl/browse.html?fq=;fq-;fq-Biblical Sections:Gospels" class="gradient">Gospels</a>
+                    <span class="more-info">
+                        <br/>
+                        <p>Edited by Robert Turnbull. Scholarship on Arabic versions of the Gospels.</p>
+                        <p>&#160;</p>
+                    </span>
+                    <!--<span class="slide-credit row">
+                        <span class="icon-container col-md-3 col-sm-4 col-xs-6" style="text-align:left; margin-top:.5em;">
+                            <span class="icon-text">Volume 2</span>
+                        </span>
+                        <a href="#" class="icon-container col-md-9">
+                            <span class="syriaca-icon syriaca-nhsl icon-nav">
+                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
+                            </span>
+                            <span class="icon-text">Bible</span>
+                        </a>
+                    </span>-->
+                </li>
+            </ul>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                $("#lightSlider").lightSlider({
+                item: 3,
+                autoWidth: false,
+                slideMove: 1, // slidemove will be 1 if loop is true
+                loop:false,
+                easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+                speed:600,
+                slideMargin:5,
+                prevHtml:'<span class="glyphicon glyphicon-chevron-left slider-control" aria-hidden="true"/>',
+                nextHtml:'<span class="glyphicon glyphicon-chevron-right slider-control" aria-hidden="true"/>',
+                responsive : [
+                {
+                breakpoint:768,
+                settings: {
+                item:3,
+                slideMove:1,
+                slideMargin:5
+                }
+                },
+                {
+                breakpoint:320,
+                settings: {
+                item:1,
+                slideMove:1
+                }
+                }
+                ]
+                });
+                });
+                
+            </script>
+        </div>
+    <!--<div xmlns="" class="banner-bibl">
     <span class="img-credit">
         <label>Source:</label> <a href="http://gallica.bnf.fr/ark:/12148/btv1b84192173/f12">gallica.bnf.fr</a> 
         / Bibliothèque nationale de France, Arabe 12, f. 1v
@@ -10,7 +113,7 @@
             Image in the public domain.
         </div>
     </span>
-</div>
+</div>-->
     <div class="banner hide-search">
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
@@ -35,15 +138,14 @@
         <div class="col-md-8 content-block">
             <div class="container">
                 <h1>
-                    <em>Bibliography of the Arabic Bible</em>
+                    <em>Bibliography of the Arabic Bible: A Classified and Annotated History of Scholarship</em>
                 </h1>
-                <h2><em>A Classified and Annotated History of Scholarship</em></h2>
-                <h3>Introduction:
-                </h3>
+                <hr/>
+                <h2>Introduction</h2>
                 <p>Jump to <a href="#aim">Aim</a> | <a href="#features">Primary Contribution and Features</a> | 
                     <a href="#standards">Conventions, Standards, and Technical Details</a> | 
                     <a href="#contributing">Contributing to the Bibliography</a></p>
-                <h4 id="aim">Aim</h4>
+                <h3 id="aim">Aim</h3>
                 <p>In this research tool, we seek to provide a comprehensive bibliography of text editions and research in the field of Arabic Bible.
                 Historical translations of the Bible into Arabic comprise countless manusripts and fragments from the medieval period found in 
                 monasteries throughout the Middle East and libraries across the globe, as well as early and recent prints produced in Europe and in 
@@ -77,21 +179,21 @@
                         </tr>
                     </tbody>
                 </table>
-                <h4 id="features">Primary Contribution and Features</h4>
+                <h3 id="features">Primary Contribution and Features</h3>
                 <p>To the best of our knowledge, this bibliography is the most comprehensive guide to date for research in the burgeoning field 
                     of Arabic Bible. Moreover, the additional descriptions and tags for each entry provide valuable guidance for each subtopic, 
                     and the digital format makes it easy to browse the entries and use them in further research.</p>
-                <h5>Guidance by Research Topic</h5>
+                <h4>Guidance by Research Topic</h4>
                 <p>Looking for research on a particular biblical book, manuscript, or translator? Entries are tagged according to the biblical 
                     sections, manuscripts, translators, source languages, and communities of origin which they discuss. You can use the 
                     <a href="/exist/apps/ba/bibl/browse.html">Browse</a> or <a href="/exist/apps/ba/bibl/search.html">Advanced Search</a> 
                     features to filter by any combination of these. For example, try a search for 
                     <a href="/exist/apps/ba/bibl/browse.html?fq=;fq-Biblical%20Sections:Pauline%20Epistles;fq-Manuscript%20Collection:Biblioteca%20Apostolica%20Vaticana">
                         Vatican manuscripts of the Pauline Epistles</a>.</p>
-                <h5>Summaries from Specialists</h5>
+                <h4>Summaries from Specialists</h4>
                 <p>We have tried to provide a short "abstract" for each entry that summarizes its main contribution in a few sentences. 
                 (These abstracts are different from abstracts provided by the publishers.)</p>
-                <h5>Access to Online Works</h5>
+                <h4>Access to Online Works</h4>
                 <p>Where works are publicly available at no cost online, we have linked directly to these. Just click on one of the buttons listed under 
                 "View at" on the page listing the entry's details. These links make the <em>Bibliography of the Arabic Bible</em> an easy starting point to 
                     not only locate but also read much of the available literature on the Arabic Bible.<br/>
@@ -99,7 +201,7 @@
                 have been published under open-access terms; and others are at least a partial preview from the publisher or from Google Books. We have not 
                 included links to items that cannot be at least partially viewed without a subscription. We have also not included links to items on 
                 Academia.edu, since there is no guarantee this content will remain openly available.</p>
-                <h5>Reuse</h5>
+                <h4>Reuse</h4>
                 <p>The <em>Bibliography of the Arabic Bible</em> is intended to facilitate research. We encourage you to use it to build your own bibliography, 
                     whether for a print publication or a digital project. The content of the bibliography is licensed under a 
                     <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> license, which allows it to be copied and reused as long as the 
@@ -107,10 +209,10 @@
                     Suggested Citation: Vollandt, Ronny, ed. <em>Bibliography of the Arabic Bible: A Classified and Annotated History of Scholarship</em>. 
                     Munich: Biblia-Arabica.com, 2018. <a href="https://biblia-arabica.com/bibl">https://biblia-arabica.com/bibl</a>.
                 </p>
-                <h4 id="standards">Conventions, Standards, and Technical Details</h4>
+                <h3 id="standards">Conventions, Standards, and Technical Details</h3>
                 <p>For the standards we follow in entering bibliographic information, please see the latest 
                     <a href="https://github.com/biblia-arabica/arabic-bible-bibliography/blob/master/documentation/BiAr_Manual.pdf">manual for contributors</a>.</p>
-                <h4 id="contributing">Contributing to the Bibliography</h4>
+                <h3 id="contributing">Contributing to the Bibliography</h3>
                 <p>We welcome your input! If you have corrections, additions, or suggestions regarding individual entries, please use the 
                     "Corrections/Additions" button on the entry detail page. If you have a bibliographic collection you would like to contribute, please 
                     <a href="https://biblia-arabica.com/contact-us/">contact us</a>.</p>
@@ -126,12 +228,6 @@
             </div>
         </div>
         <div class="col-md-4">
-            <h2>Contributors</h2>
-            <p><strong>Editors:</strong> Ronny Vollandt (general editor), Nathan P. Gibson (associate editor)<br/>
-            <strong>Collection Editors:</strong> see below<br/>
-            <strong>Contributors (alphabetically):</strong> Camilla Adang, Nathan P. Gibson, Sara Schulthess, Peter Tarras, Robert Turnbull, 
-            Ronny Vollandt, Michael Wechsler, Vevian Zaki<br/>
-            <strong>Research Assistants:</strong> Sophia Kroesche, Paula Lucia Rail</p>
             <h2>Example entries</h2>
             <ul>
                 <li>
@@ -148,6 +244,12 @@
                 <a href="browse.html">Browse all works cited <i class="glyphicon glyphicon-circle-arrow-right"/>
                 </a>
             </p>
+            <h2>Contributors</h2>
+            <p><em>Editors:</em> Ronny Vollandt (general editor), Nathan P. Gibson (associate editor)<br/>
+                <em>Collection Editors:</em> see below<br/>
+                <em>Contributors (alphabetically):</em> Camilla Adang, Nathan P. Gibson, Sara Schulthess, Peter Tarras, Robert Turnbull, 
+                Ronny Vollandt, Michael Wechsler, Vevian Zaki<br/>
+                <em>Research Assistants:</em> Sophia Kroesche, Paula Lucia Rail</p>
             <h2>Collections</h2>
             <h3><a href="/exist/apps/ba/bibl/browse.html?fq=;fq-Subjects:Generalia">Generalia</a> (Ronny Vollandt, ed.)</h3>
             <h3><a href="/exist/apps/ba/bibl/browse.html?fq=;fq-;fq-Biblical Sections:Gospels">Gospels</a> (Robert Turnbull, ed.)</h3>
