@@ -1,7 +1,7 @@
 /* Application styles could go here */
 /**
  * Colors: 
- * Bllue: 456889
+ * Green: #009440
  */
 /* Import Fonts CSS */ 
 
@@ -72,8 +72,8 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 .full-page {margin-top:0;}
 
 /* Navbar styles*/
-.navbar {border-bottom:4px solid #456889 !important;}
-.navbar-inner {border-bottom:.5em solid #456889 !important;}
+.navbar {border-bottom:4px solid  !important;}
+.navbar-inner {border-bottom:.5em solid #009440 !important;}
 .navbar-inner .container{height: 45px !important; padding-top:.5em; margin-left:.5em;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
 .navbar-brand img {padding:0; margin:0; }
@@ -170,7 +170,7 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 
 .ba-home {
     height:300px; 
-    background-color:#456889; 
+    background-color:#009440; 
     display:block;
 }
 .ba-home .image-container {display:inline-block; width:25%; height:300px;}
@@ -196,7 +196,7 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 	background-position:top;
     height:250px;
     width:100%;
-    border-bottom:4px solid #456889;
+    border-bottom:4px solid #009440;
 }
    
 /* Bibl banner*/
@@ -209,7 +209,7 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 	background-position:top;
     height:250px;
     width:100%;
-    border-bottom:4px solid #456889;
+    border-bottom:4px solid #009440;
 }
 
 .overlay {
@@ -227,7 +227,7 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 .banner-interior {
     position:relative;
     padding-top:0;
-    border-bottom:4px solid #456889;
+    border-bottom:4px solid #009440;
 	background-image:url('../img/resafa_arch.jpg');
 	background-size:cover;
 	background-position:center;
@@ -267,14 +267,14 @@ footer {text-align:center; color:white;}
 .content-block {background-color:#ffffff !important;}
 .top-padding {margin-top:2em;}
 .block {display:block;}
-.banner {font-size: 24px; color:white; background-color:#456889; margin:0 0 1em 0; padding:.5em 1em;; border-bottom:4px solid #456889;}
+.banner {font-size: 24px; color:white; background-color:#009440; margin:0 0 1em 0; padding:.5em 1em;; border-bottom:4px solid #009440;}
 
 /* Typography */
-h1 {font-size:1.5em; margin:.25em 0 .25em 0; color:#456889; font-weight:500;}
+h1 {font-size:1.5em; margin:.25em 0 .25em 0; color:#009440; font-weight:500;}
 h2 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; color:#999; font-weight:500;}
 h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;  padding-bottom:0; margin-bottom:1em;}
 h3.banner-solid {color:white;}
-h3.underline {color:#999; border-bottom:3px solid #456889; padding-bottom:-.75em; margin-bottom:1em; margin-top:0;}
+h3.underline {color:#999; border-bottom:3px solid #009440; padding-bottom:-.75em; margin-bottom:1em; margin-top:0;}
 h4 {font-size: 1em; margin:0 0 .25em 0; padding-bottom:0; font-weight:bold;}
 h3.label {
     background-color:#ccc;
