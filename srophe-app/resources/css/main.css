@@ -72,7 +72,7 @@ body {font-family: arial, sans-serif; background-color:#385978;}
 .full-page {margin-top:0;}
 
 /* Navbar styles*/
-.navbar {border-bottom:4px solid  !important;}
+.navbar {border-bottom:4px solid  !important; background-color:#fff;}
 .navbar-inner {border-bottom:.5em solid #009440 !important;}
 .navbar-inner .container{height: 45px !important; padding-top:.5em; margin-left:.5em;}
 .navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em;}
@@ -140,7 +140,7 @@ body {font-family: arial, sans-serif; background-color:#385978;}
  /*
  * font-family: Tahoma, Geneva, sans-serif;
  */
-.banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.banner-text {color: #009440; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
 
 /* Small Syrica.org icons images for submodules in nav menus */
 .geo-sm-icon {background-image: url(../img/icons-geo-sm.png);}
