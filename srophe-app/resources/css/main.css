@@ -57,7 +57,7 @@
    z-index: 1500;
 }
    
-a {color:#009440;}
+a, a:hover {color:#009440;}
 
 /* Main content blocks */
 body {font-family: verdana, arial, sans-serif; background-color:#385978;}
@@ -76,8 +76,7 @@ body {font-family: verdana, arial, sans-serif; background-color:#385978;}
 .navbar {border-bottom:4px solid  !important; background-color:#fff;}
 .navbar-inner {border-bottom:.5em solid #009440 !important;}
 .navbar-inner .container{height: 45px !important; padding-top:.5em; margin-left:.5em;}
-.navbar-brand {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em; color: #009440;}
-.navbar-brand > a:hover {color: #009440;}
+.navbar-brand, .navbar-brand > a, .navbar-brand > a:hover {margin-top:-.75em; padding-left:0; margin-left:0; margin-right:-2em; color: #009440;}
 .navbar-brand img {padding:0; margin:0; }
 .brand {margin-top:-.75em; margin-left:40px;padding-left:0;}
 .brand img {margin-left:1.5em;padding-left:0;}
@@ -258,7 +257,7 @@ body {font-family: verdana, arial, sans-serif; background-color:#385978;}
 
 
 /* Footer styles */
-footer {text-align:center; color:white;}
+footer, footer > a, footer > a:hover {text-align:center; color:white; background-color: #009440;}
 
 /* Simple background color styles */
 .grey {background-color:#eee;}
@@ -272,7 +271,7 @@ footer {text-align:center; color:white;}
 .banner {font-size: 24px; color:white; background-color:#009440; margin:0 0 1em 0; padding:.5em 1em;; border-bottom:4px solid #009440;}
 
 /* Typography */
-h1,h2,h3,h4,h5 {color:#333; font:Lato;}
+h1,h2,h3,h4,h5 {color:#333; font-family:Lato, verdana, arial, sans-serif;}
 h1 {font-size:2em; margin:.25em 0 .25em 0; font-weight:500;}
 h2 {font-size: 1.5em; margin:1em 0 .25em 0; padding-bottom:0; font-weight:500;}
 h3 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; font-weight:500;  padding-bottom:0; margin-bottom:1em;}
