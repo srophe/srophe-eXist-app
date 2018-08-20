@@ -1,4 +1,4 @@
-#<a href="http://resolver.staatsbibliothek-berlin.de/SBB0000293800000030">Staatsbibliothek zu Berlin, Ms. or. fol. 2195</a>, f. 12v (SB-or-fol-2195-f12v)
+#Staatsbibliothek zu Berlin, Ms. or. fol. 2195, f. 12v (SB-or-fol-2195-f12v)
 A group of clerics holding the Torah. Illustration in Sīrat al-Iskandar Ḏū l-Qarnain by Ibn-Fīlibus al-Yūnānī. <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/de/">CC BY-NC-SA 3.0 DE</a>.
 #Cambridge-T-S-B1-24
 A fragment of Targum Onqelos with Arabic commentary from the Cairo Genizah. Cambridge University Library T-S B1.24. Image courtesy <a href="http://www.lib.cam.ac.uk/collections/departments/taylor-schechter-genizah-research-unit">Taylor-Schechter Genizah Research Unit</a>.
