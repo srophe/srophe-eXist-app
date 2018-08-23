@@ -7,7 +7,7 @@
     <copyright>true</copyright>
     <type>application</type>
     <target>ba</target>
-    <prepare>pre-install.xql</prepare>
+    <prepare>pre-install.xql</prepare>  
     <finish>post-install.xql</finish>
     <config>
         <!-- App title -->
@@ -22,7 +22,7 @@
         <!-- Web Site URL -->
         <url>http://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base/>
+        <nav-base>/bibl</nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>ba</app-root>
         <!-- eXist data app root for gazetteer data -->
