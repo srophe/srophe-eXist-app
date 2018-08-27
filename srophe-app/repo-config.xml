@@ -22,7 +22,7 @@
         <!-- Web Site URL -->
         <url>http://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/bibl</nav-base>
+        <nav-base/>
         <!-- eXist app root for app deployment-->
         <app-root>ba</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -48,7 +48,7 @@
         </keyboard-options>
         <collections>
             <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
-            <collection name="bibl" title="Biblia Arabica" app-root="bibl" data-root="bibl" record-URI-pattern="http://biblia-arabica.com/bibl/"/>
+            <collection name="bibl" title="Biblia Arabica" app-root="/" data-root="/" record-URI-pattern="http://biblia-arabica.com/bibl/"/>
         </collections>  
         <!-- 
     <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
