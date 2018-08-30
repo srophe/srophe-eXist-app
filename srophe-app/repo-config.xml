@@ -6,7 +6,7 @@
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>ba</target>
+    <target>ba-dev</target>
     <prepare>pre-install.xql</prepare>  
     <finish>post-install.xql</finish>
     <config>
@@ -22,11 +22,11 @@
         <!-- Web Site URL -->
         <url>http://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base/>
+        <nav-base>/exist/apps/ba-dev</nav-base>
         <!-- eXist app root for app deployment-->
-        <app-root>ba</app-root>
+        <app-root>ba-dev</app-root>
         <!-- eXist data app root for gazetteer data -->
-        <data-root>ba-data</data-root>
+        <data-root>ba-data-dev</data-root>
         <!-- Base URI for identifiers in app data -->
         <base_uri>http://biblia-arabica.com</base_uri>
         <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
