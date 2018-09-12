@@ -2,8 +2,8 @@
 /**
  * Colors: 
  * Background Green: #009440
- * Button: #33A966
- * Button Border: #5CBA85
+ * Button: #33A966, hover #007633
+ * Button Border: #5CBA85, hover #005E29
  */
 /* Import Fonts CSS */ 
 
@@ -701,6 +701,11 @@ h3.paging {display:block;font-weight:500; color:#666;}
 .btn-info {
     background-color: #33A966;
     border-color: #5CBA85;
+}
+
+.btn-info:hover {
+    background-color: #007633;
+    border-color: #005E29;
 }
 
 .has-spinner.btn-mini.active .spinner {
