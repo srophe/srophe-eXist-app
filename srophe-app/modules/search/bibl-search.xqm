@@ -74,7 +74,7 @@ declare function bibls:date() as xs:string? {
 
 declare function bibls:online() as xs:string? {
     if($bibls:online = 'on') then 
-        "[descendant::tei:idno[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]]"
+        "[descendant::tei:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]]"
     else ()  
 };
 

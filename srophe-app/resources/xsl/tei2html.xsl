@@ -485,17 +485,17 @@
                     <xsl:apply-templates select="self::*" mode="bibliography"/>.
                 </div>
                 
-                <xsl:if test="descendant::t:idno[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
                     <h3>View at: </h3>
                     <div class="section indent">    
-                        <xsl:for-each select="descendant::t:idno[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                        <xsl:for-each select="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
                             <xsl:variable name="linkID" select="."/>
                             <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
                             <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
                                 <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
                             </a>  
                         </xsl:for-each>
-                        <xsl:for-each select="descendant::t:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                        <xsl:for-each select="descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
                             <xsl:variable name="linkID" select="string(.)"/>
                             <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
                             <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
