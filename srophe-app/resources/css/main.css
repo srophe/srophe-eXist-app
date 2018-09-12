@@ -705,7 +705,9 @@ h3.paging {display:block;font-weight:500; color:#666;}
     border-color: #5CBA85;
 }
 
-.btn-info:hover, .pagination > .active > a {
+.btn-info:hover, 
+.pagination > .active > a,
+.pagination > .active > a:hover {
     background-color: #007633;
     border-color: #005E29;
 }
