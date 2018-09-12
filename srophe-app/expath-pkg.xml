@@ -1,7 +1,7 @@
-<package xmlns="http://expath.org/ns/pkg" name="http://biblia-arabica.com/ba-dev" abbrev="ba-dev" version="0.18" spec="1.0">
+<package xmlns="http://expath.org/ns/pkg" name="https://biblia-arabica.com/ba-dev" abbrev="ba-dev" version="0.18" spec="1.0">
     <title>Biblia Arabica bibliography (development version)</title>
     <!-- TEI data -->
-    <dependency package="http://biblia-arabica.com/ba-data-dev"/>
+    <dependency package="https://biblia-arabica.com/ba-data-dev"/>
     <!-- eXist shared resources -->
     <dependency package="http://exist-db.org/apps/shared"/>
     <!-- JSON Parser and Serializer for XQuery -->

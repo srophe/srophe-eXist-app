@@ -191,7 +191,7 @@ declare function facet:spear-type($results as item()*, $facet-definitions as ele
 
 (: biblia-arabica special facet :)
 declare function facet:viewable-online($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
-    let $r := $results[descendant::tei:idno[@type='URI'][not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|https?://(www.)?(dx.)?doi.org)'))]]
+    let $r := $results[descendant::tei:idno[@type='URI'][not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|https?://(www.)?(dx.)?doi.org)'))]]
     return 
          <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Online"/>
 };
@@ -286,7 +286,7 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                 else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
                     concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')
                 else if($facet/facet:group-by[@function="facet:viewable-online"]) then 
-                    "[descendant::tei:idno[@type='URI'][not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(http://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))]]"    
+                    "[descendant::tei:idno[@type='URI'][not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))]]"    
                 else if($facet/facet:group-by[@function="facet:spear-type"]) then 
                     concat('[',substring-before($path,'/name(.)'),'[name(.) = "',$facet-value,'"]',']')
                 else if($facet/facet:group-by[@function="facet:authors"]) then
