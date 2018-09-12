@@ -22,7 +22,7 @@ declare function local:html(){
             <link rel="stylesheet" href="$app-root/resources/css/main.css"/>
             <link rel="stylesheet" href="$app-root/modules/d3xquery/relationships.css"/>
             <link rel="stylesheet" href="$app-root/modules/d3xquery/pygment_trac.css"/>
-            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
             <script type='text/javascript' src="http://d3js.org/d3.v3.js"></script>
             <!--<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/1.8.0/d3-legend.js"></script>-->
             <script src="$app-root/modules/d3xquery/force-d3js.js"></script>
