@@ -1,7 +1,9 @@
 /* Application styles could go here */
 /**
  * Colors: 
- * Green: #009440
+ * Background Green: #009440
+ * Button: #33A966
+ * Button Border: #5CBA85
  */
 /* Import Fonts CSS */ 
 
@@ -694,6 +696,11 @@ h3.paging {display:block;font-weight:500; color:#666;}
 .has-spinner.active .spinner {
   opacity: 1;
   width: auto; /* This doesn't work, just fix for unkown width elements */
+}
+
+.btn-info {
+    background-color: #33A966;
+    border-color: #5CBA85;
 }
 
 .has-spinner.btn-mini.active .spinner {
