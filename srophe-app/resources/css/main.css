@@ -4,6 +4,8 @@
  * Background Green: #009440
  * Button: #33A966, hover #007633
  * Button Border: #5CBA85, hover #005E29
+ * active pagination background: #007633
+ * inactive pagination font color: #33A966
  */
 /* Import Fonts CSS */ 
 
@@ -703,9 +705,17 @@ h3.paging {display:block;font-weight:500; color:#666;}
     border-color: #5CBA85;
 }
 
-.btn-info:hover {
+.btn-info:hover, .pagination > .active > a {
     background-color: #007633;
     border-color: #005E29;
+}
+
+.pagination > li > a {
+    color: #33A966;
+}
+
+.pagination > li > a:hover {
+    color: #007633;
 }
 
 .has-spinner.btn-mini.active .spinner {
