@@ -1,7 +1,11 @@
 /* Application styles could go here */
 /**
  * Colors: 
- * Green: #009440
+ * Background Green: #009440
+ * Button: #33A966, hover #007633
+ * Button Border: #5CBA85, hover #005E29
+ * active pagination background: #007633
+ * inactive pagination font color: #33A966
  */
 /* Import Fonts CSS */ 
 
@@ -60,7 +64,7 @@
 a, a:hover {color:#009440;}
 
 /* Main content blocks */
-body {font-family: verdana, arial, sans-serif; background-color:#385978;}
+body {font-family: verdana, arial, sans-serif; background-color:#009440;}
 #main { padding: 0; background-color:#999; }
 #content{background-color:white; padding-top: 50px;}
 
@@ -694,6 +698,26 @@ h3.paging {display:block;font-weight:500; color:#666;}
 .has-spinner.active .spinner {
   opacity: 1;
   width: auto; /* This doesn't work, just fix for unkown width elements */
+}
+
+.btn-info {
+    background-color: #33A966;
+    border-color: #5CBA85;
+}
+
+.btn-info:hover, 
+.pagination > .active > a,
+.pagination > .active > a:hover {
+    background-color: #007633;
+    border-color: #005E29;
+}
+
+.pagination > li > a {
+    color: #33A966;
+}
+
+.pagination > li > a:hover {
+    color: #007633;
 }
 
 .has-spinner.btn-mini.active .spinner {
