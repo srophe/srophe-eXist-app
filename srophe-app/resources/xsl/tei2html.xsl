@@ -63,6 +63,7 @@
  <!-- set output so we get (mostly) indented HTML -->
  <!-- =================================================================== -->
     <xsl:output name="html" encoding="UTF-8" method="xhtml" indent="no" omit-xml-declaration="yes"/>
+
  <!-- =================================================================== -->
  <!--  initialize top-level variables and transform parameters -->
  <!--  sourcedir: where to look for XML files to summarize/link to -->
@@ -336,11 +337,7 @@
     </xsl:template>
     <!-- suppress bibl in titles -->
     <xsl:template match="t:bibl" mode="title"/>
-    <!-- How do I tell this to use output name=text? -->
-    <xsl:template match="t:bibl[@type='formatted']">
-        <xsl:value-of select="(.)"/>
-    </xsl:template>
-    <xsl:template match="t:bibl[not(@type='formatted')]">
+    <xsl:template match="t:bibl">
         <xsl:choose>
             <xsl:when test="@type !=('lawd:ConceptualWork','lawd:Citation')">
                 <!--<xsl:when test="@type=('lawd:Edition','lawd:Translation','lawd:WrittenWork','syriaca:Manuscript','syriaca:ModernTranslation','syriaca:AncientVersion','syriaca:Catalogue','syriaca:PrintCatalogue','syriaca:DigitalCatalogue')">-->
@@ -487,7 +484,7 @@
                     <h4>Preferred Citation</h4>
                     <xsl:choose>
                         <xsl:when test="following-sibling::t:bibl[@type='formatted']">
-                            <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']"/>
+                            <xsl:value-of select="following-sibling::t:bibl[@type='formatted']" disable-output-escaping="yes"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:apply-templates select="self::*" mode="bibliography"/>.
