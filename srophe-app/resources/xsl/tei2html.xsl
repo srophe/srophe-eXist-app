@@ -216,6 +216,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="t:title[@level='m']" mode="pre-formatted">
+        <span class="title-monographic"><xsl:value-of select="."/></span>
+    </xsl:template>
     <xsl:template match="t:title">
         <xsl:choose>
             <xsl:when test="@ref">
@@ -337,8 +340,12 @@
     </xsl:template>
     <!-- suppress bibl in titles -->
     <xsl:template match="t:bibl" mode="title"/>
+    <xsl:template match="t:bibl" mode="pre-formatted">
+        <xsl:apply-templates select="node()" mode="pre-formatted"/>
+    </xsl:template>
     <xsl:template match="t:bibl">
         <xsl:choose>
+            <xsl:when test="@type='formatted'"/>
             <xsl:when test="@type !=('lawd:ConceptualWork','lawd:Citation')">
                 <!--<xsl:when test="@type=('lawd:Edition','lawd:Translation','lawd:WrittenWork','syriaca:Manuscript','syriaca:ModernTranslation','syriaca:AncientVersion','syriaca:Catalogue','syriaca:PrintCatalogue','syriaca:DigitalCatalogue')">-->
                 <li>
@@ -451,7 +458,7 @@
                     </span>
                 </li>
             </xsl:when>
-            <xsl:when test="parent::t:note or @type='formatted'">
+            <xsl:when test="parent::t:note">
                 <xsl:choose>
                     <xsl:when test="t:ptr[contains(@target,'/work/')]">
                         <a href="{t:ptr/@target}">
@@ -484,7 +491,7 @@
                     <h4>Preferred Citation</h4>
                     <xsl:choose>
                         <xsl:when test="following-sibling::t:bibl[@type='formatted']">
-                            <xsl:value-of select="following-sibling::t:bibl[@type='formatted']" disable-output-escaping="yes"/>
+                            <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:apply-templates select="self::*" mode="bibliography"/>.
