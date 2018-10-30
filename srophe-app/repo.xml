@@ -6,7 +6,7 @@
     <license>GNU-LGPL</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>ba-dev</target>
+    <target>ba</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>
     <config>
@@ -22,11 +22,11 @@
         <!-- Web Site URL -->
         <url>https://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/ba-dev</nav-base>
+        <nav-base/>
         <!-- eXist app root for app deployment-->
-        <app-root>ba-dev</app-root>
+        <app-root>ba</app-root>
         <!-- eXist data app root for gazetteer data -->
-        <data-root>ba-data-dev</data-root>
+        <data-root>ba-data</data-root>
         <!-- Base URI for identifiers in app data -->
         <base_uri>https://biblia-arabica.com</base_uri>
         <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
@@ -48,7 +48,7 @@
         </keyboard-options>
         <collections>
             <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
-            <collection name="bibl-dev" title="Biblia Arabica" app-root="/" data-root="/" record-URI-pattern="https://biblia-arabica.com/bibl/"/>
+            <collection name="bibl" title="Biblia Arabica" app-root="/" data-root="/" record-URI-pattern="https://biblia-arabica.com/bibl/"/>
         </collections>  
         <!--
     <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
