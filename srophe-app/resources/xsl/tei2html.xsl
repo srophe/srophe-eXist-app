@@ -9,7 +9,7 @@
        you can redistribute it and/or modify it under the terms of the GNU 
        General Public License as published by the Free Software Foundation, 
        either version 3 of the License, or (at your option) any later 
-       version.
+       version. 
        
        The Syriac Reference Portal Places Application is distributed in 
        the hope that it will be useful, but WITHOUT ANY WARRANTY; without 
@@ -216,6 +216,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="t:title[@level='m']" mode="pre-formatted">
+        <span class="title-monographic"><xsl:value-of select="."/></span>
+    </xsl:template>
     <xsl:template match="t:title">
         <xsl:choose>
             <xsl:when test="@ref">
@@ -337,8 +340,12 @@
     </xsl:template>
     <!-- suppress bibl in titles -->
     <xsl:template match="t:bibl" mode="title"/>
+    <xsl:template match="t:bibl" mode="pre-formatted">
+        <xsl:apply-templates select="node()" mode="pre-formatted"/>
+    </xsl:template>
     <xsl:template match="t:bibl">
         <xsl:choose>
+            <xsl:when test="@type='formatted'"/>
             <xsl:when test="@type !=('lawd:ConceptualWork','lawd:Citation')">
                 <!--<xsl:when test="@type=('lawd:Edition','lawd:Translation','lawd:WrittenWork','syriaca:Manuscript','syriaca:ModernTranslation','syriaca:AncientVersion','syriaca:Catalogue','syriaca:PrintCatalogue','syriaca:DigitalCatalogue')">-->
                 <li>
@@ -482,7 +489,14 @@
             <xsl:when test="parent::t:body">
                 <div class="well preferred-citation">
                     <h4>Preferred Citation</h4>
-                    <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                    <xsl:choose>
+                        <xsl:when test="following-sibling::t:bibl[@type='formatted']">
+                            <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
                 
                 <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
@@ -492,15 +506,15 @@
                             <xsl:variable name="linkID" select="."/>
                             <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
                             <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
-                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
-                            </a>  
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
+                            </a>  
                         </xsl:for-each>
                         <xsl:for-each select="descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
                             <xsl:variable name="linkID" select="string(.)"/>
                             <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
                             <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
-                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
-                            </a>  
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
+                            </a>  
                         </xsl:for-each>
                     </div>
                 </xsl:if>
@@ -1412,7 +1426,7 @@
         </xsl:if>
         <!--
         <xsl:for-each select="distinct-values(t:seriesStmt/t:biblScope/t:title)">
-            <xsl:text>  </xsl:text>
+            <xsl:text>  </xsl:text>
             <xsl:choose>
                 <xsl:when test=". = 'The Syriac Biographical Dictionary'"/>
                 <xsl:when test=". = 'A Guide to Syriac Authors'">
@@ -1464,7 +1478,7 @@
                     </xsl:variable>
                     <a href="#bibl{$label}" class="btn btn-default">
                         <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
-                    </a> 
+                    </a> 
                 </xsl:for-each-group>            
             </div>
         </xsl:if>
@@ -1694,7 +1708,7 @@
                                 <xsl:variable name="desc-ln" select="string-length(t:desc)"/>
                                 <xsl:choose>
                                     <xsl:when test="not(current-group()/descendant::*:geo)">
-                                        <dt> </dt>
+                                        <dt> </dt>
                                     </xsl:when>
                                     <xsl:when test="current-grouping-key() = 'born-at'">
                                         <dt>

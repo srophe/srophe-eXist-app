@@ -46,10 +46,10 @@
             <option id="ms-Hebrew">Hebrew</option>
             <option id="qwerty">English QWERTY</option>
         </keyboard-options>
-        <collections>
+           <collections>
             <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
             <collection name="bibl" title="Biblia Arabica" app-root="/" data-root="/" record-URI-pattern="https://biblia-arabica.com/bibl/"/>
-        </collections>  
+          </collections>  
         <!-- 
     <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
