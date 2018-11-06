@@ -1097,7 +1097,7 @@
                     <xsl:text>Link to Zotero Bibliographic record</xsl:text>
                 </xsl:when>
                 <xsl:when test="starts-with($ref,$base-uri)">
-                    <xsl:value-of select="concat('Link to Syriaca.org Bibliographic Record for', $title-string)"/>
+                    <xsl:value-of select="concat('Link to Biblia-Arabica.com Bibliographic Record for', $title-string)"/>
                 </xsl:when>
                 <!-- glyphicon glyphicon-book -->
                 <xsl:when test="starts-with($ref,'http://www.worldcat.org/')">
@@ -1132,7 +1132,7 @@
                 <img src="{$nav-base}/resources/img/zotero.png" alt="Link to Zotero Bibliographic Record" height="18px"/>
             </xsl:when>
             <xsl:when test="starts-with($ref,$base-uri)">
-                <img src="{$nav-base}/resources/img/icons-syriaca-sm.png" alt="Link to Syriaca.org Bibliographic Record" height="18px"/>
+                <img src="{$nav-base}/resources/img/icons-ba-sm.png" alt="Link to Biblia-Arabica.com Bibliographic Record" height="18px"/>
             </xsl:when>
             <!-- glyphicon glyphicon-book -->
             <xsl:when test="contains($ref,'worldcat.org/')">

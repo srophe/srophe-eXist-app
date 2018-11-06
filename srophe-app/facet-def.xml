@@ -48,7 +48,7 @@
         <max-values show="5">100</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="Manuscript City">
+    <facet-definition name="Manuscript Location">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:settlement</sub-path>
         </group-by>
