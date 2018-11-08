@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+        <!-- Calls xquery functions -->
+        <div data-template="search:search-data" data-template-collection="places">
+        <!--<div data-template="browse:get-all-map" data-template-element="tei:place/tei:placeName" data-template-collection="places">-->
+            <div class="map-lg">
+                <div id="map-filters" class="map-overlay">
+                    <span class="filter-label">Filter Map
+                        <a class="pull-right small togglelink text-info" data-toggle="collapse" data-target="#filterMap" href="#filterMap" data-text-swap="+ Show"> - Hide </a>
+                    </span>
+                    <div class="collapse in" id="filterMap">
+                        <div class="slider-container">
+                            <div id="slider" data-template="app:display-slider"/>
+                        </div>
+    
+                        <div data-template="app:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/> 
+                    </div>
+                </div>
+                <div data-template="app:display-map" data-template-collection="places"/>
+            </div> 
+        </div>    
+</div>

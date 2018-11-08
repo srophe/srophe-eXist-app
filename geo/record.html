@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div data-template="app:fix-links" class="record">
+        <div class="main-content-block white">
+            <div data-template="app:h1"/>
+            <div data-template="app:other-data-formats" data-template-formats="print,tei,rdf,geojson"/>
+            <div data-template="app:place-type"/>
+            <div class="row">
+                <!-- Column 1 -->
+                <div class="col-md-7 column1">
+                    <div data-template="app:display-featured-image"/>
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:place"/>
+                    <div data-template="app:display-related-images"/>
+                </div>
+                <!-- Column 2 -->
+                <div class="col-md-5 column2">
+                    <div class="well">
+                        <div data-template="app:display-map"/>
+                    </div> 
+                    <div data-template="app:external-relationships" data-template-relationship-type="schema:containedInPlace" data-template-display="list-description" data-template-label="Contains Place"/>
+                    <div data-template="app:internal-relationships" data-template-relationship-type="schema:containedInPlace" data-template-display="list-description" data-template-label="Contained in Place"/>
+                    <div data-template="app:internal-relationships" data-template-relationship-type="dcterms:subject" data-template-display="list-description" data-template-label="Architectural Features"/>
+                    <!--
+                    <div class="info-btns">  
+                        <button class="btn btn-default" data-toggle="modal" data-target="#feedback">Corrections/Additions?</button> 
+                        <a href="#" class="btn btn-default" data-toggle="modal" data-target="#selection" data-ref="../documentation/faq.html" id="showSection">
+                            Is this record complete?
+                        </a>
+                    </div>
+                    -->
+                    <!--<div data-template="app:display-related"/>-->
+                </div>
+            </div>
+            <br/>
+
+            <!-- Cite this record teiHeader information  -->
+            <div data-template="app:display-nodes" data-template-paths="/descendant::tei:teiHeader"/>
+        </div>
+    </div>
+    <!-- Modal email form-->
+    <div data-template="app:contact-form" data-template-collection="places"/>
+</div>

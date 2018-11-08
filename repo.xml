@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta xmlns="http://exist-db.org/xquery/repo">
+    <description>Architectura Sinica</description>
+    <author>Winona Salesky</author>
+    <website>http://architecturasinica.org</website>
+    <status>beta</status>
+    <license>GNU-LGPL</license>
+    <copyright>true</copyright>
+    <type>application</type>
+    <target>tcadrt</target>
+    <prepare>pre-install.xql</prepare>
+    <finish>post-install.xql</finish>
+    <config>
+        <!-- App title -->
+        <title>Architectura Sinica</title>
+        <!-- App description -->
+        <description>A digital image archive of the monumental architecture of pre-modern China. </description>
+        <!-- Contact email -->
+        <contact/>
+        <!--  Logo name (assumes path to logo is $app-root/resources/img/) -->
+        <logo/>
+        <!-- Web Site URL -->
+        <url>http://tcadrt.jelastic.servint.net/</url>
+        <!-- Root of app for building dynamic links. Default is eXist app root -->
+        <nav-base/>
+        <!-- eXist app root for app deployment-->
+        <app-root>tcadrt</app-root>
+        <!-- eXist data app root for gazetteer data -->
+        <data-root>tcadrt-data</data-root>
+        <!-- Base URI for identifiers in app data -->
+        <base_uri>http://architecturasinica.org</base_uri>
+        <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
+        <odd>/documentation/syriaca-tei-main.odd</odd>
+        <!-- xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
+        <id-path/>
+        <!-- Map rendering -->
+        <maps>
+            <!--  <option selected="true" api-key="API_KEY_HERE">google</option> -->
+            <option>google</option>
+            <option selected="true">leaflet</option>
+        </maps>
+        <!-- Keyboard options 
+        <keyboard-options>
+            <option id="chinese">Chinese</option>
+            <option id="qwerty">English QWERTY</option>
+        </keyboard-options>
+        -->
+        <collections>
+            <!--<collection name="Short-name used in html pages to reference collection, module name" 
+                series="Series name used in TEI biblScope @depreciated, use collection-URI" 
+                collection-URI="Series id used in TEI biblScope. Only needed for subcollection filtering"
+                record-URI-pattern="URI for building links to record views."
+                app-root="folder name in app" 
+                data-root="folder name in data"/>-->
+            <collection name="places" app-root="geo" data-root="places" record-URI-pattern="http://architecturasinica.org/place/"/>
+            <collection name="keywords" title="Architectural Features" app-root="keyword" data-root="keywords" record-URI-pattern="http://architecturasinica.org/keyword/"/>
+        </collections>
+        <!--
+        <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
+        (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)}(document,'script'));</google_analytics>
+        -->
+    </config>
+    
+    
+
+<deployed>2018-11-08T11:28:08.09-06:00</deployed>
+</meta>
