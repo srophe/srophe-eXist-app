@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<collection xmlns="http://exist-db.org/collection-config/1.0">
-    <!-- No data to be indexed. Indexed data is in srophe-app-data -->
-    <index xmlns:tei="http://www.tei-c.org/ns/1.0">
-        <fulltext default="none" attributes="no"/>
-    </index>
-</collection>
