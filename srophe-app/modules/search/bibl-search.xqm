@@ -232,6 +232,7 @@ declare function bibls:search-form() {
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
                     <select name="subject-exact">
+                        <option value="">Any subject</option>
                         {bibls:get-subjects()}
                     </select>
                     </div>                 
