@@ -1,7 +1,0 @@
-<cts-registry>
-    <namespace value="syriacLit" resolvesTo="http://localhost:8080/exist/apps/syriac-corpus/">
-        <workIdentifiers value="nhsl" resolvesTo="http://syriaca.org/work/"/>
-        <workIdentifiers value="syriacCorpus" resolvesTo="http://syriaccorpus.org/"/>
-        <workIdentifiers value="bibl" resolvesTo="http://syriaca.org/work/bibl"/>
-    </namespace>
-</cts-registry>
