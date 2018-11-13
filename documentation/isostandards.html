@@ -1,0 +1,190 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div xmlns="" class="banner-interior">
+    <span class="img-credit">
+        <label>Photo Credit:</label>Decorative Arch, Resafa, Syria. Copyright, Daniel Schwartz.
+        <button class="btn btn-link white-link" data-toggle="collapse" data-target="#img-rights">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"/>
+        </button>
+        <span id="img-rights" class="collapse"/>
+    </span>
+</div>
+    <h1 class="banner">Language and Script Identifiers</h1>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <p>In order to effectively share digital data, Syriaca.org has made a commitment to
+                using international standards. In the case of indicating the languages and scripts
+                of data, Syriaca.org relies on identifier codes published by the <a href="http://www.iso.org">International Organization for Standardization</a>
+                (ISO) for the representation of language names and scripts. Syriaca.org's usage is
+                based on the Internet Engineering Task Force's (IETF) <a href="http://tools.ietf.org/html/bcp47">"Best Current Practices Memo 47"</a> as
+                well as guidance by the <a href="http://www.w3.org/International/articles/language-tags/">World Wide Web
+                    Consortium</a> (W3C). Because there are some inconsistencies between these codes
+                and scholarly usage, Syriaca.org is actively working to bring the ISO standards and
+                scholarly best practices into agreement. Contributors to Syriaca.org are requested
+                to follow the guidelines below.</p>
+            <p>
+                <h3>Language Codes - ISO 639</h3>
+            </p>
+            <p>
+                <a href="http://www.iso.org/iso/language_codes">ISO 639</a> provides identifier
+                codes of 2 or 3 letters for identifying languages in computer applications, such as
+                databases or internet browsers (For example "mal" is the code for Malayalam and "en"
+                is the code for English). These language codes are defined in four lists maintained
+                by the <a href="http://www.loc.gov/standards/iso639-2/">Library of Congress</a>
+                (LOC): ISO 639-1, ISO 639-2, ISO 639-5 and the <a href="http://www-01.sil.org/iso639-3/default.asp">Summer Institute of
+                    Linguistics</a> (SIL): ISO 693-3.</p>
+            <p>Syriaca.org contributors should use the following guidelines when encoding languages
+                in XML:</p>
+            <ul>
+                <li>The ISO 693-3 standard offers two codes which could be used to refer to the
+                    Syriac language: "syr" (labelled as "Syriac", a "macrolanguage") and "syc"
+                    (labelled as "classical Syriac"). At present, these codes and their relationship
+                    to each other are not adequately defined in the ISO standard. To avoid this
+                    confusion, Syriaca.org uses the "syr" code as a default description for all
+                    "literary Syriac" (ܟܬܒܢܝܐ).</li>
+                <li>In general, Syriaca.org does not use the "syc" identifier at all in its own
+                    publications due to the chronological difficulties of defining “classical”
+                    Syriac. In the cases where Syriaca.org has included data from other sources that
+                    do use the "syc" code, Syriaca.org classifies "syc" as an individual language
+                    included as one constituent within the "syr" macrolanguage [Note: Our
+                    application to the ISO regristrar to offically recognize this usage is
+                    pending].</li>
+                <li>For commonly occurring languages, contributors should use the following codes: <ul>
+                        <li>"syr" = Syriac of any variety or period</li>
+                        <li>"ar" = Arabic of any variety or period</li>
+                        <li>"cop" = Coptic of any variety or period</li>
+                        <li>"en" = English of any variety or period</li>
+                        <li>"fr" = French of any variety or period</li>
+                        <li>"de" = German of any variety or period</li>
+                        <li>"grc" = Ancient Greek to A.D. 1453</li>
+                        <li>"el" = Modern Greek after A.D. 1453</li>
+                        <li>"la" = Latin of any variety or period</li>
+                        <li>"mal" = Malayalam of any variety or period</li>
+                    </ul>
+                </li>
+                <li>For cases not covered by the list above, contributors should refer to the
+                    standards directly on the <a href="http://www.loc.gov/standards/iso639-2/php/code_list.php">LOC</a> and
+                        <a href="http://www-01.sil.org/iso639-3/codes.asp">SIL</a> websites and
+                    consult with a Syriaca.org editor.</li>
+                <li>When both a two-letter and three-letter ISO language code exists (such as "en"
+                    and "eng" for English), the preferred code is the one listed in the <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry">IANA Subtag Registry</a>. In practice, this means that the two-letter code
+                    is always preferred.</li>
+            </ul>
+            <p/>
+            <p>
+                <h3>Script Codes - ISO 15924 </h3>
+            </p>
+            <p>
+                <a href="http://www.iso.org/iso/language_codes">ISO 639</a> provides identifier
+                codes of 4 letters for identifying scripts in computer applications, such as
+                databases or internet browsers (For example "Cyrl" is the code for the Cyrillic
+                script and "Palm" is the code for the Palmyrene script). These script codes are
+                defined in one list maintained by <a href="http://unicode.org/iso15924/">The Unicode
+                    Consortium</a>: ISO 15924.</p>
+            <p>Syriaca.org contributors should use the following guidelines when encoding scripts in
+                XML:</p>
+            <ul>
+                <li>The ISO 15924 standard offers four script codes specific to Syriac: "Syrc"
+                    (unlabelled), "Syre" (labelled as Estrangelo), "Syrj" (labelled as Western), and
+                    "Syrn" (labelled as Eastern). Given the pejoritive origins of the Syrj and Syrn
+                    codes, Syriaca.org is preparing an application to the ISO regristrar to change
+                    these codes but contributors should continue using these tags in the interim. In
+                    addition, Syriaca.org is also preparing an application for the creation of
+                    additional Syriac script codes for currently unrepresented scripts such as
+                    Melkite script or Syro-Malabar script.</li>
+                <li>Because Syriac scripts have been historically used with multiple languages,
+                    Syriaca.org recommends that contributors avoid confusion by always including an
+                    ISO language code whenever a script code is used. ISO standards call for the
+                    combination to be expressed in the following sequence: "[language]-[script]".
+                    Thus Syriac written in Estrangela script would be encoded as "syr-Syre". This
+                    system allows one to indicate the usage of Syriac script in Garshunography (the
+                    writing of languages other than Syriac using the Syriac script) as well as to
+                    indicate when Syriac data is being represented in transcription.</li>
+                <li>For commonly occuring script and language combinations, contributors should use
+                    the following codes: <ul>
+                        <li>"syr" = default code for unvocalized Syriac of any variety or period,
+                            where script is not specified. [Note: Syriaca.org considers "syr" and
+                            "syr-syrc" to have equivalent meaning and prefers the shorter.]</li>
+                        <li>"syr-Syre" = Syriac in Estrangela script</li>
+                        <li>"syr-Syrj" = Syriac in vocalized West Syriac script</li>
+                        <li>"syr-Syrn" = Syriac in vocalized East Syriac script</li>
+                        <li>"syr-x-syrm" = Syriac in Melkite script [Note: This is not an ISO code
+                            but a private use code for Melkite employed by Syriaca.org until an ISO
+                            code is created] </li>
+                        <li>"ar-Syrc" = Arabic Garshuni in unvocalized or undetermined Syriac
+                            script</li>
+                        <li>"ar-Syrj" = Arabic Garshuni in vocalized West Syriac script</li>
+                        <li>"ar-Syrn" = Arabic Garshuni in vocalized East Syriac script</li>
+                        <li>"mal-Syrn" = Malayalam Garshuni in vocalized East Syriac script</li>
+                    </ul>
+                </li>
+                <li>At present, the ISO script codes do not allow a specific way to indicate if a
+                    script is vocalized or unvocalized. As a general rule, contributors are
+                    encouraged only to use the codes for West and East Syriac scripts with vocalized
+                    or partially vocalized data.</li>
+                <li>In some cases of Syriac in transcription or Romanization, it is a matter of
+                    subjective judgement as to whether the final data should be considered to be in
+                    the Syriac language or in the target language of the transcription. For example,
+                    in the case of the transcription system of <em>The Gorgias Encyclopedic
+                        Dictionary of the Syriac Heritage</em>, Syriaca.org considers the GEDSH
+                    transcriptions to be linguistically English, such as in the case of the name
+                    "Isḥaq of Nineveh". This name is marked as "en-x-gedsh" to indicate that it is
+                    English in the GEDSH transliteration script.</li>
+                <li>For scripts not covered by the list above, contributors should refer to the
+                    standards directly on the <a href="http://unicode.org/iso15924/iso15924-codes.html">Unicode
+                        Consortium</a> website and consult with a Syriaca.org editor.</li>
+            </ul>
+            <div>
+                <p>
+                    <a href="#feedback" data-toggle="modal">Feedback?</a>
+                    <div data-template="app:contact-form"/>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div>
+    <!--<h3 class="underline">Documentation</h3>-->
+    <!--<ul class="nav nav-tabs nav-stacked">-->
+    <ul>
+        <li>
+            <a href="$app-root/documentation/dates.html">Dates</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/faq.html">Frequently Asked Questions</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/headwords.html">Headwords</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/isostandards.html">Language and Script Identifiers</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/place-types.html">Place Types</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/relations.html">Relations</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/confessions.html">Religious Communities</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/terms.html">Technical Terminology</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/view-teiDocs.html">TEI Tag usage in Gazetteer</a>
+        </li>
+        <li>
+            <a href="$app-root/api-documentation/index.html">Syriaca.org API Documentation</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/uris.html">URI Policies</a>
+        </li>
+        <li>
+            <a href="$app-root/documentation/tei-mss-tutorials.html">Using TEI to Catalog Syriac Manuscripts</a>
+        </li>
+    </ul>
+</div>
+        </div>
+    </div>
+</div>
+</div>

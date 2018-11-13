@@ -1,0 +1,73 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div xmlns="" class="banner-interior">
+    <span class="img-credit">
+        <label>Photo Credit:</label>Decorative Arch, Resafa, Syria. Copyright, Daniel Schwartz.
+        <button class="btn btn-link white-link" data-toggle="collapse" data-target="#img-rights">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"/>
+        </button>
+        <span id="img-rights" class="collapse"/>
+    </span>
+</div>
+    <h1 class="banner">Technical Terminology</h1>
+    <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <dl>
+                <dt id="place-uri">Place URI</dt>
+                <dd>In <i>The Syriac Gazetteer</i>, a "place URI" is a <a href="#uri">Uniform Resource Identifier (URI)</a>, created by Syriaca.org, 
+                    that is used to identify uniquely a geographic place, irrespective of its location (which may be unknown or disputed), its names 
+                    (which may not be unique), or any other attributes. Such URIs take the form <code>http://syriaca.org/place/\d+</code> (where 
+                    "\d+" indicates a string of one or more numerals).  Examples include <code>http://syriaca.org/place/78</code> for 
+                    <a href="http://syriaca.org/place/78">Edessa</a> and <code>http://syriaca.org/place/10</code> for <a href="http://syriaca.org/place/10">Antioch</a>.
+                    Place URIs should not be confused with the HTTP URIs that identify individual html pages 
+                    or TEI records in <i>The Syriac Gazetteer</i> itself, which end with ".html" or "/tei", for example.</dd>
+                <dt id="uri">Uniform Resource Identifier (URI)</dt>
+                <dd>"In computing, a uniform resource identifier (URI) is a string of characters used to identify a name or a web resource" (Wikipedia, 
+                    s.v. "<a href="https://en.wikipedia.org/wiki/Uniform_resource_identifier">Uniform resource identifier</a>"). Syriaca.org uses URIs 
+                    that conform to the standard HTTP URI Scheme (so-called HTTP URIs) to identify both web resources (like 
+                    individual pages or records in online publications) and real-world resources like persons, places, and concepts (see e.g., 
+                    <a href="#place-uri">Place URI</a>). </dd>
+            </dl>
+            <div>
+                <a href="#feedback" data-toggle="modal">Feedback?</a>
+                <div data-template="app:contact-form"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">About Syriaca.org</h3>
+                </div>
+                <div class="panel-body">
+                    <div data-template="app:shared-content" data-template-path="/about-menu.html"/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Editorial Documentation</h3>
+                </div>
+                <div class="panel-body">
+                    <div data-template="app:wiki-menu" data-template-wiki="https://github.com/srophe/srophe-app-data/wiki"/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Editorial Definitions</h3>
+                </div>
+                <div class="panel-body">
+                    <div data-template="app:shared-content" data-template-path="/documentation/menu.html"/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Technical Documentation</h3>
+                </div>
+                <div class="panel-body">
+                    <div data-template="app:wiki-menu" data-template-wiki="https://github.com/srophe/srophe-eXist-app/wiki"/>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
