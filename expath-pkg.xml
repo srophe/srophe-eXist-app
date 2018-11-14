@@ -4,8 +4,4 @@
     <dependency package="https://biblia-arabica.com/ba-data"/>
     <!-- eXist shared resources -->
     <dependency package="http://exist-db.org/apps/shared"/>
-    <!-- JSON Parser and Serializer for XQuery -->
-    <dependency package="http://xqilla.sourceforge.net/pkg/xqjson"/>
-    <!-- Functx  -->
-    <dependency package="http://www.functx.com"/>
 </package>

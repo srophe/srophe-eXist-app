@@ -1,23 +1,20 @@
 xquery version "3.0";
 
-module namespace timeline="http://syriaca.org/timeline";
+module namespace timeline="http://syriaca.org/srophe/timeline";
 
 (:~
  : Module to build timeline json passed to http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js widget
  : @author Winona Salesky <wsalesky@gmail.com>
  : @authored 2014-08-05
 :)
-import module namespace json="http://www.json.org";
-import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";
-import module namespace global="http://syriaca.org/global" at "global.xqm";
+import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
 
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace json = "http://www.json.org";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 (:
-    NOTES on display,
-    headline should be person names perhaps Events: PersName
-    credit syriaca.org?
-    xqjson:serialize-json
+ : Display Timeline. Uses http://timeline.knightlab.com/
 :)
 declare function timeline:timeline($data as node()*, $title as xs:string*){
 (: Test for valid dates json:xml-to-json() May want to change some css styles for font:)
@@ -33,7 +30,7 @@ if($data/descendant-or-self::*[@when or @to or @from or @notBefore or @notAfter]
                     type:       'timeline',
                     width:      "'" +parentWidth+"'",
                     height:     '325',
-                    source:     ]]>{xqjson:serialize-json(timeline:format-dates($data, $title))}<![CDATA[,
+                    source:     ]]>{timeline:get-all-dates($data, $title)}<![CDATA[,
                     embed_id:   'my-timeline'
                     });
                 });
@@ -45,33 +42,69 @@ if($data/descendant-or-self::*[@when or @to or @from or @notBefore or @notAfter]
 else ()
 };
 
-
-declare function timeline:format-dates($data as node()*, $title as xs:string*){
+(:
+ : Format dates as JSON to be passed to timeline widget.
+:)
+declare function timeline:get-all-dates($data as node()*, $title as xs:string*){
 let $timeline-title := if($title != '') then $title else 'Timeline'
-return 
-    <json type="object">
-        <pair name="timeline" type="object">
-            <pair name="headline" type="string">{$timeline-title}</pair>
-            <pair name="type" type="string">default</pair>
-            <pair name="text" type="string"></pair>
-            <pair name="asset" type="object">
-                <pair name="media" type="string">syriaca.org</pair>
-                <pair name="credit" type="string">Syriaca.org</pair>
-                <pair name="caption" type="string">Events for {$timeline-title}</pair>
-            </pair>  
-            <pair name="date" type="array">
-            {
-                (
-                timeline:get-birth($data), 
-                timeline:get-death($data), 
-                timeline:get-floruit($data), 
-                timeline:get-state($data), 
-                timeline:get-events($data)
-                )
-            }
-            </pair>
-        </pair>
-    </json>
+let $dates := 
+    <root>
+        <timeline>
+            <headline>{$timeline-title}</headline>
+            <type>default</type>
+            <asset>
+                <media>syriaca.org</media>
+                <credit>Syriaca.org</credit>
+                <caption>Events for {$timeline-title}</caption>
+            </asset>
+            <date>
+                {(
+                    timeline:get-birth($data), 
+                    timeline:get-death($data), 
+                    timeline:get-floruit($data), 
+                    timeline:get-state($data), 
+                    timeline:get-events($data)
+                    )}</date>
+        </timeline>
+    </root>
+return
+    serialize($dates, 
+        <output:serialization-parameters>
+            <output:method>json</output:method>
+        </output:serialization-parameters>)
+
+};
+
+declare function timeline:format-dates($start as xs:string*, $end as xs:string*, $headline as xs:string*, $text as xs:string* ){
+    if($start != '' or $end != '') then 
+        <json:value json:array="true">
+            {(
+                if($start != '' or $end != '') then 
+                    <startDate>
+                        {
+                            if(empty($start)) then $end
+                            else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
+                            else replace($start,'-',',')
+                        }
+                    </startDate>
+                 else (),
+                if($end != '') then 
+                    <endDate>
+                        {
+                            if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
+                            else replace($end,'-',',')
+                        }
+                    </endDate>
+                 else (),
+                 if($headline != '') then 
+                    <headline>{$headline}</headline>
+                 else (),
+                 if($text != '') then 
+                    <text>{$text}</text> 
+                else ()                 
+                )}
+        </json:value>
+    else ()
 };
 
 (:~
@@ -96,22 +129,7 @@ declare function timeline:get-birth($data as node()*) as node()?{
                       else if($birth-date/tei:date/@notAfter) then string($birth-date/tei:date[@notAfter][2]/@notAfter)
                       else ()                    
         return
-            <pair type="object">
-                    <pair name="startDate" type="string">
-                    {
-                        if(empty($start)) then $end
-                        else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
-                        else replace($start,'-',',')
-                        }
-                    </pair>
-                    <pair name="endDate" type="string">
-                    {
-                        if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
-                        else replace($end,'-',',')
-                    }
-                    </pair>
-                    <pair name="headline" type="string">{string-join($birth-date/descendant-or-self::*,' ')} Birth</pair>
-            </pair>
+            timeline:format-dates($start, $end, concat(string-join($birth-date/descendant-or-self::text(),' '), ' Birth'), '')
     else () 
 };
 
@@ -136,23 +154,7 @@ declare function timeline:get-death($data as node()*) as node()?{
                       else if($death-date/tei:date/@to) then string($death-date/tei:date[@to][2]/@to)
                       else if($death-date/tei:date/@notAfter) then string($death-date/tei:date[@notAfter][2]/@notAfter)
                       else () 
-        return
-            <pair type="object">
-                <pair name="startDate" type="string">
-                    {
-                        if(empty($start)) then $end
-                        else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
-                        else replace($start,'-',',')
-                        }
-                    </pair>
-                    <pair name="endDate" type="string">
-                    {
-                        if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
-                        else replace($end,'-',',')
-                    }
-                    </pair>
-                    <pair name="headline" type="string">{string-join($death-date/descendant-or-self::*,' ')} Death</pair>
-            </pair>
+        return timeline:format-dates($start, $end, concat(string-join($death-date/descendant-or-self::text(),' '), ' Death'), '')        
     else () 
 };
 
@@ -177,23 +179,7 @@ declare function timeline:get-floruit($data as node()*) as node()*{
                       else if($floruit-date/tei:date/@to) then string($floruit-date/tei:date[@to][2]/@to)
                       else if($floruit-date/tei:date/@notAfter) then string($floruit-date/tei:date[@notAfter][2]/@notAfter)
                       else () 
-        return
-            <pair type="object">
-                    <pair name="startDate" type="string">
-                    {
-                        if(empty($start)) then $end 
-                        else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
-                        else replace($start,'-',',')
-                        }
-                    </pair>
-                    <pair name="endDate" type="string">
-                    {
-                        if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
-                        else replace($end,'-',',')
-                    }
-                    </pair>
-                    <pair name="headline" type="string">{string-join($floruit-date/descendant-or-self::*,' ')} Floruit</pair>
-            </pair>
+        return timeline:format-dates($start, $end, concat(string-join($floruit-date/descendant-or-self::text(),' '), ' Floruit'), '')        
     else () 
 };
 
@@ -219,23 +205,7 @@ declare function timeline:get-state($data as node()*) as node()*{
                       else if($state-date/tei:date/@notAfter) then string($state-date/tei:date[@notAfter][2]/@notAfter)
                       else () 
         let $office := if($state-date/@role) then concat(' ',string($state-date/@role)) else concat(' ',string($state-date/@type))                 
-        return
-                <pair type="object">
-                    <pair name="startDate" type="string">
-                    {
-                        if(empty($start)) then $end
-                        else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
-                        else replace($start,'-',',')
-                        }
-                    </pair>
-                    <pair name="endDate" type="string">
-                    {
-                        if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
-                        else replace($end,'-',',')
-                    }
-                    </pair>
-                    <pair name="headline" type="string">{string-join($state-date/descendant-or-self::*,' ')} {$office}</pair>
-                </pair>
+        return timeline:format-dates($start, $end, concat(string-join($state-date/descendant-or-self::text(),' '),' ', $office), '')
     else () 
 };
 
@@ -257,23 +227,6 @@ declare function timeline:get-events($data as node()*) as node()*{
                       else if($event/descendant-or-self::*/@notAfter) then $event/descendant-or-self::*[@notAfter][1]/@notAfter
                       else if($event/descendant-or-self::*/@to) then $event/descendant-or-self::*[@to][1]/@to
                       else ()         
-        return
-                <pair type="object">
-                    <pair name="startDate" type="string">
-                    {
-                        if(empty($start)) then $end
-                        else if(starts-with($start,'-')) then concat('-',tokenize($start,'-')[2])
-                        else replace($start,'-',',')
-                        }
-                    </pair>
-                    <pair name="endDate" type="string">
-                    {
-                        if(starts-with($end,'-')) then concat('-',tokenize($end,'-')[2])
-                        else replace($end,'-',',')
-                    }
-                    </pair>
-                    <pair name="headline" type="string">{concat(substring($event-content,1, 30),'...')}</pair>
-                    <pair name="text" type="string">{$event-content}</pair>
-                </pair>
+        return timeline:format-dates($start, $end, concat(substring($event-content,1, 30),'...'), $event-content)       
     else ()   
 };

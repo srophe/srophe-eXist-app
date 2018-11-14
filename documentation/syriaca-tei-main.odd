@@ -430,6 +430,18 @@
                                     <desc>A bibliographic reference to a resource that contains notes regarding the witnesses, versions, or reconstruction of a text.
                                         A subtype of http://lawd.info/ontology/Citation.</desc>
                                 </valItem>
+                                <valItem ident="syriaca:ReferenceWork">
+                                    <gloss type="sg">Reference Work</gloss>
+                                    <gloss type="pl">Reference Works</gloss>
+                                    <desc>A bibliographic reference to a reference work.
+                                        A subtype of http://lawd.info/ontology/Citation.</desc>
+                                </valItem>
+                                <valItem ident="syriaca:Literature">
+                                    <gloss type="sg">Literature</gloss>
+                                    <gloss type="pl">Literature</gloss>
+                                    <desc>A bibliographic reference to general studies or secondary literature.
+                                        A subtype of http://lawd.info/ontology/Citation.</desc>
+                                </valItem>
                             </valList>
                         </attDef>
                         <attDef ident="ana" mode="change">

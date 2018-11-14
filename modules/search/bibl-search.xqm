@@ -3,12 +3,12 @@ xquery version "3.0";
  : Builds search information for spear sub-collection
  : Search string is passed to search.xqm for processing.  
  :)
-module namespace bibls="http://syriaca.org/bibls";
+module namespace bibls="http://syriaca.org/srophe/bibls";
 import module namespace functx="http://www.functx.com";
-import module namespace data="http://syriaca.org/data" at "lib/data.xqm";
 
-import module namespace templates="http://exist-db.org/xquery/templates" ;
-import module namespace global="http://syriaca.org/global" at "../lib/global.xqm";
+import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
+import module namespace data="http://syriaca.org/srophe/data" at "../lib/data.xqm";
+import module namespace global="http://syriaca.org/srophe/global" at "../lib/global.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -20,10 +20,6 @@ declare variable $bibls:id-type {request:get-parameter('id-type', '')};
 declare variable $bibls:pub-place {request:get-parameter('pub-place', '')};
 declare variable $bibls:publisher {request:get-parameter('publisher', '')};
 declare variable $bibls:date {request:get-parameter('date', '')};
-declare variable $bibls:start-date {request:get-parameter('start-date', '')};
-declare variable $bibls:end-date {request:get-parameter('end-date', '')};
-declare variable $bibls:online {request:get-parameter('online', '')};
-
 
 declare function bibls:title() as xs:string? {
     if($bibls:title != '') then concat("[ft:query(descendant::tei:title,'",data:clean-string($bibls:title),"',data:search-options())]")
@@ -68,45 +64,19 @@ declare function bibls:publisher() as xs:string? {
 
 declare function bibls:date() as xs:string? {
     if($bibls:date != '') then 
-        concat("[ft:query(descendant::tei:imprint/tei:date,'",data:clean-string($bibls:date),"',data:search-options())]")
+        concat("[matches(descendant::tei:imprint/tei:date,'",$bibls:date,"')]")
     else ()  
 };
-
-declare function bibls:online() as xs:string? {
-    if($bibls:online = 'on') then 
-        "[descendant::tei:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]]"
-    else ()  
-};
-
-(:~
- : Build date search string
- : @param $bibls:date-type indicates element to restrict date searches on, if empty, no element restrictions
- : @param $bibls:start-date start date
- : @param $bibls:end-date end date       
-:)
-declare function bibls:date-range() as xs:string?{
-    if($bibls:start-date != '' and $bibls:end-date != '') then 
-        concat("[descendant::tei:imprint/tei:date[(. >='", global:make-iso-date($bibls:start-date),"') and (. <= '",global:make-iso-date($bibls:end-date) ,"')]]")
-    else if($bibls:start-date != ''  and $bibls:end-date = '') then
-        concat("[descendant::tei:imprint/tei:date[. >= '",global:make-iso-date($bibls:start-date),"']]")
-    else if($bibls:end-date != ''  and $bibls:start-date = '') then
-        concat("[descendant::tei:imprint/tei:date[. <= '",global:make-iso-date($bibls:end-date) ,"']]")
-    else ()
-}; 
 
 declare function bibls:subject() as xs:string?{
-    if(request:get-parameter('subject', '') != '' or request:get-parameter('subject-exact', '')) then 
-        if(request:get-parameter('subject', '')) then 
-            concat("[descendant::tei:relation[@ref='dc:subject']/descendant::tei:desc[ft:query(.,'",data:clean-string(request:get-parameter('subject', '')),"',data:search-options())]]")     
-        else if(request:get-parameter('subject-exact', '')) then 
-            concat("[descendant::tei:relation[@ref='dc:subject']/descendant::tei:desc[. = '",request:get-parameter('subject-exact', ''),"']]")
-        else()
+    if($bibls:subject != '') then 
+        concat("collection('",$config:data-root,"')//tei:idno[.='",$bibls:subject,"']/ancestor::tei:body/descendant::tei:bibl[child::tei:ptr]")
     else ()  
 };
 
-declare function bibls:mss() as xs:string?{
-    if(request:get-parameter('mss', '') != '') then
-        concat("[descendant::tei:relation[@ref='dcterms:references']/descendant::tei:desc[ft:query(.,'",data:clean-string(request:get-parameter('mss', '')),"',data:search-options())]]")
+declare function bibls:bibl() as xs:string?{
+    if(request:get-parameter('bibl', '') != '') then
+        concat("collection('",$config:data-root,"')//tei:body[.//@target[. = '", request:get-parameter('bibl', '') ,"']]/ancestor::tei:TEI")
     else ()  
 };
 
@@ -114,46 +84,18 @@ declare function bibls:mss() as xs:string?{
  : Build query string to pass to search.xqm 
 :)
 declare function bibls:query-string() as xs:string? { 
- concat("collection('",$global:data-root,"/bibl/tei')//tei:body",
-    data:keyword(),
+if($bibls:subject != '') then bibls:subject()
+else if(request:get-parameter('bibl', '')) then bibls:bibl()
+else
+ concat("collection('",$config:data-root,"/bibl/tei')//tei:body",
+    data:keyword-search(),
     bibls:title(),
     bibls:author(),
     bibls:pub-place(),
     bibls:publisher(),
     bibls:date(),
-    bibls:date-range(),
-    bibls:subject(),
-    bibls:mss(),
-    bibls:online(),
     bibls:idno()
     )
-};
-
-(:~
- : Build a search string for search results page from search parameters
-:)
-declare function bibls:search-string(){
-    let $parameters :=  request:get-parameter-names()
-    for  $parameter in $parameters
-        return 
-            if(request:get-parameter($parameter, '') != '') then
-                if($parameter = 'start' or $parameter = 'sort-element') then ()
-                else if($parameter = 'q') then 
-                    (<span class="param">Keyword: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
-                else if ($parameter = 'author') then 
-                    (<span class="param">Author/Editor: </span>,<span class="match">{$bibls:author}&#160; </span>)
-                else if ($parameter = 'subject-exact') then 
-                    (<span class="param">Subject: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
-                else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
-            else ()               
-};
-
-(: BA specific function to list all available subjects for dropdown list in search form :)
-declare function bibls:get-subjects(){
- for $s in collection($global:data-root)//tei:relation[@ref='dc:subject']/descendant::tei:desc
- group by $subject-facet := $s/text()
- order by global:build-sort-string($subject-facet,'')
- return <option value="{$subject-facet}">{$subject-facet}</option>
 };
 
 (:~
@@ -162,10 +104,26 @@ declare function bibls:get-subjects(){
 declare function bibls:search-form() {   
 <form method="get" action="search.html" xmlns:xi="http://www.w3.org/2001/XInclude"  class="form-horizontal" role="form">
     <div class="well well-small">
-             <button type="button" class="btn btn-info pull-right" data-toggle="collapse" data-target="#searchTips">
-                Search Help <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-            </button>&#160;
-            <xi:include href="{$global:app-root}/searchTips.html"/>
+        {let $search-config := 
+                if(doc-available(concat($config:app-root, '/bibl/search-config.xml'))) then concat($config:app-root, '/bibl/search-config.xml')
+                else concat($config:app-root, '/search-config.xml')
+            let $config := 
+                if(doc-available($search-config)) then doc($search-config)
+                else ()                            
+            return 
+                if($config != '') then 
+                    (<button type="button" class="btn btn-info pull-right clearfix search-button" data-toggle="collapse" data-target="#searchTips">
+                        Search Help <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></button>,                       
+                    if($config//search-tips != '') then
+                    <div class="panel panel-default collapse" id="searchTips">
+                        <div class="panel-body">
+                        <h3 class="panel-title">Search Tips</h3>
+                        {$config//search-tips}
+                        </div>
+                    </div>
+                    else if(doc-available($config:app-root || '/searchTips.html')) then doc($config:app-root || '/searchTips.html')
+                    else ())
+                else ()}
         <div class="well well-small search-inner well-white">
         <!-- Keyword -->
             <div class="form-group">            
@@ -173,12 +131,7 @@ declare function bibls:search-form() {
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
                         <input type="text" id="qs" name="q" class="form-control keyboard" placeholder="Any word in citation"/>
-                        <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                </button>
-                                {global:keyboard-select-menu('qs')}
-                        </div>
+                        <div class="input-group-btn">{global:keyboard-select-menu('qs')}</div>
                     </div>                 
                 </div>
             </div> 
@@ -188,12 +141,7 @@ declare function bibls:search-form() {
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
                         <input type="text" id="title" name="title" class="form-control keyboard"  placeholder="Title of article, journal, book, or series"/>
-                        <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                </button>
-                                {global:keyboard-select-menu('title')}
-                        </div>
+                        <div class="input-group-btn">{global:keyboard-select-menu('title')}</div>
                     </div>                 
                 </div>
             </div>
@@ -202,67 +150,16 @@ declare function bibls:search-form() {
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
                         <input type="text" id="author" name="author" class="form-control keyboard" placeholder="First Last or Last, First"/>
-                        <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                </button>
-                                {global:keyboard-select-menu('author')}
-                        </div>
+                        <div class="input-group-btn">{global:keyboard-select-menu('author')}</div>
                     </div>                
                 </div>
             </div>  
-            <!--
-            <div class="form-group">            
-                <label for="subject" class="col-sm-2 col-md-3  control-label">Subject: </label>
-                <div class="col-sm-10 col-md-6 ">
-                    <div class="input-group">
-                        <input type="text" id="subject" name="subject" class="form-control keyboard"  placeholder="Subject"/>
-                        <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                </button>
-                                {global:keyboard-select-menu('subject')}
-                        </div>
-                    </div>                 
-                </div>
-            </div>
-            -->
-            <div class="form-group">            
-                <label for="subject-exact" class="col-sm-2 col-md-3  control-label">Select Subject: </label>
-                <div class="col-sm-10 col-md-6 ">
-                    <div class="input-group">
-                    <select name="subject-exact">
-                        <option value="">Any subject</option>
-                        {bibls:get-subjects()}
-                    </select>
-                    </div>                 
-                </div>
-            </div>
-            <div class="form-group">            
-                <label for="mss" class="col-sm-2 col-md-3  control-label">Manuscript: </label>
-                <div class="col-sm-10 col-md-6 ">
-                    <div class="input-group">
-                        <input type="text" id="mss" name="mss" class="form-control keyboard"  placeholder="Manuscript"/>
-                        <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                </button>
-                                {global:keyboard-select-menu('mss')}
-                        </div>
-                    </div>                 
-                </div>
-            </div>            
             <div class="form-group">            
                 <label for="pub-place" class="col-sm-2 col-md-3  control-label">Publication Place: </label>
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
                         <input type="text" id="pubPlace" name="pub-place" class="form-control keyboard" placeholder="First Last or Last, First"/>
-                        <div class="input-group-btn">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                    &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                </button>
-                                {global:keyboard-select-menu('pubPlace')}
-                        </div>
+                        <div class="input-group-btn">{global:keyboard-select-menu('pubPlace')}</div>
                     </div>                
                 </div>
             </div>
@@ -271,45 +168,21 @@ declare function bibls:search-form() {
                 <div class="col-sm-10 col-md-6 ">
                     <div class="input-group">
                     <input type="text" id="publisher" name="publisher" class="form-control keyboard" placeholder="Publisher Name"/>
-                            <div class="input-group-btn">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Select Keyboard">
-                                        &#160;<span class="syriaca-icon syriaca-keyboard">&#160; </span><span class="caret"/>
-                                    </button>
-                                    {global:keyboard-select-menu('publisher')}
-                            </div>
+                            <div class="input-group-btn">{global:keyboard-select-menu('publisher')}</div>
                     </div>                 
                 </div>
-            </div>
-            <!--
+            </div>   
             <div class="form-group">            
                 <label for="date" class="col-sm-2 col-md-3  control-label">Date: </label>
                 <div class="col-sm-10 col-md-6 ">
                     <input type="text" id="date" name="date" class="form-control" placeholder="Year as YYYY"/>
                 </div>
-            </div> 
-            -->
-            <div class="form-group">
-                <label for="start-date" class="col-sm-2 col-md-3  control-label">Date: </label>
-                <div class="col-sm-10 col-md-6 form-inline">
-                    <input type="text" id="start-date" name="start-date" placeholder="Start Date" class="form-control"/>&#160;
-                    <input type="text" id="end-date" name="end-date" placeholder="End Date" class="form-control"/>&#160;
-                    <p class="hint">* Dates should be entered as YYYY or YYYY-MM-DD. Add a minus sign (-) in front of BC dates. <span><a href="http://syriaca.org/documentation/dates.html">more <i class="glyphicon glyphicon-circle-arrow-right"></i></a></span></p>
-                </div>
-            </div>  
+            </div>   
             <hr/>
             <div class="form-group">            
-                <label for="idno" class="col-sm-2 col-md-3  control-label">ISBN / DOI / URI: </label>
+                <label for="idno" class="col-sm-2 col-md-3  control-label">Id Number: </label>
                 <div class="col-sm-10 col-md-2 ">
                     <input type="text" id="idno" name="idno" class="form-control"  placeholder="Ex: 3490"/>
-                </div>
-            </div>
-            <div class="form-group">     
-                <label for="idno" class="col-sm-2 col-md-3  control-label">Only items viewable online: </label>
-                <div class="col-sm-10 col-md-2 ">
-                    <label class="switch">
-                        <input id="online" name="online" type="checkbox"/>
-                        <span class="slider round"></span>
-                    </label>
                 </div>
             </div> 
         </div>

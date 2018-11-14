@@ -1,0 +1,170 @@
+/* Application styles could go here */
+/* Slider customizations */
+.slide {
+    margin:0; 
+    padding:0;                                
+    background-position:top; 
+    height:450px;   
+    position:relative;
+}
+.more-info {
+    display:none;
+}
+.slide:hover > .more-info{
+   display:block; 
+   padding:2em;
+   text-align:left;
+   color:white;
+   background: rgb(34,34,34); /* for IE */
+   background: rgba(34,34,34,0.35);
+   height:450px;
+}
+.places-slide {
+    background-image:url('../images/places.jpg');    
+    background-size:cover;
+}
+.persons-slide {
+    background-image:url('../images/persons-home.png');  
+    background-size:cover;
+}
+.saints-slide {
+    background-image:url('../images/q-home.png');     
+    background-size:cover;
+}
+.authors-slide {
+    background-image:url('../images/authors-home.jpg');     
+    background-size:cover;
+}
+.works-slide {
+    background-image:url('../images/bhse-home.jpg');        
+    background-size:cover;
+}
+.mss-slide {
+    background-image:url('../images/works-home.jpg');        
+    background-size:cover;
+}
+.events-slide {
+    background-image:url('../images/spear-home.png');        
+    background-size:cover;
+}  
+.bibl-slide {
+    background-image:url('../images/bibl-home.png');        
+    background-size:cover;
+}
+.nhsl-slide {
+    background-image:url('../images/nhsl-home.png');        
+    background-size:cover;
+}
+.bible-slide {
+    background-image:url('../images/bible-home.png');        
+    background-size:cover;
+}
+/* styles for index4 */
+a.gradient{color:white; text-decoration:none;}
+.gradient{  
+    -webkit-transition: background 1s ease-out;  
+    -moz-transition: background 1s ease-out;  
+    -o-transition: background 1s ease-out;  
+    transition: background 1s ease-out;    
+    cursor:pointer;  
+    width:100%; 
+    height:75px; 
+    padding:2em; 
+    overflow:hidden; 
+    display:block; 
+    padding-top:30px; 
+    font-size: 16px;
+    text-align:center;
+}  
+.places-slide .gradient {
+    background: -webkit-linear-gradient(#CE6849,#603122);  
+    background: -moz-linear-gradient(#CE6849,#603122);  
+    background: -o-linear-gradient(#CE6849,#603122);  
+    background: linear-gradient(#CE6849,#603122);    
+    /*
+     * background: linear-gradient(#ec7951,#753C28);    
+     * background: linear-gradient(#f5cba0,#753C28);  
+     */
+    border: 1px solid #753C28; 
+}
+.persons-slide .gradient {
+    background: -webkit-linear-gradient(#f2d7fc,#705C77);  
+    background: -moz-linear-gradient(#f2d7fc,#705C77);  
+    background: -o-linear-gradient(#f2d7fc,#705C77);  
+    background: linear-gradient(#f2d7fc,#705C77);
+/* background: linear-gradient(#f2d7fc,#7b6d80);*/    
+    border: 1px solid #7b6d80; 
+}
+.saints-slide .gradient {
+    background: -webkit-linear-gradient(#71BAE2,#233744);  
+    background: -moz-linear-gradient(#71BAE2,#233744);  
+    background: -o-linear-gradient(#71BAE2,#233744);  
+    background: linear-gradient(#71BAE2,#233744);    
+    border: 1px solid #2F4C60; 
+}
+.authors-slide .gradient {
+    background: -webkit-linear-gradient(#6b6bf8,#2d2d86);  
+    background: -moz-linear-gradient(#6b6bf8,#2d2d86);  
+    background: -o-linear-gradient(#6b6bf8,#2d2d86);  
+    background: linear-gradient(#6b6bf8,#2d2d86);    
+    border: 1px solid #2d2d86; 
+}
+.works-slide .gradient {
+    background: -webkit-linear-gradient(#fe3b3e,#560F13);  
+    background: -moz-linear-gradient(#fe3b3e,#560F13);  
+    background: -o-linear-gradient(#fe3b3e,#560F13);  
+    background: linear-gradient(#fe3b3e,#560F13);    
+    border: 1px solid #7a1517; 
+}
+.mss-slide .gradient {
+    background: -webkit-linear-gradient(#f5d9bc,#e67605);  
+    background: -moz-linear-gradient(#f5d9bc,#e67605);  
+    background: -o-linear-gradient(#f5d9bc,#e67605);  
+    background: linear-gradient(#f5d9bc,#e67605);    
+    border: 1px solid #e67605; 
+}
+.events-slide .gradient {
+    background: -webkit-linear-gradient(#98ce84,#2b4a2b);  
+    background: -moz-linear-gradient(#98ce84,#2b4a2b);  
+    background: -o-linear-gradient(#98ce84,#2b4a2b);  
+    background: linear-gradient(#98ce84,#2b4a2b);    
+    border: 1px solid #2b4a2b; 
+}
+.bibl-slide .gradient {
+    background: -webkit-linear-gradient(#636363,#333333);  
+    background: -moz-linear-gradient(#636363,#333333);  
+    background: -o-linear-gradient(#636363,#333333);  
+    background: linear-gradient(#636363,#333333);    
+    border: 1px solid #333333; 
+}
+.nhsl-slide .gradient {
+    background: -webkit-linear-gradient(#689dcf,#333333);  
+    background: -moz-linear-gradient(#689dcf,#333333);  
+    background: -o-linear-gradient(#689dcf,#333333);  
+    background: linear-gradient(#689dcf,#333333);    
+    border: 1px solid #333333; 
+}
+.bible-slide .gradient {
+    background: -webkit-linear-gradient(#ffe065,#795207);  
+    background: -moz-linear-gradient(#ffe065,#795207);  
+    background: -o-linear-gradient(#ffe065,#795207);  
+    background: linear-gradient(#ffe065,#795207);    
+    border: 1px solid #795207; 
+}
+.slide-credit{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    text-align:right;
+    color:white;
+    font-weight:200;
+    background: rgb(34,34,34); /* for IE */
+    background: rgba(34,34,34,0.55);
+    color: white; 
+    padding: 0.5em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+.slide-credit a {color:white; text-decoration:none;}
+.slider-control {font-size: 5em; color:white; text-shadow: 2px 2px #000000;}

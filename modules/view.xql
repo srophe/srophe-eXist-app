@@ -3,17 +3,24 @@
  : to process any URI ending with ".html". It receives the HTML from
  : the controller and passes it to the templating system.
  :)
-xquery version "3.0";
+xquery version "3.1";
 
 import module namespace templates="http://exist-db.org/xquery/templates" ;
+
 (: 
  : The following modules provide functions which will be called by the 
  : templating.
  :)
-import module namespace config="http://syriaca.org/config" at "config.xqm";
-import module namespace app="http://syriaca.org/templates" at "app.xql";
-import module namespace browse="http://syriaca.org/browse" at "browse.xqm";
-import module namespace search="http://syriaca.org/search" at "search/search.xqm";
+import module namespace config="http://syriaca.org/srophe/config" at "config.xqm";
+import module namespace app="http://syriaca.org/srophe/templates" at "app.xql";
+
+(: Srophe specific modules :)
+import module namespace browse="http://syriaca.org/srophe/browse" at "lib/browse.xqm";
+import module namespace search="http://syriaca.org/srophe/search" at "search/search.xqm";
+
+(: Syriaca.org specific functions :)
+import module namespace place="http://syriaca.org/srophe/place" at "place.xqm";
+import module namespace person="http://syriaca.org/srophe/person" at "person.xqm";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
@@ -21,8 +28,8 @@ declare option output:method "html5";
 declare option output:media-type "text/html";
 
 let $config := map {
-    $templates:CONFIG_APP_ROOT := $config:app-root,
-    $templates:CONFIG_STOP_ON_ERROR := true()
+    $templates:CONFIG_APP_ROOT : $config:app-root,
+    $templates:CONFIG_STOP_ON_ERROR : true()
 }
 (:
  : We have to provide a lookup function to templates:apply to help it

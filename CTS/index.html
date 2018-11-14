@@ -9,21 +9,21 @@
         <script type="text/javascript" src="$shared/resources/scripts/loadsource.js"/>
         <script type="text/javascript" src="$shared/resources/scripts/bootstrap-3.0.3.min.js"/>
         <script type="text/javascript">
-            /*
             $(document).ready(function () {
-                $("#ctsuURN").submit(function(event){
+                $("#ctsURN").submit(function(event){
                     event.preventDefault();
                     var $form = $(this),
                      urn = $form.find("input[name='urn']").val(),
+                     action = $form.find("select[name='action']").val(),
                      url = $form.attr("action");
                      
-                    var posting = $.post(url, {urn: urn});
+                    var posting = $.post(url, {urn: urn, action: action});
                     posting.done(function(data){
-                        var content = $(data).find("#main");
-                        $("#ctsResults").empty().append(content);
+                        var content = $(data).children();
+                        $("#ctsResults").html(content);
                     });
                 });
-            });*/
+            });
         </script>
     </head>
     <body id="body">
@@ -64,11 +64,11 @@
                 <li>urn:cts:syriacLit:nhsl8501.nhsl8503.syriacCorpus121:4.10</li>
             </ul>
             <form action="cts-resolver.xql" method="post" id="ctsuURN">
-                URN: <input type="text" name="urn" value=""/>
-                <input type="submit" value="Go to Results"/>
+                URN: <input type="text" name="urn" value="" />
+                <input type="submit" value="Go to Results" />
                 <!--<input type="submit" value="Show results below" />-->
             </form>
-            
+            <br/>
             <div id="ctsResults" class="container"/>
         </div>
         <hr/>

@@ -1,8 +1,8 @@
 xquery version "3.1";
 
 (:~ 
- : Webhook endpoint for tcadrt.com data repository, /master/ branch: 
- : XQuery endpoint to respond to Github webhook requests. Query responds only to push requests from the master branch.  
+ : Webhook endpoint for Srophe Web Application 
+ : XQuery endpoint to respond to Github webhook requests.  
  : The EXPath Crypto library supplies the HMAC-SHA1 algorithm for matching Github secret.  
  :
  : Secret can be stored as environmental variable.
@@ -11,6 +11,12 @@ xquery version "3.1";
  : @Notes 
  : This module is for the PRODUCTION server and picks up calls from refs/heads/master
  : This version uses eXistdb's native JSON parser elminating the need for the xqjson library
+ : 
+ : Requirements 
+ :  - EXPath Crypto library : http://expath.org/spec/crypto
+ :  - eXist-db 3.0 or greater
+ :  - access-config.xml file with github secret, or environment variable with secret. 
+ :  - Must be run with elevated privileges: sm:chmod(xs:anyURI('/db/apps/srophe/modules/git-sync.xql'), "rwsr-xr-x")
  :
  : @author Winona Salesky
  : @version 2.0 
@@ -22,6 +28,7 @@ xquery version "3.1";
  
 import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 import module namespace templates="http://exist-db.org/xquery/templates" ;
+
 (:import module namespace xqjson="http://xqilla.sourceforge.net/lib/xqjson";:)
 import module namespace crypto="http://expath.org/ns/crypto";
 import module namespace http="http://expath.org/ns/http-client";
@@ -31,7 +38,7 @@ declare namespace syriaca = "http://syriaca.org";
 declare option exist:serialize "method=xml media-type=text/xml indent=yes";
 
 (: Access git-api configuration file :) 
-declare variable $git-config := if(doc('../config.xml')) then doc('../config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
+declare variable $git-config := if(doc('../access-config.xml')) then doc('../access-config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
 
 (: Private key for authentication :)
 declare variable $private-key := if($git-config//private-key-variable != '') then 
@@ -125,7 +132,7 @@ declare function local:do-add($commits as xs:string*, $contents-url as xs:string
              if(contains($file-name,'.xar')) then ()
              else if(xmldb:collection-available($exist-collection-url)) then 
                 <response status="okay">
-                    <message>{xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), $file-data)}</message>
+                    <message>{xmldb:store($exist-collection-url, xmldb:encode-uri($file-name), xs:base64Binary($file-data))}</message>
                 </response>
              else
                 <response status="okay">

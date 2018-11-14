@@ -17,7 +17,7 @@ xquery version "3.0";
  :)
 
 module namespace facet = "http://expath.org/ns/facet";
-import module namespace global="http://syriaca.org/global" at "global.xqm";
+import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
@@ -27,7 +27,7 @@ declare variable $facet:fq {request:get-parameter('fq', '') cast as xs:string};
 (:~
  : Given a result sequence, and a sequence of facet definitions, count the facet-values for each facet defined by the facet definition(s).
  : Accepts one or more facet:facet-definition elements
- : Signiture: 
+ : Signature: 
     facet:count($results as item()*,
         $facet-definitions as element(facet:facet-definition)*) as element(facet:facets)
  : @param $results results node to be faceted on.
@@ -50,58 +50,50 @@ declare function facet:count($results as item()*, $facet-definitions as element(
 };
 
 (:~
- : Given a result sequence, and a facet definition, count the facet-values for each facet defined by the facet definition. 
+ : Pass facet definition to correct XQuery function;
+ : Range, User defined function or default group-by function
  : Facet defined by facets:facet-definition/facet:group-by/facet:sub-path 
  : @param $results results to be faceted on. 
  : @param $facet-definitions one or more facet:facet-definition element
+ : TODO: Handle nested facet-definition
 :) 
-(:  TODO: Handle nested facet-definition  :)
 declare function facet:facet($results as item()*, $facet-definitions as element(facet:facet-definition)?) as item()*{
-    if ($facet-definitions/facet:group-by/@function) then
+    if($facet-definitions/facet:range) then
+        facet:group-by-range($results, $facet-definitions)
+    else if ($facet-definitions/facet:group-by/@function) then
         util:eval(concat($facet-definitions/facet:group-by/@function,'($results,$facet-definitions)'))
-    else if($facet-definitions/facet:range) then
-        facet:group-by-range($results, $facet-definitions)        
     else facet:group-by($results, $facet-definitions)
 };
 
 (:~
- : Given a result sequence, and a facet definition, count the facet-values for each facet defined by the facet definition. 
+ : Default facet function. 
  : Facet defined by facets:facet-definition/facet:group-by/facet:sub-path 
  : @param $results results to be faceted on. 
  : @param $facet-definitions one or more facet:facet-definition element
 :) 
-(: TODO: Need to be able to switch out descending with ascending based on facet-def/order-by/@direction:)
 declare function facet:group-by($results as item()*, $facet-definitions as element(facet:facet-definition)?) as element(facet:key)*{
     let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
     let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by 
-        if($sort/text() = 'value') then $f[1]
-        else count($f)
-        descending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{(:global:odd2text($f[1],string($f[1])):)$facet-grp}"/>
+    return 
+        if($sort/@direction = 'ascending') then 
+            for $f in util:eval($path)
+            group by $facet-grp := $f
+            order by 
+                if($sort/text() = 'value') then $f[1]
+                else count($f)
+            ascending
+            return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
+        else 
+            for $f in util:eval($path)
+            group by $facet-grp := $f
+            order by 
+                if($sort/text() = 'value') then $f[1]
+                else count($f)
+                descending
+            return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
 };
 
-
-(:~
- : Syriaca.org specific group-by function for correctly labeling attributes with arrays.
-:)
-declare function facet:group-by-array($results as item()*, $facet-definitions as element(facet:facet-definition)?){
-    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text()) 
-    let $sort := $facet-definitions/facet:order-by
-    let $d := tokenize(string-join(util:eval($path),' '),' ')
-    for $f in $d
-    group by $facet-grp := tokenize($f,' ')
-    order by 
-        if($sort/text() = 'value') then $f[1]
-        else count($f)
-        descending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
-};
-
-(:~
- : Given a result sequence, and a facet definition, count the facet-values for each range facet defined by the facet definition. 
+(:~ 
  : Range values defined by: range and range/bucket elements
  : Facet defined by facets:facet-definition/facet:group-by/facet:sub-path 
  : @param $results results to be faceted on. 
@@ -128,102 +120,20 @@ declare function facet:group-by-range($results as item()*, $facet-definitions as
 };
 
 (:~
- : Syriaca.org specific group-by function for correctly labeling submodules.
+ : Syriaca.org specific group-by function for correctly labeling attributes with arrays.
+ : Used for TEI relationships where multiple URIs may be coded in a single element or attribute
 :)
-declare function facet:group-by-sub-module($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
-    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+declare function facet:group-by-array($results as item()*, $facet-definitions as element(facet:facet-definition)?){
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text()) 
     let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
+    let $d := tokenize(string-join(util:eval($path),' '),' ')
+    for $f in $d
+    group by $facet-grp := tokenize($f,' ')
     order by 
-        if($sort/text() = 'value') then $facet-grp
-        else count($f)
-        descending        
-    return 
-        let $label := 
-            if($facet-grp = 'http://syriaca.org/authors') then 'Authors'
-            else if($facet-grp = 'http://syriaca.org/q') then 'Saints'
-            else ()
-        return 
-            <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$label}"/>    
-};
-
-(:~
- : Syriaca.org specific group-by function for correctly labeling submodules.
-:)
-declare function facet:group-place-type($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
-    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
-    let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by $facet-grp ascending
-    return
-        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>    
-};
-
-(:~
- : Syriaca.org specific group-by function for correctly labeling SPEAR source texts.
-:)
-declare function facet:spear-source-text($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
-    let $path := concat('$results[',$facet-definitions/facet:group-by/facet:sub-path/text(),']')
-    let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    let $fg := util:eval(concat('$f/',$facet-definitions/facet:group-by/facet:sub-path/text()))
-    group by $facet-grp := $fg
-    order by 
-        if($sort/text() = 'value') then $facet-grp
+        if($sort/text() = 'value') then $f[1]
         else count($f)
         descending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp[1]}" label="{$facet-grp[1]}"/>    
-};
-
-declare function facet:spear-type($results as item()*, $facet-definitions as element(facet:facet-definition)?) as element(facet:key)*{
-    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
-    let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by 
-        if($sort/text() = 'value') then $facet-grp
-        else count($f)
-        descending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{substring-after($facet-grp,'list')}"/>
-};
-
-(: biblia-arabica special facet :)
-declare function facet:viewable-online($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
-    let $r := $results[descendant::tei:idno[@type='URI'][not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|https?://(www.)?(dx.)?doi.org)'))]]
-    return 
-         <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Online"/>
-};
-
-(: biblia-arabica special facet :)
-declare function facet:authors($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
-    let $sort := $facet-definitions/facet:order-by
-    for $f in $results/descendant::tei:body/tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor]
-    group by $facet-grp := string-join($f/descendant::text(),' ')
-    order by 
-        if($sort/text() = 'value') then $facet-grp
-        else count($f)
-        descending
-   return    
-        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{normalize-space($facet-grp[1])}" label="{concat($f[1]/tei:surname,', ', $f[1]/tei:forename)}"/>   
-
-};
-
-
-(: Syriaca.org specific function that uses the syiraca.org ODD file to establish labels for controlled values 
- : Uses global:odd2text($element-name,$label)) for translation. 
-:)
-declare function facet:controlled-labels($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
-    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
-    let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by 
-        if($sort/text() = 'value') then $facet-grp
-        else count($f)
-        descending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{global:odd2text(tokenize(replace($path[1],'@|\[|\]',''),'/')[last()],string($facet-grp))}"/>    
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
 };
 
 (:~
@@ -261,40 +171,34 @@ declare function facet:type($value as item()*, $type as xs:string?) as item()*{
  : XPath filter to be passed to main query
  : creates XPath based on facet:facet-definition//facet:sub-path.
  : @param $facet-def facet:facet-definition element
- : NOTE: need to do type checking here
- : NOTE: add range handling here. 
 :)
 declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
-    if($facet:fq != '') then
-        string-join(
+    if($facet:fq != '') then 
+       string-join(
         for $facet in tokenize($facet:fq,';fq-')
         let $facet-name := substring-before($facet,':')
         let $facet-value := normalize-space(substring-after($facet,':'))
         return 
-            for $facet in $facet-definitions/facet:facet-definition[@name = $facet-name]
+            for $facet in $facet-definitions/descendant-or-self::facet:facet-definition[@name = $facet-name]
             let $path := 
                          if(matches($facet/descendant::facet:sub-path/text(), '^/@')) then concat('descendant::*/',substring($facet/descendant::facet:sub-path/text(),2))
-                         else $facet/descendant::facet:sub-path/text()
+                         else $facet/descendant::facet:sub-path/text()                
             return 
-            if($facet-value != '') then 
-                if($facet/facet:range) then
-                    if($facet/facet:range/facet:bucket[@name = $facet-value]/@lt and $facet/facet:range/facet:bucket[@name = $facet-value]/@lt != '') then
-                        concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" and string(.) <= "',facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@lt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'"]]')                        
-                    else if($facet/facet:range/facet:bucket[@name = $facet-value]/@eq and $facet/facet:range/facet:bucket[@name = $facet-value]/@eq != '') then
-                        concat('[',$path,'[', $facet/facet:range/facet:bucket[@name = $facet-value]/@eq ,']]')
-                    else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
-                else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
-                    concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')
-                else if($facet/facet:group-by[@function="facet:viewable-online"]) then 
-                    "[descendant::tei:idno[@type='URI'][not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))]]"    
-                else if($facet/facet:group-by[@function="facet:spear-type"]) then 
-                    concat('[',substring-before($path,'/name(.)'),'[name(.) = "',$facet-value,'"]',']')
-                else if($facet/facet:group-by[@function="facet:authors"]) then
-                    concat("[descendant::tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor][normalize-space(string-join(descendant::text(),' ')) = '",$facet-value,"']]")                 
-                else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
-            else(),'')    
-    else ()   
+                if($facet-value != '') then 
+                    if($facet/facet:range) then
+                        if($facet/facet:range/facet:bucket[@name = $facet-value]/@lt and $facet/facet:range/facet:bucket[@name = $facet-value]/@lt != '') then
+                            concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" and string(.) <= "',facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@lt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'"]]')                        
+                        else if($facet/facet:range/facet:bucket[@name = $facet-value]/@eq and $facet/facet:range/facet:bucket[@name = $facet-value]/@eq != '') then
+                            concat('[',$path,'[', $facet/facet:range/facet:bucket[@name = $facet-value]/@eq ,']]')
+                        else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
+                    else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
+                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')                     
+                    else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
+                else()
+        ,'')
+    else  ()   
 };
+
 
 (:~ 
  : Builds new facet params for html links.
@@ -313,7 +217,7 @@ declare function facet:url-params(){
 (: HTML display functions :)
 
 (:~
- : Create 'Remove' button 
+ : Create 'Remove' button for selected facets
  : Constructs new URL for user action 'remove facet'
 :)
 declare function facet:selected-facets-display(){
@@ -333,9 +237,10 @@ declare function facet:selected-facets-display(){
         else()
 };
 
+
 (:~
- : Create 'Add' button 
- : Constructs new URL for user action 'Add facet'
+ : Creates HTML display for facets.
+ : Facets can be styled in resources/css/styles.css
 :)
 declare function facet:html-list-facets-as-buttons($facets as node()*){
 (
@@ -352,11 +257,9 @@ return
         for $f in $facets/facet:facet[@name = $facet-name]
         let $fn := string($f/@name)
         let $label := string($f/facet:key[@value = substring-after($facet,concat($facet-name,':'))]/@label)
-        let $value := if(starts-with($label,$global:app-root)) then 
-                         facet:get-label($label)   
-                      else $label
+        let $value := $label
         return 
-                <span class="label label-facet" title="Remove {$value}">
+                <span class="label facet-label remove" title="Remove {$value}">
                     {concat($fn,': ', $value)} <a href="{$href}" class="facet icon"> x</a>
                 </span>
     else(),
@@ -373,21 +276,21 @@ return
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',normalize-space($facet-query))
                 let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}"><bdi>{facet:get-label(string($key/@label))}</bdi> <span class="count"> ({string($key/@count)})</span></a> 
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{string($key/@label)} <span class="count"> ({string($key/@count)})</span></a> 
                 }
             </div>
-            <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),'\s|/',''))}">{
+            <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
                 for $key at $l in subsequence($f/facet:key,$f/@show + 1,$f/@max)
                 let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
                 let $new-fq := 
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',$facet-query)
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{facet:get-label(string($key/@label))} <span class="count"> ({string($key/@count)})</span></a>
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{string($key/@label)} <span class="count"> ({string($key/@count)})</span></a>
                 }
             </div>
             {if($count gt ($f/@show - 1)) then 
                 <a class="facet-label togglelink btn btn-info" 
-                data-toggle="collapse" data-target="#{concat('show',replace(string($f/@name),'\s|/',''))}" href="#{concat('show',replace(string($f/@name),'\s|/',''))}" 
+                data-toggle="collapse" data-target="#{concat('show',replace(string($f/@name),' ',''))}" href="#{concat('show',replace(string($f/@name),' ',''))}" 
                 data-text-swap="Less"> More &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
             else()}
     </div>
@@ -395,22 +298,40 @@ return
 )    
 };
 
+(: Syriaca.org specific facet functions :)
 (:~
- : Syriaca.org specific function to label URI's with human readable labels. 
- : @param $uri Syriaca.org uri to be used for lookup. 
- : URI can be a record or a keyword
- : NOTE: this function will probably slow down the facets.
+ : Syriaca.org specific group-by function for correctly labeling submodules.
 :)
+declare function facet:group-by-sub-module($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+    let $sort := $facet-definitions/facet:order-by
+    for $f in util:eval($path)
+    group by $facet-grp := $f
+    order by 
+        if($sort/text() = 'value') then $facet-grp
+        else count($f)
+        descending        
+    return 
+        let $label := 
+            if($facet-grp = 'http://syriaca.org/authors') then 'Authors'
+            else if($facet-grp = 'http://syriaca.org/q') then 'Saints'
+            else ()
+        return 
+            <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$label}"/>    
+};
 
-declare function facet:get-label($uri as item()*){
-if(starts-with($uri, $global:app-root)) then 
-  if(contains($uri,'/keyword/')) then
-    lower-case(functx:camel-case-to-words(substring-after($uri,'/keyword/'),' '))
-  else 
-      let $doc := collection($global:data-root)//tei:TEI[.//tei:idno = concat($uri,"/tei")][1]
-      return 
-      if (exists($doc)) then
-        replace(string-join($doc/descendant::tei:fileDesc/tei:titleStmt[1]/tei:title[1]/text()[1],' '),' — ','')
-      else $uri 
-else $uri
+
+(: Syriaca.org specific function that uses the syiraca.org ODD file to establish labels for controlled values 
+ : Uses global:odd2text($element-name,$label)) for translation. 
+:)
+declare function facet:controlled-labels($results as item()*, $facet-definitions as element(facet:facet-definition)?) {
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+    let $sort := $facet-definitions/facet:order-by
+    for $f in util:eval($path)
+    group by $facet-grp := $f
+    order by 
+        if($sort/text() = 'value') then $facet-grp
+        else count($f)
+        descending
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{global:odd2text(tokenize(replace($path[1],'@|\[|\]',''),'/')[last()],string($facet-grp))}"/>    
 };
