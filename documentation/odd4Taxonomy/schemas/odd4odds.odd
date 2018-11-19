@@ -15,18 +15,23 @@
         <availability status="restricted">
           <p>Copyright 2010 Syd Bauman and Northeastern WWP; some rights reserved.</p>
           <p>This TEI-encoded ODD file is available under the terms of the <ref target="http://www.opensource.org/licenses/bsd-license.php">OSI BSD 2-clause
-                  License</ref>, to wit: <quote><p>Redistribution and use in source and derived forms, with or without
-                    modification, are permitted provided that the following conditions are met: <list><item>Redistributions of source code must retain the above copyright notice,
-                        this list of conditions, and the following disclaimer.</item><item>Redistributions in binary <note>or other derived</note> form must
+                  License</ref>, to wit: <quote>
+                            <p>Redistribution and use in source and derived forms, with or without
+                    modification, are permitted provided that the following conditions are met: <list>
+                                    <item>Redistributions of source code must retain the above copyright notice,
+                        this list of conditions, and the following disclaimer.</item>
+                                    <item>Redistributions in binary <note>or other derived</note> form must
                         reproduce the above copyright notice, this list of conditions, and the
                         following disclaimer in the documentation or other materials provided with
-                        the distribution.</item></list>
+                        the distribution.</item>
+                                </list>
                         <note>Note, however, that if you are reading a TEI
 		    ODD file (as oopposed to an XSLT program), this
 		    file <emph>is a derived form</emph>. You do much
 		    better to modify the source XSLT and re-run it with
 		    the TEI P5 source as input.</note>
-                     </p><p>This software is provided by the copyright holders and contributors
+                     </p>
+                            <p>This software is provided by the copyright holders and contributors
                       <soCalled>as is</soCalled> and any express or implied warranties, including,
                     but not limited to, the implied warranties of merchantability and fitness for a
                     particular purpose are disclaimed. In no event shall the copyright holder or
@@ -36,7 +41,8 @@
                     interruption) however caused and on any theory of liability, whether in
                     contract, strict liability, or tort (including negligence or otherwise) arising
                     in any way out of the use of this software, even if advised of the possibility
-                    of such damage.</p></quote>
+                    of such damage.</p>
+                        </quote>
                </p>
         </availability>
         <pubPlace>Boston, MA USA</pubPlace>
@@ -89,16 +95,26 @@
       </change>
       <change who="#sbauman.emt" when="2015-06-19"> Fix bug in <name>only-1-per</name> contraint
             (which was added 674 days ago — why did this bug last even 1 day?) </change>
-      <change who="#sbauman.emt" when="2015-01-24"> Changes for <soCalled>Pure ODD</soCalled>: <list><item>constrain content of <gi>content</gi>
-               </item><item>delete <ident type="class">att.global.rendition</ident> and <ident type="class">att.global.responsibility</ident>
-               </item><item>delete <att>allowText</att> (as I think TEI has decided to go with
-                  <gi>textNode</gi> instead)</item><item>require <att>key</att> of <gi>elementRef</gi>
-               </item><item>change expression of all datatypes (which happen to all be <ident type="datatype">data.enumerated</ident>) from RNG to Pure ODD</item><item>change expression of most of our content models from RNG to Pure ODD.</item></list>
+      <change who="#sbauman.emt" when="2015-01-24"> Changes for <soCalled>Pure ODD</soCalled>: <list>
+                    <item>constrain content of <gi>content</gi>
+               </item>
+                    <item>delete <ident type="class">att.global.rendition</ident> and <ident type="class">att.global.responsibility</ident>
+               </item>
+                    <item>delete <att>allowText</att> (as I think TEI has decided to go with
+                  <gi>textNode</gi> instead)</item>
+                    <item>require <att>key</att> of <gi>elementRef</gi>
+               </item>
+                    <item>change expression of all datatypes (which happen to all be <ident type="datatype">data.enumerated</ident>) from RNG to Pure ODD</item>
+                    <item>change expression of most of our content models from RNG to Pure ODD.</item>
+                </list>
          </change>
-      <change who="#sbauman.emt" when="2015-01-23"> Changes for <soCalled>Pure ODD</soCalled>: <list><item>constrain <att>key</att> of <gi>classRef</gi>, <gi>elementRef</gi>, and
+      <change who="#sbauman.emt" when="2015-01-23"> Changes for <soCalled>Pure ODD</soCalled>: <list>
+                    <item>constrain <att>key</att> of <gi>classRef</gi>, <gi>elementRef</gi>, and
                   <gi>macroRef</gi>
-               </item><item>constrain <att>include</att> and <att>except</att> of <gi>classRef</gi>, also
-                flagging an error if both are present</item></list>
+               </item>
+                    <item>constrain <att>include</att> and <att>except</att> of <gi>classRef</gi>, also
+                flagging an error if both are present</item>
+                </list>
          </change>
       <change who="#sbauman.emt" when="2015-01-22">
         <list>
@@ -193,12 +209,17 @@
       <change who="#sbauman.emt" when="2011-08-29"> constrain <att>ident</att> of
               <gi>classSpec</gi>
          </change>
-      <change who="#sbauman.emt" when="2011-08-27"> during workshop <list><item>constrain <att>start</att> of <gi>schemaSpec</gi>
-               </item><item>constrain <att>key</att> of <gi>elmentRef</gi>
-               </item><item>improve remakrs of <gi>constraint</gi> so that it correctly reflects that we
-                only permit ISO Schematron</item><item>constrain content of <gi>altIdent</gi>, unless it is a child of
+      <change who="#sbauman.emt" when="2011-08-27"> during workshop <list>
+                    <item>constrain <att>start</att> of <gi>schemaSpec</gi>
+               </item>
+                    <item>constrain <att>key</att> of <gi>elmentRef</gi>
+               </item>
+                    <item>improve remakrs of <gi>constraint</gi> so that it correctly reflects that we
+                only permit ISO Schematron</item>
+                    <item>constrain content of <gi>altIdent</gi>, unless it is a child of
                 <gi>valItem</gi>
-               </item></list>
+               </item>
+                </list>
          </change>
       <change who="#sbauman.emt" when="2011-08-25">
         <list>
@@ -280,19 +301,31 @@
         <p>We call this TEI language the <name>TEI ODD Customization for writing TEI ODD
                 Customizations</name> language, or TOCTOC for short. TOCTOC differs from <name type="file">tei_odds</name>
                <note>Available in the main TEI P5 Subversion repository
-                at Sourceforge</note> by <list><item>constraining the elements available (e.g., <gi>gap</gi> and
-                    <gi>imprimatur</gi> are not available)</item><item>requiring some otherwise optional attributes (e.g., <att>mode</att> of
+                at Sourceforge</note> by <list>
+                        <item>constraining the elements available (e.g., <gi>gap</gi> and
+                    <gi>imprimatur</gi> are not available)</item>
+                        <item>requiring some otherwise optional attributes (e.g., <att>mode</att> of
                     <gi>classes</gi>, or <att>module</att> on <gi>elementSpec</gi> unless the
-                    <att>mode</att> is specified as <val>add</val>)</item><item>limiting the content of <gi>constraint</gi> to ISO Schematron, and thus
-                  permitting validation of the Schematron therein</item><item>constraining the values of several attributes</item><item>requiring that the four required modules be imported</item><item>enforcing the mutual exclusivity of <att>url</att> and <att>key</att> of
+                    <att>mode</att> is specified as <val>add</val>)</item>
+                        <item>limiting the content of <gi>constraint</gi> to ISO Schematron, and thus
+                  permitting validation of the Schematron therein</item>
+                        <item>constraining the values of several attributes</item>
+                        <item>requiring that the four required modules be imported</item>
+                        <item>enforcing the mutual exclusivity of <att>url</att> and <att>key</att> of
                     <gi>moduleRef</gi>
-                  </item><item>enforcing the mutual exclusivity of <att>include</att> and <att>except</att>
+                  </item>
+                        <item>enforcing the mutual exclusivity of <att>include</att> and <att>except</att>
                   of <gi>moduleRef</gi>
-                  </item><item>limiting <gi>altIdent</gi> to an XML Name unless it is modifying the name of
-                  an attribute value</item><item>flagging <tag>*Spec</tag> elements that are neither in the <gi>schemaSpec</gi>
-                  nor referred to from it</item><item>warning if required elements (e.g., <gi>teiHeader</gi>) are deleted</item><item>allowing (and using) the <att>prefix</att> attribute of
+                  </item>
+                        <item>limiting <gi>altIdent</gi> to an XML Name unless it is modifying the name of
+                  an attribute value</item>
+                        <item>flagging <tag>*Spec</tag> elements that are neither in the <gi>schemaSpec</gi>
+                  nor referred to from it</item>
+                        <item>warning if required elements (e.g., <gi>teiHeader</gi>) are deleted</item>
+                        <item>allowing (and using) the <att>prefix</att> attribute of
                   <gi>moduleRef</gi>
-                  </item></list>
+                  </item>
+                    </list>
             </p>
       </div>
       <div>
@@ -1582,11 +1615,17 @@
             </attList>
             <remarks>
               <p>The content of the TOCTOC <gi>schemaSpec</gi> is somewhat more restrictive than
-                    TEI. To wit, <list><item>neither <gi>altIdent</gi> nor <gi>equiv</gi> are permitted</item><item>there can be at most one <gi>gloss</gi>, which (if present) must precede
+                    TEI. To wit, <list>
+                                    <item>neither <gi>altIdent</gi> nor <gi>equiv</gi> are permitted</item>
+                                    <item>there can be at most one <gi>gloss</gi>, which (if present) must precede
                         the <gi>desc</gi>
-                           </item><item>there must be one and only one <gi>desc</gi>
-                           </item><item>the four core modules must be included</item><item>the value of <att>start</att> requires values that are valid TEI element
-                        names</item></list>
+                           </item>
+                                    <item>there must be one and only one <gi>desc</gi>
+                           </item>
+                                    <item>the four core modules must be included</item>
+                                    <item>the value of <att>start</att> requires values that are valid TEI element
+                        names</item>
+                                </list>
                      </p>
             </remarks>
           </elementSpec>
@@ -9462,7 +9501,7 @@
                 <rng:zeroOrMore>
                   <rng:choice>
                     <rng:attribute>
-                      <rng:anyName/>
+                      <anyName xmlns="http://relaxng.org/ns/structure/1.0"/>
                     </rng:attribute>
                     <rng:ref name="anyISOSchematron"/>
                     <rng:text/>

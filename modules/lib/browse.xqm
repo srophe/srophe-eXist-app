@@ -45,6 +45,7 @@ declare function browse:get-all($node as node(), $model as map(*), $collection a
 :)
 declare function browse:show-hits($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
   let $hits := $model("hits")
+  let $facet-config := global:facet-definition-file($collection)
   return 
     (
     if($browse:view = 'map') then 
@@ -55,28 +56,37 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
     else if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then   
         browse:by-type($hits, $collection, $sort-options)
     else
-        <div class="{if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then 'col-md-8 col-md-push-4' else 'col-md-12'}" xmlns="http://www.w3.org/1999/xhtml">
+        (
+        <div class="{if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets' or not(empty($facet-config))) then 'col-md-8 col-md-push-4' else 'col-md-12'}" xmlns="http://www.w3.org/1999/xhtml">
            {( if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else(),
                 <div class="float-container">
                     <div class="{if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then "pull-left" else "pull-right paging"}">
                          {page:pages($hits, $collection, $browse:start, $browse:perpage,'', $sort-options)}
                     </div>
-                    {
+                    {(:
                     if($browse:view = ('type','date','facets','other','ܐ-ܬ','ا-ي') ) then ()
                     else browse:browse-abc-menu()
-                    }
+                    :)''}
                 </div>,
+                (:
                 <h3>{(
                     if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) 
                     else attribute class {"label"},
                     if($browse:view = ('type','date','facets','other','ܐ-ܬ','ا-ي') ) then ()
-                    else if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>,
+                    else if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>,:)  
                 <div class="results {if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
                     {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
+                    <span style="font-size: 1.25em; font-weight: 500; color: #666; margin:-1em 0 1em -.5em;">Results: {count($hits)}</span>
                     {browse:display-hits($hits)}
                 </div>
             )}
-        </div>
+        </div>,
+        if(not(empty($facet-config))) then 
+           <div class="col-md-4 col-md-pull-8" xmlns="http://www.w3.org/1999/xhtml">
+                {facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))}
+           </div>
+        else ()
+        )
     )
 };
 

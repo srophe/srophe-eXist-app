@@ -252,7 +252,7 @@ pre {
 	}
 
 /* R */
-.record {padding-top: 2em; margin:4em;}
+.record {padding-top: 2em; margin:0 4em;}
 .results {margin-top:4em;}
 .result {border-bottom:1px dotted #eee; padding-top:.5em; padding-bottom: 1em;}
 .results-list-desc {display:block;}

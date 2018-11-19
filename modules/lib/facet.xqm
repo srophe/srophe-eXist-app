@@ -192,7 +192,11 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                             concat('[',$path,'[', $facet/facet:range/facet:bucket[@name = $facet-value]/@eq ,']]')
                         else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
                     else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
-                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')                     
+                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')
+                    else if($facet/facet:group-by[@function="facet:viewable-online"]) then 
+                        "[descendant::tei:idno[@type='URI'][not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))]]"                        
+                    else if($facet/facet:group-by[@function="facet:authors"]) then
+                        concat("[descendant::tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor][normalize-space(string-join(descendant::text(),' ')) = '",$facet-value,"']]")                                         
                     else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
                 else()
         ,'')
@@ -276,7 +280,7 @@ return
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',normalize-space($facet-query))
                 let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{string($key/@label)} <span class="count"> ({string($key/@count)})</span></a> 
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{string($key/@label)} <span class="count" dir="ltr"> ({string($key/@count)})</span></a> 
                 }
             </div>
             <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
@@ -285,7 +289,7 @@ return
                 let $new-fq := 
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',$facet-query)
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{string($key/@label)} <span class="count"> ({string($key/@count)})</span></a>
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{string($key/@label)} <span class="count" dir="ltr"> ({string($key/@count)})</span></a>
                 }
             </div>
             {if($count gt ($f/@show - 1)) then 
@@ -334,4 +338,25 @@ declare function facet:controlled-labels($results as item()*, $facet-definitions
         else count($f)
         descending
     return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{global:odd2text(tokenize(replace($path[1],'@|\[|\]',''),'/')[last()],string($facet-grp))}"/>    
+};
+
+(: biblia-arabica special facet :)
+declare function facet:authors($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $sort := $facet-definitions/facet:order-by
+    for $f in $results/descendant::tei:body/tei:biblStruct/child::*/child::*[self::tei:author or self::tei:editor]
+    group by $facet-grp := string-join($f/descendant::text(),' ')
+    order by 
+        if($sort/text() = 'value') then $facet-grp
+        else count($f)
+        descending
+   return    
+        <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{normalize-space($facet-grp[1])}" label="{concat($f[1]/tei:surname,', ', $f[1]/tei:forename)}"/>   
+
+};
+
+(: biblia-arabica special facet :)
+declare function facet:viewable-online($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $r := $results[descendant::tei:idno[@type='URI'][not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|http://www.worldcat.org|https?://(www.)?(dx.)?doi.org)'))] or descendant::tei:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org|https?://(www.)?(dx.)?doi.org)'))]]
+    return 
+         <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Online"/>
 };

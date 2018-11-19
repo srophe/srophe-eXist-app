@@ -1,29 +1,35 @@
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <h1 class="banner indent top-padding ">Browse works cited by title </h1>
-    <div class="container">
-        <!-- Calls xquery functions -->
-        <div data-template="browse:get-all" data-template-collection="bibl">
-            <div class="tabbable">
-                <!-- Browse Tabs -->
+<?xml version="1.0" encoding="UTF-8"?>
+<div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <h1 class="banner">Browse works cited by title </h1>
+    <div class="main-content-block">
+        <div data-template="browse:get-all">
+            <!-- Example limits data to places collection, see example entry in repo-config.xml -->    
+            <!--        <div data-template="browse:get-all" data-template-collection="places">-->
+            <div class="tabbable"> 
+                <!-- Browse Tabs Configurable. -->
                 <ul class="nav nav-tabs" id="nametabs">
-                    <!--
-                    <li data-template="browse:tabs" data-template-text="A-Z" data-template-param="view" data-template-value="A-Z" data-template-alpha-filter-value="A" data-template-default="true"/>
-                    <li data-template="browse:tabs" data-template-text="ا-ي" data-template-param="view" data-template-value="ا-ي" data-template-alpha-filter-value="ا"/>
-                    <li data-template="browse:tabs" data-template-text="א-ת" data-template-param="view" data-template-value="א-ת"/>
-                    <li data-template="browse:tabs" data-template-text="Other" data-template-param="view" data-template-value="other"/>
+                  <!--
+                    <li>
+                        <a href="browse.html" default="default">All</a>
+                    </li>
+                    <li>
+                        <a href="browse.html?alpha-filter-value=A&element=tei:place/tei:placeName">Places</a>
+                    </li>
+                    <li>
+                        <a href="browse.html?alpha-filter-value=A&element=tei:person/tei:persName">Persons</a>
+                    </li>
+                    <li>
+                        <a href="browse.html?view=map">Map</a>
+                    </li>
                     -->
                 </ul>
                 <!-- Browse Content -->
                 <div class="tab-content">
                     <div class="tab-pane active">
                         <div class="row">
-                            <!-- <div data-template="browse:pageination" data-template-collection="bibl" data-template-sort-options="title,author,pubDate,pubPlace"/>-->
-                            <div data-template="browse:results-panel" data-template-collection="bibl" data-template-sort-options="title,author,pubDate,pubPlace"/>
-                            <!-- <div data-template="browse:pageination" data-template-collection="bibl" data-template-sort-options="title,author,pubDate,pubPlace"/>-->
-                            <div class="page-bottom">
-                                <div data-template="browse:pageination" data-template-collection="bibl"/>
-                            </div>
+                            <div data-template="browse:show-hits" data-template-sort-options="title,author,pubDate,pubPlace"/>
                         </div>
+                        <div data-template="app:pageination"/>
                     </div>
                 </div>
             </div>

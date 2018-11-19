@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- $Id: relaxng.rng 7593 2010-05-22 14:29:40Z rahtz $ -->
-<grammar 
-    xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
-    ns="http://relaxng.org/ns/structure/1.0" 
-    xmlns="http://relaxng.org/ns/structure/1.0" 
-    datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" ns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
   <define name="extrapattern">
     <optional>
       <ref name="anyDoc"/>
@@ -196,8 +192,7 @@
 </define>
 
 <define name="anyAttDoc">
-  <attribute name="defaultValue"
-	     ns="http://relaxng.org/ns/compatibility/annotations/1.0">
+  <attribute name="defaultValue" ns="http://relaxng.org/ns/compatibility/annotations/1.0">
     <text/>
   </attribute>
 </define>

@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/geo.html" data-template-at="content">
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div data-template="app:fix-links" class="record">
-        <div class="main-content-block">
+        <div class="interior-content white">
             <div data-template="app:h1"/>
-            <div data-template="app:other-data-formats" data-template-formats="print,tei,rdf,ttl,json,text"/>
             <div class="row">
-                <div class="col-md-7 col-lg-8">
-                    <div data-template="app:display-nodes" data-template-paths="descendant::tei:text"/>
+                <div class="col-md-8 column1">
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
                 </div>
-                <div class="col-md-5 col-lg-4 right-menu">
-                    <div data-template="app:display-map"/>
-                    <div data-template="app:display-timeline"/>
-                    
-                    <div data-template="app:internal-relationships" data-template-display="list-description"/>
-                    <!--<div data-template="app:internal-relationships" data-template-display="sentence"/>--> 
-                    <div data-template="app:external-relationships"/>
-                    <!-- Button trigger corrections email modal -->
-                    <button class="btn btn-default" data-toggle="modal" data-target="#feedback">Corrections/Additions?</button> 
+                <!-- Column 2 -->
+                <div class="col-md-4 column2">
+                    <!--<div data-template="app:other-data-formats" data-template-formats="print,tei,rdf"/>-->
+                    <div data-template="app:subject-headings"/>
+                    <div data-template="app:cited"/>
+                    <div data-template="app:rec-status"/>
+                    <div class="info-btns">  
+                        <!-- Button trigger corrections email modal -->
+                        <button class="btn btn-default" data-toggle="modal" data-target="#feedback">Corrections/Additions?</button> 
+                    </div>
                 </div>
-            </div>
-            <div>
-                <!-- Entry Citation information, pass TEI header to citation.xsl -->
-                <div data-template="app:display-nodes" data-template-paths="descendant::tei:teiHeader"/>
             </div>
         </div>
+        <br/>
+        <div data-template="app:about"/>
     </div>
     <!-- Modal email form-->
     <div data-template="app:contact-form"/>
+    <br/>
 </div>

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Biblia Arabica bibliography</description>
     <author>Winona Salesky</author>
@@ -17,12 +18,12 @@
         <!-- Contact email -->
         <contact>nathan.gibson@lmu.de</contact>
         <contact>ronny.vollandt@lmu.de</contact>
-        <!-- Logo name (assumes path to logo is $app-root/resources/img/) -->
+        <!-- Logo name (assumes path to logo is $app-root/resources/images/) -->
         <logo/>
         <!-- Web Site URL -->
         <url>https://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base/>
+        <nav-base>/exist/apps/ba</nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>ba</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -32,6 +33,7 @@
         <!-- Absolute (from app root) Path to ODD file used for translating controlled values. May be left blank. -->
         <!--<odd>/documentation/syriaca-tei-main.odd</odd>-->
         <odd>documentation/syriaca-tei-main.odd</odd>
+        <html-render type="xslt"/>
         <!-- xpath to unique identifier for record, syriaca.org uses tei:idno[@type='URL'], this is the default value -->
         <id-path/>
         <!-- Map rendering -->
@@ -50,7 +52,7 @@
             <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
             <collection name="bibl" title="Biblia Arabica" app-root="/" data-root="/" record-URI-pattern="https://biblia-arabica.com/bibl/"/>
           </collections>  
-        <!-- 
+        <!--  
     <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
         (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';

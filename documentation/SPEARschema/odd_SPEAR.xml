@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="schemas/odd4odds.rnc" type="application/relax-ng-compact-syntax"?>
-<?xml-model href="schemas/odd4odds.isosch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-  xml:lang="en">
+<?xml-model href="schemas/odd4odds.rnc" type="application/relax-ng-compact-syntax"?><?xml-model href="schemas/odd4odds.isosch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
       <titleStmt>
         <title>SPEAR ODD</title>
-        <author><persName ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
-            Schwartz</persName></author>
+        <author>
+                    <persName ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
+            Schwartz</persName>
+                </author>
       </titleStmt>
       <publicationStmt>
         <publisher>Syriaca.org: The Syriac Reference Portal</publisher>
@@ -40,13 +40,11 @@
 
       <schemaSpec ident="SPEAR" source="tei:current" start="TEI">
 
-        <moduleRef key="core"
-          include="author bibl biblScope choice citedRange corr date desc editor name note num orig p ptr publisher pubPlace ref reg resp respStmt sic title"/>
+        <moduleRef key="core" include="author bibl biblScope choice citedRange corr date desc editor name note num orig p ptr publisher pubPlace ref reg resp respStmt sic title"/>
         <moduleRef key="tei"/>
         <moduleRef key="header"/>
         <moduleRef key="textstructure" include="back body div TEI text"/>
-        <moduleRef key="namesdates"
-          include="birth death education event langKnowledge langKnown listEvent listPerson listRelation nationality occupation orgName persName person personGrp placeName relation residence sex socecStatus state trait"/>
+        <moduleRef key="namesdates" include="birth death education event langKnowledge langKnown listEvent listPerson listRelation nationality occupation orgName persName person personGrp placeName relation residence sex socecStatus state trait"/>
 
         <classSpec ident="att.global" type="atts" mode="change" module="tei">
           <attList>
@@ -662,19 +660,19 @@
           <alternate>
               <sequence preserveOrder="true">
                 <elementRef key="listPerson" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded" />
+                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
                 <elementRef key="note" minOccurs="0" maxOccurs="1"/>
               </sequence>
             
               <sequence preserveOrder="true">
                 <elementRef key="listEvent" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded" />
+                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
                 <elementRef key="note" minOccurs="0" maxOccurs="1"/>
               </sequence>
             
               <sequence preserveOrder="true">
                 <elementRef key="listRelation" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded" />
+                <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
                 <elementRef key="note" minOccurs="0" maxOccurs="1"/>
               </sequence>
             </alternate>
@@ -883,7 +881,7 @@
                   comment (following Assemmani). In the manuscript section 13 refers to the year 636 A. Gr. 
                   while section 14 refers to 635 A. Gr. But, they refer to the same events. Moreover, section 15 
                   of the Chronicle says that in the next year, 325 C. E., the council of Nicaea took place. 
-                  While there is no comment in the English footnotes, Hallier discusses the issues. -->
+                  While there is no comment in the English footnotes, Hallier discusses the issues. --&gt;
                   <bibl type="secondary">
                     <ptr target="http://syriaca.org/bibl/660"/>
                     <citedRange unit="pp">94-95</citedRange>
@@ -1124,7 +1122,7 @@
                 <dataRef key="teidata.enumerated"/>
               </datatype>
               <valList type="closed"><!-- I need to include a brief description. -->
-                <valItem ident="event"></valItem>
+                <valItem ident="event"/>
               </valList>
             </attDef>
             <attDef ident="mutual" mode="change" usage="opt">
@@ -1321,7 +1319,8 @@
                   <person>
                     <persName ref="http://syriaca.org/person/2669"/>
                     <sex value="F">
-                      <note type="desc"><persName ref="http://syriaca.org/person/2669">Jannia</persName> was female.</note>
+                      <note type="desc">
+                                                <persName ref="http://syriaca.org/person/2669">Jannia</persName> was female.</note>
                     </sex>
                   </person>
                 </listPerson>
@@ -1338,7 +1337,8 @@
                   <person>
                     <persName ref="http://syriaca.org/person/2530"/>
                     <sex value="M">
-                      <note type="desc"><persName ref="http://syriaca.org/person/2530">Flavian</persName> was male.</note>
+                      <note type="desc">
+                                                <persName ref="http://syriaca.org/person/2530">Flavian</persName> was male.</note>
                     </sex>
                   </person>
                 </listPerson>
@@ -1587,7 +1587,8 @@
                   <person>
                     <persName ref="http://syriaca.org/person/2558"/>
                     <occupation ref="http://syriaca.org/keyword/chamberlain">
-                      <note type="desc"><persName ref="http://syriaca.org/person/2558">Misael</persName> was a chamberlain.</note>
+                      <note type="desc">
+                                                <persName ref="http://syriaca.org/person/2558">Misael</persName> was a chamberlain.</note>
                     </occupation>
                   </person>
                 </listPerson>
@@ -1635,7 +1636,7 @@
         
         <elementSpec ident="langKnown" module="namesdates" mode="replace">
           <attList>
-            <attDef ident="tag" mode="delete"></attDef>
+            <attDef ident="tag" mode="delete"/>
               <attDef ident="ref" mode="add" usage="req"><!-- Modify this to populate only language options from the keyword list. -->
               <datatype minOccurs="1">
                 <dataRef key="teidata.pointer"/>
@@ -1695,7 +1696,8 @@
                   <person>
                     <persName ref="http://syriaca.org/person/3119"/>
                     <socecStatus ref="http://syriaca.org/keyword/consul">
-                      <note type="desc"><persName ref="http://syriaca.org/person/3119">Anonymous 3119</persName> was of consular rank.</note>
+                      <note type="desc">
+                                                <persName ref="http://syriaca.org/person/3119">Anonymous 3119</persName> was of consular rank.</note>
                     </socecStatus>
                   </person>
                 </listPerson>
@@ -1715,7 +1717,7 @@
             <elementRef key="note" minOccurs="1" maxOccurs="1"/>
           </content>
           <attList>
-            <attDef ident="type" mode="add" usage="req" >
+            <attDef ident="type" mode="add" usage="req">
               <datatype minOccurs="1" maxOccurs="1">
                 <dataRef key="teidata.enumerated"/>
               </datatype>
@@ -1744,7 +1746,8 @@
                   <person>
                     <persName ref="http://syriaca.org/person/3218"/>
                     <trait type="ethnicLabel" ref="http://syriaca.org/keyword/syrian">
-                      <note type="desc"><persName ref="http://syriaca.org/person/3218">John Urtaya</persName> was Syrian.</note>
+                      <note type="desc">
+                                                <persName ref="http://syriaca.org/person/3218">John Urtaya</persName> was Syrian.</note>
                     </trait>
                   </person>
                 </listPerson>
@@ -1789,7 +1792,7 @@
                 <dataRef key="teidata.pointer"/>
               </datatype>
             </attDef>
-            <attDef ident="type" mode="add" usage="req" >
+            <attDef ident="type" mode="add" usage="req">
               <datatype minOccurs="1" maxOccurs="1">
                 <dataRef key="teidata.enumerated"/>
               </datatype>
@@ -1821,7 +1824,8 @@
                   <person>
                     <persName ref="http://syriaca.org/person/958"/>
                     <state type="sanctity" ref="http://syriaca.org/keyword/martyr">
-                      <note type="desc"><persName ref="http://syriaca.org/person/958">Eusebius</persName> was a martyr.</note>
+                      <note type="desc">
+                                                <persName ref="http://syriaca.org/person/958">Eusebius</persName> was a martyr.</note>
                     </state>
                   </person>
                 </listPerson>

@@ -1,5 +1,5 @@
 xquery version "3.1";
-(:~      
+(:~       
  : Main application module for Srophe software. 
  : Output TEI to HTML via eXist-db templating system. 
  : Add your own custom modules at the end of the file. 
@@ -51,7 +51,7 @@ declare function app:get-work($node as node(), $model as map(*)) {
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
-                ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml'))
+                ('No record found. ',request:get-parameter('id', ''))
                 (: Debugging ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml')):)
                (:response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html'))):)
             else map {"hits" := $rec }
@@ -109,7 +109,7 @@ function app:google-analytics($node as node(), $model as map(*)){
   $config:get-config//google_analytics/text()
 };
 
-(:~  
+(:~   
  : Display any TEI nodes passed to the function via the paths parameter
  : Used by templating module, defaults to tei:body if no nodes are passed. 
  : @param $paths comma separated list of xpaths for display. Passed from html page  

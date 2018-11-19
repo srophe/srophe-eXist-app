@@ -1,7 +1,10 @@
-/* Application styles could go here */
 /**
  * Colors: 
- * Bllue: 456889
+ * Background Green: #009440
+ * Button: #33A966, hover #007633
+ * Button Border: #5CBA85, hover #005E29
+ * active pagination background: #007633
+ * inactive pagination font color: #33A966
  */
 
 /* Draft ribbon, dev only */
@@ -49,15 +52,85 @@
    z-index: 1500;
 }
    
+a, a:hover {color:#009440;}
+
 /* Main content blocks */
-body {background-color:#385978;}
+body {font-family: verdana, arial, sans-serif; background-color:#009440;}
 #main { padding: 0; background-color:#999; }
 #content{background-color:white; padding-top: 50px;}
 .main-content-block {padding:2em 2em; background-color:white;}
+.container{width:95%; padding:0;}
 
 /* Adds a little extra padding around interior content, useful when for when nav wraps. */
 .interior-content {padding:0; padding-top: 50px;}
 .full-page {margin-top:0;}
+
+/* Navbar styles*/
+.navbar {border-bottom:4px solid  !important; background-color:#fff;}
+.navbar-inner {border-bottom:.5em solid #009440 !important;}
+.navbar-inner .container{height: 45px !important; padding-top:.5em; margin-left:.5em;}
+.navbar-brand, .navbar-brand a, .navbar-brand a:hover {margin-top:.15em; padding-left:0; margin-left:0; margin-right:-2em; color: #009440 !important;}
+.navbar-brand img {padding:0; margin:0; }
+.brand {margin-top:-.75em; margin-left:40px;padding-left:0;}
+.brand img {margin-left:1.5em;padding-left:0;}
+.navbar-inner .nav > li > a:hover, .advanced-search > a:hover {
+        border-bottom: 4px solid #DDEAF1 !important;  
+}.banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
+.navbar-inner > .container > .nav > li.selected {border-bottom: 4px solid #E69849 !important; }
+.advanced-search > a {color:#999; text-decoration:none;}
+.navbar .advanced-search{margin-top:-.5em;}
+.navbar-form {overflow:hidden;}
+.keboard-btn {margin-left:-1em;}
+.navbar-input-group {
+  font-size: 0px; /*removes whitespace between button and input*/
+}
+
+/*.navbar-form {max-width: 350px;}*/
+/* Nav submenus*/
+.dropdown-submenu {position: relative;}
+.dropdown-submenu > .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+}
+.dropdown-submenu:hover > .dropdown-menu {
+  display: block;
+}
+.dropdown-submenu:hover > a:after {
+  border-left-color: #fff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left > .dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+}
+
+/* Nav bar icons for submodules */
+.dropdown-menu li a{margin-left:.5em;}
+
+/* Used for dropdowns next to syriaca.org icon, so both icon and caret are "clickable" */
+.lonely-caret {margin-left:-2em; padding-left:0;}
+
+.nav-icons {
+    background-position: left center;
+    background-repeat: no-repeat;
+    text-indent:14px;
+}
+
+.sub-menu .nav-icons{margin-left:2em;}
+.icon-container {display:inline-block; line-height:1.5em;}
+.submodule {margin-left:.75em;}
+.icon-nav {font-size:1.75em; display:inline-block; margin-right:.15em;}
+.icon-text {display:inline-block; margin-top:-.85em; vertical-align: middle; font-weight:500;}
+.nav-text {display:inline-block; line-height:1.5em; margin-top:.25em;}
+
+ /*
+ * font-family: Tahoma, Geneva, sans-serif;
+ */
+.banner-text {color: #009440; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
 
 /* Small Syrica.org icons images for submodules in nav menus */
 .geo-sm-icon {background-image: url(../images/icons-geo-sm.png);}
@@ -69,15 +142,11 @@ body {background-color:#385978;}
 .bhse-sm-icon {background-image: url(../images/icons-bhse-sm.png);}
 .nhsl-sm-icon {background-image: url(../images/icons-nhsl-sm.png);}
 .q-sm-icon {background-image: url(../images/icons-q-sm.png);}
-.syriaca-sm-icon {background-image: url(../images/icons-syriaca-sm.png);}
+.syriaca-sm-icon {background-image: url(../images/icons-ba-sm.png);}
 .rec-status {display:block; width:100% !important; margin-bottom:1em; padding:1em;}
 .info-btns {width:100%; margin-bottom:1em;}
 
 /* Banner styles index page (Colors and images are set by internal css for submodules) */
-.banner {font-size: 24px; color:white; background-color:#456889; margin:0 0 1em 0; padding:.5em 1em;; border-bottom:4px solid #456889;}
-.banner-container {display:inline-block; line-height:2.5em;}
-.banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
-.banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .banner-index {
     position:relative;
     margin-top:0;
@@ -88,6 +157,25 @@ body {background-color:#385978;}
 	height:200px;
     width:100%;
 }
+
+.ba-home {
+    height:300px; 
+    background-color:#009440; 
+    display:block;
+}
+.ba-home .image-container {display:inline-block; width:25%; height:300px;}
+.ba-home .image {
+    position:relative;
+    padding-top:0;
+	background-image:url('../images/bibl-home.png');
+	background-size:cover;
+	background-repeat: no-repeat;
+	background-position:top;
+    height:300px;
+    width:100%;
+	}
+.ba-home .text {display:inline-block; width:75%; height:300px; overflow:hidden;}
+
 /* Bibl banner*/
 .banner-bibl {
     position:relative;
@@ -98,8 +186,11 @@ body {background-color:#385978;}
 	background-position:top;
     height:250px;
     width:100%;
-    border-bottom:4px solid #456889;
-} 
+    border-bottom:4px solid #009440;
+}
+
+.banner-container {line-height:2.5em;}
+   
 /* Bibl banner*/
 .banner-bible {
     position:relative;
@@ -110,8 +201,9 @@ body {background-color:#385978;}
 	background-position:top;
     height:250px;
     width:100%;
-    border-bottom:4px solid #456889;
+    border-bottom:4px solid #009440;
 }
+
 .overlay {
     font-weight:200;
     background: rgb(34,34,34); /* for IE */
@@ -124,16 +216,9 @@ body {background-color:#385978;}
 }
 /* Banner styles banner internal pages */
 .banner-interior, .image-banner {
-    position:relative;
-    padding-top:0;
-    border-bottom:4px solid #456889;
-	background-image:url('../images/resafa_arch.jpg');
-	background-size:cover;
-	background-position:center;
-	height:150px;
-    width:100%;
-    overflow-x: hidden; 
+    border-bottom:4px solid #009440;
 } 
+
 /* Image citation styles */
 .img-credit{
     position:absolute;
@@ -152,8 +237,10 @@ body {background-color:#385978;}
     box-decoration-break: clone;
 }
 
+
 /* Footer styles */
-footer {text-align:center; color:white;}
+footer {border:none;}
+footer, footer a, footer a:hover {text-align:center; color:#fff !important; background-color: #009440;}
 
 /* Simple background color styles */
 .grey {background-color:#eee;}
@@ -162,14 +249,17 @@ footer {text-align:center; color:white;}
 
 /* Block styles */
 .content-block {background-color:#ffffff !important;}
+.top-padding {margin-top:2em;}
 .block {display:block;}
+.banner {font-size: 24px; color:white; background-color:#009440; margin:0 0 1em 0; padding: 1em 1.5em .5em 1.5em; border-bottom:4px solid #009440;}
 
 /* Typography */
-h1 {font-size:1.5em; margin:.25em 0 .25em 0; color:#456889; font-weight:500;}
-h2 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; color:#999; font-weight:500;}
-h3 {font-size: 1.2em; margin:1em 0 .25em 0; padding-bottom:0; color:#333; font-weight:500;  padding-bottom:0; margin-bottom:1em;}
+h1,h2,h3,h4,h5 {color:#333; font-family:Lato, verdana, arial, sans-serif;}
+h1 {font-size:2em; margin:.25em 0 .25em 0; font-weight:500;}
+h2 {font-size: 1.5em; margin:1em 0 .25em 0; padding-bottom:0; font-weight:500;}
+h3 {font-size: 1.25em; margin:1em 0 .25em 0; padding-bottom:0; font-weight:500;  padding-bottom:0; margin-bottom:1em;}
 h3.banner-solid {color:white;}
-h3.underline {color:#999; border-bottom:3px solid #456889; padding-bottom:-.75em; margin-bottom:1em; margin-top:0;}
+h3.underline {color:#999; border-bottom:3px solid #009440; padding-bottom:-.75em; margin-bottom:1em; margin-top:0;}
 h4 {font-size: 1em; margin:0 0 .25em 0; padding-bottom:0; font-weight:bold;}
 h3.label {
     background-color:#ccc;
@@ -198,6 +288,23 @@ h4 {font-size: 1em; margin-top:1em;}
     
 }
 
+/* Table styles*/
+table {width:98% !important;border-collapse:collapse; font-size:1em; margin-top:1.5em;}
+th {
+    vertical-align:top;
+    padding-bottom:.25em;
+    padding-top:.25em;
+    padding-left:.5em;
+    padding-right:.5em;
+}
+td {
+    vertical-align:top;
+    padding-bottom:.75em;
+    padding-top:.75em;
+    padding-left:.5em;
+    padding-right:1.25em;
+}
+
 /* Lables */
 .get-syriac {font-size:.55em; margin-left:1em;vertical-align:super;font-weight:normal; color: rgb(0,136,204);display:none}
 .rel-label {font-size:1.05em; background-color:none; color:#666; font-weight:500; margin:0; padding:0;}
@@ -220,14 +327,16 @@ h4 {font-size: 1em; margin-top:1em;}
 .well-white {background-color:white;}
 .section {background-color:white; margin:0 2em;}
 .left-padding{padding-left:1em;}
+.top-padding{padding-top:1em;}
 .right-padding{padding-right:1em;}
 .bottom-padding{padding-bottom:1em;}
+.indent{padding-left:1em;}
+/*.section ul {padding-left:0;}*/
 .section.type ul {padding-left:0;}
 
 /* Browse page styles */
 .syr-list{padding-right:7em; padding-top:0; text-align: right;}
 .en-list{padding-left:6em; padding-top:0;}
-.alpha-pages {margin-top:-1.85em;}
 .nav-stacked > .active > a,
     .nav-stacked > .active > a:hover {
       color: #000;
@@ -436,7 +545,7 @@ h4 {font-size: 1em; margin-top:1em;}
 .search-header {margin-bottom: 1em;}
 .search-inner {margin-top:2em;}
 .search-results {margin-top:1em;}
-#search-results {border-top: 1px solid #eee; margin-top:1em; margin-bottom:1em;}
+#search-results {margin-top:1em; margin-bottom:1em;}
 .search-button {clear:both; margin:-3em 1em 1em 1em;}
 .well .search-button {clear:both; margin:-1em 1em 1em 1em;}
 /* Transparent styles for search box on home pages */
@@ -484,6 +593,27 @@ h4 {font-size: 1em; margin-top:1em;}
 }
 .has-spinner.btn-large.active .spinner {
     width: 19px;
+}
+
+
+.btn-info {
+    background-color: #33A966;
+    border-color: #5CBA85;
+}
+
+.btn-info:hover, 
+.pagination > .active > a,
+.pagination > .active > a:hover {
+    background-color: #007633;
+    border-color: #005E29;
+}
+
+.pagination > li > a {
+    color: #33A966;
+}
+
+.pagination > li > a:hover {
+    color: #007633;
 }
 
 #toggle-relation {display:none;}
@@ -562,6 +692,79 @@ select.keyboardSelect {display:none;}
 .jump-menu {margin:1em;}
 .jump-menu .jump {margin-right:1em;}
 
+.related-subject {display:block !important;}
+
 button.bibl-show {margin: .5em -1em;}
 .slide {font-weight:400;}
 .more-info a {font-weight:600; color:white;}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Special styles for small screens */
+@media screen and (max-width: 480px) {
+.navbar-collapse, .dropdown-menu {float:none; width:100% !important;}
+.navbar-nav li {width:100% !important; float:none;}
+.mobile-submenu {
+    display: block;
+    float:left;
+    margin-left:3em;
+    }
+.caret {float:left; margin-left:.5em; margin-top:.5em;}    
+}

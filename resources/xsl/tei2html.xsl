@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
@@ -280,19 +281,55 @@
             <xsl:when test="parent::t:body">
                 <div class="well preferred-citation">
                     <h4>Preferred Citation</h4>
-                    <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                    <xsl:choose>
+                        <xsl:when test="following-sibling::t:bibl[@type='formatted']">
+                            <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </div>
+                
+                <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                    <h3>View at: </h3>
+                    <div class="section indent">    
+                        <xsl:for-each select="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                            <xsl:variable name="linkID" select="."/>
+                            <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
+                            <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
+                            </a>  
+                        </xsl:for-each>
+                        <xsl:for-each select="descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                            <xsl:variable name="linkID" select="string(.)"/>
+                            <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
+                            <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
+                            </a>  
+                        </xsl:for-each>
+                    </div>
+                </xsl:if>
+                <xsl:if test="//t:note[@type='abstract']">
+                    <h3>Abstract</h3>
+                    <div class="section indent">
+                        <xsl:apply-templates select="//t:note[@type='abstract']"/>
+                    </div>
+                </xsl:if>
                 <h3>Full Citation Information</h3>
                 <div class="section indent">
-                    <xsl:apply-templates mode="full"/>
+                    <xsl:apply-templates select="*[not(self::t:note[@type= ('tag','abstract')])]" mode="full"/>
                 </div>
             </xsl:when>
             <xsl:otherwise>
-                <span class="section indent">
+                <span class="citation">
                     <xsl:apply-templates mode="footnote"/>
                 </span>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+    <xsl:template match="t:listRelation | t:bibl[parent::t:body] ">
+        <!--<xsl:apply-templates/>-->
     </xsl:template>
     
     <!-- C -->
@@ -497,7 +534,9 @@
                         <xsl:sort collation="{$languages}" select="if (contains(@xml:lang, '-')=true()) then substring-before(@xml:lang, '-') else @xml:lang"/>
                         <xsl:for-each select="current-group()">
                             <xsl:sort lang="{current-grouping-key()}" select="normalize-space(.)"/>
-                            <li><xsl:apply-templates select="."/></li>
+                            <li>
+                                <xsl:apply-templates select="."/>
+                            </li>
                         </xsl:for-each>
                     </xsl:for-each-group>
                 </ul>
@@ -770,11 +809,14 @@
         <!-- Events -->
         <xsl:if test="t:event[not(@type='attestation')]">
             <div id="event">
-                <h3>Event<xsl:if test="count(t:event[not(@type='attestation')]) &gt; 1">s</xsl:if></h3>
+                <h3>Event<xsl:if test="count(t:event[not(@type='attestation')]) &gt; 1">s</xsl:if>
+                </h3>
                 <ul class="tei-events">
                     <xsl:for-each select="t:event[not(@type='attestation')]">
                         <xsl:sort select="if(exists(@notBefore)) then @notBefore else @when"/>
-                        <li><xsl:apply-templates select="."/></li>
+                        <li>
+                            <xsl:apply-templates select="."/>
+                        </li>
                     </xsl:for-each>
                 </ul>
             </div>
@@ -783,12 +825,17 @@
         <!-- Events/attestation -->
         <xsl:if test="t:event[@type='attestation']">
             <div id="attestation">
-                <h3>Attestation<xsl:if test="count(t:event[@type='attestation']) &gt; 1">s</xsl:if></h3>
+                <h3>Attestation<xsl:if test="count(t:event[@type='attestation']) &gt; 1">s</xsl:if>
+                </h3>
                 <ul>
                     <!-- Sorts events on dates, checks first for @notBefore and if not present, uses @when -->
                     <xsl:for-each select="t:event[@type='attestation']">
                         <xsl:sort select="if(exists(@notBefore)) then @notBefore else @when"/>
-                        <li><span class="tei-event"><xsl:apply-templates select="."/></span></li>
+                        <li>
+                            <span class="tei-event">
+                                <xsl:apply-templates select="."/>
+                            </span>
+                        </li>
                     </xsl:for-each>
                 </ul>
             </div>
@@ -972,7 +1019,8 @@
                     <!-- write out the placename itself, with appropriate language and directionality indicia -->
                     <span class="tei-{local-name(.)}">
                         <xsl:sequence select="local:attributes(.)"/>
-                        <!--<xsl:apply-templates select="." mode="plain"/>--><xsl:value-of select="normalize-space(.)"/>
+                        <!--<xsl:apply-templates select="." mode="plain"/>-->
+                        <xsl:value-of select="normalize-space(.)"/>
                     </span>
                     <xsl:sequence select="local:add-footnotes(@source,ancestor::t:*[@xml:lang][1])"/>
                 </li>

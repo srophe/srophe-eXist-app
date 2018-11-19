@@ -24,7 +24,7 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 :)
 declare
     %rest:GET
-    %rest:path("/srophe/api/geo/json")
+    %rest:path("/ba/api/geo/json")
     %rest:query-param("type", "{$type}", "")
     %rest:query-param("collection", "{$collection}", "")
 function api:coordinates($type as xs:string*, $collection as xs:string*) {
@@ -39,7 +39,7 @@ function api:coordinates($type as xs:string*, $collection as xs:string*) {
 :)
 declare
     %rest:GET
-    %rest:path("/srophe/api/geo/kml")
+    %rest:path("/ba/api/geo/kml")
     %rest:query-param("type", "{$type}", "")
     %rest:query-param("collection", "{$collection}", "")
 function api:kml-coordinates($type as xs:string*, $collection as xs:string*) {
@@ -56,7 +56,7 @@ function api:kml-coordinates($type as xs:string*, $collection as xs:string*) {
 :)
 declare
     %rest:GET
-    %rest:path("/srophe/api/search/{$element}")
+    %rest:path("/ba/api/search/{$element}")
     %rest:query-param("q", "{$q}", "")
     %rest:query-param("collection", "{$collection}", "")
     %rest:query-param("lang", "{$lang}", "")
@@ -134,7 +134,7 @@ function api:search-element($element as xs:string?, $q as xs:string*, $collectio
 :)
 declare
     %rest:GET
-    %rest:path("/srophe/api/data")
+    %rest:path("/ba/api/data")
     %rest:query-param("collection", "{$collection}", "")
     %rest:query-param("format", "{$format}", "")
     %rest:query-param("start", "{$start}", 1)
@@ -158,7 +158,7 @@ function api:data-dump(
 :)
 declare
     %rest:POST('{$data}')
-    %rest:path('/srophe/api/data/serialize')
+    %rest:path('/ba/api/data/serialize')
     %rest:header-param("Content-Type", "{$content-type}")
 function api:data-serialize($data as item()*, $content-type as item()*) {
    cntneg:content-negotiation-restxq($data, $content-type,())

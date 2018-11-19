@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="schemas/odd4odds.rnc" type="application/relax-ng-compact-syntax"?>
-<?xml-model href="schemas/odd4odds.isosch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-  xml:lang="en">
+<?xml-model href="schemas/odd4odds.rnc" type="application/relax-ng-compact-syntax"?><?xml-model href="schemas/odd4odds.isosch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xml:lang="en">
   <teiHeader>
     <fileDesc>
       <titleStmt>
         <title>Taxonomy ODD</title>
-        <author><persName ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
-            Schwartz</persName></author>
+        <author>
+                    <persName ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
+            Schwartz</persName>
+                </author>
       </titleStmt>
       <publicationStmt>
         <publisher>Syriaca.org: The Syriac Reference Portal</publisher>
@@ -39,8 +39,7 @@
         <moduleRef key="header"/>
         <moduleRef key="textstructure" include="body TEI text"/>
         <moduleRef key="dictionaries" include="entryFree"/>
-        <moduleRef key="namesdates"
-          include="relation listRelation"/>
+        <moduleRef key="namesdates" include="relation listRelation"/>
         
         <elementSpec ident="term" mode="change" module="core">
           <attList>

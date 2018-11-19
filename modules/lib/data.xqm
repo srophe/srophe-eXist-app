@@ -81,7 +81,7 @@ declare function data:element($element as xs:string?) as xs:string?{
     if(request:get-parameter('element', '') != '') then 
         request:get-parameter('element', '') 
     else if($element) then $element        
-    else "tei:titleStmt/tei:title[@level='a']"  
+    else "tei:titleStmt/tei:title[1]"  
 };
 
 (:~
@@ -199,12 +199,19 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
         else 
             for $hit in $hits
             let $root := $hit/ancestor-or-self::tei:TEI
+            let $sort := if(request:get-parameter('sort-element', '') != '') then global:build-sort-string(data:add-sort-options($root, request:get-parameter('sort-element', '')),'')
+                         else global:build-sort-string($hit,'') 
+            order by $sort  collation "http://www.w3.org/2013/collation/UCA"
+            where $hit != ''
+            return <browse xmlns="http://www.tei-c.org/ns/1.0" sort="{$sort}">{$root}</browse>
+        (:
+            for $hit in $hits
+            let $root := $hit/ancestor-or-self::tei:TEI
             let $sort := global:build-sort-string($hit,'')
-            (:let $id := $root/descendant::tei:publicationStmt/tei:idno[1]
-              group by $facet-grp := $id:)
             order by $sort collation 'http://www.w3.org/2013/collation/UCA'
             where matches($sort,global:get-alpha-filter())
-            return <browse xmlns="http://www.tei-c.org/ns/1.0" sort="{$sort}">{$root}</browse>            
+            return <browse xmlns="http://www.tei-c.org/ns/1.0" sort="{$sort}">{$root}</browse>  
+            :)
 };
 
 (:~
@@ -271,18 +278,18 @@ declare function data:add-sort-options($hit, $sort-option as xs:string*){
         if($sort-option = 'title') then 
            $hit/descendant::tei:titleStmt/tei:title[1]
         else if($sort-option = 'author') then 
-            if($hit/descendant::tei:titleStmt/tei:author[1]) then 
-                if($hit/descendant::tei:titleStmt/tei:author[1]/descendant-or-self::tei:surname) then 
-                    $hit/descendant::tei:titleStmt/tei:author[1]/descendant-or-self::tei:surname[1]
+            if($hit/descendant::tei:author[1]) then 
+                if($hit/descendant::tei:author[1]/descendant-or-self::tei:surname) then 
+                    $hit/descendant::tei:author[1]/descendant-or-self::tei:surname[1]
                 else $hit//descendant::tei:author[1]
             else 
-                if($hit/descendant::tei:titleStmt/tei:editor[1]/descendant-or-self::tei:surname) then 
-                    $hit/descendant::tei:titleStmt/tei:editor[1]/descendant-or-self::tei:surname[1]
-                else $hit/descendant::tei:titleStmt/tei:editor[1]
+                if($hit/descendant::tei:editor[1]/descendant-or-self::tei:surname) then 
+                    $hit/descendant::tei:editor[1]/descendant-or-self::tei:surname[1]
+                else $hit/descendant::tei:editor[1]
         else if($sort-option = 'pubDate') then 
-            $hit/descendant::tei:teiHeader/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            $hit/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
         else if($sort-option = 'pubPlace') then 
-            $hit/descendant::tei:teiHeader/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            $hit/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
         else if($sort-option = 'persDate') then
             if($hit/descendant::tei:birth) then xs:date($hit/descendant::tei:birth/@syriaca-computed-start)
             else if($hit/descendant::tei:death) then xs:date($hit/descendant::tei:death/@syriaca-computed-start)
