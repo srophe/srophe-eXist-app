@@ -35,12 +35,16 @@ declare variable $search:perpage {request:get-parameter('perpage', 20) cast as x
  data:search($collection)
 :)
 declare %templates:wrap function search:search-data($node as node(), $model as map(*), $collection as xs:string?){
-    let $search-string := 
+    let $search-string := bibls:query-string()
+    (:
         if($collection = 'bibl') then bibls:query-string()
         else ()
-    let $queryExpr :=  
+    :)        
+    let $queryExpr :=  bibls:query-string()
+    (:
         if($collection = 'bibl') then bibls:query-string()
-        else data:create-query($collection)                    
+        else data:create-query($collection)     
+        :)
     return
         if(empty($queryExpr) or $queryExpr = "" or empty(request:get-parameter-names())) then ()
         else 
