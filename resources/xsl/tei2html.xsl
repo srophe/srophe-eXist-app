@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
@@ -141,6 +140,9 @@
     <!-- B -->
     <!-- suppress bibl in title mode -->
     <xsl:template match="t:bibl" mode="title"/>
+    <xsl:template match="t:bibl" mode="pre-formatted">
+        <xsl:apply-templates select="node()" mode="pre-formatted"/>
+    </xsl:template>
     <xsl:template match="t:bibl">
         <xsl:choose>
             <xsl:when test="@type !=('lawd:ConceptualWork','lawd:Citation')">
@@ -310,6 +312,7 @@
                         </xsl:for-each>
                     </div>
                 </xsl:if>
+                
                 <xsl:if test="//t:note[@type='abstract']">
                     <h3>Abstract</h3>
                     <div class="section indent">
@@ -1365,6 +1368,11 @@
         </xsl:if>
     </xsl:template>
    
+    <xsl:template match="t:title[@level='m']" mode="pre-formatted">
+        <span class="title-monographic">
+            <xsl:value-of select="."/>
+        </span>
+    </xsl:template>
     <xsl:template match="t:title">
         <xsl:choose>
             <xsl:when test="@ref">
@@ -1382,6 +1390,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
     <!-- S -->
     <!-- Template to print out confession section -->
     <xsl:template match="t:state[@type='confession']">
