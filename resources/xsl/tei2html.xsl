@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -631,6 +631,10 @@
         <xsl:if test="t:gloss">
             <h3>Gloss</h3>
             <div class="indent">
+                <xsl:for-each select="t:gloss">
+                    <xsl:apply-templates/>
+                </xsl:for-each>
+                <!--
                 <xsl:for-each-group select="t:gloss" group-by="@xml:lang">
                     <xsl:sort select="current-grouping-key()"/>
                     <h4>
@@ -642,7 +646,9 @@
                             <xsl:text>, </xsl:text>
                         </xsl:if>
                     </xsl:for-each>
-                </xsl:for-each-group>                
+                </xsl:for-each-group> 
+                -->
+                <p></p>
             </div>
         </xsl:if>
         
