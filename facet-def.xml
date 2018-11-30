@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <facets xmlns="http://expath.org/ns/facet">
     <facet-definition name="Language">
         <range type="xs:string">
@@ -11,84 +10,84 @@
             <sub-path>descendant::tei:titleStmt/tei:title[1]</sub-path>
         </group-by>
         <max-values show="5">25</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Biblical Parts">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="part"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Biblical Sections">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="section"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Biblical Books">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="book"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Subjects">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="subject"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Authors/Contributors">
         <group-by function="facet:authors">
             <sub-path>descendant::tei:biblStruct/descendant::tei:surname</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Manuscript Location">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:settlement</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Manuscript Collection">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:collection</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Manuscript Shelfmark">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Translator">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="translator"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Source Language">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="source"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Community of Origin">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="provenance"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Publication Date">
         <range type="xs:year">
@@ -118,6 +117,6 @@
             <sub-path>/</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="ascending">count</order-by>
+        <order-by direction="descending">count</order-by>
     </facet-definition>
 </facets>
