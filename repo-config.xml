@@ -23,7 +23,7 @@
         <!-- Web Site URL -->
         <url>https://biblia-arabica.com/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/ba</nav-base>
+        <nav-base></nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>ba</app-root>
         <!-- eXist data app root for gazetteer data -->
