@@ -630,10 +630,8 @@
         
         <xsl:if test="t:gloss">
             <h3>Gloss</h3>
-            <div class="indent">
-                <xsl:for-each select="t:gloss">
-                    <xsl:apply-templates/>
-                </xsl:for-each>
+            <div class="indent"><xsl:apply-templates select="t:gloss"/>
+                
                 <!--
                 <xsl:for-each-group select="t:gloss" group-by="@xml:lang">
                     <xsl:sort select="current-grouping-key()"/>
