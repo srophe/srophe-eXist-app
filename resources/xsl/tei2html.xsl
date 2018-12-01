@@ -628,7 +628,7 @@
             </xsl:for-each>
         </xsl:if>
         
-        <xsl:if test="t:gloss">
+        <xsl:if test="t:gloss and string-length(t:gloss//text()) != 0">
             <h3>Gloss</h3>
             <div class="indent"><xsl:apply-templates select="t:gloss"/>
                 
