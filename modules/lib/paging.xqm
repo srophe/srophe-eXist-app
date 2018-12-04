@@ -294,6 +294,18 @@ declare function page:bibl-search-string(){
                 if($parameter = ('start','sort-element','perpage','sort')) then ()
                 else if($parameter = 'q') then 
                     (<span class="param">Keyword: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
+                else if ($parameter = 'pub-place') then 
+                    (<span class="param">Publication Place: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
+                else if ($parameter = 'subject-exact') then 
+                    (<span class="param">Subject: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
+                else if ($parameter = 'mss') then 
+                    (<span class="param">Manuscript: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
+                else if ($parameter = 'mss') then 
+                    (<span class="param">Manuscript: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
+                else if ($parameter = 'start-date') then 
+                    (<span class="param">From: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
+                else if ($parameter = 'end-date') then 
+                    (<span class="param">To: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)                    
                 else if ($parameter = 'author') then 
                     (<span class="param">Author/Editor: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
                 else (<span class="param">{replace(concat(upper-case(substring($parameter,1,1)),substring($parameter,2)),'-',' ')}: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)    
@@ -336,7 +348,7 @@ declare function page:person-search-string() as node()*{
                     else if($persons:coll = 'q' ) then '"Qadishe: A Guide to the Syriac Saints"'
                     else if($persons:coll = 'authors' ) then '"A Guide to Syriac Authors"'
                     else $persons:coll
-                }&#160; </span>):)
+                }&#160; </span>):)                
             else if($parameter = 'coll') then 
                 (<span class="param">Collection: </span>,<span class="match">{request:get-parameter($parameter, '')}&#160; </span>)
             else if($parameter = 'persName') then 
