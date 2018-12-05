@@ -58,8 +58,8 @@ else
 
 declare function local:build-message(){
 let $rec-uri := if(request:get-parameter('id','')) then concat('for ',request:get-parameter('id','')) else ()
-let $from := if($config:get-access-config//*:contact[not(@listID)]//*:from) then
-               concat('&lt;',$config:get-access-config//*:contact[not(@listID)]//*:from[1]//text(),'&gt;')
+let $from := if($config:get-access-config//*:contact//*:from) then
+               concat('&lt;',$config:get-access-config//*:contact//*:from[1]//text(),'&gt;')
              else concat('&lt;',$config:get-access-config//*:contact[not(@listID)]/child::*[1]//text(),'&gt;')
 return
     <mail>
@@ -82,7 +82,7 @@ return
            </html>
       </xhtml>
     </message>
-  </mail>
+    </mail>
 };
 
 let $cache := current-dateTime()
