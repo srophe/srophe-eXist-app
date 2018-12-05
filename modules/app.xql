@@ -662,7 +662,7 @@ declare function app:subject-headings($node as node(), $model as map(*)){
                  return 
                      <span class="related-subject">
                      {$subject/tei:desc/text()}&#160;
-                     <a href='search.html?subject="{$subject/tei:desc/text()}"'>
+                     <a href='../search.html?subject="{$subject/tei:desc/text()}"'>
                      <span class="glyphicon glyphicon-search" aria-hidden="true">
                      </span></a></span>
              }
@@ -684,7 +684,7 @@ declare function app:cited($node as node(), $model as map(*)){
                     for $cited in $model("hits")//tei:relation[@ref='dcterms:references']
                     return 
                         <span class="related-subject">{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}&#160;
-                        <a href='search.html?mss="{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}"'>
+                        <a href='../search.html?mss="{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}"'>
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span>
                 }
             </div>
@@ -726,3 +726,12 @@ return
         </div>
     else ()
 }; 
+
+(:~      
+ : Return teiHeader info to be used in citation used for Syriaca.org bibl module
+:)
+declare %templates:wrap function app:ba-counter($node as node(), $model as map(*)){
+    <div class="counter well">
+        <i class="glyphicon glyphicon glyphicon-info-sign"/>&#160;{count(collection($config:data-root)//tei:TEI)} out of 1546 online
+    </div>
+};
