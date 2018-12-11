@@ -33,11 +33,11 @@ declare variable $search:perpage {request:get-parameter('perpage', 20) cast as x
  : Search results stored in map for use by other HTML display functions
  : Updated for Architectura Sinica to display full list if no search terms
 :)
-declare %templates:wrap function search:search-data($node as node(), $model as map(*), $collection as xs:string?){
+declare %templates:wrap function search:search-data($node as node(), $model as map(*), $collection as xs:string?, $sort-element as xs:string?){
     let $queryExpr := search:query-string($collection)                        
     let $hits := if($queryExpr != '') then 
-                     data:search($collection, $queryExpr)
-                 else data:search($collection, '')
+                     data:search($collection, $queryExpr,$sort-element)
+                 else data:search($collection, '',$sort-element)
     return
         map {
                 "hits" := $hits,
@@ -109,7 +109,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                  <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                      {tei2html:summary-view(root($hit), '', $id)}
                  </div>
-             </div>   
+             </div> 
    }  
 </div>
 };
@@ -248,7 +248,7 @@ declare function search:default-search-form() {
 
 (: Architectura Sinica functions :)
 (:
- : TCADRT - display architectural features select lists
+ : TCADRT - display architectural features select lists for research-tool.html
 :)
 declare %templates:wrap function search:architectural-features($node as node()*, $model as map(*)){ 
     <div class="row">{
@@ -336,7 +336,7 @@ return
             search:features()
           )
         else if($collection = 'keywords') then 
-            concat(data:build-collection-path($collection),"[.//tei:entryFree[@type='architectural-feature']]",
+            concat(data:build-collection-path($collection),
             facet:facet-filter(global:facet-definition-file($collection)),
             slider:date-filter(()),
             data:keyword-search(),
