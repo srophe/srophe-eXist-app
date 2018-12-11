@@ -20,9 +20,9 @@
         <!--  Logo name (assumes path to logo is $app-root/resources/img/) -->
         <logo/>
         <!-- Web Site URL -->
-        <url>http://tcadrt.jelastic.servint.net/</url>
+        <url>https://architecturasinica.org/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/tcadrt</nav-base>
+        <nav-base></nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>tcadrt</app-root>
         <!-- eXist data app root for gazetteer data -->
