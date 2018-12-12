@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>Architectura Sinica</description>
     <author>Winona Salesky</author>
@@ -22,7 +21,7 @@
         <!-- Web Site URL -->
         <url>https://architecturasinica.org/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base></nav-base>
+        <nav-base>/exist/apps/tcadrt</nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>tcadrt</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -56,6 +55,7 @@
                 data-root="folder name in data"/>-->
             <collection name="places" app-root="/geo/" data-root="places" record-URI-pattern="http://architecturasinica.org/place/"/>
             <collection name="keywords" title="Architectural Features" app-root="/keyword/" data-root="keywords" record-URI-pattern="http://architecturasinica.org/keyword/"/>
+            <collection name="bibl" title="Bibliography" app-root="/bibl/" data-root="bibl" record-URI-pattern="http://architecturasinica.org/bibl/"/>
         </collections>
         <!--
         <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];

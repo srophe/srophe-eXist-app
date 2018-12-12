@@ -150,7 +150,8 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
         <div class="short-rec-view">
             <!--<div>{string($nodes/@sort)}</div>-->
             <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$title}</a>
-            {if($nodes/descendant::tei:entryFree) then ()
+            {if($nodes/descendant::tei:entryFree) then 
+                concat(' (',replace(string($nodes/descendant::tei:entryFree/@type),'-',' '),')')
              else if($nodes/descendant-or-self::tei:desc) then 
                 for $abstract in $nodes/descendant-or-self::tei:desc[1]
                 let $string := string-join($abstract/descendant-or-self::*/text(),' ')

@@ -1,0 +1,17 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
+    <div class="interior-content white keywords record">
+        <div data-template="app:h1"/>
+        <div data-template="app:other-data-formats" data-template-formats="print,tei"/>
+        <div class="row">
+            <div class="col-md-7">
+                <div data-template="app:display-featured-image"/>                    
+                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
+                <div data-template="app:keyword-tree"/>
+            </div>
+            <div class="col-md-5">
+                <div data-template="app:external-relationships" data-template-type="dcterms:subject"/>
+            </div>
+        </div>
+        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:teiHeader"/>
+    </div>
+</div>

@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <form method="get" action="research-tool.html" id="research-tool" class="center-block form-horizontal indent" role="form" style="padding:2em; background-color:#F7F7F9;">  
+    <form method="get" action="search.html" id="research-tool" class="center-block form-horizontal indent" role="form" style="margin:0; padding:2em; background-color:#F7F7F9;">  
         <h1 class="search-header indent">Search Architectura Sinica 
              <small class="pull-right" style="margin-right:2em;">
                 (<a class="togglelink text-info" data-toggle="collapse" data-target="#showSearch" href="#showSearch" data-text-swap="+ Show"> - Hide </a>)
@@ -49,7 +48,7 @@
     <div data-template="search:search-data" data-template-collection="places" id="search-results-panel">   
         <div class="container padding-top">
             <br/>
-            <div data-template="app:pageination" data-template-search-string="yes" data-template-sort-options="relevance,title"/>
+            <div data-template="app:pageination" data-template-collection="places" data-template-search-string="yes" data-template-sort-options="relevance,title"/>
             <div class="row">
                 <div class="col-md-4 facet-display">
                     <div class="slider-container">
@@ -63,7 +62,7 @@
                         <div data-template="search:show-hits" data-template-collection="places"/>
                     </div>
                     <div class="page-bottom">
-                        <div data-template="app:pageination"/>
+                        <div data-template="app:pageination" data-template-collection="places"/>
                     </div>
                 </div>
             </div>

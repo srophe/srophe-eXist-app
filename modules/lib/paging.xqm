@@ -84,7 +84,7 @@ let $pagination-links :=
                         else(),
                         <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,
                         if($search-string != '') then
-                            <li class="pull-right search-new"><a href="." class="reset"><span class="glyphicon glyphicon-search"/> Reset </a></li>
+                            <li class="pull-right search-new"><a href="{request:get-uri()}" class="reset"><span class="glyphicon glyphicon-search"/> Reset </a></li>
                         else ()    
                         )}
                 </ul>
@@ -94,7 +94,7 @@ let $pagination-links :=
                     if($sort-options != '') then page:sort($param-string, $start, $sort-options)
                     else(),
                     if($search-string = ('yes','Yes')) then   
-                        <li class="pull-right search-new"><a href="." class="reset"><span class="glyphicon glyphicon-search"/> Reset </a></li>
+                        <li class="pull-right search-new"><a href="{request:get-uri()}" class="reset"><span class="glyphicon glyphicon-search"/> Reset </a></li>
                     else() 
                     )}
                 </ul>

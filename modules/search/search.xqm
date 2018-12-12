@@ -12,6 +12,7 @@ import module namespace kwic="http://exist-db.org/xquery/kwic";
 
 (: Import Srophe application modules. :)
 import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
+import module namespace bibls="http://syriaca.org/srophe/bibls" at "bibl-search.xqm";
 import module namespace data="http://syriaca.org/srophe/data" at "../lib/data.xqm";
 import module namespace global="http://syriaca.org/srophe/global" at "../lib/global.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
@@ -38,9 +39,22 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
     let $hits := if($queryExpr != '') then 
                      data:search($collection, $queryExpr,$sort-element)
                  else data:search($collection, '',$sort-element)
+    let $ids := distinct-values(for $h in $hits return replace($h/descendant::tei:publicationStmt/tei:idno[@type='URI'],'/tei',''))
+    let $related := 
+            (collection($config:data-root)//tei:TEI[descendant::tei:relation[@passive = $ids]] |
+            collection($config:data-root)//tei:TEI[descendant::tei:relation[@active = $ids]] | 
+            collection($config:data-root)//tei:TEI[descendant::tei:relation[@mutual = $ids]])
+    let $all := 
+                for $h in ($hits | $related)
+                let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
+                group by $de-dup := $id
+                let $score := if(xs:double($h[1]/@score)) then xs:double($h[1]/@score) else 0 
+                order by $score descending
+                return <search score="{$h/@score}">{$h[1]}</search>
+                
     return
         map {
-                "hits" := $hits,
+                "hits" := $all,
                 "query" := $queryExpr
         } 
 };
@@ -104,7 +118,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
             return 
              <div class="row record" xmlns="http://www.w3.org/1999/xhtml">
                  <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">        
-                     <span class="badge" style="margin-right:1em;">{$search:start + $p - 1}</span>
+                     <span class="badge" style="margin-right:1em;">{$search:start + $p - 1}</span> 
                  </div>
                  <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                      {tei2html:summary-view(root($hit), '', $id)}
@@ -346,7 +360,8 @@ return
             search:terms(),
             data:element-search('term',request:get-parameter('term', '')),
             search:features())
-        else
+        else if($collection = 'bibl') then bibls:query-string()            
+        else 
             concat(data:build-collection-path($collection),
             facet:facet-filter(global:facet-definition-file($collection)),
             slider:date-filter(()),

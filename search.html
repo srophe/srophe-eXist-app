@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="container top-padding">
         <!-- <form data-template="search:search-form" data-template-collection="OPTIONAL: COLLECTION NAME"/>--> 
-        <div data-template="search:search-data" data-template-collection="places" id="search-results-panel">   
+        <div data-template="search:search-data" id="search-results-panel">   
             <div class="container padding-top">
                 <br/>
                 <div data-template="app:pageination" data-template-search-string="yes" data-template-sort-options="relevance,title"/>
@@ -14,13 +13,10 @@
                         <div data-template="app:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
                     </div>
                     <div class="col-md-8">
-                        <!--<div data-template="app:display-map" data-template-collection="places"/>-->
-                        <!--
-                        <div data-template="search:group-results" data-template-collection="places" id="search-results-panel">
-                            <div data-template="search:show-hits" data-template-collection="places"/>
+                        <div data-template="app:display-map" data-template-collection="places"/>
+                        <div data-template="search:group-results">
+                            <div data-template="search:show-hits"/>
                         </div>
-                        -->
-                        <div data-template="search:show-hits" data-template-collection="places"/>
                         <div class="page-bottom">
                             <div data-template="app:pageination"/>
                         </div>
