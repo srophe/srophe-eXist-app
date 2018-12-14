@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -314,80 +314,47 @@
     </xsl:template>
     
     <!-- L -->
-    <xsl:template match="t:location[not(@type='gps')]">
-        <div>
-            <xsl:choose>
-                <xsl:when test="@subtype='quote'">"<xsl:apply-templates/>"</xsl:when>
-                <xsl:otherwise>
+    <!-- L -->
+    <xsl:template match="t:location">
+        <xsl:choose>
+            <xsl:when test=".[@type='geopolitical' or @type='relative']">
+                <li>
                     <xsl:choose>
-                        <xsl:when test="t:geo">
-                            <h5>Coordinates</h5> </xsl:when>
-                        <xsl:when test="@type='nested' and t:placeName">
-                            <h5>
-                                <xsl:value-of select="t:placeName"/>
-                            </h5>
-                        </xsl:when>
-                        <xsl:when test="@type">
-                            <h5>
-                                <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>
-                            </h5> </xsl:when>
+                        <xsl:when test="@subtype='quote'">"<xsl:apply-templates/>"</xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates/>
+                        </xsl:otherwise>
                     </xsl:choose>
-                    <ul>
-                        <xsl:for-each select="child::*[not(self::t:note) and not(self::t:placeName)]">
-                            <li>
-                                <xsl:choose>
-                                    <xsl:when test="self::t:geo"/>
-                                    <xsl:when test="t:country">
-                                        <span class="srp-label">Country: </span>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:if test="@type">
-                                            <span class="srp-label">
-                                                <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: 
-                                            </span>
-                                        </xsl:if>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                                <xsl:choose>
-                                    <xsl:when test="t:placeName">
-                                        <ul>
-                                            <xsl:for-each select="t:placeName">
-                                                <xsl:apply-templates select="self::*" mode="list"/>
-                                            </xsl:for-each>
-                                        </ul>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:apply-templates/>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </li>
-                        </xsl:for-each>
+                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                </li>
+            </xsl:when>
+            <xsl:when test="@type='nested'">
+                <li>Within 
+                    <xsl:for-each select="t:*">
+                        <xsl:apply-templates select="."/>
+                        <xsl:if test="following-sibling::t:*">
+                            <xsl:text> within </xsl:text>
+                        </xsl:if>
+                    </xsl:for-each>
+                    <xsl:text>.</xsl:text>
+                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                </li>
+            </xsl:when>
+            <xsl:when test=".[@type='gps' and t:geo]">
+                <li>Coordinates: 
+                    <ul class="unstyled offset1">
+                        <li>
+                            <xsl:value-of select="concat('Lat. ',tokenize(t:geo,' ')[1],'°')"/>
+                            <xsl:text> </xsl:text>
+                            <xsl:value-of select="concat('Long. ',tokenize(t:geo,' ')[2],'°')"/>
+                            <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                        </li>
                     </ul>
-                    <xsl:if test="t:note">
-                        <xsl:for-each select="t:note">
-                            <p>
-                                <span class="srp-label">Note <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: </span>
-                                <xsl:apply-templates/>
-                            </p>
-                        </xsl:for-each>
-                    </xsl:if>
-                </xsl:otherwise>
-            </xsl:choose>
-            <xsl:sequence select="local:add-footnotes(@source,.)"/>
-        </div>
+                </li>
+            </xsl:when>
+        </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:location[@type='gps' and t:geo]">
-        <h5>Coordinates</h5> 
-        <ul class="unstyled offset1">
-            <li>
-                <xsl:value-of select="concat('Lat. ',tokenize(t:geo,' ')[1],'°')"/>
-            </li>
-            <li>
-                <xsl:value-of select="concat('Long. ',tokenize(t:geo,' ')[2],'°')"/>
-                <xsl:sequence select="local:add-footnotes(@source,.)"/>
-            </li>
-        </ul>
-    </xsl:template>
+    
     <!-- N -->
     <xsl:template match="t:note">
         <xsl:variable name="xmlid" select="@xml:id"/>
@@ -646,7 +613,7 @@
                     </xsl:for-each>
                 </xsl:for-each-group> 
                 -->
-                <p></p>
+                <p/>
             </div>
         </xsl:if>
         
