@@ -283,14 +283,39 @@
             <xsl:when test="parent::t:body">
                 <div class="well preferred-citation">
                     <h4>Preferred Citation</h4>
-                    <xsl:choose>
-                        <xsl:when test="following-sibling::t:bibl[@type='formatted']">
-                            <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:apply-templates select="self::*" mode="bibliography"/>.
-                        </xsl:otherwise>
-                    </xsl:choose>
+                    <xsl:variable name="preferedCitation">
+                        <xsl:choose>
+                            <xsl:when test="following-sibling::t:bibl[@type='formatted']">
+                                <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <span id="perferredCitation">
+                        <xsl:sequence select="$preferedCitation"/>
+                    </span>
+                    <xsl:text> </xsl:text>
+                    <button type="button" class="btn btn-default copy" 
+                        id="titleBtn" 
+                        data-toggle="tooltip" 
+                        title="Copy preferred citation" 
+                        data-clipboard-action="copy" 
+                        data-clipboard-text="{concat($preferedCitation, ' Cited from ',$resource-id,'.')}">
+                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
+                    <xsl:text> </xsl:text>
+                    <script>                       
+                        var clipboard = new Clipboard('#perferredCitationBtn');
+                        clipboard.on('success', function(e) {
+                        console.log(e);
+                        });
+                        
+                        clipboard.on('error', function(e) {
+                        console.log(e);
+                        });
+                    </script>
+                    <xsl:text> </xsl:text>
                 </div>
                 
                 <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
@@ -399,7 +424,8 @@
                     <ul class="unstyled offset1">
                         <li>
                             <xsl:value-of select="concat('Lat. ',tokenize(t:geo,' ')[1],'°')"/>
-                            <xsl:text> </xsl:text>
+                        </li>
+                        <li>
                             <xsl:value-of select="concat('Long. ',tokenize(t:geo,' ')[2],'°')"/>
                             <xsl:sequence select="local:add-footnotes(@source,.)"/>
                         </li>
