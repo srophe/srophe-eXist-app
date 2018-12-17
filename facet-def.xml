@@ -106,6 +106,13 @@
         <max-values show="5">100</max-values>
         <order-by direction="descending">count</order-by>
     </facet-definition>
+    <facet-definition name="Language">
+        <group-by>
+            <sub-path>descendant::tei:monogr/tei:textLang/@mainLang</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="descending">count</order-by>
+    </facet-definition>    
     <facet-definition name="Citation Script">
         <range type="xs:string">
             <bucket eq="matches(.,'\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i')" name="A-Z" order="1"/>
