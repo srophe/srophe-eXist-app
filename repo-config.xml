@@ -50,7 +50,7 @@
         </keyboard-options>
         <collections>
             <!--<collection name="Short-name used in html pages to reference collection, module name" series="Series name used in TEI" app-root="folder name in app" data-root="folder name in data"/>-->
-            <collection name="bibl" title="Biblia Arabica" app-root="/" data-root="/" record-URI-pattern="https://biblia-arabica.com/bibl/"/>
+            <collection name="bibl" title="A Bibliography of the Arabic Bible" app-root="/" data-root="/" record-URI-pattern="https://biblia-arabica.com/bibl/"/>
         </collections>  
         <!--  
     <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
