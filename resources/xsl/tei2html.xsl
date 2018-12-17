@@ -302,7 +302,7 @@
                         data-toggle="tooltip" 
                         title="Copy preferred citation" 
                         data-clipboard-action="copy" 
-                        data-clipboard-text="{concat($preferedCitation, ' Cited from ',$resource-id,'.')}">
+                        data-clipboard-text="{normalize-space(concat($preferedCitation, ' Cited from ',$resource-id,'.'))}">
                         <span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
                     <xsl:text> </xsl:text>
                     <script>                       
