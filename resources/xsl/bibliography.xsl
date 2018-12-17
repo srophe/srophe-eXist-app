@@ -1165,7 +1165,7 @@
                     <xsl:text>Link to Zotero Bibliographic record</xsl:text>
                 </xsl:when>
                 <xsl:when test="starts-with($ref,$base-uri)">
-                    <xsl:value-of select="concat('Link to Biblia-Arabica.com Bibliographic Record for', $title-string)"/>
+                    <xsl:value-of select="concat('Link to Syriaca.org Bibliographic Record for', $title-string)"/>
                 </xsl:when>
                 <!-- glyphicon glyphicon-book -->
                 <xsl:when test="starts-with($ref,'http://www.worldcat.org/')">
