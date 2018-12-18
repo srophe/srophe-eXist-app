@@ -50,7 +50,8 @@ function app:logo($node as node(), $model as map(*)) {
  :)
 declare function app:get-work($node as node(), $model as map(*)) {
     if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
-        let $rec := data:get-document()
+        let $id := concat(request:get-parameter('id', ''),'/tei')
+        let $rec := data:get-document($id)
         return 
             if(empty($rec)) then 
                 response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
@@ -304,7 +305,7 @@ declare function app:display-facets($node as node(), $model as map(*), $collecti
     let $facet-config := global:facet-definition-file($collection)
     return 
         if(not(empty($facet-config))) then 
-            facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))
+            facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facets/facet:facet-definition))
         else ()
 };
 

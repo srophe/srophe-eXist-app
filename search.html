@@ -1,5 +1,51 @@
 <div xmlns="http://www.w3.org/1999/xhtml" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div class="container top-padding">
+    <div>
+        <form method="get" action="search.html" id="research-tool" class="center-block form-horizontal indent" role="form" style="margin:0; padding:2em; background-color:#F7F7F9;">  
+            <h1 class="search-header indent">Search Architectura Sinica 
+                 <small class="pull-right" style="margin-right:2em;">
+                    (<a class="togglelink text-info" data-toggle="collapse" data-target="#showSearch" href="#showSearch" data-text-swap="+ Show"> - Hide </a>)
+                </small>
+            </h1>
+            <div class="row collapse in" id="showSearch">
+                <div class="col-md-7 col-sm-offset-1">
+                    <!-- Keyword -->
+                    <div class="form-group">
+                        <label for="q" class="col-sm-2 col-md-3  control-label">Keyword: 
+                            <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Search any text in a place record."/>
+                        </label>
+                        <div class="col-sm-10 col-md-9 ">    
+                            <input type="text" id="qs" name="q" class="form-control keyboard"/>
+                        </div>
+                    </div>
+                    <!-- Place Name-->
+                    <div class="form-group">
+                        <label for="placeName" class="col-sm-2 col-md-3  control-label">Place Name: 
+                            <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Search only Site/Building names. Names may be searched in English, Pinyin or Chinese."/>
+                        </label>
+                        <div class="col-sm-10 col-md-9 ">   
+                            <input type="text" id="placeName" name="placeName" class="form-control keyboard"/>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="search-header">Limit by Architectural Features 
+                            <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Limit results based on type or number of Architectural Features."/>
+                             <small class="pull-right" style="margin-right:2em;">
+                                (<a class="togglelink text-info" data-toggle="collapse" data-target="#showArchSearch" href="#showArchSearch" data-text-swap=" - Hide"> + Show </a>)
+                            </small>
+                        </h2>
+                        <div id="showArchSearch" class="collapse">
+                            <p class="note small">For descriptions of all architectural features. browse the <a href="dictionary.html">dictionary</a>. </p>
+                            <div data-template="search:architectural-features"/>    
+                        </div>
+                    </div>
+                    <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"/>
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-success">Search</button> 
+                        <button type="reset" class="btn btn-info">Clear</button>
+                    </div>
+                </div>
+            </div>        
+        </form>
         <!-- <form data-template="search:search-form" data-template-collection="OPTIONAL: COLLECTION NAME"/>--> 
         <div data-template="search:search-data" id="search-results-panel">   
             <div class="container padding-top">

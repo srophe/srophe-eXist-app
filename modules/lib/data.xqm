@@ -145,11 +145,11 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
         if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then 
             for $hit in util:eval($eval-string)
             order by global:build-sort-string(data:add-sort-options($hit, request:get-parameter('sort-element', '')),'')
-            return <search score="{ft:score($hit)}">{root($hit)}</search>
+            return root($hit)
         else if($sort-element != '' and $sort-element != 'relevance') then  
             for $hit in util:eval($eval-string)
             order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
-            return <search score="{ft:score($hit)}">{root($hit)}</search>
+            return root($hit)
         else 
             for $hit in util:eval($eval-string)
             order by ft:score($hit) descending
