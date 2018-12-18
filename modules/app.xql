@@ -591,7 +591,7 @@ declare function app:place-type($node as node(), $model as map(*)){
               else $uri 
         else $uri
     return 
-        <p><strong>Place Type:</strong>&#160;<a href="{$config:nav-base}/research-tool.html?fq=;fq-{$type}:{$uri}">{$label}</a> </p>
+        <p><strong>Place Type:</strong>&#160;<a href="{replace($uri,$config:base-uri,$config:nav-base)}">{$label}</a> </p>
 };
 
 
