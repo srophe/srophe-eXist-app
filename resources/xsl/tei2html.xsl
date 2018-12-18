@@ -315,8 +315,7 @@
         <xsl:choose>
             <xsl:when test="parent::t:body">
                 <div class="well preferred-citation">
-                    <h4>Preferred Citation</h4>
-                    <xsl:variable name="preferedCitation">
+                    <xsl:variable name="preferredCitation">
                         <xsl:choose>
                             <xsl:when test="following-sibling::t:bibl[@type='formatted']">
                                 <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
@@ -326,18 +325,10 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
+                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button></h4>
                     <span id="perferredCitation">
-                        <xsl:sequence select="$preferedCitation"/>
+                        <xsl:sequence select="$preferredCitation"/>
                     </span>
-                    <xsl:text> </xsl:text>
-                    <button type="button" class="btn btn-default copy" 
-                        id="titleBtn" 
-                        data-toggle="tooltip" 
-                        title="Copy preferred citation" 
-                        data-clipboard-action="copy" 
-                        data-clipboard-text="{normalize-space(concat($preferedCitation, ' Cited from ',$resource-id,'.'))}">
-                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>
-                    <xsl:text> </xsl:text>
                     <script>                       
                         var clipboard = new Clipboard('#perferredCitationBtn');
                         clipboard.on('success', function(e) {
@@ -349,6 +340,17 @@
                         });
                     </script>
                     <xsl:text> </xsl:text>
+                    <xsl:if test="t:citedRange[. != '']">
+                        <p>See pp.
+                            <xsl:for-each select="t:citedRange[. != '']">
+                                <xsl:value-of select="."/> 
+                                <xsl:choose>
+                                    <xsl:when test="position() != last()">, </xsl:when>
+                                    <xsl:otherwise>.</xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:for-each>
+                        </p>
+                    </xsl:if>
                 </div>
                 
                 <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
@@ -379,7 +381,7 @@
                 </xsl:if>
                 <h3>Full Citation Information</h3>
                 <div class="section indent">
-                    <xsl:apply-templates select="*[not(self::t:note[@type= ('tag','abstract')])]" mode="full"/>
+                    <xsl:apply-templates select="*[not(self::t:note[@type= ('tag','abstract')]) and not(self::t:citedRange)]" mode="full"/>
                 </div>
             </xsl:when>
             <xsl:otherwise>
