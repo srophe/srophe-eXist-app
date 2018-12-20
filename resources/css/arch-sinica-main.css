@@ -1169,3 +1169,27 @@ img#arch-sinic-about {
     height: 100%;
     vertical-align: middle;
 }
+
+/* Citation styles */
+/* Sedra display */
+#citationsDisplay {
+    display:none;
+    position:absolute;
+    top:150px;
+    left:50%;
+    width:50%; 
+    min-height:250px;  
+    max-height:400px;
+    margin-left:-25%;  
+    padding:1em;
+    background-color:white;
+    box-shadow: 8px 8px 3px #999;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    z-index: 125;
+} 
+
+#citationsDisplay .content {margin:0 .5em; padding:0 .5em;}

@@ -94,6 +94,9 @@
     <xsl:variable name="resource-title">
         <xsl:apply-templates select="/descendant-or-self::t:titleStmt/t:title[1]"/>
     </xsl:variable>
+    <!-- Repository Title -->
+    <xsl:variable name="repository-title">Architectura Sinica</xsl:variable>
+    <xsl:variable name="collection-title"></xsl:variable>
  
     <!-- =================================================================== -->
     <!-- Templates -->
@@ -264,16 +267,76 @@
         <xsl:choose>
             <xsl:when test="parent::t:body">
                 <div class="well preferred-citation">
-                    <h4>Preferred Citation</h4>
-                    <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                    <xsl:variable name="preferredCitation">
+                        <xsl:choose>
+                            <xsl:when test="following-sibling::t:bibl[@type='formatted']">
+                                <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:apply-templates select="self::*" mode="bibliography"/>.
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}"><span class="glyphicon glyphicon-copy" aria-hidden="true"/></button></h4>
+                    <span id="perferredCitation">
+                        <xsl:sequence select="$preferredCitation"/>
+                    </span>
+                    <script>                       
+                        var clipboard = new Clipboard('#perferredCitationBtn');
+                        clipboard.on('success', function(e) {
+                        console.log(e);
+                        });
+                        
+                        clipboard.on('error', function(e) {
+                        console.log(e);
+                        });
+                    </script>
+                    <xsl:text> </xsl:text>
+                    <xsl:if test="t:citedRange[. != '']">
+                        <p>See pp.
+                            <xsl:for-each select="t:citedRange[. != '']">
+                                <xsl:value-of select="."/> 
+                                <xsl:choose>
+                                    <xsl:when test="position() != last()">, </xsl:when>
+                                    <xsl:otherwise>.</xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:for-each>
+                        </p>
+                    </xsl:if>
                 </div>
+                
+                <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                    <h3>View at: </h3>
+                    <div class="section indent">    
+                        <xsl:for-each select="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                            <xsl:variable name="linkID" select="."/>
+                            <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
+                            <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
+                            </a>  
+                        </xsl:for-each>
+                        <xsl:for-each select="descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                            <xsl:variable name="linkID" select="string(.)"/>
+                            <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
+                            <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> <xsl:value-of select="$linkType"/>
+                            </a>  
+                        </xsl:for-each>
+                    </div>
+                </xsl:if>
+                <xsl:if test="//t:note[@type='abstract']">
+                    <h3>Abstract</h3>
+                    <div class="section indent">
+                        <xsl:apply-templates select="//t:note[@type='abstract']"/>
+                    </div>
+                </xsl:if>
                 <h3>Full Citation Information</h3>
                 <div class="section indent">
-                    <xsl:apply-templates mode="full"/>
+                    <xsl:apply-templates select="*[not(self::t:note[@type= ('tag','abstract')]) and not(self::t:citedRange)]" mode="full"/>
                 </div>
             </xsl:when>
             <xsl:otherwise>
-                <span class="section indent">
+                <span class="citation">
                     <xsl:apply-templates mode="footnote"/>
                 </span>
             </xsl:otherwise>

@@ -185,6 +185,34 @@ $('.getFlickrInfo').each(function(index, element) {
     })
     //console.log('Hi there ' + url  )
    });
+   
+//Get citations from Zotero
+$('#citationsBtn').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    $('#citationsDisplay').css('display','block');
+});
+
+$('#citationsHide').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    $('#citationsDisplay').css('display','none');
+    $('#citationsDisplay div.content').empty();
+});
+
+$('#citeItemSelect').on('change', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var href = $('#citationsBtn').attr('href');
+    var style = $(this).val();
+    $.get(href + '?format=bib&style=' + style, function( data ) {
+        $( "#citationsDisplay div.content" ).html( data );
+    }).fail(function() {
+        $('#citationsDisplay div.content').empty();
+        $( "#citationsDisplay div.content" ).html( 'Error' );
+   });
+   console.log(href + '?format=bib&style=' + style)
+});
 
 //end on load
 });

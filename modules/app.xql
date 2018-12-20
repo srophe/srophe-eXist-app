@@ -166,32 +166,32 @@ declare %templates:wrap function app:other-data-formats($node as node(), $model 
 let $id := (:replace($model("hits")/descendant::tei:idno[contains(., $config:base-uri)][1],'/tei',''):)request:get-parameter('id', '')
 return 
     if($formats) then
-        <div class="container other-formats">
+        <div class="indent" style="width:100%;clear:both;margin-bottom:1em; text-align:right;">
             {
                 for $f in tokenize($formats,',')
                 return 
                     if($f = 'geojson') then
                         if($model("hits")/descendant::tei:location/tei:geo) then 
-                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.geojson')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
+                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.geojson')}" class="btn btn-default btn-xs" id="geoBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
                                  <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> GeoJSON
                             </a>, '&#160;')
                         else()
                     else if($f = 'json') then 
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.json')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.json')}" class="btn btn-default btn-xs" id="jsonBtn" data-toggle="tooltip" title="Click to view the GeoJSON data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> JSON-LD
                         </a>, '&#160;') 
                     else if($f = 'kml') then
                         if($model("hits")/descendant::tei:location/tei:geo) then
-                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.kml')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the KML data for this record." >
+                            (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.kml')}" class="btn btn-default btn-xs" id="kmlBtn" data-toggle="tooltip" title="Click to view the KML data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> KML
                             </a>, '&#160;')
                          else()   
                     else if($f = 'print') then                        
-                        (<a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
+                        (<a href="javascript:window.print();" type="button" class="btn btn-default btn-xs" id="printBtn" data-toggle="tooltip" title="Click to send this page to the printer." >
                              <span class="glyphicon glyphicon-print" aria-hidden="true"></span>
                         </a>, '&#160;')   
                     else if($f = 'rdf') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.rdf')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.rdf')}" class="btn btn-default btn-xs" id="rdfBtn" data-toggle="tooltip" title="Click to view the RDF-XML data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/XML
                         </a>, '&#160;')
                     else if($f = 'tei') then
@@ -199,19 +199,28 @@ return
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> TEI/XML
                         </a>, '&#160;')
                     else if($f = 'text') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.txt')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the plain text data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.txt')}" class="btn btn-default btn-xs" id="textBtn" data-toggle="tooltip" title="Click to view the plain text data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Text
                         </a>, '&#160;')                        
                     else if($f = 'ttl') then
-                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.ttl')}" class="btn btn-default btn-xs" id="teiBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
+                        (<a href="{concat(replace($id,$config:base-uri,$config:nav-base),'.ttl')}" class="btn btn-default btn-xs" id="ttlBtn" data-toggle="tooltip" title="Click to view the RDF-Turtle data for this record." >
                              <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> RDF/TTL
                         </a>, '&#160;')
+                    else if($f = 'citations') then
+                        let $zotero-group := $config:get-config//*:zotero/@group
+                        return 
+                            if($zotero-group != '') then 
+                                (<a href="{concat('https://api.zotero.org/groups/',$zotero-group,'/items/',tokenize($id,'/')[last()])}" class="btn btn-default btn-xs" id="citationsBtn" data-toggle="tooltip" title="Click for additional Citation Styles." >
+                                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Cite
+                                </a>, '&#160;')
+                            else ()
                    else () 
             }
             <br/>
         </div>
     else ()
 };
+
 
 (:~  
  : Record status to be displayed in HTML sidebar 
@@ -692,4 +701,61 @@ declare function app:get-flickr-info($imageURL,$image-class){
 declare %templates:wrap function app:display-sources($node as node(), $model as map(*)){
     let $sources := $model("hits")/descendant::tei:body/descendant::tei:bibl
     return global:tei2html(<sources xmlns="http://www.tei-c.org/ns/1.0">{$sources}</sources>)
+};
+
+(: from https://github.com/biblia-arabica/srophe-eXist-app :)
+(:~
+ : bibl module relationships
+:)                   
+declare function app:subject-headings($node as node(), $model as map(*)){
+  (:  rel:subject-headings($model("hits")//tei:idno[@type='URI'][ends-with(.,'/tei')]):)
+    if($model("hits")//tei:relation[@ref='dc:subject']) then
+     <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">Subject Headings</h3></div>
+         <div class="panel-body">
+             {
+                 for $subject in $model("hits")//tei:relation[@ref='dc:subject']
+                 return 
+                     <span class="related-subject">
+                     {$subject/tei:desc/text()}&#160;
+                     <a href='../search.html?subject="{$subject/tei:desc/text()}"'>
+                     <span class="glyphicon glyphicon-search" aria-hidden="true">
+                     </span></a></span>
+             }
+         </div>
+     </div>
+    else ()
+};
+
+(:~
+ : bibl module relationships
+:)                   
+declare function app:cited($node as node(), $model as map(*)){
+    (:rel:cited($model("data")//tei:idno[@type='URI'][ends-with(.,'/tei')], request:get-parameter('start', 1),request:get-parameter('perpage', 5)):)
+    if($model("hits")//tei:relation[@ref='dcterms:references']) then
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Cited Manuscripts</h3></div>
+            <div class="panel-body">
+                {
+                    for $cited in $model("hits")//tei:relation[@ref='dcterms:references']
+                    return 
+                        <span class="related-subject">{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}&#160;
+                        <a href='../search.html?mss="{$cited/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")}"'>
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span></a></span>
+                }
+            </div>
+        </div>
+  else ()
+};
+
+(:~      
+ : Return teiHeader info to be used in citation used for Syriaca.org bibl module
+:)
+declare %templates:wrap function app:about($node as node(), $model as map(*)){
+    let $rec := $model("hits")
+    let $header := 
+        <srophe-about xmlns="http://www.tei-c.org/ns/1.0">
+            {$rec//tei:teiHeader}
+        </srophe-about>
+    return global:tei2html($header)
 };
