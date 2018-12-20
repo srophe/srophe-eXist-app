@@ -94,6 +94,9 @@
     <xsl:variable name="resource-title">
         <xsl:apply-templates select="/descendant-or-self::t:titleStmt/t:title[1]"/>
     </xsl:variable>
+    <!-- Repository Title -->
+    <xsl:variable name="repository-title">Architectura Sinica</xsl:variable>
+    <xsl:variable name="collection-title"></xsl:variable>
  
     <!-- =================================================================== -->
     <!-- Templates -->
