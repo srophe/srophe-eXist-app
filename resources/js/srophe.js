@@ -28,20 +28,6 @@ $.validator.setDefaults({
 	}
 });
 
-/*
- * 			
- * function validateMyForm() {
-		// The field is empty, submit the form.
-		if(!document.getElementById("honeypot").value) { 
-			return true;
-		} 
-		 // the field has a value it's a spam bot
-		else {
-			return false;
-		}
-	}
- * 
- */
 $("#email").validate({
 		rules: {
 			recaptcha_challenge_field: "required",
@@ -118,4 +104,35 @@ clipboard.on('error', function(e) {
     console.error('Action:', e.action);
     console.error('Trigger:', e.trigger);
 });
+
+//Get citations from Zotero
+$('#citationsBtn').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    $('#citationsDisplay').css('display','block');
+});
+
+$('#citationsHide').click(function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    $('#citationsDisplay').css('display','none');
+    $('#citationsDisplay div.content').empty();
+});
+
+$('#citeItemSelect').on('change', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var href = $('#citationsBtn').attr('href');
+    var style = $(this).val();
+    $.get(href + '?format=bib&style=' + style, function( data ) {
+        $( "#citationsDisplay div.content" ).html( data );
+    }).fail(function() {
+        $('#citationsDisplay div.content').empty();
+        $( "#citationsDisplay div.content" ).html( 'Error' );
+   });
+   console.log(href + '?format=bib&style=' + style)
+});
+
+
+
 });

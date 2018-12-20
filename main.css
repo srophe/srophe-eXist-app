@@ -764,18 +764,12 @@ input:checked + .slider:before {
 #citationsDisplay {
     display:none;
     position:absolute;
-    top:225px;
+    top:150px;
     left:50%;
-    width:50%;  /* adjust as per your needs */
+    width:50%; 
     min-height:250px;  
     max-height:400px;
-    margin-left:-25%;   /* negative half of width above */ 
-    /*
-    width:24%; 
-    min-height:250px; 
-    max-height:400px; 
-
-    */
+    margin-left:-25%;  
     padding:1em;
     background-color:white;
     box-shadow: 8px 8px 3px #999;
