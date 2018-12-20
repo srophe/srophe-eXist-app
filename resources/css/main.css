@@ -758,6 +758,38 @@ input:checked + .slider:before {
 }
 
 .counter {font-size:1.15em; font-weight: 400; padding:1em;}
+
+/* Citation styles */
+/* Sedra display */
+#citationsDisplay {
+    display:none;
+    position:absolute;
+    top:225px;
+    left:50%;
+    width:50%;  /* adjust as per your needs */
+    min-height:250px;  
+    max-height:400px;
+    margin-left:-25%;   /* negative half of width above */ 
+    /*
+    width:24%; 
+    min-height:250px; 
+    max-height:400px; 
+
+    */
+    padding:1em;
+    background-color:white;
+    box-shadow: 8px 8px 3px #999;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    overflow-y:scroll;
+    overflow-x:hidden;
+    z-index: 125;
+} 
+
+#citationsDisplay .content {margin:0 .5em; padding:0 .5em;}
+
+
 /* Special styles for small screens */
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}

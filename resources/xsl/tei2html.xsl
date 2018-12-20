@@ -103,7 +103,7 @@
                         <xsl:value-of select="$config//*:collection[@name=$collection]/@title"/>
                     </xsl:when>
                     <xsl:when test="$config//*:collection[@title=$collection]">
-                        <xsl:value-of select="$config//*:collection[@title=$collection]/@title"></xsl:value-of>
+                        <xsl:value-of select="$config//*:collection[@title=$collection]/@title"/>
                     </xsl:when>
                     <xsl:otherwise><xsl:value-of select="$repository-title"/></xsl:otherwise>
                 </xsl:choose>
@@ -325,7 +325,7 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button></h4>
+                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}"><span class="glyphicon glyphicon-copy" aria-hidden="true"/></button></h4>
                     <span id="perferredCitation">
                         <xsl:sequence select="$preferredCitation"/>
                     </span>
@@ -1192,7 +1192,7 @@
                 <xsl:call-template name="title"/>
             </h1>
             <!-- Call link icons (located in link-icons.xsl) -->
-            <xsl:call-template name="link-icons"/>   
+            <!--<xsl:call-template name="link-icons"/>-->   
             <!-- End Title -->
         </div>
         <!-- emit record URI and associated help links -->
