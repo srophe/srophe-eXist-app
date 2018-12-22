@@ -233,7 +233,7 @@
                 </xsl:when>
                 <xsl:when test="descendant::t:ptr[@target and starts-with(@target, concat($base-uri,'/bibl/'))]">
                     <xsl:variable name="biblfilepath">
-                        <xsl:value-of select="concat('xmldb:exist://',$data-root,'/bibl/tei/',substring-after(t:ptr/@target, concat($base-uri,'/bibl/')),'.xml')"/>
+                        <xsl:value-of select="concat($data-root,'/bibl/tei/',substring-after(t:ptr/@target, concat($base-uri,'/bibl/')),'.xml')"/>
                     </xsl:variable>
                     <xsl:choose>
                         <xsl:when test="doc-available($biblfilepath)">
