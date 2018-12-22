@@ -239,7 +239,14 @@
                         <xsl:when test="doc-available($biblfilepath)">
                             <xsl:variable name="rec" select="document($biblfilepath)"/>
                             <xsl:for-each select="$rec/descendant::t:biblStruct">
-                                <xsl:apply-templates mode="footnote"/>
+                                <xsl:choose>
+                                    <xsl:when test="$rec/descendant::t:bibl[@type='formatted']">
+                                        <xsl:apply-templates select="$rec/descendant::t:bibl[@type='formatted']" mode="pre-formatted"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:apply-templates mode="footnote"/>        
+                                    </xsl:otherwise>
+                                </xsl:choose>
                                 <xsl:sequence select="$passThrough"/>
                                 <xsl:if test="descendant::t:idno[@type='URI']">
                                     <span class="footnote-links">
