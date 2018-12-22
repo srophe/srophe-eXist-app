@@ -111,7 +111,7 @@ h4.slider, #content h1 {
 }
 
 .sub-facet {display:block; padding-left: 1em;}
-.sub-facet h4{border-bottom: none; font-size:1em;}
+.sub-facet h4{display:none;}
 
 /*
 .short-rec-view a, .short-rec-view a:link, .short-rec-view a:hover, .short-rec-view a:visited, .short-rec-view a:active {
