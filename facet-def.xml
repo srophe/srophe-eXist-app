@@ -62,7 +62,7 @@
         <max-values show="5">100</max-values>
         <order-by direction="descending">count</order-by>
     </facet-definition>
-    <facet-definition name="Translation Source Language">
+    <facet-definition name="Source Language of Translation">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="source"]/tei:desc</sub-path>
         </group-by>

@@ -388,7 +388,7 @@ declare function facet:translate-lang($lang){
     else if($lang = 'it') then 'Italian'
     else if($lang = 'mal') then 'Malayalam'
     else if($lang = 'hu') then 'Hungarian'
-    (:else if($lang = 'he-Arab') then 'English':)
+    else if($lang = 'he-Arab') then 'Judaeo-Arabic'
     else if($lang = 'syr-Syrj') then 'Syriac'
     else if($lang = 'syr-Syrn') then 'Syriac'
     else if($lang = 'syr-x-syrm') then 'Syriac'
