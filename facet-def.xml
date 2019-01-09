@@ -62,11 +62,31 @@
         <max-values show="5">100</max-values>
         <order-by direction="descending">count</order-by>
     </facet-definition>
-    <facet-definition name="Source Language">
+    <facet-definition name="Translation Source Language">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="source"]/tei:desc</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
+        <order-by direction="descending">count</order-by>
+    </facet-definition>
+    <facet-definition name="Language of Item">
+        <group-by function="facet:language">
+            <sub-path>descendant::tei:monogr/tei:textLang/@mainLang</sub-path>
+        </group-by>
+        <max-values show="5">100</max-values>
+        <order-by direction="descending">count</order-by>
+    </facet-definition>    
+    <facet-definition name="Citation Script">
+        <range type="xs:string">
+            <bucket eq="matches(.,'\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i')" name="A-Z" order="1"/>
+            <bucket eq="matches(.,'\p{IsArabic}','i')" name="ا-ي" order="2"/>
+            <bucket eq="matches(.,'\p{IsHebrew}','i')" name="א-ת" order="1"/>
+            <bucket eq="not(matches(.,'\p{IsArabic}|\p{IsHebrew}|\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i'))" name="Other" order="1"/>
+        </range>
+        <group-by>
+            <sub-path>descendant::tei:titleStmt/tei:title[1]</sub-path>
+        </group-by>
+        <max-values show="5">25</max-values>
         <order-by direction="descending">count</order-by>
     </facet-definition>
     <facet-definition name="Community of Origin">
@@ -104,26 +124,6 @@
             <sub-path>/</sub-path>
         </group-by>
         <max-values show="5">100</max-values>
-        <order-by direction="descending">count</order-by>
-    </facet-definition>
-    <facet-definition name="Language">
-        <group-by>
-            <sub-path>descendant::tei:monogr/tei:textLang/@mainLang</sub-path>
-        </group-by>
-        <max-values show="5">100</max-values>
-        <order-by direction="descending">count</order-by>
-    </facet-definition>    
-    <facet-definition name="Citation Script">
-        <range type="xs:string">
-            <bucket eq="matches(.,'\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i')" name="A-Z" order="1"/>
-            <bucket eq="matches(.,'\p{IsArabic}','i')" name="ا-ي" order="2"/>
-            <bucket eq="matches(.,'\p{IsHebrew}','i')" name="א-ת" order="1"/>
-            <bucket eq="not(matches(.,'\p{IsArabic}|\p{IsHebrew}|\p{IsBasicLatin}|\p{IsLatin-1Supplement}|\p{IsLatinExtended-A}|\p{IsLatinExtended-B}|\p{IsLatinExtendedAdditional}','i'))" name="Other" order="1"/>
-        </range>
-        <group-by>
-            <sub-path>descendant::tei:titleStmt/tei:title[1]</sub-path>
-        </group-by>
-        <max-values show="5">25</max-values>
         <order-by direction="descending">count</order-by>
     </facet-definition>
 </facets>

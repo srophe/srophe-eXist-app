@@ -360,3 +360,38 @@ declare function facet:viewable-online($results as item()*, $facet-definitions a
     return 
          <key xmlns="http://expath.org/ns/facet" count="{count($r)}" value="true" label="Online"/>
 };
+
+(: biblia-arabica special facet :)
+declare function facet:language($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+    let $sort := $facet-definitions/facet:order-by
+    for $f in util:eval($path)
+    group by $facet-grp := $f
+    order by 
+        if($sort/text() = 'value') then $facet-grp
+        else count($f)
+        descending
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>    
+};
+
+(: Add correct labels to language codes:)
+declare function facet:translate-lang($lang){
+    if($lang = 'en') then 'English'
+    else if($lang = 'ar') then 'Arabic'
+    else if($lang = 'cop') then 'Coptic'
+    else if($lang = 'de') then 'German'
+    else if($lang = 'grc') then 'Ancient Greek'
+    else if($lang = 'el') then 'Modern Greek'
+    else if($lang = 'he') then 'Hebrew (modern)'
+    else if($lang = 'la') then 'Latin'
+    else if($lang = 'fr') then 'French'
+    else if($lang = 'it') then 'Italian'
+    else if($lang = 'mal') then 'Malayalam'
+    else if($lang = 'hu') then 'Hungarian'
+    (:else if($lang = 'he-Arab') then 'English':)
+    else if($lang = 'syr-Syrj') then 'Syriac'
+    else if($lang = 'syr-Syrn') then 'Syriac'
+    else if($lang = 'syr-x-syrm') then 'Syriac'
+    else if($lang = 'ar-Syrc') then 'Arabic Garshuni'
+    else $lang
+};
