@@ -10,9 +10,9 @@
                     <order-by direction="ascending">value</order-by>
                 </facet-definition>
             </bucket>
-            <!--
             <bucket path="descendant::tei:entryFree[@type = 'building-type']" name="building type" order="3"/>
             <bucket path="descendant::tei:entryFree[@type = 'site-type']" name="site type" order="2"/>
+            <!--
             <bucket path="descendant::tei:entryFree[@type = 'dynasty']" name="dynasty" order="1"/>
             -->
         </range>
