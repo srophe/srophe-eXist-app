@@ -584,6 +584,7 @@
                 </xsl:choose>
             </h3>
             <xsl:apply-templates/>
+            <xsl:sequence select="local:add-footnotes(@source,.)"/>
         </xsl:for-each>
         
         <!-- State for tcdart  -->
@@ -603,7 +604,8 @@
                 <div class="tei-state">
                     <xsl:for-each select="current-group()"> 
                         <div class="tei-state">
-                        <xsl:apply-templates/>
+                            <xsl:apply-templates/>
+                            <xsl:sequence select="local:add-footnotes(@source,.)"/>
                         </div>
                     </xsl:for-each>
                 </div>
@@ -617,6 +619,7 @@
                 </h3>
                 <ul>
                     <xsl:apply-templates select="t:event[not(@type='attestation')]" mode="event"/>
+                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
                 </ul>
             </div>
         </xsl:if>
@@ -631,6 +634,7 @@
                     <xsl:for-each select="t:event[@type='attestation']">
                         <xsl:sort select="if(exists(@notBefore)) then @notBefore else @when"/>
                         <xsl:apply-templates select="." mode="event"/>
+                        <xsl:sequence select="local:add-footnotes(@source,.)"/>
                     </xsl:for-each>
                 </ul>
             </div>
@@ -647,6 +651,7 @@
                 <ol>
                     <xsl:for-each select="current-group()">
                         <xsl:apply-templates select="self::*"/>
+                        <xsl:sequence select="local:add-footnotes(@source,.)"/>
                     </xsl:for-each>
                 </ol>
             </xsl:for-each-group>
@@ -654,13 +659,14 @@
                 <h3>Note</h3>
                 <div class="left-padding bottom-padding">
                     <xsl:apply-templates/>
+                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
                 </div>
             </xsl:for-each>
         </xsl:if>
         
         <xsl:if test="t:gloss and string-length(t:gloss//text()) != 0">
             <h3>Gloss</h3>
-            <div class="indent"><xsl:apply-templates select="t:gloss"/>
+            <div class="indent"><xsl:apply-templates select="t:gloss"/><xsl:sequence select="local:add-footnotes(@source,.)"/>
                 
                 <!--
                 <xsl:for-each-group select="t:gloss" group-by="@xml:lang">
@@ -720,6 +726,7 @@
                     <h3>Note</h3>
                     <div class="left-padding bottom-padding">
                         <xsl:apply-templates/>
+                        <xsl:sequence select="local:add-footnotes(@source,.)"/>
                     </div>
                 </xsl:for-each>
             </xsl:if>

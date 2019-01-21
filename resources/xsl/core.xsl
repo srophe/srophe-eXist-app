@@ -20,6 +20,15 @@
         </td>
     </xsl:template> 
     
+    <!-- D -->
+    <xsl:template match="t:desc">
+        <span class="tei-desc">
+            <xsl:sequence select="local:attributes(.)"/>
+            <xsl:call-template name="rend"/>
+            <xsl:sequence select="local:add-footnotes(@source,.)"/>
+        </span>
+    </xsl:template>
+    
     <!-- G -->
     <xsl:template match="t:graphic">
         <img src="{string(@url)}"/>
@@ -57,6 +66,7 @@
             <xsl:attribute name="class">tei-l</xsl:attribute>
             <xsl:sequence select="local:attributes(.)"/>
             <xsl:call-template name="rend"/>
+            <xsl:sequence select="local:add-footnotes(@source,.)"/>
         </xsl:element>
     </xsl:template>
     <xsl:template match="t:lb">
@@ -66,6 +76,7 @@
         <div class="tei-{local-name(.)}">
             <xsl:sequence select="local:attributes(.)"/>
             <xsl:call-template name="rend"/>
+            <xsl:sequence select="local:add-footnotes(@source,.)"/>
         </div>
     </xsl:template>
     <!-- Handles t:link elements for deperciated notes, pulls value from matching element, output element and footnotes -->
@@ -90,6 +101,7 @@
         <p>
             <xsl:sequence select="local:attributes(.)"/>
             <xsl:call-template name="rend"/>
+            <xsl:sequence select="local:add-footnotes(@source,.)"/>
         </p>
     </xsl:template>
     
