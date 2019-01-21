@@ -28,9 +28,10 @@
     <xsl:template match="t:titleStmt" mode="cite-foot">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
+        <!--
         <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>
         <xsl:text>, </xsl:text>
-        
+        -->
         <!-- title of the entry -->
         <xsl:text>“</xsl:text>
         <xsl:apply-templates select="t:title[@level='a'][1]" mode="footnote"/>
@@ -67,9 +68,10 @@
     <xsl:template match="t:titleStmt" mode="cite-biblist">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
+        <!--
         <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/>
         <xsl:text>, </xsl:text>
-        
+        -->
         <!-- title of the entry -->
         <xsl:text>“</xsl:text>
         <xsl:apply-templates select="t:title[@level='a'][1]" mode="biblist"/>
@@ -99,7 +101,7 @@
             <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='general'],'footnote',1)"/>
             <xsl:text>.</xsl:text>
         </xsl:for-each>
-        <xsl:text> Syriaca.org, 2016-.</xsl:text>
+
         <!-- publication date statement -->
         <xsl:text> Entry published </xsl:text>
         <xsl:for-each select="../t:publicationStmt/t:date[1]">
