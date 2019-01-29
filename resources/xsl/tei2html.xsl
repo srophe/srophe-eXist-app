@@ -96,7 +96,7 @@
     </xsl:variable>
     <!-- Repository Title -->
     <xsl:variable name="repository-title">Architectura Sinica</xsl:variable>
-    <xsl:variable name="collection-title"></xsl:variable>
+    <xsl:variable name="collection-title"/>
  
     <!-- =================================================================== -->
     <!-- Templates -->
@@ -392,16 +392,49 @@
                 </li>
             </xsl:when>
             <xsl:when test="@type='nested'">
-                <li>Within 
-                    <xsl:for-each select="t:*">
-                        <xsl:apply-templates select="."/>
-                        <xsl:if test="following-sibling::t:*">
-                            <xsl:text> within </xsl:text>
-                        </xsl:if>
+                <h5>
+                    <xsl:value-of select="t:placeName"/>
+                </h5>
+                <ul>
+                    <xsl:for-each select="child::*[not(self::t:note) and not(self::t:placeName)]">
+                        <li>
+                            <xsl:choose>
+                                <xsl:when test="self::t:geo"/>
+                                <xsl:when test="t:country">
+                                    <span class="srp-label">Country: </span>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:if test="@type">
+                                        <span class="srp-label">
+                                            <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: 
+                                        </span>
+                                    </xsl:if>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:choose>
+                                <xsl:when test="t:placeName">
+                                    <ul>
+                                        <xsl:for-each select="t:placeName">
+                                            <xsl:apply-templates select="self::*" mode="list"/>
+                                        </xsl:for-each>
+                                    </ul>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                        </li>
                     </xsl:for-each>
-                    <xsl:text>.</xsl:text>
-                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </li>
+                </ul>
+                <xsl:if test="t:note">
+                    <xsl:for-each select="t:note">
+                        <p>
+                            <span class="srp-label">Note <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: </span>
+                            <xsl:apply-templates/>
+                        </p>
+                    </xsl:for-each>
+                </xsl:if>
             </xsl:when>
             <xsl:when test=".[@type='gps' and t:geo]">
                 <li>Coordinates: 
