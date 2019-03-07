@@ -157,7 +157,7 @@ img{ margin:0px }
 
 /* N */
 /* Navbar styles*/
-.navbar {padding:0 2em; border-bottom:4px solid #456889 !important;}
+.navbar {padding:0 2em; border-bottom:4px solid #456889 !important; font-size: .92em;}
 .navbar .dropdown {margin-top:.5em;}
 .navbar {border-bottom:4px solid #456889 !important;}
 .navbar-inner {border-bottom:.5em solid #456889 !important;}
