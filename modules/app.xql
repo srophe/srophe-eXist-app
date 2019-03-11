@@ -618,7 +618,7 @@ declare function app:keyword-tree($node as node(), $model as map(*)){
  : For tcadrt display featured images. 
 :)                   
 declare function app:display-featured-image($node as node(), $model as map(*)){
-    if($model("hits")//tei:relation[@ref='foaf:depicts'][@ana="featured"]) then 
+    if($model("hits")//tei:relation[@ref='foaf:depicts'][@ana="featured"] or $model("hits")//tei:relation[@ref='foaf:depicts'][@rendition="featured"]) then 
         <div class="record-images">
         {
             for $image in $model("hits")//tei:relation[@ref='foaf:depicts']
