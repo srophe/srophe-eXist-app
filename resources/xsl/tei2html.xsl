@@ -342,6 +342,12 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="t:body[t:entryFree]">
+        <xsl:apply-templates select="t:entryFree"/>
+        <xsl:if test="t:bibl">
+            <xsl:call-template name="sources"/>
+        </xsl:if>
+    </xsl:template>
     
     <!-- C -->
     <xsl:template name="citationInfo">
@@ -376,7 +382,6 @@
         </div>
     </xsl:template>
     
-    <!-- L -->
     <!-- L -->
     <xsl:template match="t:location">
         <xsl:choose>
@@ -568,7 +573,6 @@
     </xsl:template>
     
     <!-- P -->
-    <!-- Main page modules for syriaca.org display -->
     <!-- Main page modules for syriaca.org display -->
     <xsl:template match="t:place | t:person | t:bibl[starts-with(@xml:id,'work-')] | t:entryFree">
         <xsl:if test="self::t:place">
