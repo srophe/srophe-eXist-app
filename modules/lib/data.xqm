@@ -150,6 +150,10 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             for $hit in util:eval($eval-string)
             order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
             return root($hit)
+        else if($collection = 'bibl') then 
+            for $hit in util:eval($eval-string)
+            order by global:build-sort-string(data:add-sort-options($hit, 'author'),'')
+            return root($hit)            
         else 
             for $hit in util:eval($eval-string)
             order by ft:score($hit) descending
