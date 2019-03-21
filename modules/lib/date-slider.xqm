@@ -36,7 +36,7 @@ let $endDate :=
                 else() 
 return                 
     if(not(empty($startDate)) and not(empty($endDate))) then 
-           concat('[descendant::tei:place[@type="site"]][descendant::tei:state[@type="existence"][
+           concat('[descendant::tei:place[@type="schema:LandmarksOrHistoricalBuildings"]][descendant::tei:state[@type="existence"][
             (@from gt "', $startDate,'" and @from lt "', $endDate,'") and
             (@to gt "', $startDate,'" and @to lt "', $endDate,'")
             ]]')
