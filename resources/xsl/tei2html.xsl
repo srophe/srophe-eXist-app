@@ -679,7 +679,7 @@
         
         <!-- Notes -->
         <!-- NOTE: need to handle abstract notes -->
-        <xsl:if test="t:note[not(@type='abstract')] | t:desc[not(@type='abstract')]">
+        <xsl:if test="t:note[exists(@type)] and (t:note[not(@type='abstract')] | t:desc[not(@type='abstract')])">
             <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
                 <xsl:sort select="current-grouping-key()"/>
                 <h3>
