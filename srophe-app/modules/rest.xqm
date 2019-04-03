@@ -327,7 +327,7 @@ declare function api:not-found(){
  : Builds full uri based on repo.xml
 :)
 declare function api:get-tei($id){
-    root(collection($global:data-root)//tei:idno[. = $id])
+    root(collection($global:data-root)//tei:idno[@type='URI'][. = $id])
 };
 
 (:~
