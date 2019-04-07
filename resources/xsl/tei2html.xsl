@@ -679,27 +679,38 @@
         
         <!-- Notes -->
         <!-- NOTE: need to handle abstract notes -->
-        <xsl:if test="t:note[exists(@type)] and (t:note[not(@type='abstract')] | t:desc[not(@type='abstract')])">
-            <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
-                <xsl:sort select="current-grouping-key()"/>
-                <h3>
-                    <xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/>
-                </h3>
-                <ol>
-                    <xsl:for-each select="current-group()">
-                        <xsl:apply-templates select="self::*"/>
+        <xsl:choose>
+            <xsl:when test="t:note[exists(@type)]">
+                <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
+                    <xsl:sort select="current-grouping-key()"/>
+                    <h3>
+                        <xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/>
+                    </h3>
+                    <ol>
+                        <xsl:for-each select="current-group()">
+                            <xsl:apply-templates select="self::*"/>
+                            <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                        </xsl:for-each>
+                    </ol>
+                </xsl:for-each-group>
+                <xsl:for-each select="t:note[not(exists(@type))]">
+                    <h3>Note</h3>
+                    <div class="left-padding bottom-padding">
+                        <xsl:apply-templates/>
                         <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                    </xsl:for-each>
-                </ol>
-            </xsl:for-each-group>
-            <xsl:for-each select="t:note[not(exists(@type))]">
-                <h3>Note</h3>
-                <div class="left-padding bottom-padding">
-                    <xsl:apply-templates/>
-                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </div>
-            </xsl:for-each>
-        </xsl:if>
+                    </div>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:for-each select="t:note">
+                    <h3>Note</h3>
+                    <div class="left-padding bottom-padding">
+                        <xsl:apply-templates/>
+                        <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                    </div>
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
         
         <xsl:if test="t:gloss and string-length(t:gloss//text()) != 0">
             <h3>Gloss</h3>
