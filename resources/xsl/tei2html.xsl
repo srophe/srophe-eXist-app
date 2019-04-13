@@ -679,6 +679,7 @@
         
         <!-- Notes -->
         <!-- NOTE: need to handle abstract notes -->
+        <!--
         <xsl:choose>
             <xsl:when test="t:note[exists(@type)]">
                 <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
@@ -711,6 +712,14 @@
                 </xsl:for-each>
             </xsl:otherwise>
         </xsl:choose>
+        -->
+        <xsl:for-each select="t:note">
+            <h3>Note</h3>
+            <div class="left-padding bottom-padding">
+                <xsl:apply-templates/>
+                <xsl:sequence select="local:add-footnotes(@source,.)"/>
+            </div>
+        </xsl:for-each>
         
         <xsl:if test="t:gloss and string-length(t:gloss//text()) != 0">
             <h3>Gloss</h3>
