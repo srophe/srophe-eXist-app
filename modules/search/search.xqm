@@ -54,7 +54,9 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                             if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
                                 global:build-sort-string(data:add-sort-options($h[1], request:get-parameter('sort-element', '')),'')
                             else if($sort-element != '') then 
-                               global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'') 
+                               global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
+                            else if($collection != '') then 
+                                data:add-sort-options($h[1], $collection, $sort-element)
                             else if(xs:double($h[1]/@score)) then 
                                 xs:double($h[1]/@score) 
                             else 0 
@@ -158,7 +160,6 @@ declare
     %templates:default("start", 1)
 function search:show-hits($node as node()*, $model as map(*), $collection as xs:string?, $kwic as xs:string?) {
 <div class="indent" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
-<!--<div>Debug {search:query-string($collection)}</div>-->
     {
         if($collection = 'places') then 
             let $hits := $model("group-by-sites") 

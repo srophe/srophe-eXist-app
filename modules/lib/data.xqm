@@ -151,8 +151,9 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
             return root($hit)
         else if($collection = 'bibl') then 
+            let $sort-element := if(request:get-parameter('sort-element', '')) then request:get-parameter('sort-element', '') else 'author'
             for $hit in util:eval($eval-string)
-            order by global:build-sort-string(data:add-sort-options($hit, 'author'),'')
+            order by global:build-sort-string(data:add-sort-options($hit,'bibl', $sort-element),'')
             return root($hit)            
         else 
             for $hit in util:eval($eval-string)
@@ -207,6 +208,54 @@ declare function data:add-sort-options($hit, $sort-option as xs:string*){
             else if($hit/descendant::tei:death) then $hit/descendant::tei:death/@syriaca-computed-start
             else ()
         else $hit
+    else $hit
+};
+
+(:~ 
+ : Adds sort filter based on sort prameter
+ : Currently supports sort on title, author, publication date and person dates
+ : @param $sort-option
+:)
+declare function data:add-sort-options($hit, $collection, $sort-option as xs:string*){
+    if($sort-option != '') then
+        if($collection = 'bibl') then
+            if($sort-option = 'title') then 
+                global:build-sort-string($hit/descendant::tei:biblStruct/descendant::tei:title[1],request:get-parameter('lang', ''))
+            else if($sort-option = 'author') then 
+                if($hit/descendant::tei:biblStruct/descendant::tei:author[1]) then 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname[1]
+                    else $hit//descendant::tei:author[1]
+                else 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname[1]
+                    else $hit/descendant::tei:titleStmt/tei:editor[1]
+            else if($sort-option = 'pubDate') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            else if($sort-option = 'pubPlace') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            else $hit
+        else 
+            if($sort-option = 'title') then 
+                global:build-sort-string($hit/descendant::tei:titleStmt/tei:title[1],request:get-parameter('lang', ''))
+            else if($sort-option = 'author') then 
+                if($hit/descendant::tei:titleStmt/tei:author[1]) then 
+                    if($hit/descendant::tei:titleStmt/tei:author[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:titleStmt/tei:author[1]/descendant-or-self::tei:surname[1]
+                    else $hit//descendant::tei:author[1]
+                else 
+                    if($hit/descendant::tei:titleStmt/tei:editor[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:titleStmt/tei:editor[1]/descendant-or-self::tei:surname[1]
+                    else $hit/descendant::tei:titleStmt/tei:editor[1]
+            else if($sort-option = 'pubDate') then 
+                $hit/descendant::tei:teiHeader/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            else if($sort-option = 'pubPlace') then 
+                $hit/descendant::tei:teiHeader/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            else if($sort-option = 'persDate') then
+                if($hit/descendant::tei:birth) then $hit/descendant::tei:birth/@syriaca-computed-start
+                else if($hit/descendant::tei:death) then $hit/descendant::tei:death/@syriaca-computed-start
+                else ()
+            else $hit
     else $hit
 };
 
