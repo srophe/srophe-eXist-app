@@ -34,14 +34,6 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
         <script src="http://isawnyu.github.com/awld-js/awld.js?autoinit" type="text/javascript"/>
         -->
         <div id="map"/>
-        {
-            if($total-count gt 0) then 
-               <div class="hint map pull-right small">
-                * This map displays {count($nodes)} records. Only places with coordinates are displayed. 
-                     <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#map-selection" id="mapFAQ">See why?</button>
-               </div>
-            else ()
-            }
         <script type="text/javascript">
             <![CDATA[
             var terrain = L.tileLayer('http://api.tiles.mapbox.com/v3/sgillies.map-ac5eaoks/{z}/{x}/{y}.png', {attribution: "ISAW, 2012"});
