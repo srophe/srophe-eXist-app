@@ -37,48 +37,51 @@
         </script>
     </head>
     <body id="body">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"/>
-                    <span class="icon-bar"/>
-                    <span class="icon-bar"/>
-                </button>
-                <a class="navbar-brand banner-container" href="$nav-base/index.html">
-                    <span>Architectura Sinica</span>
-                </a>
-            </div>
-            <div class="navbar-collapse collapse pull-right">
-                <ul class="nav navbar-nav sm sm-vertical" id="main-menu">
-                    <li>
-                        <a href="$nav-base/research-tool.html"> DYNAMIC SITE ARCHIVE </a>
-                    </li>
-                    <li>
-                        <a href="$nav-base/geolocation.html"> GEOLOCATION </a>
-                    </li>
-                    <li>
-                        <a href="$nav-base/terminology.html"> ARCHITECTURAL TERMINOLOGY </a>
-                    </li>
-                    <li>
-                        <a href="$nav-base/bibliography.html"> BIBLIOGRAPHY </a>
-                    </li>
-                    <li>
-                        <a href="$nav-base/about.html"> ABOUT US </a>
-                    </li>
-                </ul>
-                <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
-                    <div class="input-group">
-                        <input type="text" class="form-control keyboard" placeholder="search" name="q" id="q"/>
-                        <div class="input-group-btn">
-                        </div><!-- /btn-group -->
-                    </div>
-                    <button type="submit" class="btn btn-default">
-                        <span class="glyphicon glyphicon-search"/>
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation" data-template="app:fix-links">
+            <div>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
+                        <span class="icon-bar"/>
                     </button>
-                </form>
+                    <a class="navbar-brand banner-container" href="$nav-base/index.html">
+                        <span>Architectura Sinica</span>
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse pull-right">
+                    <ul class="nav navbar-nav sm sm-vertical" id="main-menu">
+                        <li>
+                            <a href="$nav-base/research-tool.html"> DYNAMIC SITE ARCHIVE </a>
+                        </li>
+                        <li>
+                            <a href="$nav-base/geolocation.html"> GEOLOCATION </a>
+                        </li>
+                        <li>
+                            <a href="$nav-base/terminology.html"> ARCHITECTURAL TERMINOLOGY </a>
+                        </li>
+                        <li>
+                            <a href="$nav-base/bibliography.html"> BIBLIOGRAPHY </a>
+                        </li>
+                        <li>
+                            <a href="$nav-base/about.html"> ABOUT US </a>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/search.html" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control keyboard" placeholder="search" name="q" id="q"/>
+                            <div class="input-group-btn">
+                            </div><!-- /btn-group -->
+                        </div>
+                        <button type="submit" class="btn btn-default">
+                            <span class="glyphicon glyphicon-search"/>
+                        </button>
+                    </form>
+                </div><!--/.nav-collapse -->
             </div>
-        </nav>
+        </div>
+
         <div id="content" class="text"/>
         <footer data-template="app:shared-content" data-template-path="/templates/footer.html"/>
     </body>
