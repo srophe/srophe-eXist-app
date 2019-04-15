@@ -57,8 +57,10 @@
                     <div data-template="app:display-facets" data-template-collection="places" data-template-facets="facet-def.xml"/>
                 </div>
                 <div class="col-md-8">
-                    <div data-template="app:display-map" data-template-collection="places"/>
-                    <span class="pull-right see-map"><a href="$nav-base/geolocation.html">See larger map</a></span>
+                    <div class="well-white">
+                        <span class="pull-right see-map"> <span class="glyphicon glyphicon-resize-full"/> <a href="$nav-base/geolocation.html">See larger map</a></span>
+                        <div data-template="app:display-map" data-template-collection="places"/>
+                    </div>
                     <div data-template="search:group-results" data-template-collection="places">
                         <div data-template="search:show-hits" data-template-collection="places"/>
                     </div>
