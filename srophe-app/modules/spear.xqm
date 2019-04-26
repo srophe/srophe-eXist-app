@@ -186,7 +186,7 @@ declare function spear:cts($node as node(), $model as map(*)){
             if(not(empty($results))) then 
                 <div class="panel panel-default" id="cts">
                     <div class="panel-heading clearfix">
-                        <h4 class="panel-title">Text from The Oxford-BYU Syriac Corpus</h4>
+                        <h4 class="panel-title">Text from The Syriac Corpus</h4>
                     </div>
                     <div class="panel-body">
                         {$results}
