@@ -46,13 +46,16 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
             collection($config:data-root)//tei:TEI[descendant::tei:relation[@mutual = $ids]])
     let $all := 
                 if($collection != '') then
-                    if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance' or $sort-element != '') then
                         for $h in $hits
                         let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
                         group by $de-dup := $id
                         let $score := 
                             if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
                                 global:build-sort-string(data:add-sort-options($h[1], request:get-parameter('sort-element', '')),'')
+                            else if($collection = 'keywords') then
+                                if($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
+                                    global:build-sort-string($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1],'')
+                                else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
                             else if($sort-element != '') then 
                                global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
                             else if($collection != '') then 
@@ -62,23 +65,8 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                             else 0 
                         order by $score ascending
                         return <search score="{$h/@score}">{$h[1]}</search>
-                    else 
-                        for $h in $hits
-                        let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
-                        group by $de-dup := $id
-                        let $score := 
-                            if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
-                                global:build-sort-string(data:add-sort-options($h[1], request:get-parameter('sort-element', '')),'')
-                            else if($sort-element != '') then 
-                               global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'') 
-                            else if(xs:double($h[1]/@score)) then 
-                                xs:double($h[1]/@score) 
-                            else 0 
-                        order by $score descending
-                        return <search score="{$h/@score}">{$h[1]}</search>
                     
                 else 
-                    if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance' or $sort-element != '') then
                         for $h in ($hits | $related)
                         let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
                         group by $de-dup := $id
@@ -92,21 +80,6 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                             else 0 
                         order by $score ascending
                         return <search score="{$h/@score}">{$h[1]}</search>
-                    else 
-                        for $h in $hits
-                        let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
-                        group by $de-dup := $id
-                        let $score := 
-                            if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
-                                global:build-sort-string(data:add-sort-options($h[1], request:get-parameter('sort-element', '')),'')
-                            else if($sort-element != '') then 
-                               global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'') 
-                            else if(xs:double($h[1]/@score)) then 
-                                xs:double($h[1]/@score) 
-                            else 0 
-                        order by $score descending
-                        return <search score="{$h/@score}">{$h[1]}</search>
-                
     return
         map {
                 "hits" := $all,
