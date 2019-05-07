@@ -767,6 +767,11 @@
                 <dataRef key="teidata.pointer"/>
               </datatype>
             </attDef>
+            <attDef ident="type" usage="opt">
+              <datatype>
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+            </attDef>
           </attList>
           <!-- Include an exemplum -->
           <remarks>
