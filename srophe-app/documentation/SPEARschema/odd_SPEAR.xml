@@ -731,6 +731,8 @@
                   require a @uri attribute.</sch:assert>
                 <sch:assert test="@resp">Elements of type &lt;div&gt; within the body element
                   require a @resp attribute.</sch:assert>
+                <sch:assert test="@type='factoid'">Elements of type &lt;div&gt; within the body element
+                require a @type attribute with the value "factoid".</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
