@@ -22,18 +22,20 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 .full-page {margin-top:0;}
 
 /* Detail Page Styles */
-
+.record-images {display: flex;}
 .featured-images {
-    display: block;
-    float:right;
-    width:60%;
-    margin-left:.5em;
-    margin-bottom:.5em;
-    border: 12px solid #eee;
+  flex: 1; /* additionally, equal width */
+  height: auto;
+  margin:1em;
+/*  display: block;*/
+  float:right;
+  width:50%;
+  border: 12px solid #eee;
 }
 
 .featured-images a img {
     width:100%;
+    border: 2px solid white;
 }
 
 /* Keyword pages */
