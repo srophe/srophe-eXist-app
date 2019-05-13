@@ -94,6 +94,7 @@ let $params :=
         if($param = 'startDate') then ()
         else if($param = 'endDate') then ()
         else if($param = 'start') then ()
+        else if($param = 'id') then ()
         else if(request:get-parameter($param, '') = ' ') then ()
         else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
 return 

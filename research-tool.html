@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <form method="get" action="search.html" id="research-tool" class="center-block form-horizontal indent" role="form" style="margin:0; padding:2em; background-color:#F7F7F9;">  
         <h1 class="search-header indent">Search Architectura Sinica 
@@ -58,7 +59,9 @@
                 </div>
                 <div class="col-md-8">
                     <div data-template="app:display-map" data-template-collection="places"/>
-                    <button class="btn btn-default go-to-large-map btn-sm"><span class="glyphicon glyphicon-resize-full"/> <a href="geolocation.html">See larger map</a></button>
+                    <button class="btn btn-default go-to-large-map btn-sm">
+                        <span class="glyphicon glyphicon-resize-full"/> <a href="geolocation.html">See larger map</a>
+                    </button>
                     <br/>
                     <div data-template="search:group-results" data-template-collection="places">
                         <div data-template="search:show-hits" data-template-collection="places"/>

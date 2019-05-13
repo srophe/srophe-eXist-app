@@ -176,6 +176,51 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
         </div>   
 };
 
+declare function tei2html:summary-view($nodes as node()*) as item()* {
+    let $id := replace($nodes/descendant::tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:idno[@type='URI'],'/tei','')
+    let $title := 
+                if($nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin']) then 
+                    $nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin']/text()
+                else $nodes/descendant::tei:titleStmt/tei:title[1]/text()
+    return 
+        <div class="short-rec-view">
+            <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$title}</a>
+            {if($nodes/descendant::tei:entryFree) then 
+                concat(' (',replace(string($nodes/descendant::tei:entryFree/@type),'-',' '),')')
+             else if(contains($id,'/bibl/')) then 
+                <span class="results-list-desc desc" dir="ltr" lang="en">{
+                    bibl2html:citation($nodes/descendant::tei:biblStruct)
+                }</span>
+             else if($nodes/descendant-or-self::tei:desc) then 
+                for $abstract in $nodes/descendant-or-self::tei:desc[1]
+                let $string := string-join($abstract/descendant-or-self::*/text(),' ')
+                let $blurb := 
+                    if(count(tokenize($string, '\W+')[. != '']) gt 25) then  
+                        concat(string-join(for $w in tokenize($string, '\W+')[position() lt 25]
+                        return $w,' '),'...')
+                     else $string 
+                return 
+                    <span class="results-list-desc desc" dir="ltr" lang="en">{
+                        if($abstract/descendant-or-self::tei:quote) then concat('"',normalize-space($blurb),'"')
+                        else $blurb
+                    }</span>
+            else()}
+        </div>   
+};
+
+declare function tei2html:numbered-titles($nodes as node()*) as item()* {
+    let $n := if($nodes/@n) then string($nodes/@n) else ()
+    let $id := replace($nodes/descendant::tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:idno[@type='URI'],'/tei','')
+    let $title := 
+                if($nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin']) then 
+                    $nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin']/text()
+                else $nodes/descendant::tei:titleStmt/tei:title[1]/text()
+    return 
+        <div class="short-rec-view">
+            {if($n != '') then <span class="num">{$n}. </span> else () }
+            <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$title}</a>
+        </div>   
+};
 
 (:~ 
  : Reworked  KWIC to be more 'Google like' 

@@ -5,6 +5,7 @@ import module namespace config="http://syriaca.org/srophe/config" at "../config.
 import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
 import module namespace data="http://syriaca.org/srophe/data" at "data.xqm";
 import module namespace maps="http://syriaca.org/srophe/maps" at "maps.xqm";
+import module namespace slider = "http://syriaca.org/srophe/slider" at "date-slider.xqm";
 import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
 
 import module namespace functx="http://www.functx.com";
@@ -288,33 +289,54 @@ let $relationship-string :=
     if($relationship-type != '') then
         concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$relationship-type ,"' or @name = '",$relationship-type ,"']]")
     else concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
-let $eval-string := concat("collection($config:data-root)/tei:TEI",$relationship-string)
-let $related := util:eval($eval-string)
+let $eval-string := concat("collection($config:data-root)/tei:TEI",$relationship-string, slider:date-filter(()))
+
+let $related := (:util:eval($eval-string):) data:search((), $eval-string, 'title')
+
 let $total := count($related)    
 let $label := if($label != '') then $label else 'External relationships'
+let $start := if(request:get-parameter('start', 1)) then xs:integer(request:get-parameter('start', 1)) else 1
+let $perpage := if(request:get-parameter('perpage', 25)) then xs:integer(request:get-parameter('perpage', 25)) else 25
+let $params := 
+    string-join(
+    for $param in request:get-parameter-names()
+    return 
+        if($param = 'relationship-type') then ()
+        else if($param = 'relationship-id') then ()
+        else if($param = 'id') then ()
+        else if(request:get-parameter($param, '') = ' ') then ()
+        else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
+
 return 
     if($total gt 0) then 
         <div class="panel panel-default external-relationships" xmlns="http://www.w3.org/1999/xhtml">
             <div class="panel-heading"><h3 class="panel-title">{$label} ({$total})</h3></div>
             <div class="panel-body">
+                {slider:browse-date-slider($related,())}
+                <br/>
             {
-            if($total gt 100) then
+            if($total gt 25) then
                 (
-                for $r in subsequence($related,1,100)
-                let $id := replace($r/descendant::tei:idno[1],'/tei','')
-                return tei2html:summary-view($r, (), $id[1]),
-                <a class="more" href="{$config:nav-base}/search.html?relationship-type={$relationship-type}&amp;relation-id={$recid}">See all</a>)
+                <div id="listRelationships">{
+                     for $r at $n in subsequence($related,1,25)
+                     let $id := replace($r/descendant::tei:idno[1],'/tei','')
+                     let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains Place' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
+                     return 
+                     <div>
+                         <span class="num">{$n}. </span>
+                         <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$title}</a>
+                     </div>
+                }</div>,
+                <a class="more" href="{$config:nav-base}/modules/content-negotiation/content-negotiation.xql?relationship-type={$relationship-type}&amp;relation-id={$recid}&amp;start={$start + $perpage}&amp;perpage={$total}{$params}">More <span class="glyphicon glyphicon-circle-arrow-right"></span></a>)
             else
                 for $r at $n in $related
                 let $id := replace($r/descendant::tei:idno[1],'/tei','')
                 let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains Place' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
                 return 
-                    (:tei2html:summary-view($r, (), $id[1]):)
-                    <div class="short-rec-view feature">{
-                        (<span class="num">{$n}. </span>,<span class="feature-title">
-                         <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$title}</a>
-                        </span>)
-                    }</div>
+                    <div>
+                        <span class="num">{$n}. </span>
+                        <a href="{replace($id,$config:base-uri,$config:nav-base)}" dir="ltr">{$title}</a>
+                    </div>
             }
             </div>  
         </div>

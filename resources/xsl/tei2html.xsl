@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -277,7 +278,10 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}"><span class="glyphicon glyphicon-copy" aria-hidden="true"/></button></h4>
+                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}">
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"/>
+                        </button>
+                    </h4>
                     <span id="perferredCitation">
                         <xsl:sequence select="$preferredCitation"/>
                     </span>
@@ -714,7 +718,9 @@
         
         <xsl:if test="t:gloss and string-length(t:gloss//text()) != 0">
             <h3>Gloss</h3>
-            <div class="indent"><xsl:apply-templates select="t:gloss"/><xsl:sequence select="local:add-footnotes(@source,.)"/>
+            <div class="indent">
+                <xsl:apply-templates select="t:gloss"/>
+                <xsl:sequence select="local:add-footnotes(@source,.)"/>
                 
                 <!--
                 <xsl:for-each-group select="t:gloss" group-by="@xml:lang">
