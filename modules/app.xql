@@ -286,6 +286,15 @@ declare function app:display-map($node as node(), $model as map(*)){
     else ()
 };
 
+(: Link to large map with exisiting paramters :)
+declare function app:large-map-btn($node as node(), $model as map(*)){
+    if($model("hits")//tei:geo) then 
+      <button class="btn btn-default go-to-large-map btn-sm">
+        <span class="glyphicon glyphicon-resize-full"/> <a href="geolocation.html?{request:get-query-string()}">See larger map</a>
+      </button>
+    else ()
+};
+
 (:~
  : Display Dates using timelinejs
  :)                 
