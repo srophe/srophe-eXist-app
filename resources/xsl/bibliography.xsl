@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -80,7 +79,7 @@
        </xsl:if>
    </xsl:variable>
    
-   <xsl:template match="t:bibl" mode="footnote">
+    <xsl:template match="t:bibl | t:listBibl" mode="footnote">
         <xsl:param name="footnote-number">-1</xsl:param>
         <xsl:variable name="thisnum">
             <!-- Isolates footnote number in @xml:id-->
@@ -101,10 +100,42 @@
                 <xsl:value-of select="$thisnum"/>
             </span>
             <xsl:text> </xsl:text>
-            <span class="tei-footnote-content">
-                <xsl:call-template name="footnote"/>
-            </span>
+            <xsl:choose>
+                <xsl:when test="self::t:listBibl">
+                    <span class="tei-footnote-content">
+                    <xsl:for-each select="t:bibl">
+                        <xsl:apply-templates select="." mode="listBible"/>
+                        <xsl:if test="position() != last()">; </xsl:if>
+                    </xsl:for-each>
+                    </span>
+                </xsl:when>
+                <xsl:otherwise>
+                    <span class="tei-footnote-content">
+                        <xsl:call-template name="footnote"/>
+                    </span>
+                </xsl:otherwise>
+            </xsl:choose>
         </li>
+    </xsl:template>
+    <!-- listBible shows citations inline seperated by ; See: https://github.com/VandyVRC/tcadrt/issues/35 -->
+    <xsl:template match="t:bibl | t:listBibl" mode="listBible">
+        <xsl:param name="footnote-number">-1</xsl:param>
+        <xsl:variable name="thisnum">
+            <!-- Isolates footnote number in @xml:id-->
+            <xsl:choose>
+                <xsl:when test="$footnote-number='-1'">
+                    <xsl:value-of select="substring-after(@xml:id, '-')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$footnote-number"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <!-- When ptr is available, use full bibl record (indicated by ptr) -->
+        <span>
+            <span id="{@xml:id}"/>
+            <xsl:text> </xsl:text><xsl:call-template name="footnote"/>
+        </span>
     </xsl:template>
 
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
