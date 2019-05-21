@@ -621,9 +621,12 @@ declare function app:keyword-tree($node as node(), $model as map(*)){
     for $broadMatch in $rec/descendant::tei:relation[@ref='skos:broadMatch']
     let $link := if(starts-with($broadMatch/@passive, $config:base-uri)) then
                     replace($broadMatch/@passive, $config:base-uri, $config:nav-base)
-                 else concat($config:nav-base,'/terminology.html?fq=;fq-Category:',string($broadMatch/@passive)) 
+                 else concat($config:nav-base,'/terminology.html?fq=;fq-Category:',string($broadMatch/@passive))
+    let $text := if(starts-with($broadMatch/@passive, $config:base-uri)) then 
+                    data:get-document(string($broadMatch/@passive))//tei:TEI/descendant::tei:title[1]//text()
+                 else string($broadMatch/@passive)
     return 
-        <p><strong>Broad Match:</strong>&#160;<a href="{$link}">{string($broadMatch/@passive)}</a> </p>
+        <p><strong>Broad Match:</strong>&#160;<a href="{$link}">{$text}</a> </p>
 };
 
 (:~
