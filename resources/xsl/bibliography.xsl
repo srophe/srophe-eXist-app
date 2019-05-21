@@ -111,7 +111,8 @@
                 </xsl:when>
                 <xsl:otherwise>
                     <span class="tei-footnote-content">
-                        <xsl:call-template name="footnote"/>
+<!--                        <xsl:call-template name="footnote"/>-->
+                        <xsl:call-template name="chicagoNote"/>
                     </span>
                 </xsl:otherwise>
             </xsl:choose>
@@ -134,7 +135,7 @@
         <!-- When ptr is available, use full bibl record (indicated by ptr) -->
         <span>
             <span id="{@xml:id}"/>
-            <xsl:text> </xsl:text><xsl:call-template name="footnote"/>
+            <xsl:text> </xsl:text><xsl:call-template name="chicagoNote"/>
         </span>
     </xsl:template>
 
@@ -170,6 +171,118 @@
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      Named template used by inline and list style footnotes. 
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <xsl:template name="chicagoNote">
+        <xsl:variable name="passThrough">
+            <xsl:if test="not(empty(t:biblScope))">
+                <xsl:text>, </xsl:text>
+                <xsl:apply-templates select="t:biblScope" mode="footnote"/>
+            </xsl:if>
+            <xsl:if test="not(empty(t:citedRange))">
+                <xsl:text>, </xsl:text>
+                <xsl:for-each select="t:citedRange">
+                    <xsl:apply-templates select="." mode="footnote"/>
+                    <xsl:if test="not(last())">
+                        <xsl:text>, </xsl:text>
+                    </xsl:if>
+                </xsl:for-each>
+            </xsl:if>
+            <xsl:if test="not(empty(t:date))">
+                <xsl:text> (</xsl:text>
+                <xsl:for-each select="t:date">
+                    <xsl:apply-templates select="." mode="footnote"/>
+                </xsl:for-each>
+                <xsl:text>) </xsl:text>
+            </xsl:if>
+            <xsl:if test="not(empty(t:note))">
+                <xsl:text> </xsl:text>
+                <xsl:for-each select="t:note">
+                    <span class="note">Note: <xsl:apply-templates select="." mode="plain"/>
+                        <xsl:if test="not(ends-with(.,'.'))">
+                            <xsl:text>.</xsl:text>
+                        </xsl:if>
+                    </span>
+                </xsl:for-each>
+            </xsl:if>
+        </xsl:variable>
+        <span class="footnote-content">
+            <xsl:choose>
+                <xsl:when test="descendant::t:ptr[@target and starts-with(@target, concat($base-uri,'/bibl/'))]">
+                    <xsl:variable name="biblfilepath">
+                        <xsl:value-of select="concat($data-root,'/bibl/tei/',substring-after(t:ptr/@target, concat($base-uri,'/bibl/')),'.xml')"/>
+                    </xsl:variable>
+                    <xsl:choose>
+                        <xsl:when test="doc-available($biblfilepath)">
+                            <xsl:variable name="rec" select="document($biblfilepath)"/>
+                            <xsl:for-each select="$rec/descendant::t:biblStruct">
+                                <!-- 
+                                author Surname, Short Title, page number. Then the Zotero link.
+                                -->
+                                <xsl:if test="descendant::t:surname">
+                                    <xsl:value-of select="upper-case(descendant::t:surname[1])"/> 
+                                    <xsl:text>, </xsl:text>
+                                </xsl:if>
+                                <xsl:choose>
+                                    <xsl:when test="descendant::t:title[@type='short']">
+                                        <xsl:apply-templates select="descendant::t:title[@type='short']"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:apply-templates select="descendant::t:title[1]" mode="footnote"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                                <xsl:sequence select="$passThrough"/>
+                                <xsl:if test="descendant::t:idno[@type='URI']">
+                                    <span class="footnote-links">
+                                        <xsl:apply-templates select="descendant::t:idno[@type='URI'][contains(.,'www.zotero.org')][1]" mode="links"/>
+                                        <xsl:apply-templates select="descendant::t:idno[@type='URI'][contains(.,$base-uri)][1]" mode="links"/>
+                                        <!--<xsl:apply-templates select="descendant::t:ref[not(ancestor::note)]" mode="links"/>-->
+                                    </span>
+                                </xsl:if>
+                            </xsl:for-each>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates mode="footnote"/>
+                            <xsl:sequence select="$passThrough"/>
+                            <xsl:if test="descendant::t:idno[@type='URI']">
+                                <span class="footnote-links">
+                                    <xsl:apply-templates select="descendant::t:idno[@type='URI']" mode="links"/>
+                                    <xsl:apply-templates select="descendant::t:ref[not(ancestor::note)]" mode="links"/>
+                                </span>
+                            </xsl:if>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:choose>
+                        <xsl:when test="child::*">
+                            <xsl:call-template name="persons"/>
+                            <xsl:text> </xsl:text>
+                            <xsl:for-each select="t:title">
+                                <xsl:apply-templates select="self::*" mode="footnote"/>
+                                <xsl:if test="following-sibling::t:title[@level = 'j']">
+                                    <xsl:text> In</xsl:text>
+                                </xsl:if>
+                                <xsl:if test="position() != last()">
+                                    <xsl:text> </xsl:text>
+                                </xsl:if>
+                            </xsl:for-each>
+                            <xsl:apply-templates select="text()"/>
+                            <xsl:sequence select="$passThrough"/>
+                            <xsl:if test="descendant::t:idno[@type='URI']">
+                                <span class="footnote-links">
+                                    <xsl:apply-templates select="descendant::t:idno[@type='URI']" mode="links"/>
+                                    <xsl:apply-templates select="descendant::t:ref[not(ancestor::note)]" mode="links"/>
+                                </span>
+                            </xsl:if>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:otherwise>
+            </xsl:choose>
+        </span>
+    </xsl:template>
+
     <xsl:template name="footnote">
         <xsl:variable name="passThrough">
             <xsl:if test="not(empty(t:biblScope))">
@@ -222,8 +335,8 @@
                                             <xsl:sequence select="$passThrough"/>
                                             <xsl:if test="descendant::t:idno[@type='URI']">
                                                 <span class="footnote-links">
-                                                  <xsl:apply-templates select="descendant::t:idno[@type='URI']" mode="links"/>
-                                                  <xsl:apply-templates select="descendant::t:ref[not(ancestor::note)]" mode="links"/>
+                                                    <xsl:apply-templates select="descendant::t:idno[@type='URI']" mode="links"/>
+                                                    <xsl:apply-templates select="descendant::t:ref[not(ancestor::note)]" mode="links"/>
                                                 </span>
                                             </xsl:if>
                                         </xsl:for-each>
@@ -331,7 +444,7 @@
             </xsl:choose>
         </span>
     </xsl:template>
-
+    
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      Main footnote templates for bibl records. 
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
@@ -1093,9 +1206,11 @@
         <xsl:choose>
             <xsl:when test="@unit = preceding-sibling::*[1]/@unit"/>
             <xsl:when test="@unit='ff'"/>
+            <!-- Commented out for Chicago Note style
             <xsl:otherwise>
                 <xsl:value-of select="concat(@unit,': ')"/>
             </xsl:otherwise>
+            -->
         </xsl:choose>
         <xsl:choose>
             <xsl:when test="@target">
@@ -1203,7 +1318,7 @@
                     <xsl:text>Link to Zotero Bibliographic record</xsl:text>
                 </xsl:when>
                 <xsl:when test="starts-with($ref,$base-uri)">
-                    <xsl:value-of select="concat('Link to ',$repository-title,' Bibliographic Record for', $title-string)"/>
+                    <xsl:value-of select="concat('Link to ',$repository-title,' Bibliographic Record for ', $title-string)"/>
                 </xsl:when>
                 <!-- glyphicon glyphicon-book -->
                 <xsl:when test="starts-with($ref,'http://www.worldcat.org/')">
@@ -1238,6 +1353,7 @@
                 <img src="{$nav-base}/resources/images/zotero.png" alt="Link to Zotero Bibliographic Record" height="18px"/>
             </xsl:when>
             <xsl:when test="starts-with($ref,$base-uri)">
+                <span class="glyphicon glyphicon-book" alt="{concat('Link to ',$repository-title,' Bibliographic Record.')}"/>
                 <!--<img src="{$nav-base}/resources/images/icons-syriaca-sm.png" alt="{concat('Link to ',$repository-title,' Bibliographic Record.')}" height="18px"/>-->
             </xsl:when>
             <!-- glyphicon glyphicon-book -->

@@ -135,10 +135,13 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
 :)
 declare function app:h1($node as node(), $model as map(*)){
 let $english := <span xml:lang="en">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/text()[1]}</span>
-    let $chinese := <span xml:lang="zh-Hant">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/tei:foreign[@xml:lang = "zh-Hant"][1]}</span>
-    return   
+let $chinese := <span xml:lang="zh-Hant">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/tei:foreign[@xml:lang = "zh-Hant"][1]}</span>
+let $title := if($english != '' and $chinese != '') then 
+                  ($english, ' ' , $chinese)
+              else $model("hits")/descendant::tei:titleStmt/tei:title[1]//text()
+return   
         <div class="title">
-            <h1>{($english, ' ' , $chinese)}</h1>
+            <h1>{$title}</h1>
             <span class="uri">
                 <button type="button" class="btn btn-default btn-xs" id="idnoBtn" data-clipboard-action="copy" data-clipboard-target="#syriaca-id">
                     <span class="srp-label">URI</span>

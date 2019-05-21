@@ -130,6 +130,7 @@
     <xsl:template match="t:bibl" mode="title"/>
     <xsl:template match="t:bibl">
         <xsl:choose>
+            <xsl:when test="@type='formatted'"/>
             <xsl:when test="@type !=('lawd:ConceptualWork','lawd:Citation')">
                 <li>
                     <xsl:if test="descendant::t:lang/text()">
@@ -686,8 +687,19 @@
             <xsl:when test="t:note[exists(@type)]">
                 <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
                     <xsl:sort select="current-grouping-key()"/>
+                    <xsl:variable name="label">
+                        <xsl:choose>
+                            <xsl:when test="contains(current-grouping-key(),':')">
+                                <xsl:variable name="short" select="substring-after(current-grouping-key(),':')"/>
+                                <xsl:value-of select="concat(substring($short,1,1),replace(substring($short,2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="concat(substring(current-grouping-key(),1,1),replace(substring(current-grouping-key(),2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
                     <h3>
-                        <xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/>
+                        <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
                     </h3>
                     <ol>
                         <xsl:for-each select="current-group()">
