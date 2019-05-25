@@ -102,6 +102,9 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
             (response:set-header("Content-Type", "text/plain; charset=utf-8"),
              response:set-header("Access-Control-Allow-Origin", "text/plain; charset=utf-8"),
              tei2txt:tei2txt($data))
+        else if($content-type = 'html-summary') then
+            (response:set-header("Content-Type", "text/html; charset=utf-8"),
+             tei2html:numbered-titles($data))             
         (: Output as html using existdb templating module or tei2html.xqm :)
         else
             (response:set-header("Content-Type", "text/html; charset=utf-8"),

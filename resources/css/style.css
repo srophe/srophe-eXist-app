@@ -88,6 +88,7 @@ footer .poweredby img { width: 120px; }
 /* G */
 .geo-home {margin-top:4em !important;}
 .geo-home #map {border-bottom:4px solid #456889}
+.go-to-large-map {float:right; margin-top:-2em;}
 
 /* I */
 .indent {margin-left: 1em;}
@@ -157,7 +158,7 @@ img{ margin:0px }
 
 /* N */
 /* Navbar styles*/
-.navbar {padding:0 2em; border-bottom:4px solid #456889 !important;}
+.navbar {padding:0 2em; border-bottom:4px solid #456889 !important; font-size: .92em;}
 .navbar .dropdown {margin-top:.5em;}
 .navbar {border-bottom:4px solid #456889 !important;}
 .navbar-inner {border-bottom:.5em solid #456889 !important;}
@@ -308,6 +309,17 @@ pre {
 .white-link:focus, .white-link:active:focus, .white-link.active:focus {
     outline: 0 none;
     color:white;
+}
+.well-custom {
+    min-height: 20px;
+    padding: 1em;
+    margin-bottom: 1em;
+    background-color: white;
+    border: 1px solid #385978;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    overflow: auto;
 }
 
 /* Special styles for small screens */

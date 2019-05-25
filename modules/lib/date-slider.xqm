@@ -36,7 +36,7 @@ let $endDate :=
                 else() 
 return                 
     if(not(empty($startDate)) and not(empty($endDate))) then 
-           concat('[descendant::tei:state[@type="existence"][
+           concat('[descendant::tei:place[@type="schema:LandmarksOrHistoricalBuildings"]][descendant::tei:state[@type="existence"][
             (@from gt "', $startDate,'" and @from lt "', $endDate,'") and
             (@to gt "', $startDate,'" and @to lt "', $endDate,'")
             ]]')
@@ -94,6 +94,7 @@ let $params :=
         if($param = 'startDate') then ()
         else if($param = 'endDate') then ()
         else if($param = 'start') then ()
+        else if($param = 'id') then ()
         else if(request:get-parameter($param, '') = ' ') then ()
         else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
 return 

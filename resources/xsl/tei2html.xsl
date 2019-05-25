@@ -96,7 +96,7 @@
     </xsl:variable>
     <!-- Repository Title -->
     <xsl:variable name="repository-title">Architectura Sinica</xsl:variable>
-    <xsl:variable name="collection-title"></xsl:variable>
+    <xsl:variable name="collection-title"/>
  
     <!-- =================================================================== -->
     <!-- Templates -->
@@ -130,6 +130,7 @@
     <xsl:template match="t:bibl" mode="title"/>
     <xsl:template match="t:bibl">
         <xsl:choose>
+            <xsl:when test="@type='formatted'"/>
             <xsl:when test="@type !=('lawd:ConceptualWork','lawd:Citation')">
                 <li>
                     <xsl:if test="descendant::t:lang/text()">
@@ -277,7 +278,10 @@
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
-                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}"><span class="glyphicon glyphicon-copy" aria-hidden="true"/></button></h4>
+                    <h4>Preferred Citation <button type="button" class="btn btn-default copy-sm" id="preferredCitation" data-toggle="tooltip" title="Copy preferred citation" data-clipboard-action="copy" data-clipboard-text="{normalize-space(concat($preferredCitation, ' Cited from ',$resource-id,'.'))}">
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"/>
+                        </button>
+                    </h4>
                     <span id="perferredCitation">
                         <xsl:sequence select="$preferredCitation"/>
                     </span>
@@ -342,6 +346,12 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="t:body[t:entryFree]">
+        <xsl:apply-templates select="t:entryFree"/>
+        <xsl:if test="t:bibl">
+            <xsl:call-template name="sources"/>
+        </xsl:if>
+    </xsl:template>
     
     <!-- C -->
     <xsl:template name="citationInfo">
@@ -377,7 +387,6 @@
     </xsl:template>
     
     <!-- L -->
-    <!-- L -->
     <xsl:template match="t:location">
         <xsl:choose>
             <xsl:when test=".[@type='geopolitical' or @type='relative']">
@@ -392,16 +401,49 @@
                 </li>
             </xsl:when>
             <xsl:when test="@type='nested'">
-                <li>Within 
-                    <xsl:for-each select="t:*">
-                        <xsl:apply-templates select="."/>
-                        <xsl:if test="following-sibling::t:*">
-                            <xsl:text> within </xsl:text>
-                        </xsl:if>
+                <h5>
+                    <xsl:value-of select="t:placeName"/>
+                </h5>
+                <ul>
+                    <xsl:for-each select="child::*[not(self::t:note) and not(self::t:placeName)]">
+                        <li>
+                            <xsl:choose>
+                                <xsl:when test="self::t:geo"/>
+                                <xsl:when test="t:country">
+                                    <span class="srp-label">Country: </span>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:if test="@type">
+                                        <span class="srp-label">
+                                            <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: 
+                                        </span>
+                                    </xsl:if>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:choose>
+                                <xsl:when test="t:placeName">
+                                    <ul>
+                                        <xsl:for-each select="t:placeName">
+                                            <xsl:apply-templates select="self::*" mode="list"/>
+                                        </xsl:for-each>
+                                    </ul>
+                                </xsl:when>
+                                <xsl:otherwise>
+                                    <xsl:apply-templates/>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                            <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                        </li>
                     </xsl:for-each>
-                    <xsl:text>.</xsl:text>
-                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </li>
+                </ul>
+                <xsl:if test="t:note">
+                    <xsl:for-each select="t:note">
+                        <p>
+                            <span class="srp-label">Note <xsl:value-of select="concat(upper-case(substring(@type,1,1)), substring(@type,2))"/>: </span>
+                            <xsl:apply-templates/>
+                        </p>
+                    </xsl:for-each>
+                </xsl:if>
             </xsl:when>
             <xsl:when test=".[@type='gps' and t:geo]">
                 <li>Coordinates: 
@@ -536,7 +578,6 @@
     
     <!-- P -->
     <!-- Main page modules for syriaca.org display -->
-    <!-- Main page modules for syriaca.org display -->
     <xsl:template match="t:place | t:person | t:bibl[starts-with(@xml:id,'work-')] | t:entryFree">
         <xsl:if test="self::t:place">
             <xsl:if test="t:placeName">
@@ -642,31 +683,55 @@
         
         <!-- Notes -->
         <!-- NOTE: need to handle abstract notes -->
-        <xsl:if test="t:note[not(@type='abstract')] | t:desc[not(@type='abstract')]">
-            <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
-                <xsl:sort select="current-grouping-key()"/>
-                <h3>
-                    <xsl:value-of select="concat(upper-case(substring(current-grouping-key(),1,1)),substring(current-grouping-key(),2))"/>
-                </h3>
-                <ol>
-                    <xsl:for-each select="current-group()">
-                        <xsl:apply-templates select="self::*"/>
+        <xsl:choose>
+            <xsl:when test="t:note[exists(@type)]">
+                <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
+                    <xsl:sort select="current-grouping-key()"/>
+                    <xsl:variable name="label">
+                        <xsl:choose>
+                            <xsl:when test="contains(current-grouping-key(),':')">
+                                <xsl:variable name="short" select="substring-after(current-grouping-key(),':')"/>
+                                <xsl:value-of select="concat(substring($short,1,1),replace(substring($short,2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="concat(substring(current-grouping-key(),1,1),replace(substring(current-grouping-key(),2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:variable>
+                    <h3>
+                        <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
+                    </h3>
+                    <ol>
+                        <xsl:for-each select="current-group()">
+                            <xsl:apply-templates select="self::*"/>
+                            <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                        </xsl:for-each>
+                    </ol>
+                </xsl:for-each-group>
+                <xsl:for-each select="t:note[not(exists(@type))]">
+                    <h3>Note</h3>
+                    <div class="left-padding bottom-padding">
+                        <xsl:apply-templates/>
                         <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                    </xsl:for-each>
-                </ol>
-            </xsl:for-each-group>
-            <xsl:for-each select="t:note[not(exists(@type))]">
-                <h3>Note</h3>
-                <div class="left-padding bottom-padding">
-                    <xsl:apply-templates/>
-                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </div>
-            </xsl:for-each>
-        </xsl:if>
+                    </div>
+                </xsl:for-each>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:for-each select="t:note">
+                    <h3>Note</h3>
+                    <div class="left-padding bottom-padding">
+                        <xsl:apply-templates/>
+                        <xsl:sequence select="local:add-footnotes(@source,.)"/>
+                    </div>
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
         
         <xsl:if test="t:gloss and string-length(t:gloss//text()) != 0">
             <h3>Gloss</h3>
-            <div class="indent"><xsl:apply-templates select="t:gloss"/><xsl:sequence select="local:add-footnotes(@source,.)"/>
+            <div class="indent">
+                <xsl:apply-templates select="t:gloss"/>
+                <xsl:sequence select="local:add-footnotes(@source,.)"/>
                 
                 <!--
                 <xsl:for-each-group select="t:gloss" group-by="@xml:lang">
@@ -722,13 +787,7 @@
                         </xsl:if>
                     </ol>
                 </xsl:for-each-group>
-                <xsl:for-each select="t:note[not(exists(@type))]">
-                    <h3>Note</h3>
-                    <div class="left-padding bottom-padding">
-                        <xsl:apply-templates/>
-                        <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                    </div>
-                </xsl:for-each>
+                
             </xsl:if>
             <xsl:call-template name="sources"/>
         </xsl:if>
@@ -1166,7 +1225,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                     -->
-                    <xsl:for-each select="t:bibl">
+                    <xsl:for-each select="t:bibl | t:listBibl">
                         <xsl:sort select="xs:integer(translate(substring-after(@xml:id,'-'),translate(substring-after(@xml:id,'-'), '0123456789', ''), ''))"/>
                         <xsl:apply-templates select="." mode="footnote"/>
                     </xsl:for-each>

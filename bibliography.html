@@ -1,88 +1,88 @@
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
     <div class="padding-top">   
-        <div data-template="search:search-data" data-template-collection="bibl" data-template-sort-element="title">
+        <div data-template="search:search-data" data-template-collection="bibl" data-template-sort-element="author">
             <form method="get" action="bibliography.html" class="center-block form-horizontal indent" role="form" style="margin:0; padding:2em 1em; background-color:#F7F7F9;">  
                 <h1 class="search-header indent">Architectura Sinica Bibliography
-                 <small class="pull-right" style="margin-right:2em;">
-                    (<a class="togglelink text-info" data-toggle="collapse" data-target="#showSearch" href="#showSearch" data-text-swap="+ Show"> - Hide </a>)
-                </small>
+                     <small class="pull-right" style="margin-right:2em;">
+                        (<a class="togglelink text-info" data-toggle="collapse" data-target="#showSearch" href="#showSearch" data-text-swap="+ Show"> - Hide </a>)
+                    </small>
                 </h1>
-            <div class="row collapse in" id="showSearch">
-                <div class="col-md-7 col-sm-offset-1">
-                    <!-- Keyword -->
-                    <div class="form-group">
-                        <label for="q" class="col-sm-2 col-md-3  control-label">Keywords: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Search any text in a glossary record."/>
-                        </label>
-                        <div class="col-sm-10 col-md-9 ">    
-                            <input type="text" id="qs" name="q" class="form-control keyboard"/>
+                <div class="row collapse in" id="showSearch">
+                    <div class="col-md-7 col-sm-offset-1">
+                        <!-- Keyword -->
+                        <div class="form-group">
+                            <label for="q" class="col-sm-2 col-md-3  control-label">Keywords: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Search any text in a glossary record."/>
+                            </label>
+                            <div class="col-sm-10 col-md-9 ">    
+                                <input type="text" id="qs" name="q" class="form-control keyboard"/>
+                            </div>
+                        </div>
+                        <div class="form-group">            
+                            <label for="title" class="col-sm-2 col-md-3  control-label">Title: </label>
+                            <div class="col-sm-10 col-md-9 ">
+                                <input type="text" id="title" name="title" class="form-control keyboard" placeholder="Title of article, journal, book, or series"/>                 
+                            </div>
+                        </div>
+                        <div class="form-group">            
+                            <label for="author" class="col-sm-2 col-md-3  control-label">Author/Editor: </label>
+                            <div class="col-sm-10 col-md-9">
+                                <input type="text" id="author" name="author" class="form-control keyboard" placeholder="First Last or Last, First"/>                
+                            </div>
+                        </div>  
+                        <div class="form-group">            
+                            <label for="pub-place" class="col-sm-2 col-md-3  control-label">Publication Place: </label>
+                            <div class="col-sm-10 col-md-9">
+                                <input type="text" id="pubPlace" name="pub-place" class="form-control keyboard" placeholder="First Last or Last, First"/>
+                            </div>
+                        </div>
+                        <div class="form-group">            
+                            <label for="publisher" class="col-sm-2 col-md-3  control-label">Publisher: </label>
+                            <div class="col-sm-10 col-md-9">
+                                <input type="text" id="publisher" name="publisher" class="form-control keyboard" placeholder="Publisher Name"/>
+                            </div>
+                        </div>   
+                        <div class="form-group">            
+                            <label for="date" class="col-sm-2 col-md-3  control-label">Date: </label>
+                            <div class="col-sm-10 col-md-9">
+                                <input type="text" id="date" name="date" class="form-control" placeholder="Year as YYYY"/>
+                            </div>
+                        </div>   
+                        <hr/>
+                        <div class="form-group">            
+                            <label for="idno" class="col-sm-2 col-md-3  control-label">Id Number: </label>
+                            <div class="col-sm-10 col-md-2 ">
+                                <input type="text" id="idno" name="idno" class="form-control" placeholder="Ex: 3490"/>
+                            </div>
+                        </div> 
+                        <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"/>
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-success">Search</button> 
+                            <button type="reset" class="btn btn-info">Clear</button>
                         </div>
                     </div>
-                    <div class="form-group">            
-                        <label for="title" class="col-sm-2 col-md-3  control-label">Title: </label>
-                        <div class="col-sm-10 col-md-9 ">
-                            <input type="text" id="title" name="title" class="form-control keyboard" placeholder="Title of article, journal, book, or series"/>                 
-                        </div>
-                    </div>
-                    <div class="form-group">            
-                        <label for="author" class="col-sm-2 col-md-3  control-label">Author/Editor: </label>
-                        <div class="col-sm-10 col-md-9">
-                            <input type="text" id="author" name="author" class="form-control keyboard" placeholder="First Last or Last, First"/>                
-                        </div>
-                    </div>  
-                    <div class="form-group">            
-                        <label for="pub-place" class="col-sm-2 col-md-3  control-label">Publication Place: </label>
-                        <div class="col-sm-10 col-md-9">
-                            <input type="text" id="pubPlace" name="pub-place" class="form-control keyboard" placeholder="First Last or Last, First"/>
-                        </div>
-                    </div>
-                    <div class="form-group">            
-                        <label for="publisher" class="col-sm-2 col-md-3  control-label">Publisher: </label>
-                        <div class="col-sm-10 col-md-9">
-                            <input type="text" id="publisher" name="publisher" class="form-control keyboard" placeholder="Publisher Name"/>
-                        </div>
-                    </div>   
-                    <div class="form-group">            
-                        <label for="date" class="col-sm-2 col-md-3  control-label">Date: </label>
-                        <div class="col-sm-10 col-md-9">
-                            <input type="text" id="date" name="date" class="form-control" placeholder="Year as YYYY"/>
-                        </div>
-                    </div>   
-                    <hr/>
-                    <div class="form-group">            
-                        <label for="idno" class="col-sm-2 col-md-3  control-label">Id Number: </label>
-                        <div class="col-sm-10 col-md-2 ">
-                            <input type="text" id="idno" name="idno" class="form-control" placeholder="Ex: 3490"/>
-                        </div>
-                    </div> 
-                    <i id="searchSpinner" class="fa fa-spinner fa-spin fa-lg"/>
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-success">Search</button> 
-                        <button type="reset" class="btn btn-info">Clear</button>
-                    </div>
-                </div>
-            </div>        
-        </form>
+                </div>        
+            </form>
             <br/>
             <div id="search-results-panel">
-                <div data-template="app:pageination" data-template-search-string="yes" data-template-collection="bibl" data-template-sort-options="relevance, title, author, pubPlace,pubDate "/>
-            <div class="row">
+                <div data-template="app:pageination" data-template-search-string="yes" data-template-collection="bibl" data-template-sort-options="relevance,title,author,pubPlace,pubDate "/>
+                <div class="row">
+                    <!-- Commented out until Tracy asks for facets or slider
                 <div class="col-md-4">
-                    <!--
                     <div class="slider-container">
                         <div id="slider" data-template="app:display-slider"/>
                     </div>
-                    -->
                     <div data-template="app:display-facets" data-template-collection="bibl" data-template-facets="facet-def.xml"/>
                 </div>
-                <div class="col-md-8">
-                    <br/>
-                    <div data-template="search:show-hits" data-template-collection="bibl"/>
-                    <div class="page-bottom">
-                        <div data-template="app:pageination" data-template-collection="bibl"/>
+                -->
+                    <div class="col-md-12">
+                        <br/>
+                        <div data-template="search:show-hits" data-template-collection="bibl"/>
+                        <div class="page-bottom">
+                            <div data-template="app:pageination" data-template-collection="bibl"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>

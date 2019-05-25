@@ -274,7 +274,7 @@ let $new-fq := string-join(
 let $href := if($new-fq != '') then concat('?fq=',replace(replace($new-fq,';fq- ',''),';fq-;fq-',';fq-'),facet:url-params()) else ()
 return
     if($facet != '') then
-        for $f in $facets/facet:facet[@name = $facet-name]
+        for $f in $facets/descendant::facet:facet[@name = $facet-name]
         let $fn := string($f/@name)
         let $label := string($f/facet:key[@value = substring-after($facet,concat($facet-name,':'))]/@label)
         let $value := $label
@@ -295,11 +295,13 @@ declare function facet:html-facet-list($facets as node()*){
                 <h4>{string($f/@name)}</h4>
                     <div class="facet-list show">{
                         for $key at $l in subsequence($f/facet:key,1,$f/@show)
+                        where xs:integer($key/@count) gt 0
                         return facet:html-key-button($f, $key) 
                         }
                     </div>
                     <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
                         for $key at $l in subsequence($f/facet:key,$f/@show + 1,$f/@max)
+                        where xs:integer($key/@count) gt 0
                         return facet:html-key-button($f, $key)
                         }
                     </div>

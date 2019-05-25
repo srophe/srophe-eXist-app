@@ -9,6 +9,7 @@ import module namespace config="http://syriaca.org/srophe/config" at "../config.
 import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
 import module namespace functx="http://www.functx.com";
+import module namespace slider = "http://syriaca.org/srophe/slider" at "date-slider.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -140,20 +141,25 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
 :)
 declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {                      
     let $eval-string := if($queryString != '') then $queryString 
-                        else concat(data:build-collection-path($collection), data:create-query($collection),facet:facet-filter(global:facet-definition-file($collection)))
+                        else concat(data:build-collection-path($collection), data:create-query($collection),facet:facet-filter(global:facet-definition-file($collection)),slider:date-filter(()))
     return 
         if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then 
-            for $hit in util:eval($eval-string)
+            for $hit at $n in util:eval($eval-string)
             order by global:build-sort-string(data:add-sort-options($hit, request:get-parameter('sort-element', '')),'')
-            return root($hit)
+            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>
         else if($sort-element != '' and $sort-element != 'relevance') then  
-            for $hit in util:eval($eval-string)
+            for $hit at $n in util:eval($eval-string)
             order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
-            return root($hit)
+            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>
+        else if($collection = 'bibl') then 
+            let $sort-element := if(request:get-parameter('sort-element', '')) then request:get-parameter('sort-element', '') else 'author'
+            for $hit at $n in util:eval($eval-string)
+            order by global:build-sort-string(data:add-sort-options($hit,'bibl', $sort-element),'')
+            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>            
         else 
-            for $hit in util:eval($eval-string)
+            for $hit at $n in util:eval($eval-string)
             order by ft:score($hit) descending
-            return <search score="{ft:score($hit)}">{root($hit)}</search> 
+            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>
 };
 
 (:~   
@@ -203,6 +209,54 @@ declare function data:add-sort-options($hit, $sort-option as xs:string*){
             else if($hit/descendant::tei:death) then $hit/descendant::tei:death/@syriaca-computed-start
             else ()
         else $hit
+    else $hit
+};
+
+(:~ 
+ : Adds sort filter based on sort prameter
+ : Currently supports sort on title, author, publication date and person dates
+ : @param $sort-option
+:)
+declare function data:add-sort-options($hit, $collection, $sort-option as xs:string*){
+    if($sort-option != '') then
+        if($collection = 'bibl') then
+            if($sort-option = 'title') then 
+                global:build-sort-string($hit/descendant::tei:biblStruct/descendant::tei:title[1],request:get-parameter('lang', ''))
+            else if($sort-option = 'author') then 
+                if($hit/descendant::tei:biblStruct/descendant::tei:author[1]) then 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname[1]
+                    else $hit//descendant::tei:author[1]
+                else 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname[1]
+                    else $hit/descendant::tei:titleStmt/tei:editor[1]
+            else if($sort-option = 'pubDate') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            else if($sort-option = 'pubPlace') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            else $hit
+        else 
+            if($sort-option = 'title') then 
+                global:build-sort-string($hit/descendant::tei:titleStmt/tei:title[1],request:get-parameter('lang', ''))
+            else if($sort-option = 'author') then 
+                if($hit/descendant::tei:titleStmt/tei:author[1]) then 
+                    if($hit/descendant::tei:titleStmt/tei:author[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:titleStmt/tei:author[1]/descendant-or-self::tei:surname[1]
+                    else $hit//descendant::tei:author[1]
+                else 
+                    if($hit/descendant::tei:titleStmt/tei:editor[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:titleStmt/tei:editor[1]/descendant-or-self::tei:surname[1]
+                    else $hit/descendant::tei:titleStmt/tei:editor[1]
+            else if($sort-option = 'pubDate') then 
+                $hit/descendant::tei:teiHeader/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            else if($sort-option = 'pubPlace') then 
+                $hit/descendant::tei:teiHeader/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            else if($sort-option = 'persDate') then
+                if($hit/descendant::tei:birth) then $hit/descendant::tei:birth/@syriaca-computed-start
+                else if($hit/descendant::tei:death) then $hit/descendant::tei:death/@syriaca-computed-start
+                else ()
+            else $hit
     else $hit
 };
 
@@ -288,6 +342,12 @@ declare function data:relation-search(){
         else concat("[descendant::tei:relation[@passive[matches(.,'",request:get-parameter('relation-id', ''),"(\W.*)?$')] or @mutual[matches(.,'",request:get-parameter('relation-id', ''),"(\W.*)?$')]]]")
     else ()
 };
+(:
+    if($relationship-type != '') then
+        concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]][@ref = '",$relationship-type ,"' or @name = '",$relationship-type ,"']]")
+    else concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
+
+:)
 
 (:~
  : Generic URI search
