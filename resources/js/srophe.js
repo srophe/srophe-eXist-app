@@ -75,7 +75,7 @@ $(".pagination a").click(function(e){
 });
 
 //Reload only search-results-panel for research-tool form
-$(".facet-display a").click(function(e){
+$(".facet-list a").click(function(e){
     e.preventDefault();
     var url = $(this).attr('href')
     $.get(url, $(this).serialize(), function(data) {
@@ -85,6 +85,7 @@ $(".facet-display a").click(function(e){
         console.log(textStatus);
     });
 });
+
 $("a.reset").click(function(e){
     window.location = window.location.pathname;
 });
