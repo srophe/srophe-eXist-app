@@ -58,10 +58,10 @@
                 for this purpose. This attribute is designed to accomplish this task.</desc>
               <datatype>
                 <dataRef key="teidata.pointer"/>
-                <!-- datatype should = "ID", like xml:id.
-                  This allows my TEI to work (i.e. gets me the URI I want in the place I want it.) but it is not technically correct. 
-                  I'm out of my depth here! I don't know how to change the datatype of the @uri attribute.
-                  Should I use dataRef name="anyURI"
+                <!-- remove @uri customization
+                  I should be using an @xml:id here. Conceptually speaking, a full URI in a attribute would indicate that the div = the factoid.
+                  Instead, the div is a textual expression of the factoid, a conceptual entity.
+                  I need to use an @xml:id with the value "spear-[workURI#]-#". 
                 -->
               </datatype>
             </attDef>
