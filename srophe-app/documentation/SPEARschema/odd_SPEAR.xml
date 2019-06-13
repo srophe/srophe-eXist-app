@@ -61,6 +61,7 @@
                 <!-- datatype should = "ID", like xml:id.
                   This allows my TEI to work (i.e. gets me the URI I want in the place I want it.) but it is not technically correct. 
                   I'm out of my depth here! I don't know how to change the datatype of the @uri attribute.
+                  Should I use dataRef name="anyURI"
                 -->
               </datatype>
             </attDef>
