@@ -54,10 +54,14 @@
             <attDef ident="uri" mode="add">
               <gloss>Provides a URI that identifies the data contained inside the element</gloss>
               <desc>Syriaca.org's robust use of URIs requires the ability to apply stable W3C
-                compliant URIs to discrete sections of a TEI document. xml:ids are not sufficient
+                compliant coolURIs to discrete sections of a TEI document. The @xml:id is not sufficient
                 for this purpose. This attribute is designed to accomplish this task.</desc>
               <datatype>
                 <dataRef key="teidata.pointer"/>
+                <!-- datatype should = "ID", like xml:id.
+                  This allows my TEI to work (i.e. gets me the URI I want in the place I want it.) but it is not technically correct. 
+                  I'm out of my depth here! I don't know how to change the datatype of the @uri attribute.
+                -->
               </datatype>
             </attDef>
           </attList>
