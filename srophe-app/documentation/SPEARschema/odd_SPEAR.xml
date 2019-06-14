@@ -768,6 +768,7 @@
               </constraintSpec>
             </attDef>
             <attDef ident="resp" usage="opt" mode="add">
+              <!-- Take rule from place ODD that will require values to validate against the list. -->
               <datatype minOccurs="1" maxOccurs="unbounded">
                 <dataRef key="teidata.pointer"/>
               </datatype>
@@ -1566,7 +1567,7 @@
           </classes>
           <content>
             <alternate>
-              <elementRef key="persName" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="persName" minOccurs="1" maxOccurs="1"/><!-- This seems redundant. -->
               <sequence preserveOrder="true">
                 <elementRef key="persName" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="birth" minOccurs="1" maxOccurs="1"/>
