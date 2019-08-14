@@ -122,18 +122,19 @@ declare function jsonld:collection($nodes as node()*){
     }</root>
 };
 
-declare function jsonld:jsonld($node as node()*){
+declare function jsonld:jsonld-rdf($node as node()*){
     replace((serialize(jsonld:rdf-JSON(tei2rdf:rdf-output($node)), 
         <output:serialization-parameters>
             <output:method>json</output:method>
         </output:serialization-parameters>)
         ),'"id"','"@id"')
-   
-    (:(serialize(jsonld:sparql-JSON($node), 
+};
+
+declare function jsonld:jsonld($node as node()*){
+    (serialize(jsonld:sparql-JSON($node), 
         <output:serialization-parameters>
             <output:method>json</output:method>
         </output:serialization-parameters>)(:,
         response:set-header("Content-Type", "application/json"):)
         )
-        :)
 };

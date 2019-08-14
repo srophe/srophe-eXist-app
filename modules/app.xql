@@ -343,6 +343,122 @@ declare %templates:wrap function app:contact-form($node as node(), $model as map
 };
 
 (:~
+ : Dashboard function outputs collection statistics. 
+ : $data collection data
+ : $collection-title title of sub-module/collection
+ : $data-dir 
+:)
+declare %templates:wrap function app:dashboard($node as node(), $model as map(*), $collection-title, $data-dir){
+    let $data := 
+        if($collection-title != '') then 
+            collection($config:data-root || '/' || $data-dir || '/tei')//tei:title[. = $collection-title]
+        else collection($config:data-root || '/' || $data-dir || '/tei')//tei:title[@level='a'][parent::tei:titleStmt] 
+            
+    let $data-type := if($data-dir) then $data-dir else 'data'
+    let $rec-num := count($data)
+    let $contributors := for $contrib in distinct-values(for $contributors in $data/ancestor::tei:TEI/descendant::tei:respStmt/tei:name return $contributors) return <li>{$contrib}</li>
+    let $contrib-num := count($contributors)
+    let $data-points := count($data/ancestor::tei:TEI/descendant::tei:body/descendant::text())
+    return
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="dashboardOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        <i class="glyphicon glyphicon-dashboard"></i> {concat(' ',$collection-title,' ')} Dashboard
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="dashboardOne">
+                <div class="panel-body dashboard">
+                    <div class="row" style="padding:2em;">
+                        <div class="col-md-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3"><i class="glyphicon glyphicon-file"></i></div>
+                                        <div class="col-xs-9 text-right">
+                                            <div class="huge">{$rec-num}</div><div>{$data-dir}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse panel-body" id="recCount">
+                                    <p>This number represents the count of {$data-dir} currently described in <i>{$collection-title}</i> as of {current-date()}.</p>
+                                    <span><a href="browse.html"> See records <i class="glyphicon glyphicon-circle-arrow-right"></i></a></span>
+                                </div>
+                                <a role="button" 
+                                    data-toggle="collapse" 
+                                    href="#recCount" 
+                                    aria-expanded="false" 
+                                    aria-controls="recCount">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3"><i class="glyphicon glyphicon-user"></i></div>
+                                        <div class="col-xs-9 text-right"><div class="huge">{$contrib-num}</div><div>Contributors</div></div>
+                                    </div>
+                                </div>
+                                <div class="panel-body collapse" id="contribCount">
+                                    {(
+                                    <p>This number represents the count of contributors who have authored or revised an entry in <i>{$collection-title}</i> as of {current-date()}.</p>,
+                                    <ul style="padding-left: 1em;">{$contributors}</ul>)} 
+                                    
+                                </div>
+                                <a role="button" 
+                                    data-toggle="collapse" 
+                                    href="#contribCount" 
+                                    aria-expanded="false" 
+                                    aria-controls="contribCount">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-xs-3"><i class="glyphicon glyphicon-stats"></i></div>
+                                        <div class="col-xs-9 text-right"><div class="huge"> {$data-points}</div><div>Data points</div></div>
+                                    </div>
+                                </div>
+                                <div id="dataPoints" class="panel-body collapse">
+                                    <p>This number is an approximation of the entire data, based on a count of XML text nodes in the body of each TEI XML document in the <i>{$collection-title}</i> as of {current-date()}.</p>  
+                                </div>
+                                <a role="button" 
+                                data-toggle="collapse" 
+                                href="#dataPoints" 
+                                aria-expanded="false" 
+                                aria-controls="dataPoints">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="glyphicon glyphicon-circle-arrow-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+};
+
+
+(:~
  : Select page view, record or html content
  : If no record is found redirect to 404
  : @param $node the HTML node with the attribute which triggered this call
@@ -716,3 +832,152 @@ return
     
     
 }; 
+
+
+(:
+ : Display related Syriaca.org names
+:)
+declare %templates:wrap function app:linked-data($node as node(), $model as map(*)){
+    (:if($model("data")//@ref[contains(.,'http://syriaca.org/')] and $model("data")//tei:idno[@type="subject"][contains(.,'http://syriaca.org/')]) then:) 
+    if($model("data")//@ref[contains(.,'http://syriaca.org/')] 
+    or $model("data")//@active[contains(.,'http://syriaca.org/')] 
+    or $model("data")//@passive[contains(.,'http://syriaca.org/')] 
+    or $model("data")//@mutual[contains(.,'http://syriaca.org/')] 
+    or $model("data")//tei:idno[contains(.,'http://syriaca.org/')]) then
+        <div class="panel panel-default" style="margin-top:1em;" xmlns="http://www.w3.org/1999/xhtml">
+            <div class="panel-heading">
+            <a href="#" data-toggle="collapse" data-target="#showLinkedData">Linked Data  </a>
+            <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="This sidebar provides links via Syriaca.org to 
+            additional resources beyond this record. 
+            We welcome your additions, please use the e-mail button on the right to contact Syriaca.org about submitting additional links."></span>
+            <button class="btn btn-default btn-xs pull-right" data-toggle="modal" data-target="#submitLinkedData" style="margin-right:1em;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></button>
+            </div>
+            <div class="panel-body">
+                {(
+                 if($model("data")//@ref[contains(.,'http://syriaca.org/')] or $model("data")//@active[contains(.,'http://syriaca.org/')] or $model("data")//@passive[contains(.,'http://syriaca.org/')] or $model("data")//@mutual[contains(.,'http://syriaca.org/')]) then
+                    let $other-resources := distinct-values(
+                        ($model("data")//@ref[contains(.,'http://syriaca.org/')], 
+                        tokenize($model("data")//@active[contains(.,'http://syriaca.org/')],' '), 
+                        tokenize($model("data")//@passive[contains(.,'http://syriaca.org/')],' '), 
+                        tokenize($model("data")//@mutual[contains(.,'http://syriaca.org/')],' ')))
+                    let $count := count($other-resources)
+                    return 
+                        <div class="other-resources" xmlns="http://www.w3.org/1999/xhtml">
+                            <h4>Resources related to {$count} topics in this article. </h4>
+                            <div class="collapse in" id="showOtherResources">
+                                <form class="form-inline hidden" action="{$config:nav-base}/api/sparql" method="post">
+                                    <input type="hidden" name="format" id="format" value="json"/>
+                                    <textarea id="query" class="span9" rows="15" cols="150" name="query" type="hidden">
+                                      <![CDATA[
+                                        prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                                        prefix lawd: <http://lawd.info/ontology/>
+                                        prefix skos: <http://www.w3.org/2004/02/skos/core#>
+                                        prefix dcterms: <http://purl.org/dc/terms/>  
+                            	        
+                            	        SELECT ?uri (SAMPLE(?l) AS ?label) (SAMPLE(?uriSubject) AS ?subjects) (SAMPLE(?uriCitations) AS ?citations)
+                                        {
+                                            ?uri rdfs:label ?l
+                                            FILTER (?uri IN ( ]]>{string-join(for $r in subsequence($other-resources,1,10) return concat('<',$r,'>'),',')}<![CDATA[)).
+                                            FILTER ( langMatches(lang(?l), 'en')).
+                                            OPTIONAL{
+                                                 {SELECT ?uri ( count(?s) as ?uriSubject ) { ?s dcterms:relation ?uri } GROUP BY ?uri }  }
+                                            OPTIONAL{
+                                                 {SELECT ?uri ( count(?o) as ?uriCitations ) { ?uri lawd:hasCitation ?o 
+                                                         OPTIONAL{ ?uri skos:closeMatch ?o.}
+                                                 } GROUP BY ?uri }
+                                           }           
+                                        }
+                                        GROUP BY ?uri                                            
+                                            
+                                      ]]>  
+                                    </textarea>
+                                </form>
+                                <div id="listOtherResources"></div>
+                                {if($count gt 10) then
+                                    <div>
+                                        <div class="collapse" id="showMoreResources">
+                                            <form class="form-inline hidden" action="{$config:nav-base}/api/sparql" method="post">
+                                                <input type="hidden" name="format" id="format" value="json"/>
+                                                <textarea id="query" class="span9" rows="15" cols="150" name="query" type="hidden">
+                                                  <![CDATA[
+                                                    prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                                                    prefix lawd: <http://lawd.info/ontology/>
+                                                    prefix skos: <http://www.w3.org/2004/02/skos/core#>
+                                                    prefix dcterms: <http://purl.org/dc/terms/>  
+                                        	        
+                                        	        SELECT ?uri (SAMPLE(?l) AS ?label) (SAMPLE(?uriSubject) AS ?subjects) (SAMPLE(?uriCitations) AS ?citations)
+                                                    {
+                                                        ?uri rdfs:label ?l
+                                                        FILTER (?uri IN ( ]]>{string-join(for $r in subsequence($other-resources,11,$count) return concat('<',$r,'>'),',')}<![CDATA[)).
+                                                        FILTER ( langMatches(lang(?l), 'en')).
+                                                        OPTIONAL{
+                                                             {SELECT ?uri ( count(?s) as ?uriSubject ) { ?s dcterms:relation ?uri } GROUP BY ?uri }  }
+                                                        OPTIONAL{
+                                                             {SELECT ?uri ( count(?o) as ?uriCitations ) { ?uri lawd:hasCitation ?o 
+                                                                     OPTIONAL{ ?uri skos:closeMatch ?o.}
+                                                             } GROUP BY ?uri }
+                                                       }           
+                                                    }
+                                                    GROUP BY ?uri                                                                                     
+                                                  ]]>  
+                                                </textarea>
+                                            </form>
+                                        </div>
+                                        <a href="#" class="togglelink" data-toggle="collapse" data-target="#showMoreResources" data-text-swap="Less" id="getMoreLinkedData">See more ...</a>
+                                    </div>
+                                else ()
+                                }
+                            </div>
+<!--                            <a href="#" class="btn btn-default togglelink" style="width:100%;" data-toggle="collapse" data-target="#showOtherResources" data-text-swap="Hide Other Resources" id="getLinkedData">Show Other Resources</a>-->
+                            <script>
+                               <![CDATA[
+                                $(document).ready(function() {
+                                    $('#showOtherResources').children('form').each(function () {
+                                        var url = $(this).attr('action');
+                                            $.post(url, $(this).serialize(), function(data) {
+                                                console.log(data);
+                                                var showOtherResources = $("#listOtherResources");
+                                                var dataArray = data.results.bindings;
+                                                if (!jQuery.isArray(dataArray)) dataArray = [dataArray];
+                                                $.each(dataArray, function (currentIndex, currentElem) {
+                                                            var relatedResources = 'Resources related to <a href="'+ currentElem.uri.value +'">'+ currentElem.label.value + '</a> '
+                                                            var relatedSubjects = (currentElem.subjects) ? '<div class="indent">' + currentElem.subjects.value + ' related subjects</div>' : ''
+                                                            var relatedCitations = (currentElem.citations) ? '<div class="indent">' + currentElem.citations.value + ' related citations</div>' : ''
+                                                                showOtherResources.append(
+                                                                   '<div>' + relatedResources + relatedCitations + relatedSubjects + '</div>'
+                                                                );
+                                                        });
+                                            }).fail( function(jqXHR, textStatus, errorThrown) {
+                                                console.log(textStatus);
+                                            }); 
+                                        });
+                                        $('#getMoreLinkedData').one("click", function(e){
+                                           $('#showMoreResources').children('form').each(function () {
+                                                var url = $(this).attr('action');
+                                                    $.post(url, $(this).serialize(), function(data) {
+                                                        var showOtherResources = $("#showMoreResources"); 
+                                                        var dataArray = data.results.bindings;
+                                                        if (!jQuery.isArray(dataArray)) dataArray = [dataArray];
+                                                        $.each(dataArray, function (currentIndex, currentElem) {
+                                                            var relatedResources = 'Resources related to <a href="'+ currentElem.uri.value +'">'+ currentElem.label.value + '</a> '
+                                                            var relatedSubjects = (currentElem.subjects) ? '<div class="indent">' + currentElem.subjects.value + ' related subjects</div>' : ''
+                                                            var relatedCitations = (currentElem.citations) ? '<div class="indent">' + currentElem.citations.value + ' related citations</div>' : ''
+                                                                showOtherResources.append(
+                                                                   '<div>' + relatedResources + relatedCitations + relatedSubjects + '</div>'
+                                                                );
+                                                        });
+                                                    }).fail( function(jqXHR, textStatus, errorThrown) {
+                                                        console.log(textStatus);
+                                                    }); 
+                                                }); 
+                                        });
+                                });
+                            ]]>
+                            </script>
+                        </div>
+                 else () 
+                )}
+            </div>
+        </div>       
+    else()
+};

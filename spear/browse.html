@@ -1,0 +1,42 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/spear.html" data-template-at="content">
+    <h1 class="banner">Browse SPEAR</h1>
+    <div class="row white top-padding">
+        <div class="col-md-12">
+            <!-- Calls xquery functions -->
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li>
+                    <a href="#all" role="tab" data-toggle="tab" data-facet="all">All</a>
+                </li>
+                <li class="active">
+                    <a href="#events" role="tab" data-toggle="tab" data-facet="events">Events</a>
+                </li>
+                <li>
+                    <a href="#persons" role="tab" data-toggle="tab" data-facet="persons">Persons</a>
+                </li>
+                <li>
+                    <a href="#relations" role="tab" data-toggle="tab" data-facet="relations">Relations</a>
+                </li>
+            </ul>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="selectedFacetsList" style="margin:1em;"/>
+                    <div class="tab-content facetLists">
+                        <div class="tab-pane" id="all"/>
+                        <div class="tab-pane active" id="events"/>
+                        <div class="tab-pane" id="persons"/>
+                        <div class="tab-pane" id="relations"/>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <br/>
+                    <h2>Results <span id="resultsCount"/>
+                    </h2>
+                    <div id="result"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="$nav-base/spear/spear-browse.js"/>
+    <br/>
+</div>

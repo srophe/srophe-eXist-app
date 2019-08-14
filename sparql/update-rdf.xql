@@ -10,7 +10,7 @@ xquery version "3.1";
 
 import module namespace http="http://expath.org/ns/http-client";
 import module namespace config="http://syriaca.org/srophe/config" at "../modules/config.xqm";
-import module namespace tei2rdf="http://syriaca.org/tei2rdf" at "../modules/content-negotiation/tei2rdf.xqm";
+import module namespace tei2rdf="http://syriaca.org/srophe/tei2rdf" at "../modules/content-negotiation/tei2rdf.xqm";
 import module namespace sparql="http://exist-db.org/xquery/sparql" at "java:org.exist.xquery.modules.rdf.SparqlModule";
 
 declare namespace rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#";

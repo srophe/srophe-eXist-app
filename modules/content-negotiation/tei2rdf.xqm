@@ -27,8 +27,7 @@ declare namespace cwrc = "http://sparql.cwrc.ca/ontologies/cwrc#";
 declare namespace geo  = "http://www.w3.org/2003/01/geo/wgs84_pos#";
 declare namespace time =  "http://www.w3.org/2006/time#";
 declare namespace periodo = "http://n2t.net/ark:/99152/p0v#";
-
-declare option exist:serialize "method=xml media-type=application/xml omit-xml-declaration=no indent=yes";
+declare option exist:serialize "method=xml media-type=application/rss+xml omit-xml-declaration=no indent=yes";
 
 (: Keep track of all the namespace being used. :)
 declare variable $tei2rdf:namespaces := 
@@ -98,7 +97,14 @@ declare function tei2rdf:attestation($rec, $source){
     return 
          if($rec//tei:bibl[@xml:id = replace($source,'#','')]/tei:ptr) then
                 tei2rdf:create-element('lawd:hasAttestation', (), string($rec//tei:bibl[@xml:id = replace($source,'#','')]/tei:ptr/@target), ())
-         else ()   
+         else ()
+    (:
+        let $source := 
+            if($rec//tei:bibl[@xml:id = replace($source,'#','')]/tei:ptr) then
+                string($rec//tei:bibl[@xml:id = replace($source,'#','')]/tei:ptr/@target)
+            else string($source)
+        return 
+    :)    
 };
 
 (: Create Dates :)
@@ -112,9 +118,14 @@ declare function tei2rdf:make-date-triples($date){
             if($d castable as xs:dateTime) then 
             (attribute {xs:QName("rdf:datatype")} { "http://www.w3.org/2001/XMLSchema#dateTime" }, xs:dateTime($d))                     
             else ()
+            (:
+            if($d castable as xs:integer) then 
+                (attribute {xs:QName("rdf:datatype")} { "http://www.w3.org/2001/XMLSchema#integer" }, xs:integer($d))
+            else ()
+            :)
         },
-        element { xs:QName('time:hasDateTimeDescription') } {
-            element { xs:QName('rdf:Description') } {
+    element { xs:QName('time:hasDateTimeDescription') } {
+        element { xs:QName('rdf:Description') } {
             (if($date//text()) then  
                 tei2rdf:create-element('skos:prefLabel', (), normalize-space(string-join($date/descendant-or-self::text(),' ')), 'literal')
             else (),
@@ -182,7 +193,7 @@ declare function tei2rdf:rec-type($rec){
         'http://syriaca.org/schema#/eventFactoid'
     else if($rec/tei:listRelation) then
         'http://syriaca.org/schema#/relationFactoid'
-    else 'http://schema.org/Thing'
+    else ()
 };
 
 (: Decode record label and title based on Syriaca.org headwords if available 'rdfs:label' or dcterms:title:)
