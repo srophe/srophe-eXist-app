@@ -135,6 +135,7 @@ declare function tei2html:idno-title-display($id){
             </small>
         </div>
 };
+
 (:~ 
  : Display idno with copy icon and paging (if relevant)
 :)
