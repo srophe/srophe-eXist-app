@@ -14,7 +14,6 @@ import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "tei2ht
 
 (: Data processing module. :)
 import module namespace data="http://syriaca.org/srophe/data" at "../lib/data.xqm";
-import module namespace facet="http://syriaca.org/srophe/facet" at "../lib/facet.xqm";
 
 (: Import KWIC module:)
 import module namespace kwic="http://exist-db.org/xquery/kwic";
@@ -34,12 +33,6 @@ let $path := if(request:get-parameter('id', '')  != '') then
 let $data :=
     if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         data:get-document()
-    else if(request:get-parameter('fq', '') != '') then 
-        if(request:get-parameter('view', '') = 'facet-list') then 
-            let $hits := data:get-records('', '')
-            let $facet-list := doc($config:app-root || '/facet-def.xml')
-            return facet:json-list-facets(facet:count($hits, $facet-list/descendant::facet:facet-definition))
-        else 'test'
     else if(request:get-parameter-names() != '') then 
         let $hits := data:search('','','')
         return 
