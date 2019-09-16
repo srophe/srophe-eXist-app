@@ -133,6 +133,14 @@ $('#citeItemSelect').on('change', function (e) {
    console.log(href + '?format=bib&style=' + style)
 });
 
-
+//Browse page functions for select menu
+//data-href="?fq=;fq-;fq-Manuscript Location:AS 140.31"
+$('.dynamicFacets').on('change', function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    var url = $(this).val();
+    window.location = url;
+    console.log('Test ' + url);
+});
 
 });

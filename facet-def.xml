@@ -34,27 +34,6 @@
         <max-values show="5">100</max-values>
         <order-by direction="descending">count</order-by>
     </facet-definition>
-    <facet-definition name="Manuscript Location">
-        <group-by>
-            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:settlement</sub-path>
-        </group-by>
-        <max-values show="5">100</max-values>
-        <order-by direction="descending">count</order-by>
-    </facet-definition>
-    <facet-definition name="Manuscript Collection">
-        <group-by>
-            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:collection</sub-path>
-        </group-by>
-        <max-values show="5">100</max-values>
-        <order-by direction="descending">count</order-by>
-    </facet-definition>
-    <facet-definition name="Manuscript Shelfmark">
-        <group-by>
-            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/string-join(tei:msIdentifier/*, ", ")</sub-path>
-        </group-by>
-        <max-values show="5">100</max-values>
-        <order-by direction="descending">count</order-by>
-    </facet-definition>
     <facet-definition name="Translator">
         <group-by>
             <sub-path>descendant::tei:relation[@ref="dc:subject" and @type="translator"]/tei:desc</sub-path>

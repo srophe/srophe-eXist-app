@@ -133,6 +133,7 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
         else ()     
     let $eval-string := concat(data:build-collection-path($collection),
                 facet:facet-filter(global:facet-definition-file($collection)),
+                facet:facet-filter(doc(concat($config:app-root, '/select-locations-def.xml'))),
                 data:element-filter($element))    
     let $hits := util:eval($eval-string)
     return 

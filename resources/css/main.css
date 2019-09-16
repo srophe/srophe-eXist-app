@@ -789,7 +789,20 @@ input:checked + .slider:before {
 
 #citationsDisplay .content {margin:0 .5em; padding:0 .5em;}
 
+#selectLocation {
+    display: block;
+    padding-top: 1.25em;
+    padding-bottom: .5em;
+    overflow: hidden;
+    }
 
+#selectLocation .control-label {
+    font-weight:bold;
+}
+
+#selectLocation .input-group {
+    padding-bottom:.5em;
+}
 /* Special styles for small screens */
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}

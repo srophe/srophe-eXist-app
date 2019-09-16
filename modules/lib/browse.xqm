@@ -63,17 +63,7 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
                     <div class="{if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then "pull-left" else "pull-right paging"}">
                          {page:pages($hits, $collection, $browse:start, $browse:perpage,'', $sort-options)}
                     </div>
-                    {(:
-                    if($browse:view = ('type','date','facets','other','ܐ-ܬ','ا-ي') ) then ()
-                    else browse:browse-abc-menu()
-                    :)''}
                 </div>,
-                (:
-                <h3>{(
-                    if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) 
-                    else attribute class {"label"},
-                    if($browse:view = ('type','date','facets','other','ܐ-ܬ','ا-ي') ) then ()
-                    else if($browse:alpha-filter != '') then $browse:alpha-filter else 'A')}</h3>,:)  
                 <div class="results {if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
                     {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
                     <span style="font-size: 1.25em; font-weight: 500; color: #666; margin:-1em 0 1em -.5em;">Results: {count($hits)}</span>
@@ -83,7 +73,19 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
         </div>,
         if(not(empty($facet-config))) then 
            <div class="col-md-4 col-md-pull-8" xmlns="http://www.w3.org/1999/xhtml">
+                <hr/>
+                <div id="selectLocation">{
+                    let $select-menu := 
+                            if(doc-available(concat($config:app-root, '/select-locations-def.xml'))) then
+                                doc(concat($config:app-root, '/select-locations-def.xml'))
+                            else ()
+                    return 
+                        facet:html-list-facets-as-buttons(facet:count($hits, $select-menu/descendant::facet:facet-definition))
+                }</div>
+                <hr/>
+                <div id="facetResults">
                 {facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))}
+                </div>
            </div>
         else ()
         )
@@ -101,7 +103,7 @@ declare function browse:display-hits($hits){
         else () 
     let $uri := replace($hit/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
     return 
-        <div xmlns="http://www.w3.org/1999/xhtml" class="result">
+        <div xmlns="http://www.w3.org/1999/xhtml" class="result" id="browseResults">
             {($sort-title, tei2html:summary-view($hit[1], $browse:lang, $uri[1]))}
         </div>
 };

@@ -38,7 +38,7 @@ declare function facet:count($results as item()*, $facet-definitions as element(
     {   
     for $facet in $facet-definitions
     return 
-    <facet name="{$facet/@name}" show="{$facet/descendant::facet:max-values/@show}" max="{$facet/descendant::facet:max-values/text()}">
+    <facet name="{$facet/@name}" show="{$facet/descendant::facet:max-values/@show}" max="{$facet/descendant::facet:max-values/text()}" type="{$facet/@type}">
         {
         let $max := if($facet/descendant::facet:max-values/text()) then $facet/descendant::facet:max-values/text() else 100
         for $facets at $i in subsequence(facet:facet($results, $facet),1,$max)
@@ -79,17 +79,19 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
             for $f in util:eval($path)
             group by $facet-grp := $f
             order by 
-                if($sort/text() = 'value') then $f[1]
+                if($sort/text() = 'value') then global:build-sort-string($f[1],'')
                 else count($f)
-            ascending
+                ascending
+            where $facet-grp != ''
             return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
         else 
             for $f in util:eval($path)
             group by $facet-grp := $f
             order by 
-                if($sort/text() = 'value') then $f[1]
+                if($sort/text() = 'value') then global:build-sort-string($f[1],'')
                 else count($f)
                 descending
+            where $facet-grp != ''   
             return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
 };
 
@@ -219,6 +221,7 @@ declare function facet:url-params(){
 };
 
 (: HTML display functions :)
+(: HTML display functions :)
 
 (:~
  : Create 'Remove' button for selected facets
@@ -258,7 +261,7 @@ let $new-fq := string-join(
 let $href := if($new-fq != '') then concat('?fq=',replace(replace($new-fq,';fq- ',''),';fq-;fq-',';fq-'),facet:url-params()) else ()
 return
     if($facet != '') then
-        for $f in $facets/facet:facet[@name = $facet-name]
+        for $f in $facets/descendant::facet:facet[@name = $facet-name]
         let $fn := string($f/@name)
         let $label := string($f/facet:key[@value = substring-after($facet,concat($facet-name,':'))]/@label)
         let $value := $label
@@ -267,39 +270,98 @@ return
                     {concat($fn,': ', $value)} <a href="{$href}" class="facet icon"> x</a>
                 </span>
     else(),
-for $f in $facets/facet:facet
-let $count := count($f/facet:key)
-return 
-    if($count gt 0) then 
-    <div class="facet-grp">
-        <h4>{string($f/@name)}</h4>
-            <div class="facet-list show">{
-                for $key at $l in subsequence($f/facet:key,1,$f/@show)
-                let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
+    facet:html-facet-list($facets))    
+};
+
+declare function facet:html-facet-list($facets as node()*){
+    for $f in $facets/facet:facet
+    let $count := count($f/facet:key)
+    return 
+         if($count gt 0) then
+            if($f/@type='select') then
+                let $filter-this := 
+                    for $facet in tokenize($facet:fq,';fq-')
+                    where not(contains($facet,string($f/@name)))
+                    return string-join($facet,'')
                 let $new-fq := 
-                    if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
-                    else concat('fq=',normalize-space($facet-query))
-                let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{string($key/@label)} <span class="count" dir="ltr"> ({string($key/@count)})</span></a> 
-                }
-            </div>
-            <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
-                for $key at $l in subsequence($f/facet:key,$f/@show + 1,$f/@max)
-                let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
-                let $new-fq := 
-                    if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
-                    else concat('fq=',$facet-query)
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{string($key/@label)} <span class="count" dir="ltr"> ({string($key/@count)})</span></a>
-                }
-            </div>
-            {if($count gt ($f/@show - 1)) then 
-                <a class="facet-label togglelink btn btn-info" 
-                data-toggle="collapse" data-target="#{concat('show',replace(string($f/@name),' ',''))}" href="#{concat('show',replace(string($f/@name),' ',''))}" 
-                data-text-swap="Less"> More &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
-            else()}
-    </div>
-    else()
-)    
+                    if($facet:fq != '') then 
+                        if(contains($facet:fq,concat(';fq-',string($f/@name)))) then
+                            concat('fq=',string-join($filter-this,''))
+                        else concat('fq=',$facet:fq)
+                    else () 
+                return     
+                <div class="form-group">
+                    <lable for="{string($f/@name)}" class="col-sm-2 col-md-3 control-label">{string($f/@name)}</lable>
+                    <div class="col-sm-10 col-md-9 ">
+                        <div class="input-group">
+                            <select id="{string($f/@name)}" name="{string($f/@name)}" class="form-control dynamicFacets">{(
+                                <option value="?{$new-fq}" class="facet-label"> All </option>,
+                                for $key at $l in subsequence($f/facet:key,1,$f/@show)
+                                where xs:integer($key/@count) gt 0
+                                return facet:html-key-select-option($f, $key) 
+                               )}
+                            </select>
+                        </div>
+                    </div>
+                </div>                    
+            else 
+                <div class="facet-grp">
+                    <h4>{string($f/@name)}</h4>
+                        <div class="facet-list show">{
+                            for $key at $l in subsequence($f/facet:key,1,$f/@show)
+                            where xs:integer($key/@count) gt 0
+                            return facet:html-key-button($f, $key) 
+                            }
+                        </div>
+                        <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
+                            for $key at $l in subsequence($f/facet:key,$f/@show + 1,$f/@max)
+                            where xs:integer($key/@count) gt 0
+                            return facet:html-key-button($f, $key)
+                            }
+                        </div>
+                        {if($count gt ($f/@show - 1)) then 
+                            <a class="facet-label togglelink btn btn-default" 
+                            data-toggle="collapse" data-target="#{concat('show',replace(string($f/@name),' ',''))}" href="#{concat('show',replace(string($f/@name),' ',''))}" 
+                            data-text-swap="Less"> More &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                        else()}
+                </div>
+        else()
+};
+
+declare function facet:html-key-button($f as node()*, $key as node()*){
+    let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
+    let $new-fq := 
+        if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
+        else concat('fq=',normalize-space($facet-query))
+    let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
+    return 
+        (
+        <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active} btn btn-default">{lower-case(global:get-label(string($key/@label)))} <span class="count"> ({string($key/@count)})</span></a>,
+        if($key/facet:facets/facet:facet) then 
+            <span class="facet-list sub-facet">{
+            for $sub-facets at $l in $key/facet:facets
+            return facet:html-facet-list($sub-facets)
+            }</span> 
+        else ()
+        )
+};
+
+declare function facet:html-key-select-option($f as node()*, $key as node()*){
+    let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
+    let $filter-this := 
+            for $facet in tokenize($facet:fq,';fq-')
+            where not(contains($facet,string($f/@name)))
+            return string-join($facet,'')
+    let $new-fq := 
+        if($facet:fq != '') then 
+            if(contains($facet:fq,concat(';fq-',string($f/@name)))) then
+                concat('fq=',string-join($filter-this,''),$facet-query)
+            else concat('fq=',$facet:fq,$facet-query)
+        else concat('fq=',normalize-space($facet-query))    
+    return
+        <option value="?{$new-fq}" class="facet-label">
+        {if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then attribute selected {'selected'} else ()}
+        {global:get-label(string($key/@label))}</option>
 };
 
 (: Syriaca.org specific facet functions :)
@@ -323,7 +385,6 @@ declare function facet:group-by-sub-module($results as item()*, $facet-definitio
         return 
             <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$label}"/>    
 };
-
 
 (: Syriaca.org specific function that uses the syiraca.org ODD file to establish labels for controlled values 
  : Uses global:odd2text($element-name,$label)) for translation. 
@@ -373,6 +434,55 @@ declare function facet:language($results as item()*, $facet-definitions as eleme
         descending
     return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>    
 };
+
+(: biblia-arabica special filter collection based on city value :)
+declare function facet:collection($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $location := 
+        for $s in tokenize($facet:fq,';fq-') 
+        let $location := substring-before($s,':')
+        let $location-name := substring-after($s,':')
+        where $location = 'Manuscript Location'
+        return $location-name
+    let $path := if($location != '') then 
+                    concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"]/tei:collection')
+                 else concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+    let $sort := $facet-definitions/facet:order-by
+    for $f in util:eval($path)
+    group by $facet-grp := $f
+    order by 
+        if($sort/text() = 'value') then global:build-sort-string($facet-grp,'')
+        else count($f)
+        descending
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>   
+};
+
+(: biblia-arabica special facet :)
+declare function facet:shelfmark($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $location := 
+        for $location-facet in tokenize($facet:fq,';fq-') 
+        let $location-name := substring-before($location-facet,':')
+        let $location-value := substring-after($location-facet,':')
+        where $location-name = 'Manuscript Location'
+        return $location-value
+    let $collection := 
+        for $collection-facet in tokenize($facet:fq,';fq-') 
+        let $collection-name := substring-before($collection-facet,':')
+        let $collection-value := substring-after($collection-facet,':')
+        where $collection-name = 'Manuscript Collection'
+        return $collection-value        
+    let $path := if($collection != '') then 
+                    concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"][tei:collection = "',$collection,'"]/tei:idno[@type="shelfmark"]')
+                 else concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
+    let $sort := $facet-definitions/facet:order-by
+    for $f in util:eval($path)
+    group by $facet-grp := $f
+    order by 
+        if($sort/text() = 'value') then $facet-grp
+        else count($f)
+        descending
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>    
+};
+
 
 (: Add correct labels to language codes:)
 declare function facet:translate-lang($lang){
