@@ -1,0 +1,23 @@
+<facets xmlns="http://expath.org/ns/facet">
+    <facet-definition name="City" type="select">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:settlement</sub-path>
+        </group-by>
+        <max-values show="200">200</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    <facet-definition name="Collection" type="select">
+        <group-by function="facet:collection">
+            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:collection</sub-path>
+        </group-by>
+        <max-values show="100">100</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    <facet-definition name="Shelfmark" type="select">
+        <group-by function="facet:shelfmark">
+            <sub-path>descendant::tei:relation[@ref="dcterms:references"]/tei:desc/tei:msDesc/tei:msIdentifier/tei:idno[@type="shelfmark"]</sub-path>
+        </group-by>
+        <max-values show="100">100</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+</facets>
