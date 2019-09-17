@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml" data-template="app:get-work">
     <head>
         <meta charset="utf-8"/>
@@ -16,9 +15,9 @@
         <!-- Srophe styles -->
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/syr-icon-fonts.css"/>
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/style.css"/>
-        <!-- Syriaca.org, Geo -->
+        <!-- Syriaca.org -->
         <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/main.css"/>
-        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/lightslider.css"/>
+        <link rel="stylesheet" type="text/css" href="$nav-base/resources/css/bibl.css"/>
         <link rel="stylesheet" type="text/css" media="print" href="$nav-base/resources/css/print.css"/>
         <!-- Leaflet -->
         <link rel="stylesheet" href="$nav-base/resources/leaflet/leaflet.css"/>
@@ -96,7 +95,7 @@
                 </button>
                 <a class="navbar-brand banner-container" href="$nav-base/bibl/index.html">
                     <span class="syriaca-icon syriaca-bibl banner-icon"/>
-                    <span class="banner-text">Syriaca.org Works Cited</span>
+                    <span class="banner-text"><span data-template="app:record-title" data-template-collection="bibl"/></span>
                 </a>
             </div>
             <div class="navbar-collapse collapse pull-right" id="navbar-collapse-1">
@@ -105,15 +104,35 @@
                         <a href="$nav-base/bibl/browse.html?view=A-Z" class="nav-text">Browse </a>
                     </li>
                     <li class="dropdown">
-                        <a href="$nav-base/index.html" class="icon-container">
-                            <span class="syriaca-icon syriaca-syriaca icon-nav">
-                                <span class="path1"/><span class="path2"/><span class="path3"/><span class="path4"/>
-                            </span>
-                            <span class="icon-text">Syriaca.org</span>
+                        <a href="#" class="dropdown-toggle nav-text" data-toggle="dropdown">
+                            About   <b class="caret"/>
                         </a>
-                    </li>                        
-                    <!-- Shared drop-down menu of all submodules -->
-                    <li data-template="app:shared-content" data-template-path="/templates/shared-links.html"/>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="$nav-base/bibl/about.html" class="nav-text">
+                                    <span class="icon-text">Overview</span>
+                                </a>
+                            </li>
+                            <li role="presentation" class="divider"/>
+                            <li>
+                                <a href="$nav-base/bibl/contact.html" class="nav-text">
+                                    <span class="icon-text">Contact</span>
+                                </a>
+                            </li>
+                            <li role="presentation" class="divider"/>
+                            <li>
+                                <a href="http://www.csc.org.il/" class="nav-text">
+                                    <span class="icon-text">CSC @ HU</span>
+                                </a>
+                            </li>
+                            <li role="presentation" class="divider"/>
+                            <li>
+                                <a href="$nav-base/documentation/index.html" class="nav-text">
+                                    <span class="icon-text">Documentation</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>                       
                 </ul>
                 <form class="navbar-form navbar-left navbar-input-group" role="search" action="$nav-base/bibl/search.html" method="get">
                     <div class="input-group">

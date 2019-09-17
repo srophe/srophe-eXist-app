@@ -1,0 +1,30 @@
+/* Application styles could go here */
+body {background-color:#64617F;}
+.navbar {border-bottom:4px solid #413B59 !important;}
+.image-banner {border-bottom:.5em solid #413B59 !important;}
+.banner {
+    background-color: #64617F;
+    border-bottom: none;
+}
+/* Bibl banner*/
+.banner-bibl {
+    position:relative;
+    margin-top:-1em;
+    padding-top:0;
+	background-image:url('../images/CBSC-banner.jpg');
+	background-size:cover;
+	background-position:top;
+    height:250px;
+    width:100%;
+    border-bottom:4px solid #413B59;
+} 
+/* Main content blocks */
+
+/* Typography */
+.bibl li{line-height: 1.5em;padding-bottom:.5em;}
+
+
+#placenames .placeName {font-weight: bold;}
+footer { border-top: 4px solid #413B59; }
+
+button.bibl-show {margin: .5em -1em;}
