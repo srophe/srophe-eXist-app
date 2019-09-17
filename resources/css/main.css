@@ -803,6 +803,9 @@ input:checked + .slider:before {
 #selectLocation .input-group {
     padding-bottom:.5em;
 }
+
+#selectLocation .remove {display:none;}
+
 /* Special styles for small screens */
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}
