@@ -441,7 +441,7 @@ declare function facet:collection($results as item()*, $facet-definitions as ele
         for $s in tokenize($facet:fq,';fq-') 
         let $location := substring-before($s,':')
         let $location-name := substring-after($s,':')
-        where $location = 'Manuscript Location'
+        where $location = 'City'
         return $location-name
     let $path := if($location != '') then 
                     concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"]/tei:collection')
@@ -452,7 +452,7 @@ declare function facet:collection($results as item()*, $facet-definitions as ele
     order by 
         if($sort/text() = 'value') then global:build-sort-string($facet-grp,'')
         else count($f)
-        descending
+        ascending
     return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>   
 };
 
@@ -462,13 +462,13 @@ declare function facet:shelfmark($results as item()*, $facet-definitions as elem
         for $location-facet in tokenize($facet:fq,';fq-') 
         let $location-name := substring-before($location-facet,':')
         let $location-value := substring-after($location-facet,':')
-        where $location-name = 'Manuscript Location'
+        where $location-name = 'City'
         return $location-value
     let $collection := 
         for $collection-facet in tokenize($facet:fq,';fq-') 
         let $collection-name := substring-before($collection-facet,':')
         let $collection-value := substring-after($collection-facet,':')
-        where $collection-name = 'Manuscript Collection'
+        where $collection-name = 'Collection'
         return $collection-value        
     let $path := if($collection != '') then 
                     concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"][tei:collection = "',$collection,'"]/tei:idno[@type="shelfmark"]')
