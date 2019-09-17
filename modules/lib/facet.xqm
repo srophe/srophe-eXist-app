@@ -282,11 +282,13 @@ declare function facet:html-facet-list($facets as node()*){
                 let $filter-this := 
                     for $facet in tokenize($facet:fq,';fq-')
                     where not(contains($facet,string($f/@name)))
-                    return string-join($facet,'')
+                    return concat(';fq-',$facet)
                 let $new-fq := 
                     if($facet:fq != '') then 
                         if(contains($facet:fq,concat(';fq-',string($f/@name)))) then
-                            concat('fq=',string-join($filter-this,''))
+                            if(string-join($filter-this,'') != '') then
+                                concat('fq=',string-join($filter-this,''))
+                            else () 
                         else concat('fq=',$facet:fq)
                     else () 
                 return     
@@ -349,18 +351,20 @@ declare function facet:html-key-button($f as node()*, $key as node()*){
 declare function facet:html-key-select-option($f as node()*, $key as node()*){
     let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
     let $filter-this := 
-            for $facet in tokenize($facet:fq,';fq-')
-            where not(contains($facet,string($f/@name)))
-            return string-join($facet,'')
+            if(string($f/@name) != 'City') then 
+                for $facet in tokenize($facet:fq,';fq-')
+                where not(contains($facet,string($f/@name)))
+                return concat(';fq-',$facet)
+            else ()
     let $new-fq := 
         if($facet:fq != '') then 
-            if(contains($facet:fq,concat(';fq-',string($f/@name)))) then
+            if(contains($facet:fq,string($f/@name))) then
                 concat('fq=',string-join($filter-this,''),$facet-query)
             else concat('fq=',$facet:fq,$facet-query)
         else concat('fq=',normalize-space($facet-query))    
     return
         <option value="?{$new-fq}" class="facet-label">
-        {if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then attribute selected {'selected'} else ()}
+        {if(contains($facet:fq,$facet-query)) then attribute selected {'selected'} else ()}
         {global:get-label(string($key/@label))}</option>
 };
 
@@ -470,7 +474,7 @@ declare function facet:shelfmark($results as item()*, $facet-definitions as elem
         let $collection-value := substring-after($collection-facet,':')
         where $collection-name = 'Collection'
         return $collection-value        
-    let $path := if($collection != '') then 
+    let $path := if($collection != '' or $location != '') then 
                     concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"][tei:collection = "',$collection,'"]/tei:idno[@type="shelfmark"]')
                  else concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
     let $sort := $facet-definitions/facet:order-by
