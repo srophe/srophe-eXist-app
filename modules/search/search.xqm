@@ -39,16 +39,11 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
     let $hits := if($queryExpr != '') then 
                      data:search($collection, $queryExpr,$sort-element)
                  else data:search($collection, '',$sort-element)
-    let $ids := distinct-values(for $h in $hits return replace($h/descendant::tei:publicationStmt/tei:idno[@type='URI'],'/tei',''))
-    let $related := 
-            (collection($config:data-root)//tei:TEI[descendant::tei:relation[@passive = $ids]] |
-            collection($config:data-root)//tei:TEI[descendant::tei:relation[@active = $ids]] | 
-            collection($config:data-root)//tei:TEI[descendant::tei:relation[@mutual = $ids]])
     let $all := 
-                if($collection != '') then
+                if($collection = 'bibl') then
+                    $hits
+                else if($collection = 'keywords') then
                         for $h in $hits
-                        let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
-                        group by $de-dup := $id
                         let $score := 
                             if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
                                 global:build-sort-string(data:add-sort-options($h[1], request:get-parameter('sort-element', '')),'')
@@ -67,6 +62,11 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                         return <search score="{$h/@score}">{$h[1]}</search>
                     
                 else 
+                        let $ids := distinct-values(for $h in $hits return replace($h/descendant::tei:publicationStmt/tei:idno[@type='URI'],'/tei',''))
+                        let $related := 
+                            (collection($config:data-root)//tei:TEI[descendant::tei:relation[@passive = $ids]] |
+                            collection($config:data-root)//tei:TEI[descendant::tei:relation[@active = $ids]] | 
+                            collection($config:data-root)//tei:TEI[descendant::tei:relation[@mutual = $ids]])
                         for $h in ($hits | $related)
                         let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
                         group by $de-dup := $id
@@ -133,6 +133,7 @@ declare
     %templates:default("start", 1)
 function search:show-hits($node as node()*, $model as map(*), $collection as xs:string?, $kwic as xs:string?) {
 <div class="indent" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
+    <div>{search:query-string($collection)}</div>
     {
         if($collection = 'places') then 
             let $hits := $model("group-by-sites") 

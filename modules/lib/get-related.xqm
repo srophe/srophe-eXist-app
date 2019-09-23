@@ -342,3 +342,63 @@ return
         </div>
     else()  
 };
+
+(:~ 
+ : HTML display of 'cited by' relationships. Used in bibl module. 
+ : @param $idno bibl idno
+:)
+declare function rel:cited($idno, $start, $perpage){
+    let $perpage := if($perpage) then $perpage else 5
+    let $current-id := replace($idno[1]/text(),'/tei','')
+    let $hits := rel:get-cited($current-id)?cited
+    let $count := count($hits)
+    return
+        if(exists($hits)) then 
+            <div class="relation">
+                <h3>Cited in:</h3>
+                <span class="caveat">{$count} record(s) cite this work.</span> 
+                {
+                    if($count gt 5) then
+                        for $rec in subsequence($hits,$start,$perpage)
+                        let $id := substring-before($rec,'headword:=')
+                        return 
+                            (tei2html:summary-view(collection($config:data-root)//tei:idno[@type='URI'][. = $id]/ancestor::tei:TEI, '', $id),<hr/>)                        
+                    else 
+                        for $rec in $hits
+                        let $id := substring-before($rec,'headword:=')
+                        return 
+                            (tei2html:summary-view(collection($config:data-root)//tei:idno[@type='URI'][. = $id]/ancestor::tei:TEI, '', $id),<hr/>)
+                }
+                { 
+                     if($count gt 5) then
+                        <div>
+                            <a href="{$config:nav-base}/bibl/search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" style="width:100%; margin-bottom:1em;" class="btn btn-info">See all {$count} results</a>
+                        <!--
+                            <a href="#" class="btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="modal" data-target="#moreInfo" 
+                            data-ref="../search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" 
+                            data-label="See all {$count} results" id="moreInfoBtn">
+                              See all {$count} results
+                             </a>
+                             -->
+                        </div>
+                     else ()
+                 }
+            </div>
+        else ()
+};
+
+(:~ 
+ : Get 'cited by' relationships. Used in bibl module. 
+ : @param $idno bibl idno
+:)
+declare function rel:get-cited($idno){
+let $data := 
+    for $r in collection($config:data-root)//tei:TEI[descendant::tei:bibl/tei:ptr[@target = $idno]]
+    let $headword := $r/descendant::tei:title[1]/text()[1]
+    let $id := $r/descendant::tei:idno[@type='URI'][1]
+    let $sort := global:build-sort-string($headword,'')
+    where $sort != ''
+    order by $sort
+    return concat($id, 'headword:=', $headword)
+return  map { "cited" := $data}    
+};
