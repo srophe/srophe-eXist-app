@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -1222,30 +1221,49 @@
      handle bibliographic records, output full record
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
     <xsl:template match="t:idno" mode="full">
-        <p>
-            <span class="tei-label">
-                <xsl:choose>
-                    <xsl:when test="@type='URI'">URI: </xsl:when>
-                    <xsl:when test="@type != ''">
-                        <xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>: </xsl:when>
-                    <xsl:otherwise>Other ID Number: </xsl:otherwise>
-                </xsl:choose>
-            </span>
-            <xsl:choose>
-                <xsl:when test="@type='URI'">
+        <xsl:choose>
+            <xsl:when test=".[@type='URI'][starts-with(.,'https://biblia-arabica.com/bibl/')]">
+                <p>
+                    <span class="tei-label">URI: </span>  
                     <a href="{text()}">
                         <xsl:value-of select="text()"/>  <xsl:call-template name="ref-icons">
                             <xsl:with-param name="ref" select="text()"/>
                         </xsl:call-template>
                     </a>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates/>
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
+                </p>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- Suppressed, see: https://github.com/biblia-arabica/srophe-eXist-app/issues/108
+                <p>
+                    <span class="tei-label">
+                        <xsl:choose>
+                            <xsl:when test="@type='URI'">URI: </xsl:when>
+                            <xsl:when test="@type != ''">
+                                <xsl:value-of select="concat(upper-case(substring(@type,1,1)),substring(@type,2))"/>: </xsl:when>
+                            <xsl:otherwise>Other ID Number: </xsl:otherwise>
+                        </xsl:choose>
+                    </span>
+                    <xsl:choose>
+                        <xsl:when test="@type='URI'">
+                            <a href="{text()}">
+                                <xsl:value-of select="text()"/>  <xsl:call-template name="ref-icons">
+                                    <xsl:with-param name="ref" select="text()"/>
+                                </xsl:call-template>
+                            </a>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:apply-templates/>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </p>    
+                -->
+            </xsl:otherwise>
+        </xsl:choose>
+
     </xsl:template>
+    
     <xsl:template match="t:ref" mode="full">
+        <!-- See: https://github.com/biblia-arabica/srophe-eXist-app/issues/108
         <p>
             <span class="tei-label">See Also: </span>
             <a href="{@target}">
@@ -1261,6 +1279,7 @@
                 </xsl:call-template>
             </a>
         </p>
+        -->
     </xsl:template>
     <xsl:template match="t:imprint" mode="full">
         <xsl:for-each select="child::*">
