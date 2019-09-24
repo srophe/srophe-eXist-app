@@ -451,13 +451,17 @@ declare function facet:collection($results as item()*, $facet-definitions as ele
                     concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"]/tei:collection')
                  else concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
     let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by 
-        if($sort/text() = 'value') then global:build-sort-string($facet-grp,'')
-        else count($f)
-        ascending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>   
+    return 
+        if($location != '') then
+                for $f in util:eval($path)
+                group by $facet-grp := $f
+                order by 
+                    if($sort/text() = 'value') then global:build-sort-string($facet-grp,'')
+                    else count($f)
+                    ascending
+                return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>            
+        else () 
+   
 };
 
 (: biblia-arabica special facet :)
@@ -478,13 +482,16 @@ declare function facet:shelfmark($results as item()*, $facet-definitions as elem
                     concat('$results/descendant::tei:relation[@ref="dcterms:references"]/descendant::tei:msIdentifier[tei:settlement = "',$location,'"][tei:collection = "',$collection,'"]/tei:idno[@type="shelfmark"]')
                  else concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text())
     let $sort := $facet-definitions/facet:order-by
-    for $f in util:eval($path)
-    group by $facet-grp := $f
-    order by 
-        if($sort/text() = 'value') then $facet-grp
-        else count($f)
-        descending
-    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>    
+    return 
+        if($collection != '') then
+            for $f in util:eval($path)
+            group by $facet-grp := $f
+            order by 
+                if($sort/text() = 'value') then $facet-grp
+                else count($f)
+                descending
+            return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{facet:translate-lang($facet-grp)}"/>
+        else ()    
 };
 
 

@@ -73,6 +73,7 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
         </div>,
         if(not(empty($facet-config))) then 
            <div class="col-md-4 col-md-pull-8" xmlns="http://www.w3.org/1999/xhtml">
+                {(:facet:facet-filter(doc(concat($config:app-root, '/select-locations-def.xml'))):)''}
                 <hr/>
                 <div id="selectLocation">{
                     let $select-menu := 
