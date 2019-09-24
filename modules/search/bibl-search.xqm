@@ -151,7 +151,7 @@ declare function bibls:search-string(){
 (: BA specific function to list all available subjects for dropdown list in search form :)
 declare function bibls:get-subjects(){
  for $s in collection($config:data-root)//tei:relation[@ref='dc:subject']/descendant::tei:desc
- group by $subject-facet := $s/text()
+ group by $subject-facet := $s[1]
  order by global:build-sort-string($subject-facet,'')
  return <option value="{$subject-facet}">{$subject-facet}</option>
 };

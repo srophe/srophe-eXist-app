@@ -67,7 +67,6 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
         let $hits := $model("hits")
         for $hit at $p in subsequence($hits, $search:start, $search:perpage)
         let $id := $hit//tei:idno[1]
-        let $expanded := kwic:expand($hit)
         return 
             <div class="result row">
                 <div class="col-md-12">
