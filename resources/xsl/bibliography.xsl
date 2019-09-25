@@ -1232,8 +1232,8 @@
                     </a>
                 </p>
             </xsl:when>
+            <xsl:when test="@type='URI'"/>
             <xsl:otherwise>
-                <!-- Suppressed, see: https://github.com/biblia-arabica/srophe-eXist-app/issues/108
                 <p>
                     <span class="tei-label">
                         <xsl:choose>
@@ -1256,7 +1256,6 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </p>    
-                -->
             </xsl:otherwise>
         </xsl:choose>
 

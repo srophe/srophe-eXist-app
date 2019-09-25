@@ -279,17 +279,26 @@ declare function facet:html-facet-list($facets as node()*){
     return 
          if($count gt 0) then
             if($f/@type='select') then
-                let $filter-this := 
-                    for $facet in tokenize($facet:fq,';fq-')
-                    where not(contains($facet,string($f/@name)))
-                    return concat(';fq-',$facet)
+                let $filter-this :=  
+                    if($f/@name = 'City') then
+                        for $facet in tokenize($facet:fq,';fq-')[. != '']
+                        where not(contains($facet,string($f/@name))) and not(contains($facet,';fq-Collection')) and not(contains($facet,';fq-Shelfmark'))
+                        return concat(';fq-',$facet)
+                    else if($f/@name = 'Collection') then
+                        for $facet in tokenize($facet:fq,';fq-')[. != '']
+                        where not(contains($facet,string($f/@name))) and not(contains($facet,';fq-Shelfmark')) 
+                        return concat(';fq-',$facet)
+                    else 
+                        for $facet in tokenize($facet:fq,';fq-')[. != '']
+                        where not(contains($facet,string($f/@name)))
+                        return concat(';fq-',$facet)                     
                 let $new-fq := 
                     if($facet:fq != '') then 
                         if(contains($facet:fq,concat(';fq-',string($f/@name)))) then
-                            if(string-join($filter-this,'') != '') then
+                            if($filter-this != '') then
                                 concat('fq=',string-join($filter-this,''))
                             else () 
-                        else concat('fq=',$facet:fq)
+                        else concat('fq=',($facet:fq))
                     else () 
                 return     
                 <div class="form-group">
@@ -335,10 +344,10 @@ declare function facet:html-key-button($f as node()*, $key as node()*){
     let $new-fq := 
         if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
         else concat('fq=',normalize-space($facet-query))
-    let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
+    let $active := if(contains($facet:fq,concat(';fq-',$f/@name,':',$key/@value))) then 'active' else ()    
     return 
         (
-        <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active} btn btn-default">{lower-case(global:get-label(string($key/@label)))} <span class="count"> ({string($key/@count)})</span></a>,
+        <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active} btn btn-default">{lower-case(global:get-label($key/@label))} <span class="count"> ({string($key/@count)})</span></a>,
         if($key/facet:facets/facet:facet) then 
             <span class="facet-list sub-facet">{
             for $sub-facets at $l in $key/facet:facets
@@ -349,16 +358,16 @@ declare function facet:html-key-button($f as node()*, $key as node()*){
 };
 
 declare function facet:html-key-select-option($f as node()*, $key as node()*){
-    let $facet-query := replace(replace(concat(';fq-',string($f/@name),':',string($key/@value)),';fq-;fq-;',';fq-'),';fq- ','')
+    let $facet-query := replace(replace(concat(';fq-',$f/@name,':',$key/@value),';fq-;fq-;',';fq-'),';fq- ','')
     let $filter-this := 
             if(string($f/@name) != 'City') then 
                 for $facet in tokenize($facet:fq,';fq-')
-                where not(contains($facet,string($f/@name)))
+                where not(contains($facet,$f/@name))
                 return concat(';fq-',$facet)
             else ()
     let $new-fq := 
         if($facet:fq != '') then 
-            if(contains($facet:fq,string($f/@name))) then
+            if(contains($facet:fq,$f/@name)) then
                 concat('fq=',string-join($filter-this,''),$facet-query)
             else concat('fq=',$facet:fq,$facet-query)
         else concat('fq=',normalize-space($facet-query))    

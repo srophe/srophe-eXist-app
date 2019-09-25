@@ -73,16 +73,16 @@ declare function browse:show-hits($node as node(), $model as map(*), $collection
         </div>,
         if(not(empty($facet-config))) then 
            <div class="col-md-4 col-md-pull-8" xmlns="http://www.w3.org/1999/xhtml">
-                {(:facet:facet-filter(doc(concat($config:app-root, '/select-locations-def.xml'))):)''}
                 <hr/>
-                <div id="selectLocation">{
+                <div id="selectLocation">{(
+                    <h3>Filter by manuscript location</h3>,
                     let $select-menu := 
                             if(doc-available(concat($config:app-root, '/select-locations-def.xml'))) then
                                 doc(concat($config:app-root, '/select-locations-def.xml'))
                             else ()
                     return 
                         facet:html-list-facets-as-buttons(facet:count($hits, $select-menu/descendant::facet:facet-definition))
-                }</div>
+                )}</div>
                 <hr/>
                 <div id="facetResults">
                 {facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))}
