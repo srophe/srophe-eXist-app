@@ -282,11 +282,11 @@ declare function facet:html-facet-list($facets as node()*){
                 let $filter-this :=  
                     if($f/@name = 'City') then
                         for $facet in tokenize($facet:fq,';fq-')[. != '']
-                        where not(contains($facet,string($f/@name))) and not(contains($facet,';fq-Collection')) and not(contains($facet,';fq-Shelfmark'))
+                        where not(contains($facet,string($f/@name))) and not(contains($facet,'Collection:')) and not(contains($facet,'Shelfmark:'))
                         return concat(';fq-',$facet)
                     else if($f/@name = 'Collection') then
                         for $facet in tokenize($facet:fq,';fq-')[. != '']
-                        where not(contains($facet,string($f/@name))) and not(contains($facet,';fq-Shelfmark')) 
+                        where not(contains($facet,string($f/@name))) and not(contains($facet,'Shelfmark:')) 
                         return concat(';fq-',$facet)
                     else 
                         for $facet in tokenize($facet:fq,';fq-')[. != '']
@@ -344,7 +344,7 @@ declare function facet:html-key-button($f as node()*, $key as node()*){
     let $new-fq := 
         if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
         else concat('fq=',normalize-space($facet-query))
-    let $active := if(contains($facet:fq,concat(';fq-',$f/@name,':',$key/@value))) then 'active' else ()    
+    let $active := if(contains($facet:fq,concat($f/@name,':',$key/@value))) then 'active' else ()    
     return 
         (
         <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active} btn btn-default">{lower-case(global:get-label($key/@label))} <span class="count"> ({string($key/@count)})</span></a>,
