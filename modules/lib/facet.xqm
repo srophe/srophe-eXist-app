@@ -359,12 +359,19 @@ declare function facet:html-key-button($f as node()*, $key as node()*){
 
 declare function facet:html-key-select-option($f as node()*, $key as node()*){
     let $facet-query := replace(replace(concat(';fq-',$f/@name,':',$key/@value),';fq-;fq-;',';fq-'),';fq- ','')
-    let $filter-this := 
-            if(string($f/@name) != 'City') then 
-                for $facet in tokenize($facet:fq,';fq-')
-                where not(contains($facet,$f/@name))
-                return concat(';fq-',$facet)
-            else ()
+    let $filter-this :=  
+                    if($f/@name = 'City') then
+                        for $facet in tokenize($facet:fq,';fq-')[. != '']
+                        where not(contains($facet,string($f/@name))) and not(contains($facet,'Collection:')) and not(contains($facet,'Shelfmark:'))
+                        return concat(';fq-',$facet)
+                    else if($f/@name = 'Collection') then
+                        for $facet in tokenize($facet:fq,';fq-')[. != '']
+                        where not(contains($facet,string($f/@name))) and not(contains($facet,'Shelfmark:')) 
+                        return concat(';fq-',$facet)
+                    else 
+                        for $facet in tokenize($facet:fq,';fq-')[. != '']
+                        where not(contains($facet,string($f/@name)))
+                        return concat(';fq-',$facet)  
     let $new-fq := 
         if($facet:fq != '') then 
             if(contains($facet:fq,$f/@name)) then
