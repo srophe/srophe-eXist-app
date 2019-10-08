@@ -84,6 +84,7 @@ footer .poweredby img { width: 120px; }
     white-space: normal;
     }
 .facet-label.remove {background-color:#eee; color:#666; font-weight:normal; margin:.25em; display:inline-block;}
+.facet-label.remove .facet {display:inline;}
 
 /* G */
 .geo-home {margin-top:4em !important;}
@@ -301,6 +302,13 @@ pre {
 .tei-footnote-tgt {
     margin-left:-1.5em;
     padding-right:.5em;    
+}
+.tei-note {margin:1em 0;}
+.tei-note .note-label {font-weight:600;}
+.tei-p {display:block;}
+.tei-rsp {margin:1.5em; text-align:right;}
+.tei-rsp::before {
+  content: " - ";
 }
 
 .top-padding {margin-top:2.5em !important;}

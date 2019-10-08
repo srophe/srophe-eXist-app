@@ -77,7 +77,7 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
     return 
         if($sort/@direction = 'ascending') then 
             for $f in util:eval($path)
-            group by $facet-grp := $f
+            group by $facet-grp := lower-case($f)
             order by 
                 if($sort/text() = 'value') then $f[1]
                 else count($f)
@@ -85,7 +85,7 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
             return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
         else 
             for $f in util:eval($path)
-            group by $facet-grp := $f
+            group by $facet-grp := lower-case($f)
             order by 
                 if($sort/text() = 'value') then $f[1]
                 else count($f)
@@ -257,7 +257,9 @@ return
         for $f in $facets/facet:facet[@name = $facet-name]
         let $fn := string($f/@name)
         let $label := string($f/facet:key[@value = substring-after($facet,concat($facet-name,':'))]/@label)
-        let $value := $label
+        let $value := if(starts-with($label,'http://syriaca.org/')) then 
+                         facet:get-label($label)   
+                      else $label
         return 
                 <span class="label facet-label remove" title="Remove {$value}">
                     {concat($fn,': ', $value)} <a href="{$href}" class="facet icon"> x</a>
@@ -275,8 +277,14 @@ return
                 let $new-fq := 
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',normalize-space($facet-query))
-                let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()    
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{string($key/@label)} <span class="count"> ({string($key/@count)})</span></a> 
+                let $active := if(contains($facet:fq,concat(';fq-',string($f/@name),':',string($key/@value)))) then 'active' else ()
+                let $label := string($key/@label)
+                let $value := if(starts-with($label,'http://syriaca.org/')) then 
+                                facet:get-label($label)   
+                              else if(contains($label,':')) then 
+                                facet:get-label($label)
+                              else $label
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default {$active}">{$value} <span class="count"> ({string($key/@count)})</span></a> 
                 }
             </div>
             <div class="facet-list collapse" id="{concat('show',replace(string($f/@name),' ',''))}">{
@@ -285,7 +293,11 @@ return
                 let $new-fq := 
                     if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
                     else concat('fq=',$facet-query)
-                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{string($key/@label)} <span class="count"> ({string($key/@count)})</span></a>
+                let $label := string($key/@label)
+                let $value := if(starts-with($label,'http://syriaca.org/')) then 
+                                   facet:get-label($label)   
+                                else $label                    
+                return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{$value} <span class="count"> ({string($key/@count)})</span></a>
                 }
             </div>
             {if($count gt ($f/@show - 1)) then 
@@ -334,4 +346,21 @@ declare function facet:controlled-labels($results as item()*, $facet-definitions
         else count($f)
         descending
     return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{global:odd2text(tokenize(replace($path[1],'@|\[|\]',''),'/')[last()],string($facet-grp))}"/>    
+};
+
+(:~
+ : Syriaca.org specific function to label URI's with human readable labels. 
+ : @param $uri Syriaca.org uri to be used for lookup. 
+ : URI can be a record or a keyword
+ : NOTE: this function will probably slow down the facets.
+:)
+
+declare function facet:get-label($uri as item()*){
+if(starts-with($uri,'http://syriaca.org/')) then 
+  if(contains($uri,'/keyword/')) then
+    lower-case(functx:camel-case-to-words(substring-after($uri,'/keyword/'),' '))
+  else $uri     
+else if(contains($uri,':')) then 
+    lower-case(functx:camel-case-to-words(substring-after($uri,':'),' '))  
+else $uri
 };

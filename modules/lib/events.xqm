@@ -77,7 +77,48 @@ declare function ev:build-events-panel($nodes as node()*){
         </div>
     </div>
     <div class="panel-body">
-        {ev:events($nodes)}
+        <div id="events-list">
+    {
+    let $data := $nodes
+    return
+    if($ev:sort = 'manuscript') then
+       <ul>
+        {
+            for $e in $data
+            return <li class="md-line-height">{tei2html:tei2html($e)} {<a href="factoid.html?id={string($e/@uri)}">See factoid page  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a>}</li>
+         }
+        </ul>
+    else
+        <ul>
+        {
+            for $event in $data
+            let $date := substring($event/descendant-or-self::tei:date[1]/@syriaca-computed-start,1,2)
+            group by $date
+            order by $date ascending
+            return
+            <li>
+                <h4>
+                {
+                    if(starts-with($date,'-')) then 'BC Dates'
+                    else if($date != '') then concat(substring-after($date,'0'),'00') 
+                    else 'Date Unknown'
+                }
+                </h4>
+                <ul>
+                    {
+                        for $e in $event
+                        return 
+                            <li class="md-line-height">
+                                {tei2html:tei2html($e/tei:listEvent/descendant::tei:event)}&#160; 
+                                {<a href="factoid.html?id={string($e/@uri)}">See factoid page  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a>   }
+                            </li>
+                    }
+                </ul>
+            </li>
+         }
+         </ul>
+    }
+</div>
     </div>
 </div>
 };

@@ -9,12 +9,14 @@ import module namespace templates="http://exist-db.org/xquery/templates" ;
 import module namespace functx="http://www.functx.com";
 
 (:Syriaca.org modules. :)
-import module namespace app="http://syriaca.org/srophe/templates" at "app.xql";
+import module namespace data="http://syriaca.org/srophe/data" at "lib/data.xql";
 import module namespace config="http://syriaca.org/srophe/config" at "config.xqm";
 import module namespace cts="http://syriaca.org/cts" at "../CTS/cts-resolver.xqm";
 import module namespace ev="http://syriaca.org/srophe/events" at "lib/events.xqm";
+import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
 import module namespace global="http://syriaca.org/srophe/global" at "lib/global.xqm";
 import module namespace maps="http://syriaca.org/srophe/maps" at "lib/maps.xqm";
+import module namespace page="http://syriaca.org/srophe/page" at "lib/paging.xqm";
 import module namespace rel="http://syriaca.org/srophe/related" at "lib/get-related.xqm";
 import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "content-negotiation/tei2html.xqm";
 import module namespace timeline="http://syriaca.org/srophe/timeline" at "lib/timeline.xqm";
@@ -22,15 +24,18 @@ import module namespace timeline="http://syriaca.org/srophe/timeline" at "lib/ti
 declare namespace http="http://expath.org/ns/http-client";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-(:~            
- : Parameters passed from the url 
- :)
+(: NEW SPEAR :)
 declare variable $spear:id {request:get-parameter('id', '')}; 
-declare variable $spear:view {request:get-parameter('view', 'place')};
+declare variable $spear:view {request:get-parameter('view', '')};
 declare variable $spear:date {request:get-parameter('date', '')};
 declare variable $spear:fq {request:get-parameter('fq', '')};
 declare variable $spear:sort {request:get-parameter('sort', 'all') cast as xs:string};
+declare variable $spear:alpha-filter {request:get-parameter('alpha-filter', '')};
+declare variable $spear:lang {request:get-parameter('lang', '')};
+declare variable $spear:start {request:get-parameter('start', 1) cast as xs:integer};
+declare variable $spear:perpage {request:get-parameter('perpage', 15) cast as xs:integer};
 
+(: Type of factoid :)
 declare variable $spear:item-type {
     if($spear:id != '') then 
         if(contains($spear:id, '/place')) then 'place-factoid'
@@ -41,6 +46,198 @@ declare variable $spear:item-type {
         else 'event-factoid'
     else 'all-events'
 };    
+
+(: Facets for different browse types :)
+declare function spear:get-facets(){
+    let $facet-config-file := if(request:get-parameter('view', '') = 'persons' or request:get-parameter('view', '') = '') then 
+                                'persons-facets.xml'
+                              else if(request:get-parameter('view', '') = 'places') then
+                                'places-facets.xml'                                
+                              else if(request:get-parameter('view', '') = 'events') then
+                                'events-facets.xml'
+                              else if(request:get-parameter('view', '') = 'relations') then
+                                'relations-facets.xml'
+                              else ()
+    let $facet-config := 
+            concat($config:app-root, '/spear/',$facet-config-file) 
+    return 
+        if(doc-available($facet-config)) then doc($facet-config)
+        else ()
+};
+
+(:~
+ : Build initial browse results based view parameter
+ : @param $collection collection name passed from html, should match data subdirectory name or tei series name
+ : @param $element element used to filter browse results, passed from html
+ : @param $facets facet xml file name, relative to collection directory
+:)  
+declare function spear:get-all($node as node(), $model as map(*), $collection as xs:string*, $element as xs:string?, $facets as xs:string?){
+   let $collection-path := 
+            if(config:collection-vars($collection)/@data-root != '') then concat('/',config:collection-vars($collection)/@data-root)
+            else if($collection != '') then concat('/',$collection)
+            else '/spear'
+    let $facets := facet:facet-filter(global:facet-definition-file($collection))
+    return 
+        if(request:get-parameter('view', '') = 'places') then 
+                    (:
+                    let $browse-path := concat("collection($config:data-root || $collection-path)//tei:div[descendant::tei:placeName]",facet:facet-filter(spear:get-facets()))
+                    let $spear := util:eval($browse-path)
+                    :)
+                    let $spear := collection($config:data-root || $collection-path)//tei:div[descendant::tei:placeName]
+                    return 
+                        map{"spear" := $spear,
+                            "hits" := 
+                                        let $uris := distinct-values($spear//@ref[contains(.,concat($config:base-uri,'/place/'))])
+                                        let $facets := concat("collection($config:data-root || '/places')//tei:TEI",facet:facet-filter(spear:get-facets()))
+                                        let $places := util:eval($facets)[.//tei:idno[@type='URI'][. = ($uris)]]
+                                        for $place in $places
+                                        order by global:build-sort-string($place/descendant::tei:placeName[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1],'') ascending
+                                        return $place
+                            }
+        else if(request:get-parameter('view', '') = 'events') then 
+                    map{"hits" :=
+                                let $browse-path := concat("collection($config:data-root || $collection-path)//tei:div[tei:listEvent]",facet:facet-filter(spear:get-facets()))
+                                for $event in util:eval($browse-path)
+                                let $date := $event/descendant::tei:event/descendant::tei:date[1]
+                                let $sort := 
+                                            if($date/@notBefore) then $date/@notBefore
+                                            else if($date/@from) then $date/@from
+                                            else if($date/@when) then $date/@when 
+                                            else if($date/@to) then $date/@to 
+                                            else if($date/@from) then $date/@from 
+                                            else if($date/@notAfter) then $date/@notAfter                                                 
+                                            else ()
+                                order by $sort descending
+                                return $event
+                                }
+        else if(request:get-parameter('view', '') = 'relations') then 
+                    map{"hits" :=
+                                let $browse-path := concat("collection($config:data-root || $collection-path)//tei:div[tei:listRelation]",facet:facet-filter(spear:get-facets()))
+                                for $relation in util:eval($browse-path)
+                                return  $relation
+                                }                          
+        else                    
+                    (:
+                    facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition[@name="Century"]))
+                    :)
+                    let $browse-path := 
+                      (:  string-join(
+                            let $facet-config := spear:get-facets()
+                            for $facet in $facet-config/descendant::facet:facet-definition
+                            return 
+                            concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",
+                                    facet:facet-filter($facet)
+                                ),' | ')
+                       :)         
+                    concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter(spear:get-facets()))
+                    let $spear := util:eval($browse-path)
+                    return 
+                        map{"spear" := $spear,
+                            "path"  := $browse-path,
+                            "hits" := 
+                                        let $uris := distinct-values($spear//@ref[contains(.,concat($config:base-uri,'/person/'))])
+                                        let $persons := collection($config:data-root || '/persons')//tei:TEI[.//tei:idno[@type='URI'][. = ($uris)]]
+                                        return 
+                                            if($spear:alpha-filter != '' and $spear:alpha-filter != 'ALL') then 
+                                                for $person in $persons
+                                                let $sort := global:build-sort-string($person/descendant::tei:persName[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][1],'')
+                                                order by $sort ascending
+                                                where matches($sort,global:get-alpha-filter()) 
+                                                return $person
+                                            else 
+                                                for $person in $persons
+                                                let $sort := global:build-sort-string($person/descendant::tei:persName[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][1],'')
+                                                order by $sort ascending 
+                                                return $person
+                            }
+};
+
+(: Browse menu for persons and places :)
+declare function spear:browse-abc-menu(){
+    <div class="browse-alpha tabbable" xmlns="http://www.w3.org/1999/xhtml">
+        <ul class="list-inline">
+        {            
+            for $letter in tokenize('A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ALL', ' ')
+            return
+                    <li>{if($spear:alpha-filter = $letter) then attribute class {"selected badge"} else()}
+                    <a href="?alpha-filter={$letter}{if($spear:view != '') then concat('&amp;view=',$spear:view) else()}{
+                    if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">
+                    {$letter}</a></li>
+        }
+        </ul>
+    </div>
+};
+
+(:
+ : Main HTML display of browse results
+ : @param $collection passed from html 
+:)
+declare function spear:show-hits($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
+(<div>
+    <div class="float-container">
+        <div class="pull-right paging">      
+            {page:pages($model("hits"), $collection, $spear:start, $spear:perpage,'', $sort-options)}
+        </div>
+            {if(request:get-parameter('view', '') = 'persons' or request:get-parameter('view', '') = '' or request:get-parameter('view', '') = 'places') then spear:browse-abc-menu() else ()}
+    </div>
+</div>,
+<div class="row">
+    {
+        if(spear:get-facets() != '') then
+            <div class="col-md-4">
+                {
+                    if(request:get-parameter('view', '') = 'persons' or request:get-parameter('view', '') = '') then
+                        facet:html-list-facets-as-buttons(facet:count($model("spear"), spear:get-facets()//facet:facet-definition))
+                    else facet:html-list-facets-as-buttons(facet:count($model("hits"), spear:get-facets()//facet:facet-definition))
+                }
+            </div>
+        else ()
+    }
+    <div class="{if(spear:get-facets() != '') then 'col-md-8' else 'col-md-12'}">
+        {if(request:get-parameter('view', '') = 'places' and count($model("hits")//tei:geo) gt 0) then
+                maps:build-map($model("hits"), count($model("hits")))
+         else if(request:get-parameter('view', '') = 'events') then
+                (timeline:timeline(subsequence($model("hits"), $spear:start,$spear:perpage),'Timeline'),
+                <hr/>)                
+         else ()
+        }
+        <div class="results">
+            {
+                for $hit in subsequence($model("hits"), $spear:start,$spear:perpage)
+                let $link := 
+                    if($hit/tei:listRelation) then
+                        let $id := $hit/tei:idno[@type="URI"]
+                        return <span>{spear:factoid-title($hit)} <a href="factoid.html?id={$id}"> See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/> </a></span>
+                    else if($hit/tei:listEvent) then
+                        let $id := $hit/tei:idno[@type="URI"]
+                        return <span>{spear:factoid-title($hit)} <a href="factoid.html?id={$id}">See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></span>
+                    else if($hit/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')]) then 
+                        let $id := replace($hit/descendant::tei:idno[@type='URI'][1],'/tei','')
+                        return <a href="aggregate.html?id={$id}" dir="ltr">{spear:factoid-title($hit)}</a>
+                    else $hit
+                    return 
+                    <div xmlns="http://www.w3.org/1999/xhtml" class="result">{$link}</div>
+            }
+        </div> 
+    </div>
+</div>)
+};
+
+(: Build factoid title, uses Syriaca.org canonical names for persons and places. :)
+declare function spear:factoid-title($hit){
+    if($hit/tei:listRelation) then rel:relationship-sentence($hit//descendant::tei:relation)
+    else if($hit/tei:listEvent) then string-join(tei2html:tei2html($hit/tei:listEvent/tei:event),' ')
+    else if($hit/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')]) then 
+        let $en-title := if($hit/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')]) then 
+                            $hit/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][1]//text()
+                         else $hit/descendant-or-self::tei:title[1]/text()
+        let $syr-title := if($hit/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]) then
+                            <span xml:lang="syr" lang="syr" dir="rtl">{string-join($hit/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]//text(),' ')}</span>
+                          else if($hit/descendant::*[contains(@syriaca-tags,'#syriaca-headword')]) then '[Syriac Not Available]'
+                          else () 
+        return (tei2html:tei2html($en-title),if($syr-title != '') then (' - ', $syr-title) else())
+    else()
+};
 
 (:~  
  : Build spear view
@@ -59,24 +256,19 @@ return
         <aggregate xmlns="http://www.tei-c.org/ns/1.0" id="{$id}">
             {
                 if($spear:item-type = 'source-factoid') then 
-                    for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = concat($id,'/tei')]/ancestor::tei:TEI
-                    return $rec                  
+                    data:get-document($id)        
                 else
                     for $rec in
-                        collection($config:data-root || "/spear/tei")//tei:div[tei:listEvent/descendant::*[@ref=$spear:id or @target=$spear:id]] |
-                        collection($config:data-root || "/spear/tei")//tei:div[tei:listPerson/child::*/child::*[@ref=$spear:id or @target=$spear:id]] |
+                        data:get-document($id) | 
+                        collection($config:data-root || "/spear/tei")//tei:div[descendant::*[@ref=$spear:id or @target=$spear:id]] |
                         collection($config:data-root || '/spear/tei')//tei:div[descendant::tei:relation[matches(@active, concat($spear:id,"(\W|$)"))]] |
                         collection($config:data-root || '/spear/tei')//tei:div[descendant::tei:relation[matches(@passive, concat($spear:id,"(\W|$)"))]] |
-                        collection($config:data-root || '/spear/tei')//tei:div[descendant::tei:relation[matches(@mutual, concat($spear:id,"(\W|$)"))]]
+                        collection($config:data-root || '/spear/tei')//tei:div[descendant::tei:relation[matches(@mutual, concat($spear:id,"(\W|$)"))]] |
+                        collection($config:data-root || '/spear/tei')//tei:div[descendant::*[matches(@ana, concat($spear:id,"(\W|$)"))]]                        
                     return $rec  
             }
         </aggregate>}
-    else  map {"data" :=  
-                    for $rec in collection($config:data-root)//tei:div[@uri = $id]
-                    return 
-                        <TEI xmlns="http://www.tei-c.org/ns/1.0">{$rec}</TEI>
-                
-                }  
+    else  map {"data" :=  data:get-document($id) }  
 };
 
 (:~   
@@ -85,17 +277,6 @@ return
 :)
 declare function spear:canonical-rec($id){
   collection($config:data-root)//tei:TEI[.//tei:idno = $id]
-};
-
-declare function spear:title($id){
-    if($spear:item-type = ('place-factoid','person-factoid')) then 
-        global:tei2html(
-            <spear-headwords xmlns="http://www.tei-c.org/ns/1.0">
-                {spear:canonical-rec($id)/descendant::*[@syriaca-tags="#syriaca-headword"]}
-            </spear-headwords>)
-    else if($spear:item-type = 'keyword-factoid') then   
-        concat('"',lower-case(functx:camel-case-to-words(substring-after($id,'/keyword/'),' ')),'"')
-    else ()
 };
 
 declare function spear:resolve-id() as xs:string?{
@@ -121,29 +302,23 @@ let $data := $model("data")
 let $pid := spear:resolve-id()
 let $id := <idno type='URI' xmlns="http://www.tei-c.org/ns/1.0">{$pid}</idno>
 return 
-        if($spear:item-type = 'source-factoid') then 
-            global:tei2html(
-                <aggregate-source xmlns="http://www.tei-c.org/ns/1.0">
-                    {$data/descendant::tei:titleStmt,$id}
-                </aggregate-source>)
-        else if($spear:item-type = 'keyword-factoid') then 
-            global:tei2html(
-                <keyword-title xmlns="http://www.tei-c.org/ns/1.0">
-                    {$id}  
-                </keyword-title>)                
-        else if($spear:item-type = ('person-factoid','place-factoid')) then 
-            let $rec-exists := spear:canonical-rec($spear:id)  
-            let $title :=  $rec-exists/descendant::*[@syriaca-tags="#syriaca-headword"]
-            return 
-            global:tei2html(
-                <aggregate-title xmlns="http://www.tei-c.org/ns/1.0">
-                    {$title, $id}
-                </aggregate-title>)
-        else             
-            global:tei2html(
-                <factoid-title xmlns="http://www.tei-c.org/ns/1.0">
-                    {$id}
-                </factoid-title>)                     
+    if(spear:factoid-title($data) != '') then 
+        (<h1>SPEAR Factoids about {spear:factoid-title($data)}</h1>,
+         <div style="margin:0 1em 1em; color: #999999;">
+           <small><a href="../documentation/terms.html#place-uri" title="Click to read more about URIs" class="no-print-link"><span class="helper circle noprint"><p>i</p></span></a>
+                <p><span class="srp-label">URI</span>: <span id="syriaca-id">{$id/text()}</span></p></small></div>
+           )
+    else if($spear:item-type = 'keyword-factoid') then 
+        (<h1>SPEAR Keyword</h1>,
+           <div style="margin:0 1em 1em; color: #999999;">
+           <small><a href="../documentation/terms.html#place-uri" title="Click to read more about URIs" class="no-print-link"><span class="helper circle noprint"><p>i</p></span></a>
+                <p><span class="srp-label">URI</span>: <span id="syriaca-id">{$id/text()}</span></p></small></div>
+           )
+    else  (<h1>SPEAR Factoid</h1>,
+           <div style="margin:0 1em 1em; color: #999999;">
+           <small><a href="../documentation/terms.html#place-uri" title="Click to read more about URIs" class="no-print-link"><span class="helper circle noprint"><p>i</p></span></a>
+                <p><span class="srp-label">URI</span>: <span id="syriaca-id">{$id/text()}</span></p></small></div>
+           )         
 };
      
 declare function spear:data($node as node(), $model as map(*), $view as xs:string?){
@@ -165,47 +340,44 @@ else if($spear:item-type = 'keyword-factoid') then
     spear:relationships-aggregate($node,$model),
     spear:events($node,$model)     
     )    
-else if($model("data")//tei:listRelation) then
-    (
-    global:tei2html(  
-       <factoid xmlns="http://www.tei-c.org/ns/1.0">
-           {$model("data")}
-       </factoid>),
-      <div class="bottom-padding indent">
-        {
-            for $r in spear:relationships($node,$model)
-            return     
-            <p>{(if($model("data")//tei:div[@uri]/child::*[not(name() = ('listRelation','bibl'))]) then <span class="srp-label">Relationship: </span>  else (),$r)}</p>
-        }
-    </div>
-    )
-else            
+else if($model("data")//tei:div/tei:listRelation) then
+    <div class="factoid">
+       <h4>Relationship</h4>
+       {
+       for $r in $model("data")//tei:div/tei:listRelation/descendant::tei:relation
+        return <p>{rel:relationship-sentence($r)}</p>
+       }
+    </div>  
+else 
+    (:
+    Need to pass relationship data to XSLT or move SPEAR display into XQuery. 
+    <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">
+                             {for $r in $model("data")//tei:div/descendant::tei:relation
+                              return <p><strong>Relationship:</strong> {rel:relationship-sentence($r)}</p>
+                              }
+                         </spear-as-is>
+    :)
     global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">
-        {(
-            $model("data"), 
-            if($model("data")/descendant::tei:persName[@ref] = '') then 
-                let $id := string($model("data")/descendant::tei:persName[. = ''][1]/@ref)
-                return
-                <factoid-headword xmlns="http://www.tei-c.org/ns/1.0">{spear:canonical-rec($id)/ancestor::tei:body/descendant::*[@syriaca-tags="#syriaca-headword"]}</factoid-headword>
-            else ()
-            )}
-    </factoid>)
-                    
+                        {$model("data")//tei:div}
+                        </factoid>)
 };
 
 declare function spear:cts($node as node(), $model as map(*)){
     if($model("data")//tei:bibl[@type='urn']) then
-        let $ref := string($model("data")//tei:bibl[@type='urn']/tei:ptr/@target)
-        let $results := cts:run($ref, 'html')
+        let $refs := $model("data")/tei:bibl[@type='urn']/tei:ptr/@target
         return
-            if(not(empty($results))) then 
+            if($refs != '') then 
                 <div class="panel panel-default" id="cts">
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title">Text from The Syriac Corpus</h4>
                     </div>
                     <div class="panel-body">
-                        {$results}
-                        <span>Go to text <a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$ref}"><span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>
+                        {
+                        for $r in $refs 
+                        return 
+                        (cts:run($r, 'html'),
+                        <span>Go to text <a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}"><span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
+                        }
                     </div>
                 </div> 
             else()    
@@ -259,7 +431,7 @@ return
     if(not(empty($personInfo))) then 
         <div class="panel panel-default">
              <div class="panel-heading clearfix">
-                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Person Factoids {if($spear:item-type = 'person-factoid') then ' about ' else ' referencing '} {spear:title($spear:id)}</h4>
+                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Person Factoids {if($spear:item-type = 'person-factoid') then ' about ' else ' referencing '} &#160; {spear:factoid-title($data)}</h4>
              </div>
              <div class="panel-body"> 
                 {global:tei2html(
@@ -272,26 +444,28 @@ return
 };
 
 declare %templates:wrap function spear:relationships-aggregate($node as node(), $model as map(*)){
-let $relations := $model("data")//tei:div[descendant::tei:relation]                
+let $relations := $model("data")//tei:div[descendant::tei:listRelation]                
 let $count := count($relations)   
 let $relation := subsequence($relations,1,20)
 return 
     if(not(empty($relation))) then 
         <div class="panel panel-default">
              <div class="panel-heading clearfix">
-                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Relationship Factoids about {spear:title($spear:id)}</h4>
+                 <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Relationship Factoids about {spear:factoid-title($model("data"))}</h4>
              </div>
              <div class="panel-body">
                 <div class="indent">
                     {
-                       rel:build-relationships($relation//tei:relation,$spear:id, '', 'sentence', '')
-                       (:rel:build-short-relationships-list($relation, $spear:id):),
+                       for $r in $relation
+                       return 
+                       <p>{rel:relationship-sentence($r/descendant::tei:relation)} &#160;<a href="factoid.html?id={string($r/tei:idno)}">See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
+                       (:
                        if($count gt 20) then 
                            <a href="#" class="btn btn-info getData" style="width:100%; margin-bottom:1em;" data-toggle="modal" data-target="#moreInfo" 
                             data-ref="{$config:nav-base}/spear/search.html?relation={$spear:id}&amp;perpage={$count}&amp;sort=alpha" 
                             data-label="See all {$count} &#160; Relationships" id="related-names">See all {$count} relationships <i class="glyphicon glyphicon-circle-arrow-right"></i></a>
                        else ()
-                    }
+                    :)}
                 </div>
             </div>
         </div>            
@@ -299,11 +473,11 @@ return
 };
 
 declare %templates:wrap function spear:relationships($node as node(), $model as map(*)){
-let $relation := $model("data")//tei:listRelation
-let $uri := if($model("data")/@uri) then $model("data")/@uri else ()
-for $r in $relation/descendant::tei:relation
-return (:rel:build-short-relationships($r, $uri):)
-rel:build-relationships($r//tei:relation,$uri, '', 'sentence', '')
+    let $relation := $model("data")//tei:listRelation
+    let $uri := if($model("data")/@uri) then $model("data")/@uri else ()
+    for $r in $relation/descendant::tei:relation
+    return (:rel:build-short-relationships($r, $uri):)
+    rel:build-relationships($r//tei:relation,$uri, '', 'sentence', '')
 };
 
 (: NOTE: add footnotes to events panel :)
@@ -332,26 +506,24 @@ if($spear:item-type = 'source-factoid' and $view = 'aggregate') then
     </div>      
 else
     let $data := $model("data")
-    let $rec-exists := spear:canonical-rec($spear:id)  
+    let $rec-exists := $data//tei:TEI  
     let $type := string($rec-exists/descendant::tei:place/@type)
     let $geo := $rec-exists/descendant::tei:body[descendant-or-self::tei:geo]
-    let $abstract := $rec-exists/descendant::tei:body//tei:desc[@type='abstract' or starts-with(@xml:id, 'abstract-en')] | $rec-exists/descendant::tei:body//tei:note[@type='abstract']
-    return
-        if($rec-exists) then
+    let $abstract := $rec-exists/descendant::tei:desc[@type='abstract' or starts-with(@xml:id, 'abstract-en')] 
+                     | $rec-exists/descendant::tei:note[@type='abstract'] | $rec-exists/descendant::tei:entryFree/tei:gloss[@xml:lang = 'en']
+    return 
+        if($rec-exists) then 
             <div class="panel panel-default">
                  <div class="panel-heading clearfix">
-                     <h4 class="panel-title">About {spear:title($spear:id)}</h4>
+                     <h4 class="panel-title">About {spear:factoid-title($data)}</h4>
                  </div>
                  <div class="panel-body">
-                 {(if($geo) then 
+                    {if($geo) then 
                     <div>
-                        <div>
-                            {maps:build-map($geo,0)}
-                        </div>
+                        <div>{maps:build-map($geo,0)}</div>
                         <div>
                             <p><strong>Place Type: </strong><a href="../documentation/place-types.html#{normalize-space($type)}" class="no-print-link">{$type}</a></p>
-                             {
-                                if($data//tei:location) then
+                             {if($data//tei:location) then
                                     <div id="location">
                                         <h4>Location</h4>
                                         <ul>
@@ -361,22 +533,21 @@ else
                                         }
                                         </ul>
                                     </div>
-                                else ()
-                                }
+                                else ()}
                         </div>    
                     </div>
-                else (),
-                if($abstract//text() != '') then 
-                    <div class="indent">
-                        {global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">{$abstract}</factoid>)}
+                    else ()}
+                   {if($abstract != '') then 
+                        <div>
+                            {global:tei2html($abstract)}
+                        </div>    
+                    else ()}
+                    <br/>
                     <hr/>
-                    </div>    
-                else ()
-                )}
-               <p>View entry in <a href="{replace($spear:id,$config:base-uri,$config:nav-base)}">{if(contains($spear:id,'person')) then 'Syriac Biographical Dictionary' else if(contains($spear:id,'keyword')) then 'A Taxonomy of Syriac Studies' else 'The Syriac Gazetteer' }</a></p>
-              </div>
-            </div> 
-        else ()       
+                    <p>View entry in <a href="{replace($spear:id,$config:base-uri,$config:nav-base)}">{if(contains($spear:id,'person')) then 'Syriac Biographical Dictionary' else if(contains($spear:id,'keyword')) then 'A Taxonomy of Syriac Studies' else 'The Syriac Gazetteer' }</a></p>
+                 </div>
+            </div>
+        else ()
 };
 
 (:~          
@@ -388,9 +559,9 @@ let $data := $model("data")
 let $title := $data/descendant::tei:titleStmt/tei:title[1]/text()
 return
     if($data/ancestor::tei:body//tei:ref[@type='additional-attestation'][@target=$spear:id] 
-    or $data/descendant::tei:persName 
-    or $data/descendant::tei:placeName 
-    or $data/descendant::tei:relation) then 
+    or $data/descendant::tei:div/descendant::tei:persName 
+    or $data/descendant::tei:div/descendant::tei:placeName 
+    or $data/descendant::tei:div/descendant::tei:relation) then 
         <div class="panel panel-default">
             <div class="panel-heading clearfix">
                 {
@@ -404,10 +575,10 @@ return
             <div class="panel-body">
             {
                 let $relations := distinct-values(tokenize(string-join(($data/descendant::*/@ref,
-                                    $data/descendant::*/@target,
-                                    $data/descendant::tei:relation/@mutual,
-                                    $data/descendant::tei:relation/@active,
-                                    $data/descendant::tei:relation/@passive),' '),' '))
+                                    $data/descendant::tei:div/descendant::*/@target,
+                                    $data/descendant::tei:div/descendant::tei:relation/@mutual,
+                                    $data/descendant::tei:div/descendant::tei:relation/@active,
+                                    $data/descendant::tei:div/descendant::tei:relation/@passive),' '),' '))
                 let $persNames := $relations[contains(.,'/person/')]
                 let $placeNames := $relations[contains(.,'/place/')]
                 let $keywords := $relations[contains(.,'/keyword/')]
@@ -602,6 +773,7 @@ declare function spear:sparql-relationships($node as node(), $model as map(*)){
                         
 };
 
+(: Replace with factoid-title if possible:)
 declare function spear:get-title($uri){
 let $doc := spear:canonical-rec($uri)
 return 
@@ -615,9 +787,9 @@ return
  : Better handling of footnotes, should only return 1 tei:back (currently returns on for each factoid)
 :)
 declare %templates:wrap function spear:bibl($node as node(), $model as map(*)){
-let $data := $model("data")
-let $bibl := $data/tei:div[@uri]/descendant::tei:bibl[starts-with(descendant::tei:ptr/@target,'http://syriaca.org/bibl/')]
-return global:tei2html(<spear-citation xmlns="http://www.tei-c.org/ns/1.0">{($bibl)}</spear-citation>)
+    let $data := $model("data")
+    let $bibl := $data/tei:div[tei:idno]/descendant::tei:bibl[starts-with(descendant::tei:ptr/@target,'http://syriaca.org/bibl/')]
+    return global:tei2html(<spear-citation xmlns="http://www.tei-c.org/ns/1.0">{($bibl)}</spear-citation>)
 };
 
 (:

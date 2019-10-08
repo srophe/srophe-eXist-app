@@ -8,6 +8,7 @@ module namespace timeline="http://syriaca.org/srophe/timeline";
  : @authored 2014-08-05
 :)
 import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
+import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";
@@ -29,7 +30,8 @@ if($data/descendant-or-self::*[@when or @to or @from or @notBefore or @notAfter]
                     start:      'start_at_end',
                     type:       'timeline',
                     width:      "'" +parentWidth+"'",
-                    height:     '325',
+                    height:     '375',
+                    autolink:  'true',
                     source:     ]]>{timeline:get-all-dates($data, $title)}<![CDATA[,
                     embed_id:   'my-timeline'
                     });
@@ -100,7 +102,11 @@ declare function timeline:format-dates($start as xs:string*, $end as xs:string*,
                     <headline>{$headline}</headline>
                  else (),
                  if($text != '') then 
-                    <text>{$text}</text> 
+                    <text>{$text} 
+                    {(:if(contains(request:get-uri(),'/spear/')) then
+                        concat($config:base-uri,'/spear/aggregate.html?id=',$id)
+                     else concat($id):)''}
+                    </text> 
                 else ()                 
                 )}
         </json:value>

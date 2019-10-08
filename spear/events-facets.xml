@@ -1,0 +1,9 @@
+<facets xmlns="http://expath.org/ns/facet">
+    <facet-definition name="Keywords">
+        <group-by function="facet:group-by-array">
+            <sub-path>descendant::tei:event/@ana</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="descending">count</order-by>
+    </facet-definition>
+</facets>

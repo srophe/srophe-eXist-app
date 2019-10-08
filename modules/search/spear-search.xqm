@@ -9,6 +9,8 @@ import module namespace facet="http://expath.org/ns/facet" at "../lib/facet.xqm"
 import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
 import module namespace data="http://syriaca.org/srophe/data" at "../lib/data.xqm";
 import module namespace global="http://syriaca.org/srophe/global" at "../lib/global.xqm";
+import module namespace rel="http://syriaca.org/srophe/related" at "lib/get-related.xqm";
+import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "content-negotiation/tei2html.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
@@ -16,7 +18,7 @@ declare variable $spears:name {request:get-parameter('name', '')};
 declare variable $spears:place {request:get-parameter('place', '')};
 declare variable $spears:event {request:get-parameter('event', '')};
 declare variable $spears:ref {request:get-parameter('ref', '')};
-declare variable $spears:keyword {request:get-parameter('keyword', '')};
+declare variable $spears:keyword {request:get-parameter('controlledkeyword', '')};
 declare variable $spears:relation {request:get-parameter('relation', '')};
 declare variable $spears:type {request:get-parameter('type', '')};
 declare variable $spears:title {request:get-parameter('title', '')};
@@ -106,9 +108,9 @@ declare function spears:relation(){
  : Build query string to pass to search.xqm 
 :)
 declare function spears:query-string() as xs:string? {
- concat("collection('",$config:data-root,"/spear/tei')//tei:div[parent::tei:body]",
+ concat("collection('",$config:data-root,"/spear/tei')//tei:div[@type='factoid']",
     spears:type-search(),
-    data:keyword-search(),
+    spears:keyword-search(),
     spears:name(),
     spears:place(),
     spears:event(),
@@ -118,26 +120,41 @@ declare function spears:query-string() as xs:string? {
     )
 };
 
+(:
+ : General keyword anywhere search function 
+:)
+declare function spears:keyword-search(){
+    if(request:get-parameter('keyword', '') != '') then 
+        for $query in request:get-parameter('keyword', '') 
+        return concat("[ft:query(descendant-or-self::tei:div,'",data:clean-string($query),"',data:search-options()) or ft:query(ancestor-or-self::tei:TEI/descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+    else if(request:get-parameter('q', '') != '') then 
+        for $query in request:get-parameter('q', '') 
+        return concat("[ft:query(descendant-or-self::tei:div,'",data:clean-string($query),"',data:search-options()) or ft:query(ancestor-or-self::tei:TEI/descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+    else ()
+};
+
+
 (:~
  : Format search results
  : Need a better uri for factoids, 
 :)
 declare function spears:results-node($hit){
-    let $root := $hit 
-    let $id := string($root/@uri)
+    let $id := string($hit/tei:idno[@type='URI'])
     let $alt-view :=
         if($spears:type = 'pers' or $spears:name != '') then 
-            string($root/tei:listPerson/tei:person/tei:persName/@ref)
-        else if ($spears:place != '') then string($root/tei:listPerson/tei:person/tei:persName/@ref)
+            string($hit/tei:listPerson/tei:person/tei:persName/@ref)
+        else if ($spears:place != '') then string($hit/tei:listPerson/tei:person/tei:persName/@ref)
         else ()
     let $alt-view-type :=
         if($spears:type = 'pers' or $spears:name != '') then 'Person'
         else if ($spears:place != '') then 'Place'
         else ()
+    let $title := 
+        if($hit/tei:listRelation) then rel:relationship-sentence($hit//descendant::tei:relation)
+        else string-join(tei2html:tei2html($hit/child::*[2]),' ')
     return 
         <p style="font-weight:bold padding:.5em;">
-            {global:tei2html(<search xmlns="http://www.tei-c.org/ns/1.0">{$root}</search>)}<br/>
-            <a href="factoid.html?id={$id}">View Factoid</a>
+            {$title} <a href="factoid.html?id={$id}">View Factoid</a>
             {
                 if($alt-view != '') then 
                     (' | ', <a href="factoid.html?id={$alt-view}">View {$alt-view-type}</a>)
@@ -173,6 +190,38 @@ return
     <option value="{$title}">{$title}</option>
 };
 
+(:~
+ : Main search functions.
+ : Build a search XPath based on search parameters. 
+ : Add sort options. 
+:)
+declare function spears:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {                      
+    let $eval-string := if($queryString != '') then $queryString 
+                        else concat(data:build-collection-path($collection), data:create-query($collection),facet:facet-filter(global:facet-definition-file($collection)))
+    let $hits := util:eval($eval-string)
+    return 
+        if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance' or request:get-parameter('view', '') = 'all') then 
+            for $hit in $hits
+            let $sort := global:build-sort-string(data:add-sort-options($hit, request:get-parameter('sort-element', '')),'')
+            order by $sort collation 'http://www.w3.org/2013/collation/UCA'
+            return $hit
+        else if($sort-element != '' and $sort-element != 'relevance') then  
+            for $hit in util:eval($eval-string)
+            order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
+            return root($hit)            
+        else if(request:get-parameter('relId', '') != '' and (request:get-parameter('sort-element', '') = '' or not(exists(request:get-parameter('sort-element', ''))))) then
+            for $h in $hits
+                let $part := 
+                      if ($h/child::*/tei:listRelation/tei:relation[@passive[matches(.,request:get-parameter('relId', ''))]]/tei:desc[1]/tei:label[@type='order'][1]/@n castable as  xs:integer)
+                      then xs:integer($h/child::*/tei:listRelation/tei:relation[@passive[matches(.,request:get-parameter('relId', ''))]]/tei:desc[1]/tei:label[@type='order'][1]/@n)
+                      else 0
+            order by $part
+            return $h 
+        else 
+            for $hit in $hits
+            order by ft:score($hit) + (count($hit/descendant::tei:bibl) div 100) descending
+            return $hit 
+};
 (:~
  : Builds advanced search form for persons
  :)

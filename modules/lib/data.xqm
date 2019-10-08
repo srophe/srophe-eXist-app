@@ -24,8 +24,8 @@ declare function data:get-document() {
     return 
         if($id != '') then
             if(contains($id,'/spear/')) then
-                for $rec in collection($config:data-root)//tei:div[@uri = $id]
-                return <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{$rec}</tei:TEI>   
+                for $rec in collection($config:data-root)//tei:div[tei:idno = $id]
+                return <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{($rec/ancestor::tei:TEI/tei:teiHeader,$rec)}</tei:TEI>   
             else if(contains($id,'/manuscript/')) then
                 for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = $id]
                 return 
@@ -38,25 +38,13 @@ declare function data:get-document() {
                 doc(xmldb:encode-uri(request:get-parameter('doc', '') || '.xml'))
             else doc(xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml'))
         else ()           
-    (:
-    if(request:get-parameter('id', '') != '') then  
-        if($config:document-id) then 
-            collection($config:data-root)//tei:idno[. = request:get-parameter('id', '')][@type='URI']/ancestor::tei:TEI
-        else collection($config:data-root)/id(request:get-parameter('id', ''))/ancestor::tei:TEI
-    
-    else if(request:get-parameter('doc', '') != '') then 
-        if(starts-with(request:get-parameter('doc', ''),$config:data-root)) then 
-            doc(xmldb:encode-uri(request:get-parameter('doc', '') || '.xml'))
-        else doc(xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml'))
-    else ()
-    :)
 };
 
 declare function data:get-document($id as xs:string?) {
         if($id != '') then
             if(contains($id,'/spear/')) then
-                for $rec in collection($config:data-root)//tei:div[@uri = $id]
-                return <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{$rec}</tei:TEI>   
+                for $rec in collection($config:data-root)//tei:div[tei:idno = $id]
+                return <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{($rec/ancestor::tei:TEI/tei:teiHeader,$rec)}</tei:TEI>
             else if(contains($id,'/manuscript/')) then
                 for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = $id]
                 return 
