@@ -30,7 +30,7 @@ declare function rel:get-names($uris as xs:string*,$related-map) {
     let $rec :=  $related-map($uri)
     let $name := $rec/descendant::tei:titleStmt[1]/tei:title[1]/text()[1]
     let $name := if(contains($name, '—')) then substring-before($name,'—') else $name
-    where not(empty($rec))
+    (:where not(empty($rec)):)
     return
         (
         if($i gt 1 and $count gt 2) then  
@@ -38,7 +38,10 @@ declare function rel:get-names($uris as xs:string*,$related-map) {
         else if($i = $count and $count gt 1) then  
             ' and '
         else (),
-        <a href="{$uri}">{normalize-space($name)}</a>
+            if(contains(request:get-uri(),'/spear/')) then 
+                <a href="aggregate.html?id={$uri}">{if($name != '') then normalize-space($name) else $uri}</a>
+            else 
+                <a href="{$uri}">{if($name != '') then normalize-space($name) else $uri}</a>
         )
 };
 

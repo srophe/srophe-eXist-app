@@ -60,7 +60,7 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
     return
         if(empty($queryExpr) or $queryExpr = "" or empty(request:get-parameter-names())) then ()
         else 
-            let $hits := data:search($collection, $search-string, $sort-element)
+            let $hits := if($collection = 'spear') then spears:search($collection, $search-string, $sort-element) else data:search($collection, $search-string, $sort-element)
             return
                 map {
                         "hits" := $hits,
@@ -87,7 +87,11 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                         <span class="badge">{$search:start + $p - 1}</span>
                       </div>
                       <div class="col-md-9" xml:lang="en">
-                        {(tei2html:summary-view($hit, (), $id[1])) }
+                        {
+                            if($collection = 'spear') then
+                              spears:results-node($hit)
+                            else tei2html:summary-view($hit, (), $id[1])
+                        }
                         {(:
                             if($expanded//exist:match) then 
                                 tei2html:output-kwic($expanded, $id)

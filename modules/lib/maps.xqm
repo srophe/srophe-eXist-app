@@ -97,9 +97,10 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
                                  }               
                                 }
                             })
-        var map = L.map('map').fitBounds(geojson.getBounds(),{maxZoom: 5});     
-        terrain.addTo(map);
-                                        
+        var map = L.map('map').fitBounds(geojson.getBounds(),{maxZoom: 5});
+        map.on('focus', function() { map.scrollWheelZoom.enable(); });
+        map.on('blur', function() { map.scrollWheelZoom.disable(); });
+        terrain.addTo(map);                                  
         L.control.layers({
                         "Terrain (default)": terrain,
                         "Streets": streets,
