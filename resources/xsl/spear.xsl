@@ -297,7 +297,7 @@
                             <p class="indent">
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
-                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
                                 </a>
                             </p>
@@ -362,7 +362,7 @@
                             <p class="indent">
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
-                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
                                 </a>
                             </p>
@@ -375,7 +375,7 @@
                             <p class="indent">
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
-                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a>
                             </p>
                         </xsl:for-each>
@@ -387,7 +387,7 @@
                             <p class="indent">
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
-                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
                                 </a>
                             </p>
@@ -400,7 +400,7 @@
                             <p class="indent">
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
-                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
                                 </a>
                             </p>
@@ -434,7 +434,7 @@
                             <p class="indent">
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
-                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                                <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                         <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
                                 </a>
                             </p>
@@ -482,7 +482,7 @@
                         <p class="indent">
                             <xsl:apply-templates mode="spear"/>
                             <xsl:text> </xsl:text>
-                            <a href="factoid.html?id={string(t:idno)}" class="factoid-more">more
+                            <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
                                     <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
                             </a>
                         </p>
