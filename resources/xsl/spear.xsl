@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t s saxon" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:s="http://syriaca.org" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t s saxon" version="2.0">
 
     <!-- ================================================================== 
        Copyright 2013 New York University
@@ -304,7 +304,7 @@
                         </xsl:for-each>
                     </xsl:for-each-group>
                     <xsl:for-each-group select="t:div[descendant::t:birth]" group-by="name(t:div[descendant::t:birth][1])">
-                        <xsl:for-each-group select=".[descendant::t:birth/t:date]" group-by="name(descendant::t:birth/t:date)">
+                        <xsl:for-each-group select=".[descendant::t:birth]" group-by="name(descendant::t:birth)">
                             <h4>Birth date: </h4>
                             <xsl:for-each select="current-group()">
                                 <xsl:sort select="xs:integer(substring-after(t:idno, '-'))" order="ascending"/>
@@ -330,7 +330,7 @@
                         </xsl:for-each-group>
                     </xsl:for-each-group>
                     <xsl:for-each-group select="t:div[descendant::t:death]" group-by="name(t:div[descendant::t:death][1])">
-                        <xsl:for-each-group select=".[descendant::t:death/t:date]" group-by="name(descendant::t:death/t:date)">
+                        <xsl:for-each-group select=".[descendant::t:death]" group-by="name(descendant::t:death)">
                             <h4>Death date: </h4>
                             <xsl:for-each select="current-group()">
                                 <xsl:sort select="xs:integer(substring-after(t:idno, '-'))" order="ascending"/>
@@ -557,6 +557,7 @@
         <xsl:copy/>
     </xsl:template>
     <xsl:template match="t:listRelation" mode="spear"/>
+
     <xsl:template match="*" mode="spear">
         <xsl:choose>
             <xsl:when test="self::t:bibl"/>
