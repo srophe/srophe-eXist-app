@@ -30,6 +30,7 @@ declare function rel:get-names($uris as xs:string*,$related-map) {
     let $rec :=  $related-map($uri)
     let $name := $rec/descendant::tei:titleStmt[1]/tei:title[1]/text()[1]
     let $name := if(contains($name, '—')) then substring-before($name,'—') else $name
+    let $name := if($name = ('',' ')) then string-join($rec/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')]/text(),' ') else $name
     (:where not(empty($rec)):)
     return
         (
