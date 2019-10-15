@@ -426,7 +426,7 @@ return
 };
      
 declare function spear:person-data($data){
-let $personInfo := $data//tei:div[tei:listPerson]
+let $personInfo := $data/descendant::tei:div[tei:listPerson]
 return 
     if(not(empty($personInfo))) then 
         <div class="panel panel-default">
@@ -440,7 +440,8 @@ return
                     </aggregate>)}
              </div>
         </div>
-    else () 
+    else  
+        <h4>No SPEAR data.</h4>
 };
 
 declare %templates:wrap function spear:relationships-aggregate($node as node(), $model as map(*)){
