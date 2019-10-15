@@ -322,44 +322,47 @@ return
 };
      
 declare function spear:data($node as node(), $model as map(*), $view as xs:string?){
-if($spear:item-type = 'place-factoid') then 
-    (spear:relationships-aggregate($node,$model),
-    spear:events($node,$model),
-    spear:person-data($model("data")))
-else if($spear:item-type = 'person-factoid') then
-    ( 
-    spear:person-data($model("data")),
-    spear:relationships-aggregate($node,$model),
-    spear:events($node,$model)
-    ) 
-else if($spear:item-type = 'source-factoid' and $view = 'aggregate') then
-    spear:source-data($model("data"))
-else if($spear:item-type = 'keyword-factoid') then
-    (
-    spear:person-data($model("data")),
-    spear:relationships-aggregate($node,$model),
-    spear:events($node,$model)     
-    )    
-else if($model("data")//tei:div/tei:listRelation) then
-    <div class="factoid">
-       <h4>Relationship</h4>
-       {
-       for $r in $model("data")//tei:div/tei:listRelation/descendant::tei:relation
-        return <p>{rel:relationship-sentence($r)}</p>
-       }
-    </div>  
+if($model("data")//tei:div[@type='factoid']) then 
+    if($spear:item-type = 'place-factoid') then 
+        (spear:relationships-aggregate($node,$model),
+        spear:events($node,$model),
+        spear:person-data($model("data")))
+    else if($spear:item-type = 'person-factoid') then
+        ( 
+        spear:person-data($model("data")),
+        spear:relationships-aggregate($node,$model),
+        spear:events($node,$model)
+        ) 
+    else if($spear:item-type = 'source-factoid' and $view = 'aggregate') then
+        spear:source-data($model("data"))
+    else if($spear:item-type = 'keyword-factoid') then
+        (
+        spear:person-data($model("data")),
+        spear:relationships-aggregate($node,$model),
+        spear:events($node,$model)     
+        )    
+    else if($model("data")//tei:div/tei:listRelation) then
+        <div class="factoid">
+           <h4>Relationship</h4>
+           {
+           for $r in $model("data")//tei:div/tei:listRelation/descendant::tei:relation
+            return <p>{rel:relationship-sentence($r)}</p>
+           }
+        </div>  
+    else 
+        (:
+        Need to pass relationship data to XSLT or move SPEAR display into XQuery. 
+        <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">
+                                 {for $r in $model("data")//tei:div/descendant::tei:relation
+                                  return <p><strong>Relationship:</strong> {rel:relationship-sentence($r)}</p>
+                                  }
+                             </spear-as-is>
+        :)
+        global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">
+                            {$model("data")//tei:div}
+                            </factoid>)
 else 
-    (:
-    Need to pass relationship data to XSLT or move SPEAR display into XQuery. 
-    <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">
-                             {for $r in $model("data")//tei:div/descendant::tei:relation
-                              return <p><strong>Relationship:</strong> {rel:relationship-sentence($r)}</p>
-                              }
-                         </spear-as-is>
-    :)
-    global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">
-                        {$model("data")//tei:div}
-                        </factoid>)
+    <div class="well text-center"><h2>No SPEAR data available.</h2></div>
 };
 
 declare function spear:cts($node as node(), $model as map(*)){
@@ -440,10 +443,7 @@ return
                     </aggregate>)}
              </div>
         </div>
-    else 
-        <div class="well text-center">
-        <h2>No SPEAR data.</h2>
-        </div>
+    else ()
 };
 
 declare %templates:wrap function spear:relationships-aggregate($node as node(), $model as map(*)){
