@@ -224,7 +224,7 @@ declare function timeline:get-state($data as node()*) as node()*{
 declare function timeline:get-events($data as node()*) as node()*{
      if($data/descendant-or-self::tei:event) then 
         for $event in $data/descendant-or-self::tei:event
-        let $event-content := normalize-space(string-join($event/descendant-or-self::*/text(),' '))
+        let $event-content := normalize-space(string-join(tei2html:tei2html($event),' '))
         let $start := if($event/descendant-or-self::*/@when) then $event/descendant-or-self::*[@when][1]/@when
                       else if($event/descendant-or-self::*/@notBefore) then $event/descendant-or-self::*[@notBefore][1]/@notBefore
                       else if($event/descendant-or-self::*/@from) then $event/descendant-or-self::*[@from][1]/@from

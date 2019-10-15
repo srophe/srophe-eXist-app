@@ -557,7 +557,14 @@
         <xsl:copy/>
     </xsl:template>
     <xsl:template match="t:listRelation" mode="spear"/>
-    
+    <xsl:template match="t:choice" mode="spear">
+        <span class="tei-choice">
+            <xsl:apply-templates select="t:reg"/>
+            <xsl:if test="t:orig">
+                (<xsl:value-of select="t:orig"/>)
+            </xsl:if>
+        </span>
+    </xsl:template>
     <xsl:template match="t:birth | t:death" mode="spear">
         <xsl:choose>
             <xsl:when test="descendant::t:note">

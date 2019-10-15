@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
     <!-- =================================================================== -->
     <!--  Core TEI to HTML transformations -->
@@ -18,7 +18,14 @@
             <xsl:call-template name="rend"/>
         </td>
     </xsl:template> 
-    
+    <xsl:template match="t:choice">
+        <span class="tei-choice">
+            <xsl:apply-templates select="t:reg"/>
+            <xsl:if test="t:orig">
+                (<xsl:value-of select="t:orig"/>)
+            </xsl:if>
+        </span>
+    </xsl:template>
     <!-- G -->
     <xsl:template match="t:graphic">
         <img src="{string(@url)}"/>
