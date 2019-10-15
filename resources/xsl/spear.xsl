@@ -231,7 +231,7 @@
                         </xsl:choose>
                     </xsl:variable>
                     <strong><xsl:value-of select="$label"/>: </strong>
-                    <xsl:apply-templates mode="spear"/>
+                    <xsl:apply-templates select="." mode="spear"/>
                 </xsl:for-each>
                 <xsl:for-each select="//t:spear-as-is">
                     <xsl:apply-templates mode="spear"/>
@@ -557,7 +557,15 @@
         <xsl:copy/>
     </xsl:template>
     <xsl:template match="t:listRelation" mode="spear"/>
-
+    
+    <xsl:template match="t:birth | t:death" mode="spear">
+        <xsl:choose>
+            <xsl:when test="descendant::t:note">
+                <xsl:apply-templates select="descendant::t:note" mode="spear"/>
+            </xsl:when>
+            <xsl:otherwise><xsl:apply-templates mode="spear"/></xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
     <xsl:template match="*" mode="spear">
         <xsl:choose>
             <xsl:when test="self::t:bibl"/>
@@ -612,7 +620,7 @@
                 <a href="aggregate.html?id={@ref}"><xsl:apply-templates mode="spear"/></a>    
             </xsl:when>
             <xsl:otherwise>
-                <xsl:apply-templates mode="spear"/>        
+               <xsl:apply-templates mode="spear"/>        
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
