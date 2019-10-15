@@ -440,8 +440,10 @@ return
                     </aggregate>)}
              </div>
         </div>
-    else  
-        <h4>No SPEAR data.</h4>
+    else 
+        <div class="well text-center">
+        <h2>No SPEAR data.</h2>
+        </div>
 };
 
 declare %templates:wrap function spear:relationships-aggregate($node as node(), $model as map(*)){
