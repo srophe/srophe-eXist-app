@@ -88,8 +88,8 @@ declare function spear:get-all($node as node(), $model as map(*), $collection as
                         map{"spear" := $spear,
                             "hits" := 
                                         let $uris := distinct-values($spear//@ref[contains(.,concat($config:base-uri,'/place/'))])
-                                        let $facets := concat("collection($config:data-root || '/places')//tei:TEI",facet:facet-filter(spear:get-facets()))
-                                        let $places := util:eval($facets)[.//tei:idno[@type='URI'][. = ($uris)]]
+                                        let $places := collection($config:data-root || '/places')//tei:TEI[.//tei:idno[@type='URI'][. = ($uris)]]
+                                        let $places := util:eval(concat("$places",facet:facet-filter(spear:get-facets())))
                                         for $place in $places
                                         order by global:build-sort-string($place/descendant::tei:placeName[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1],'') ascending
                                         return $place
@@ -173,7 +173,8 @@ declare function spear:browse-abc-menu(){
  : @param $collection passed from html 
 :)
 declare function spear:show-hits($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
-(<div>
+(
+<div>
     <div class="float-container">
         <div class="pull-right paging">      
             {page:pages($model("hits"), $collection, $spear:start, $spear:perpage,'', $sort-options)}
@@ -202,6 +203,7 @@ declare function spear:show-hits($node as node(), $model as map(*), $collection,
          else ()
         }
         <div class="results">
+        <div>TEST {count($model("hits")//descendant::tei:place/@type[. = "church"])} view {request:get-parameter('view', '')}</div>
             {
                 for $hit in subsequence($model("hits"), $spear:start,$spear:perpage)
                 let $link := 
@@ -365,9 +367,10 @@ else
     <div class="well text-center"><h2>No SPEAR data available.</h2></div>
 };
 
+(: Load resource using CTS resolver :)
 declare function spear:cts($node as node(), $model as map(*)){
-    if($model("data")//tei:bibl[@type='urn']) then
-        let $refs := $model("data")/tei:bibl[@type='urn']/tei:ptr/@target
+    if($model("data")//tei:div[@type='factoid']/descendant::tei:bibl[@type='urn']) then
+        let $refs := $model("data")//tei:div[@type='factoid']/descendant::tei:bibl[@type='urn']/tei:ptr/@target
         return
             if($refs != '') then 
                 <div class="panel panel-default" id="cts">
@@ -378,8 +381,17 @@ declare function spear:cts($node as node(), $model as map(*)){
                         {
                         for $r in $refs 
                         return 
-                        (cts:run($r, 'html'),
-                        <span>Go to text <a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}"><span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
+                            try {
+                                    let $cts := cts:run($r, 'xml')
+                                    return 
+                                        if($cts != '') then
+                                           (global:tei2html($cts),<span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">Go to text <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>) 
+                                        else ()
+                                } catch *{
+                                     <response status="fail">
+                                         <message>Failed find resource. Error Code: {concat($err:code, ": ", $err:description)}</message>
+                                     </response>
+                            }
                         }
                     </div>
                 </div> 
@@ -448,7 +460,7 @@ return
 };
 
 declare %templates:wrap function spear:relationships-aggregate($node as node(), $model as map(*)){
-let $relations := $model("data")//tei:div[descendant::tei:listRelation]                
+let $relations := $model("data")//tei:div[tei:listRelation]                
 let $count := count($relations)   
 let $relation := subsequence($relations,1,20)
 return 
@@ -462,7 +474,7 @@ return
                     {
                        for $r in $relation
                        return 
-                       <p>{rel:relationship-sentence($r/descendant::tei:relation)} &#160;<a href="factoid.html?id={string($r/tei:idno)}">See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
+                       <p>{rel:relationship-sentence($r/tei:listRelation/tei:relation)} &#160;<a href="factoid.html?id={string($r/tei:idno)}">See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></p>
                        (:
                        if($count gt 20) then 
                            <a href="#" class="btn btn-info getData" style="width:100%; margin-bottom:1em;" data-toggle="modal" data-target="#moreInfo" 
