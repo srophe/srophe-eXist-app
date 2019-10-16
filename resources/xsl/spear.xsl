@@ -225,6 +225,8 @@
                         <xsl:choose>
                             <xsl:when test="name(.) = 'persName'">Name</xsl:when>
                             <xsl:when test="name(.) = 'desc'">Description</xsl:when>
+                            <xsl:when test="name(.) = 'socecStatus'">Social rank</xsl:when>
+                            
                             <xsl:otherwise>
                                 <xsl:value-of select="concat(upper-case(substring(name(.), 1, 1)), substring(name(.), 2))"/>
                             </xsl:otherwise>
@@ -280,7 +282,7 @@
         <div class="spear-aggregate">
             <xsl:choose>
                 <xsl:when test="t:div">
-                    <xsl:for-each-group select="t:div/t:listPerson/t:person/t:persName[. != ''][@ref=$id] | t:div/t:listPerson/t:personGrp/t:persName[. != ''][@ref=$id]" group-by="name(.)">
+                    <xsl:for-each-group select="t:div/t:listPerson/t:person/t:persName[. != ''] | t:div/t:listPerson/t:personGrp/t:persName[. != '']" group-by="name(.)">
                         <h4>Name variant(s): </h4>
                         <xsl:for-each select="current-group()">
                             <xsl:sort select="xs:integer(substring-after(ancestor::t:div[1]/t:idno, '-'))" order="ascending"/>
@@ -291,7 +293,7 @@
                             </p>
                         </xsl:for-each>
                     </xsl:for-each-group>
-                    <xsl:for-each-group select="t:div[descendant::t:sex]" group-by="name(t:div[descendant::t:sex][1])">
+                    <xsl:for-each-group select="t:div[descendant::t:trait[@type='gender']]" group-by="name(t:div[descendant::t:trait[@type='gender']][1])">
                         <h4>Sex: </h4>
                         <xsl:for-each select="current-group()">
                             <xsl:sort select="xs:integer(substring-after(t:idno, '-'))" order="ascending"/>
@@ -453,7 +455,7 @@
                             </p>
                         </xsl:for-each>
                     </xsl:for-each-group>
-                    <xsl:for-each-group select="t:div[descendant::t:trait]" group-by="name(t:div[descendant::t:trait][1])">
+                    <xsl:for-each-group select="t:div[descendant::t:trait[not(@type='gender')]]" group-by="name(t:div[descendant::t:trait][1])">
                         <xsl:for-each-group select=".[descendant::t:trait]" group-by="descendant::t:trait/@type">
                             <h4>
                                 <xsl:choose>
@@ -594,16 +596,25 @@
             <xsl:otherwise><xsl:apply-templates mode="spear"/></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="t:trait | t:occupation | t:socecStatus" mode="spear">
+        <xsl:choose>
+            <xsl:when test="t:note[@type='desc']">
+               <xsl:apply-templates select="t:note[@type='desc']/node()" mode="spear"/>
+            </xsl:when>
+            <xsl:when test="@ana">
+               <xsl:value-of select="substring-after(@ana,'/keyword/')"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:apply-templates mode="spear"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
     <xsl:template match="t:note" mode="spear"/>
     <xsl:template match="*" mode="spear">
         <xsl:choose>
             <xsl:when test="self::t:bibl"/>
             <xsl:otherwise>
-                <span class="tei-{local-name(.)}">
-                    <xsl:sequence select="local:attributes(.)"/>
-                    <xsl:call-template name="rend-spear"/>
-                    <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </span>
+                <span class="tei-{local-name(.)}"><xsl:sequence select="local:attributes(.)"/><xsl:call-template name="rend-spear"/></span>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>

@@ -429,7 +429,8 @@ return
 };
      
 declare function spear:person-data($data){
-let $personInfo := $data/descendant::tei:div[tei:listPerson]
+let $id := $data/@id
+let $personInfo := $data/descendant::tei:div[tei:listPerson/tei:person/tei:persName[@ref=$id] or tei:listPerson/tei:personGrp/tei:persName[@ref=$id]]
 return 
     if(not(empty($personInfo))) then 
         <div class="panel panel-default">
