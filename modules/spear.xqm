@@ -438,7 +438,7 @@ return
              </div>
              <div class="panel-body"> 
                 {global:tei2html(
-                    <aggregate xmlns="http://www.tei-c.org/ns/1.0">
+                    <aggregate xmlns="http://www.tei-c.org/ns/1.0" id="{$data/@id}">
                         {$personInfo}
                     </aggregate>)}
              </div>

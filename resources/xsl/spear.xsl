@@ -276,10 +276,11 @@
         </div>
     </xsl:template>
     <xsl:template match="t:aggregate">
+        <xsl:variable name="id" select="@id"/>
         <div class="spear-aggregate">
             <xsl:choose>
                 <xsl:when test="t:div">
-                    <xsl:for-each-group select="t:div/t:listPerson/t:person/t:persName[. != ''] | t:div/t:listPerson/t:personGrp/t:persName[. != '']" group-by="name(.)">
+                    <xsl:for-each-group select="t:div/t:listPerson/t:person/t:persName[. != ''][@ref=$id] | t:div/t:listPerson/t:personGrp/t:persName[. != ''][@ref=$id]" group-by="name(.)">
                         <h4>Name variant(s): </h4>
                         <xsl:for-each select="current-group()">
                             <xsl:sort select="xs:integer(substring-after(ancestor::t:div[1]/t:idno, '-'))" order="ascending"/>
