@@ -657,7 +657,9 @@
     <xsl:template name="ref-spear">
         <xsl:choose>
             <xsl:when test="contains(@ref,$base-uri)">
-                <a href="aggregate.html?id={@ref}"><xsl:apply-templates mode="spear"/></a>    
+                <a href="aggregate.html?id={@ref}"><xsl:value-of select="normalize-space(.)"/>
+                <!--    <xsl:apply-templates mode="spear"/> -->
+                </a>    
             </xsl:when>
             <xsl:otherwise>
                <xsl:apply-templates mode="spear"/>        
