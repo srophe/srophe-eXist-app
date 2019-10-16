@@ -560,10 +560,30 @@
     <xsl:template match="t:listRelation" mode="spear"/>
     <xsl:template match="t:choice" mode="spear">
         <span class="tei-choice">
-            <xsl:apply-templates select="t:reg" mode="spear"/>
-            <xsl:if test="t:orig">
-                (<xsl:value-of select="t:orig"/>)
-            </xsl:if>
+            <xsl:choose>
+                <xsl:when test="t:sic">
+                    <xsl:apply-templates select="t:corr" mode="spear"/>
+                    <xsl:if test="t:sic/t:reg">
+                        [not <xsl:apply-templates select="t:sic/t:reg" mode="spear"/>
+                        <xsl:if test="t:sic/t:orig">
+                            (<xsl:value-of select="t:sic/t:orig"/>)
+                        </xsl:if>]
+                    </xsl:if>
+                </xsl:when>
+                <xsl:when test="t:reg">
+                    <xsl:apply-templates select="t:reg" mode="spear"/>
+                    <xsl:if test="t:orig">
+                        (<xsl:value-of select="t:orig"/>)
+                    </xsl:if>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="t:reg" mode="spear"/>
+                    <xsl:if test="t:orig">
+                        (<xsl:value-of select="t:orig"/>)
+                    </xsl:if>
+                </xsl:otherwise>
+            </xsl:choose>
+
         </span>
     </xsl:template>
     <xsl:template match="t:birth | t:death" mode="spear">
