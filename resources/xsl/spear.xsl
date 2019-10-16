@@ -560,7 +560,7 @@
     <xsl:template match="t:listRelation" mode="spear"/>
     <xsl:template match="t:choice" mode="spear">
         <span class="tei-choice">
-            <xsl:apply-templates select="t:reg"/>
+            <xsl:apply-templates select="t:reg" mode="spear"/>
             <xsl:if test="t:orig">
                 (<xsl:value-of select="t:orig"/>)
             </xsl:if>
@@ -574,6 +574,7 @@
             <xsl:otherwise><xsl:apply-templates mode="spear"/></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="t:note" mode="spear"/>
     <xsl:template match="*" mode="spear">
         <xsl:choose>
             <xsl:when test="self::t:bibl"/>
