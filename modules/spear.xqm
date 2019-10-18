@@ -203,7 +203,6 @@ declare function spear:show-hits($node as node(), $model as map(*), $collection,
          else ()
         }
         <div class="results">
-        <div>TEST {count($model("hits")//descendant::tei:place/@type[. = "church"])} view {request:get-parameter('view', '')}</div>
             {
                 for $hit in subsequence($model("hits"), $spear:start,$spear:perpage)
                 let $link := 
@@ -377,23 +376,11 @@ declare function spear:cts($node as node(), $model as map(*)){
                     <div class="panel-heading clearfix">
                         <h4 class="panel-title">Text from The Syriac Corpus</h4>
                     </div>
-                    <div class="panel-body">
-                        {
+                    <div class="panel-body">{
                         for $r in $refs 
                         return 
-                            try {
-                                    let $cts := cts:run($r, 'xml')
-                                    return 
-                                        if($cts != '') then
-                                           (global:tei2html($cts),<span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">Go to text <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>) 
-                                        else ()
-                                } catch *{
-                                     <response status="fail">
-                                         <message>Failed find resource. Error Code: {concat($err:code, ": ", $err:description)}</message>
-                                     </response>
-                            }
-                        }
-                    </div>
+                        (<div class="ctsResolver" data-cts-urn="{$r}" data-cts-format="xml"/>,<span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">Go to text <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
+                        }</div>
                 </div> 
             else()    
     else ()

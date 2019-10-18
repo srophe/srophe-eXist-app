@@ -30,10 +30,22 @@ let $path := if(request:get-parameter('id', '')  != '') then
              else if(request:get-parameter('doc', '') != '') then
                 request:get-parameter('doc', '')
              else ()   
+let $post := request:get-data()
 let $data :=
-    if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
+    if($post != '') then
+        if($post/*:response) then
+            <TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:tei="http://www.tei-c.org/ns/1.0">{$post/*:response/child::*}</TEI>     
+        else $post
+    else if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         data:get-document()
-    else if(request:get-parameter-names() != '') then 
+    else if(request:get-data()) then
+       <response>
+       {
+       for $param in request:get-parameter-names()
+       return $param
+       }
+       </response> 
+    else if(request:get-parameter('q', '') != '') then 
         let $hits := data:search('','','')
         return 
             if(count($hits) gt 0) then 
@@ -71,8 +83,7 @@ let $data :=
                 </root>
     else ()
 let $format := if(request:get-parameter('format', '') != '') then request:get-parameter('format', '') else 'xml'    
-return  
+return 
     if(not(empty($data))) then
         cntneg:content-negotiation($data, $format, $path)    
-    else ()
-    
+    else () 
