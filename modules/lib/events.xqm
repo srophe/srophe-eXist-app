@@ -109,7 +109,7 @@ declare function ev:build-events-panel($nodes as node()*){
                         for $e in $event
                         return 
                             <li class="md-line-height">
-                                {tei2html:tei2html($e/tei:listEvent/descendant::tei:event)}&#160; 
+                                {global:tei2html(<spear-event xmlns="http://www.tei-c.org/ns/1.0">{$e/tei:listEvent/descendant::tei:event}</spear-event>)}&#160; 
                                 {<a href="factoid.html?id={string($e/@uri)}">See factoid page  <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span></a>   }
                             </li>
                     }

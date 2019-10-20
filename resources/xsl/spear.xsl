@@ -201,81 +201,81 @@
     <xsl:template match="t:spear-headwords">
         <xsl:call-template name="title"/>
     </xsl:template>
-    <xsl:template match="t:factoid | t:div[t:idno]">
-        <div class="factoid">
-            <xsl:if test="t:factoid-headword">
-                <h4>
-                    <xsl:call-template name="title"/>
-                </h4>
-            </xsl:if>
-            <xsl:choose>
-                <xsl:when test="descendant::t:div[t:idno]/t:listPerson">
-                    <h4>Person</h4>
-                </xsl:when>
-                <xsl:when test="descendant::t:div[t:idno]/t:listEvent">
-                    <h4>Event</h4>
-                </xsl:when>
-                <xsl:when test="descendant::t:div[t:idno]/t:listRelation">
-                    <h4>Relationship</h4>
-                </xsl:when>
-            </xsl:choose>
-            <xsl:for-each select="//t:div[@type='factoid']">
-                <xsl:for-each select="child::*[not(self::t:bibl)][not(self::t:note)][not(self::t:idno)][not(self::t:listRelation)]/child::*/child::*[not(empty(descendant-or-self::text()))]">
-                    <xsl:variable name="label">
-                        <xsl:choose>
-                            <xsl:when test="name(.) = 'persName'">Name</xsl:when>
-                            <xsl:when test="name(.) = 'desc'">Description</xsl:when>
-                            <xsl:when test="name(.) = 'socecStatus'">Social rank</xsl:when>
-                            
-                            <xsl:otherwise>
-                                <xsl:value-of select="concat(upper-case(substring(name(.), 1, 1)), substring(name(.), 2))"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:variable>
-                    <strong><xsl:value-of select="$label"/>: </strong>
-                    <xsl:apply-templates select="." mode="spear"/>
-                </xsl:for-each>
-                <xsl:for-each select="//t:spear-as-is">
-                    <xsl:apply-templates mode="spear"/>
-                </xsl:for-each>
-                <xsl:for-each select="descendant::t:note[not(@type='desc')]">
-                    <xsl:variable name="label">
-                        <xsl:value-of select="concat(upper-case(substring(@type, 1, 1)), substring(@type, 2))"/>    
-                    </xsl:variable>
-                    <div class="tei-note {if($label != '') then $label else ()}">
-                        <xsl:choose>
-                            <xsl:when test="@type='desc'">
-                                <span class="note-label">Description : </span>
-                            </xsl:when>
-                            <xsl:otherwise><span class="note-label">Note : <xsl:if test="$label != ''"><xsl:value-of select="$label"/></xsl:if></span></xsl:otherwise>
-                        </xsl:choose>
-                        <br/>
-                        <xsl:apply-templates mode="spear"/>                            
-                    </div>    
-                </xsl:for-each>
-            </xsl:for-each>
-            <xsl:if test="//t:div[@type='factoid'][@resp != '']">
-                <xsl:variable name="editorssourcedoc">
-                    <xsl:if test="doc-available(concat('xmldb:exist://',$app-root,'/documentation/editors.xml'))">
-                        <xsl:sequence select="doc(concat('xmldb:exist://',$app-root,'/documentation/editors.xml'))"/>
+    <xsl:template match="t:factoid | t:div[t:idno] | t:div[@type='factoid']">
+                <div class="factoid">
+                    <xsl:if test="t:factoid-headword">
+                        <h4>
+                            <xsl:call-template name="title"/>
+                        </h4>
                     </xsl:if>
-                </xsl:variable>
-                <xsl:variable name="editors">
-                    <xsl:for-each select="tokenize(//t:div[@type='factoid']/@resp,' ')">
-                        <xsl:variable name="sought" select="substring-after(.,'#')"/>
-                        <xsl:choose>
-                            <xsl:when test="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[@xml:id=$sought][1]">
-                                <xsl:sequence select="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[@xml:id=$sought][1]"/>
-                            </xsl:when>
-                            <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
-                        </xsl:choose>                            
+                    <xsl:choose>
+                        <xsl:when test="descendant::t:div[t:idno]/t:listPerson">
+                            <h4>Person</h4>
+                        </xsl:when>
+                        <xsl:when test="descendant::t:div[t:idno]/t:listEvent">
+                            <h4>Event</h4>
+                        </xsl:when>
+                        <xsl:when test="descendant::t:div[t:idno]/t:listRelation">
+                            <h4>Relationship</h4>
+                        </xsl:when>
+                    </xsl:choose>
+                    <xsl:for-each select="//t:div[@type='factoid']">
+                        <xsl:for-each select="child::*[not(self::t:bibl)][not(self::t:note)][not(self::t:idno)][not(self::t:listRelation)]/child::*/child::*[not(empty(descendant-or-self::text()))]">
+                            <xsl:variable name="label">
+                                <xsl:choose>
+                                    <xsl:when test="name(.) = 'persName'">Name</xsl:when>
+                                    <xsl:when test="name(.) = 'desc'">Description</xsl:when>
+                                    <xsl:when test="name(.) = 'socecStatus'">Social rank</xsl:when>
+                                    
+                                    <xsl:otherwise>
+                                        <xsl:value-of select="concat(upper-case(substring(name(.), 1, 1)), substring(name(.), 2))"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:variable>
+                            <strong><xsl:value-of select="$label"/>: </strong>
+                            <xsl:apply-templates select="." mode="spear"/>
+                        </xsl:for-each>
+                        <xsl:for-each select="//t:spear-as-is">
+                            <xsl:apply-templates mode="spear"/>
+                        </xsl:for-each>
+                        <xsl:for-each select="descendant::t:note[not(@type='desc')]">
+                            <xsl:variable name="label">
+                                <xsl:value-of select="concat(upper-case(substring(@type, 1, 1)), substring(@type, 2))"/>    
+                            </xsl:variable>
+                            <div class="tei-note {if($label != '') then $label else ()}">
+                                <xsl:choose>
+                                    <xsl:when test="@type='desc'">
+                                        <span class="note-label">Description : </span>
+                                    </xsl:when>
+                                    <xsl:otherwise><span class="note-label">Note : <xsl:if test="$label != ''"><xsl:value-of select="$label"/></xsl:if></span></xsl:otherwise>
+                                </xsl:choose>
+                                <br/>
+                                <xsl:apply-templates mode="spear"/>                            
+                            </div>    
+                        </xsl:for-each>
                     </xsl:for-each>
-                </xsl:variable>
-                <div class="tei-rsp">
-                    This data collected by <xsl:value-of select="local:emit-responsible-persons-all($editors//t:person, 'footnote')"/>
-                </div>    
-            </xsl:if>
-        </div>
+                    <xsl:if test="//t:div[@type='factoid'][@resp != '']">
+                        <xsl:variable name="editorssourcedoc">
+                            <xsl:if test="doc-available(concat('xmldb:exist://',$app-root,'/documentation/editors.xml'))">
+                                <xsl:sequence select="doc(concat('xmldb:exist://',$app-root,'/documentation/editors.xml'))"/>
+                            </xsl:if>
+                        </xsl:variable>
+                        <xsl:variable name="editors">
+                            <xsl:for-each select="tokenize(//t:div[@type='factoid']/@resp,' ')">
+                                <xsl:variable name="sought" select="substring-after(.,'#')"/>
+                                <xsl:choose>
+                                    <xsl:when test="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[@xml:id=$sought][1]">
+                                        <xsl:sequence select="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[@xml:id=$sought][1]"/>
+                                    </xsl:when>
+                                    <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+                                </xsl:choose>                            
+                            </xsl:for-each>
+                        </xsl:variable>
+                        <div class="tei-rsp">
+                            This data collected by <xsl:value-of select="local:emit-responsible-persons-all($editors//t:person, 'footnote')"/>
+                        </div>    
+                    </xsl:if>
+                </div>
     </xsl:template>
     <xsl:template match="t:aggregate">
         <xsl:variable name="id" select="@id"/>
@@ -553,7 +553,9 @@
     <xsl:template match="t:spear-sources">
         <xsl:call-template name="sources"/>
     </xsl:template>
-
+    <xsl:template match="t:spear-event">
+        <xsl:apply-templates mode="spear"/>
+    </xsl:template>
     <xsl:template match="tei:idno" mode="spear"/>
     
     <xsl:template match="t:spear-as-is" mode="spear">
