@@ -82,7 +82,7 @@ declare function facet:group-by($results as item()*, $facet-definitions as eleme
                 if($sort/text() = 'value') then $f[1]
                 else count($f)
             ascending
-            return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
+            return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}" path="{$path}"/>
         else 
             for $f in util:eval($path)
             group by $facet-grp := lower-case($f)
@@ -192,8 +192,8 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                             concat('[',$path,'[', $facet/facet:range/facet:bucket[@name = $facet-value]/@eq ,']]')
                         else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
                     else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
-                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)")]',']')                     
-                    else concat('[',$path,'[normalize-space(.) = "',replace($facet-value,'"','""'),'"]',']')
+                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)","i")]',']')                     
+                    else concat('[',$path,'[lower-case(normalize-space(.)) = "',replace($facet-value,'"','""'),'"]',']')
                 else()
         ,'')
     else  ()   
