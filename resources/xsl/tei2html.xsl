@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -353,14 +353,14 @@
                     </xsl:if>
                 </div>
                 
-                <xsl:if test="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                <xsl:if test="descendant::t:idno[@type='URI'][not(matches(.,'^(https://doi.org/|https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))] or descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
                     <h3>View at: </h3>
                     <div class="section indent">    
-                        <xsl:for-each select="descendant::t:idno[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
+                        <xsl:for-each select="descendant::t:idno[@type='URI'][not(matches(.,'^(https://doi.org/|https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
                             <xsl:variable name="linkID" select="."/>
                             <xsl:variable name="linkType" select="replace($linkID,'https?://(.*?)/.*','$1')"/>
                             <a href="{$linkID}" class="btn btn-info see-also" data-toggle="tooltip" title="View at {$linkType}">
-                                <span class="glyphicon glyphicon-share" aria-hidden="true"/> &#160; <xsl:value-of select="$linkType"/>
+                                <span class="glyphicon glyphicon-share" aria-hidden="true"/>   <xsl:value-of select="$linkType"/>
                             </a>  
                         </xsl:for-each>
                         <xsl:for-each select="descendant::t:ref/@target[not(matches(.,'^(https://biblia-arabica.com|https://www.zotero.org|https://api.zotero.org)'))]">
@@ -385,7 +385,7 @@
                 </div>
                 <xsl:if test="descendant-or-self::t:idno[@type='URI'][contains(.,'https://www.zotero.org')]">
                     <a href="{descendant-or-self::t:idno[@type='URI'][contains(.,'https://www.zotero.org')][1]}" class="btn btn-info see-also" data-toggle="tooltip" title="View Zotero entry">
-                        <span class="glyphicon glyphicon-share" aria-hidden="true"/> &#160;Zotero
+                        <span class="glyphicon glyphicon-share" aria-hidden="true"/>  Zotero
                     </a>
                 </xsl:if>
             </xsl:when>
