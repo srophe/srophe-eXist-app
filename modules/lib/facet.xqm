@@ -295,8 +295,10 @@ return
                     else concat('fq=',$facet-query)
                 let $label := string($key/@label)
                 let $value := if(starts-with($label,'http://syriaca.org/')) then 
-                                   facet:get-label($label)   
-                                else $label                    
+                                facet:get-label($label)   
+                              else if(contains($label,':')) then 
+                                facet:get-label($label)
+                              else $label                    
                 return <a href="?{$new-fq}{facet:url-params()}" class="facet-label btn btn-default">{$value} <span class="count"> ({string($key/@count)})</span></a>
                 }
             </div>
