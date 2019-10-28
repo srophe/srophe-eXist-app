@@ -7,11 +7,14 @@ $(document).ready(function () {
         e.preventDefault(e);
         var value = $(this).closest('.searchFacets').find("input").val();
         var name = $(this).closest('.searchFacets').find("input").attr('id');
-        var params = '?view=' + $.urlParam('view') + '&fq=;' + name + ':' + value + $.urlParam('fq');
         if (value.endsWith("/")) {
           alert('No entity entered')
         } else {
-           document.location.href =  window.location.pathname + params 
+            if($.urlParam('fq')) {
+                document.location.href =  window.location.pathname + '?view=' + $.urlParam('view') + '&fq=;' + name + ':' + value + $.urlParam('fq')
+            } else {
+                document.location.href =  window.location.pathname + '?view=' + $.urlParam('view') + '&fq=;' + name + ':' + value
+            } 
         }
     });
     
