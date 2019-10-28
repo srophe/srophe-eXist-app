@@ -22,7 +22,8 @@ import module namespace functx="http://www.functx.com";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 (: External facet parameters :)
-declare variable $facet:fq {request:get-parameter('fq', '') cast as xs:string};
+(:declare variable $facet:fq {request:get-parameter('fq', '') cast as xs:string};:)
+declare variable $facet:fq {request:get-parameter('fq', '')};
 
 (:~
  : Given a result sequence, and a sequence of facet definitions, count the facet-values for each facet defined by the facet definition(s).
@@ -175,7 +176,8 @@ declare function facet:type($value as item()*, $type as xs:string?) as item()*{
 declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
     if($facet:fq != '') then 
        string-join(
-        for $facet in tokenize($facet:fq,';fq-')
+        for $facets in $facet:fq
+        for $facet in tokenize($facets,';fq-')
         let $facet-name := substring-before($facet,':')
         let $facet-value := normalize-space(substring-after($facet,':'))
         return 
@@ -192,7 +194,9 @@ declare function facet:facet-filter($facet-definitions as node()*)  as item()*{
                             concat('[',$path,'[', $facet/facet:range/facet:bucket[@name = $facet-value]/@eq ,']]')
                         else concat('[',$path,'[string(.) >= "', facet:type($facet/facet:range/facet:bucket[@name = $facet-value]/@gt, $facet/facet:range/facet:bucket[@name = $facet-value]/@type),'" ]]')
                     else if($facet/facet:group-by[@function="facet:group-by-array"]) then 
-                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)","i")]',']')                     
+                        concat('[',$path,'[matches(., "',$facet-value,'(\W|$)","i")]',']')
+                    else if($facet/facet:group-by[@function="facet:relation"]) then 
+                        concat('[',$path,'[matches(@active, "',$facet-value,'(\W|$)","i") or matches(@passive, "',$facet-value,'(\W|$)","i") or matches(@mutual, "',$facet-value,'(\W|$)","i")]',']')
                     else concat('[',$path,'[lower-case(normalize-space(.)) = "',replace($facet-value,'"','""'),'"]',']')
                 else()
         ,'')
@@ -257,7 +261,10 @@ return
         for $f in $facets/facet:facet[@name = $facet-name]
         let $fn := string($f/@name)
         let $label := string($f/facet:key[@value = substring-after($facet,concat($facet-name,':'))]/@label)
-        let $value := if(starts-with($label,'http://syriaca.org/')) then 
+        let $value := 
+                     if($f/@name = ('Person URI','Place URI')) then
+                        substring-after($facet,':')
+                     else if(starts-with($label,'http://syriaca.org/')) then 
                          facet:get-label($label)   
                       else $label
         return 
@@ -268,7 +275,15 @@ return
 for $f in $facets/facet:facet
 let $count := count($f/facet:key)
 return 
-    if($count gt 0) then 
+    if($f/@name = 'Person URI' or $f/@name = 'Place URI') then 
+       (<h4>{string($f/@name)}</h4>,
+       <div class="input-group searchFacets"  style="margin:1em;">
+            <input type="text" class="form-control searchFacet" name="fq-{string($f/@name)}" id="fq-{string($f/@name)}" value="{if($f/@name = 'Place') then 'http://syriaca.org/place/' else 'http://syriaca.org/person/'}"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" data-toggle="tooltip" title="Search"><span class="glyphicon glyphicon-search"/></button>
+                </div>
+        </div>)
+    else if($count gt 0) then 
     <div class="facet-grp">
         <h4>{string($f/@name)}</h4>
             <div class="facet-list show">{
@@ -365,4 +380,27 @@ if(starts-with($uri,'http://syriaca.org/')) then
 else if(contains($uri,':')) then 
     lower-case(functx:camel-case-to-words(substring-after($uri,':'),' '))  
 else $uri
+};
+
+(: Syriaca.org specific facets :)
+(: Spear facets, display as search, return empty :)
+declare function facet:display-search($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text()) 
+    for $f in util:eval($path)
+    group by $facet-grp := lower-case($f)
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
+};
+
+(: Spear facets, display as search, return empty :)
+declare function facet:relation($results as item()*, $facet-definitions as element(facet:facet-definition)*) as element(facet:key)*{
+    let $path := concat('$results/',$facet-definitions/facet:group-by/facet:sub-path/text()) 
+    let $sort := $facet-definitions/facet:order-by
+    let $d := tokenize(string-join(util:eval($path),' '),' ')
+    for $f in $d
+    group by $facet-grp := tokenize($f,' ')
+    order by 
+        if($sort/text() = 'value') then $f[1]
+        else count($f)
+        descending
+    return <key xmlns="http://expath.org/ns/facet" count="{count($f)}" value="{$facet-grp}" label="{$facet-grp}"/>
 };

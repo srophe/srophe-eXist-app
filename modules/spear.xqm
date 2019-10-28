@@ -203,7 +203,7 @@ declare function spear:show-hits($node as node(), $model as map(*), $collection,
          else ()
         }
         <div class="results">
-            {
+            {   
                 for $hit in subsequence($model("hits"), $spear:start,$spear:perpage)
                 let $link := 
                     if($hit/tei:listRelation) then
