@@ -1,4 +1,18 @@
 <facets xmlns="http://expath.org/ns/facet">
+    <facet-definition name="Person URI">
+        <group-by function="facet:display-search">
+            <sub-path>descendant::tei:persName/@ref</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+    <facet-definition name="Place URI">
+        <group-by function="facet:display-search">
+            <sub-path>descendant::tei:placeName/@ref</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
     <facet-definition name="Keywords">
         <group-by function="facet:group-by-array">
             <sub-path>descendant::tei:event/@ana</sub-path>
