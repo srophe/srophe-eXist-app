@@ -235,8 +235,9 @@
                             <strong><xsl:value-of select="$label"/>: </strong>
                             <xsl:apply-templates select="." mode="spear"/>
                         </xsl:for-each>
+                        <xsl:apply-templates select="descendant::t:listRelation" mode="spear"/>
                         <xsl:for-each select="//t:spear-as-is">
-                            <xsl:apply-templates mode="spear"/>
+                            <xsl:apply-templates select="." mode="spear"/>
                         </xsl:for-each>
                         <xsl:for-each select="descendant::t:note[not(@type='desc')]">
                             <xsl:variable name="label">
@@ -559,7 +560,7 @@
     <xsl:template match="tei:idno" mode="spear"/>
     
     <xsl:template match="t:spear-as-is" mode="spear">
-        <xsl:copy/>
+        <xsl:copy-of select="."/>
     </xsl:template>
     <xsl:template match="t:listRelation" mode="spear"/>
     <xsl:template match="t:choice" mode="spear">

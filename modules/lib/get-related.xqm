@@ -40,7 +40,7 @@ declare function rel:get-names($uris as xs:string*,$related-map) {
             ' and '
         else (),
             if(contains(request:get-uri(),'/spear/')) then 
-                <a href="aggregate.html?id={$uri}">{if($name != '') then normalize-space($name) else $uri}</a>
+                <a href="aggregate.html?id={$uri}">{$uri}</a>
             else 
                 <a href="{$uri}">{if($name != '') then normalize-space($name) else $uri}</a>
         )

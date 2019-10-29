@@ -117,19 +117,15 @@ declare function spear:get-all($node as node(), $model as map(*), $collection as
                                 return  $relation
                                 }                          
         else                    
-                    (:
-                    facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition[@name="Century"]))
-                    :)
-                    let $browse-path := 
-                      (:  string-join(
-                            let $facet-config := spear:get-facets()
-                            for $facet in $facet-config/descendant::facet:facet-definition
-                            return 
-                            concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",
-                                    facet:facet-filter($facet)
-                                ),' | ')
-                       :)         
-                    concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter(spear:get-facets()))
+                    let $browse-path :=
+                       (: if($spear:fq != '') then
+                            string-join(let $facets := spear:get-facets()
+                                for $facet in $facets/descendant::facet:facet-definition
+                                let $facet-path := facet:facet-filter($facet)
+                                where $facet-path != '' 
+                                return concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter($facet))
+                                ,' | ')
+                        else :) concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter(spear:get-facets()))
                     let $spear := util:eval($browse-path)
                     return 
                         map{"spear" := $spear,
@@ -186,6 +182,7 @@ declare function spear:show-hits($node as node(), $model as map(*), $collection,
     {
         if(spear:get-facets() != '') then
             <div class="col-md-4">
+                <div>browse path {$model("path")}</div>
                 {
                     if(request:get-parameter('view', '') = 'persons' or request:get-parameter('view', '') = '') then
                         facet:html-list-facets-as-buttons(facet:count($model("spear"), spear:get-facets()//facet:facet-definition))
@@ -351,16 +348,14 @@ if($model("data")//tei:div[@type='factoid']) then
            }
         </div>  
     else 
-        (:
-        Need to pass relationship data to XSLT or move SPEAR display into XQuery. 
-        <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">
-                                 {for $r in $model("data")//tei:div/descendant::tei:relation
-                                  return <p><strong>Relationship:</strong> {rel:relationship-sentence($r)}</p>
-                                  }
-                             </spear-as-is>
-        :)
-        global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">
-                            {$model("data")//tei:div}
+        let $relationship := 
+            <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">{
+                 for $r in $model("data")//tei:div/descendant::tei:relation
+                 return <p><strong>Relationship:</strong> {rel:relationship-sentence($r)}</p>
+                }</spear-as-is>
+        return 
+            global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">
+                            {($model("data")//tei:div,$relationship)}
                             </factoid>)
 else 
     <div class="well text-center"><h2>No SPEAR data available.</h2></div>
