@@ -332,7 +332,7 @@ declare function facet:selected-facets-display($facet-definition){
                         else concat(';fq-',$facet-param),'')
     let $href := if($new-fq != '') then concat('?fq=',replace(replace($new-fq,';fq- ',''),';fq-;fq-',';fq-'),facet:url-params()) else ()
     return
-        for $f in $facet-definition[@name = $facet-name]
+        for $f in $facet-definition//*[@name = $facet-name]
         let $fn := string($f/@name)
         return 
                     <span class="label facet-label remove" title="Remove {$value}">
