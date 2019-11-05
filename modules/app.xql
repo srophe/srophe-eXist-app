@@ -326,7 +326,7 @@ declare function app:display-facets($node as node(), $model as map(*), $collecti
     let $facet-config := global:facet-definition-file($collection)
     return 
         if(not(empty($facet-config))) then 
-            facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facets/facet:facet-definition))
+            (facet:selected-facets-display($facet-config/descendant::facet:facets/facet:facet-definition), facet:output-html-facets($hits, $facet-config/descendant::facet:facets/facet:facet-definition))
         else ()
 };
 

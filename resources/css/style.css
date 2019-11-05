@@ -84,6 +84,9 @@ footer .poweredby img { width: 120px; }
     white-space: normal;
     }
 .facet-label.remove {background-color:#eee; color:#666; font-weight:normal; margin:.25em; display:inline-block;}
+.facets .subfacet h4 {display:none;}
+.facets .subfacet {margin-left:1em;}
+.facets .subfacet .facet-label {border:none;} 
 
 /* G */
 .geo-home {margin-top:4em !important;}
