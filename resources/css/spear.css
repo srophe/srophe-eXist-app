@@ -9,7 +9,10 @@
  */
 body {background-color:#666;}
 #main {background-color:#cccccc;}
-
+.spear-text {
+    background-color: white;
+    padding-top:125px !important;
+}
 /* Main content blocks */
 .navbar {border-bottom:4px solid #315431 !important;}
 .advanced-search > a {color:#999; text-decoration:none;}
@@ -49,6 +52,7 @@ body {background-color:#666;}
 
 .banner-solid{ background-color:#315431; border-top:4px solid #2A492A; padding-bottom: .5em;}
 .banner{ background-color:#315431; border-bottom:4px solid #2A492A;}
+
 /* Typography */
 h1 {color:#666; padding-top:1em;}
 h2 {color:#999;}
