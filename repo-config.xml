@@ -73,7 +73,7 @@
             <collection name="bible" title="A Guide to the Bible in Syriac" collection-URI="http://syriaca.org/bible" series="New Handbook of Syriac Literature" app-root="/bible/" data-root="works" record-URI-pattern="http://syriaca.org/work/"/>
             <collection name="subjects" title="A Taxonomy of Syriac Studies" app-root="/taxonomy/" data-root="subjects" record-URI-pattern="http://syriaca.org/keyword/"/>
             <collection name="mss" title="A Digital Catalogue of Syriac Manuscripts in the British Library" app-root="/mss/" data-root="manuscripts" record-URI-pattern="http://syriaca.org/manuscript/"/>
-            <collection name="spear" title="SPEAR: Syriac Persons Events and Relations" app-root="/spear/" data-root="spear" record-URI-pattern="http://syriaca.org/spear/"/>
+            <collection name="spear" title="SPEAR: Syriac Persons Events and Relations [Beta]" app-root="/spear/" data-root="spear" record-URI-pattern="http://syriaca.org/spear/"/>
             <collection name="bibl" title="CBSC: A Comprehensive Bibliography on Syriac Christianity" app-root="/bibl/" data-root="bibl" record-URI-pattern="http://syriaca.org/bibl/"/>
         </collections>
     </config>
