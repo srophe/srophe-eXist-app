@@ -63,6 +63,7 @@
         <script type="text/javascript" src="$nav-base/resources/keyboard/layouts/ms-Arabic.min.js"/>
         <script type="text/javascript">
             $(document).ready(function () {
+
                 $('[data-toggle="tooltip"]').tooltip({ container: 'body' })
 
                 $('.keyboard').keyboard({
@@ -96,8 +97,41 @@
                     $('.selectableFont').not('.syr').css('font-family', selectedFont);
                     $("*:lang(syr)").css('font-family', selectedFont)
                 });
-
+                
+                //Set selected
+                var viewParam = getUrlParam('view');
+                switch (viewParam) {
+                    case 'persons':
+                        $('.browseItems .persons').addClass('selected');
+                        break;
+                    case 'places':
+                        $('.browseItems .places').addClass('selected');
+                        break;
+                    case 'events':
+                        $('.browseItems .events').addClass('selected');
+                        break;
+                    case 'relations':
+                        $('.browseItems .relations').addClass('selected');
+                        break;
+                    default: 
+                        //do nothing
+                }
             })
+            //Get URL params
+            function getUrlParam(sParam)
+            <![CDATA[
+                {
+                    var sPageURL = window.location.search.substring(1);
+                    var sURLVariables = sPageURL.split('&');
+                    for (var i = 0; i < sURLVariables.length; i++) 
+                    {
+                        var sParameterName = sURLVariables[i].split('=');
+                        if (sParameterName[0] == sParam) 
+                        {
+                            return sParameterName[1];
+                        }
+                    }
+                } ]]>
         </script>
     </head>
     <body id="body">
@@ -186,6 +220,14 @@
                 </ul>
             </div>
         </nav>
+        <div class="navbar subnav browse-menu">
+            <ul class="list-inline browseItems">
+                <li class="persons browseItem"><a href="browse.html?view=persons">Browse Persons</a></li>
+                <li class="events browseItem"><a href="browse.html?view=events">Browse Events</a></li>
+                <li class="relations browseItem"><a href="browse.html?view=relations">Browse Relations</a></li>
+                <li class="places browseItem"><a href="browse.html?view=places">Browse Places</a></li>
+            </ul>
+        </div>
         <div id="content" class="text"/>
         <!-- Footer -->
         <footer data-template="app:shared-content" data-template-path="/templates/footer.html"/>

@@ -14,6 +14,26 @@ body {background-color:#666;}
 .navbar {border-bottom:4px solid #315431 !important;}
 .advanced-search > a {color:#999; text-decoration:none;}
 
+.navbar {
+    margin-bottom:0;
+}
+
+.subnav {
+  position: fixed;
+  width: 100%;
+  margin:0;
+  top: 50px;
+  z-index: 1020;
+  background-color: rgb(247,247,247); 
+  border-bottom: 1px solid #E1E1E1;
+  height:45px;
+}
+
+.browse-menu {margin:0; padding:0; background-color:#315431;}
+.browse-menu li {padding:.75em 1em; margin:0; font-size:1.15em; color: #999; font-weight:500;}
+.browse-menu li.selected {background: rgba(255, 255, 255, 0.35);}
+.browse-menu li a {/* color: #888;*/ color:white;}
+
 /* Banner styles SPEAR */
 .banner-index {
 	background-image:url('../images/spear-banner.png');
@@ -105,11 +125,3 @@ h4 {font-weight:500;}
 #sparqlFacetsBox .results {margin:0;}
 .browse {margin:0 2em;}
 .browse  .results {margin:1em;}
-.browse-menu {margin:0; padding:0; background-color:#315431;}
-.browse-menu li {padding:.75em 1em; margin:0; font-size:1.15em; color: #999; font-weight:500;}
-.browse-menu li.selected {background: rgba(255, 255, 255, 0.35);}
-.browse-menu li.persons {background: rgba(255, 255, 255, 0.25);}
-.browse-menu li.events {background: rgba(255, 255, 255, 0.15);}
-.browse-menu li.relations {background: rgba(255, 255, 255, 0.05);}
-.browse-menu li.places {}
-.browse-menu li a {/* color: #888;*/ color:white;}
