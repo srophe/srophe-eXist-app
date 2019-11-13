@@ -278,7 +278,7 @@ return
     if($f/@name = 'Person URI' or $f/@name = 'Place URI') then 
        (<h4>{string($f/@name)}</h4>,
        <div class="input-group searchFacets"  style="margin:1em;">
-            <input type="text" class="form-control searchFacet" name="fq-{string($f/@name)}" id="fq-{string($f/@name)}" value="{if($f/@name = 'Place') then 'http://syriaca.org/place/' else 'http://syriaca.org/person/'}"/>
+            <input type="text" class="form-control searchFacet" name="fq-{string($f/@name)}" id="fq-{string($f/@name)}" value="{if($f/@name = 'Place URI') then 'http://syriaca.org/place/' else 'http://syriaca.org/person/'}"/>
                 <div class="input-group-btn">
                     <button class="btn btn-default" type="submit" data-toggle="tooltip" title="Search"><span class="glyphicon glyphicon-search"/></button>
                 </div>

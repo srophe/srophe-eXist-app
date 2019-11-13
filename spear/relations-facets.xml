@@ -6,13 +6,6 @@
         <max-values show="10">60</max-values>
         <order-by direction="ascending">value</order-by>
     </facet-definition>
-    <facet-definition name="Place URI">
-        <group-by function="facet:relation">
-            <sub-path>descendant::tei:relation</sub-path>
-        </group-by>
-        <max-values show="10">60</max-values>
-        <order-by direction="ascending">value</order-by>
-    </facet-definition>
     <facet-definition name="Keywords">
         <group-by function="facet:group-by-array">
             <sub-path>descendant::tei:relation/@ref</sub-path>
