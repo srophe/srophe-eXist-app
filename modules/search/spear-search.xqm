@@ -253,38 +253,26 @@ declare function spears:search-form() {
             <div class="form-group">
                 <label for="qs" class="col-sm-2 col-md-3  control-label">Full-text: </label>
                 <div class="col-sm-10 col-md-6">
-                    <div class="input-group">
                         <input type="text" id="qs" name="q" class="form-control keyboard"/>
-                        <div class="input-group-btn">{global:keyboard-select-menu('qs')}</div>
-                    </div> 
                 </div>
             </div>
             <!-- Person Name -->
             <div class="form-group">
                 <label for="name" class="col-sm-2 col-md-3  control-label">Person Name: </label>
                 <div class="col-sm-10 col-md-6">
-                    <div class="input-group">
                     <input type="text" id="name" name="name" class="form-control keyboard"/>
-                        <div class="input-group-btn">{global:keyboard-select-menu('name')}</div>
-                    </div> 
                 </div>
             </div>            
             <div class="form-group">
                 <label for="place" class="col-sm-2 col-md-3  control-label">Place Name: </label>
                 <div class="col-sm-10 col-md-6">
-                    <div class="input-group">
                     <input type="text" id="place" name="place" class="form-control keyboard"/>
-                        <div class="input-group-btn">{global:keyboard-select-menu('place')}</div>
-                    </div> 
                 </div>
             </div> 
             <div class="form-group">
                 <label for="event" class="col-sm-2 col-md-3  control-label">Event: </label>
                 <div class="col-sm-10 col-md-6">
-                    <div class="input-group">
                     <input type="text" id="event" name="event" class="form-control keyboard"/>
-                        <div class="input-group-btn">{global:keyboard-select-menu('event')}</div>
-                    </div> 
                 </div>
             </div>               
             <hr/>
