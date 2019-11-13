@@ -90,10 +90,18 @@ declare function spear:get-all($node as node(), $model as map(*), $collection as
                                         let $uris := distinct-values($spear//@ref[contains(.,concat($config:base-uri,'/place/'))])
                                         let $places := collection($config:data-root || '/places')//tei:TEI[.//tei:idno[@type='URI'][. = ($uris)]]
                                         let $places := util:eval(concat("$places",facet:facet-filter(spear:get-facets())))
-                                        for $place in $places
-                                        order by global:build-sort-string($place/descendant::tei:placeName[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1],'') ascending
-                                        return $place
-                            }
+                                        return 
+                                            if($spear:alpha-filter != '' and $spear:alpha-filter != 'ALL') then 
+                                                for $place in $places
+                                                let $sort := global:build-sort-string($place/descendant::tei:placeName[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][1],'')
+                                                order by $sort ascending
+                                                where matches($sort,global:get-alpha-filter()) 
+                                                return $place
+                                            else 
+                                                for $place in $places
+                                                let $sort := global:build-sort-string($place/descendant::tei:placeName[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][1],'')
+                                                order by $sort ascending 
+                                                return $place                            }
         else if(request:get-parameter('view', '') = 'events') then 
                     map{"hits" :=
                                 let $browse-path := concat("collection($config:data-root || $collection-path)//tei:div[tei:listEvent]",facet:facet-filter(spear:get-facets()))
@@ -182,7 +190,6 @@ declare function spear:show-hits($node as node(), $model as map(*), $collection,
     {
         if(spear:get-facets() != '') then
             <div class="col-md-4">
-                <div>browse path {$model("path")}</div>
                 {
                     if(request:get-parameter('view', '') = 'persons' or request:get-parameter('view', '') = '') then
                         facet:html-list-facets-as-buttons(facet:count($model("spear"), spear:get-facets()//facet:facet-definition))
