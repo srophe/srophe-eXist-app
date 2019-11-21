@@ -308,7 +308,7 @@
                         </xsl:for-each>
                     </xsl:for-each-group>
                     <xsl:for-each-group select="t:div[descendant::t:birth]" group-by="name(t:div[descendant::t:birth][1])">
-                        <xsl:for-each-group select=".[descendant::t:birth]" group-by="name(descendant::t:birth)">
+                        <xsl:for-each-group select=".[descendant::t:birth][descendant::t:date]" group-by="name(descendant::t:birth)">
                             <h4>Birth date: </h4>
                             <xsl:for-each select="current-group()">
                                 <xsl:sort select="xs:integer(substring-after(t:idno, '-'))" order="ascending"/>
@@ -334,7 +334,7 @@
                         </xsl:for-each-group>
                     </xsl:for-each-group>
                     <xsl:for-each-group select="t:div[descendant::t:death]" group-by="name(t:div[descendant::t:death][1])">
-                        <xsl:for-each-group select=".[descendant::t:death]" group-by="name(descendant::t:death)">
+                        <xsl:for-each-group select=".[descendant::t:death][descendant::t:date]" group-by="name(descendant::t:death)">
                             <h4>Death date: </h4>
                             <xsl:for-each select="current-group()">
                                 <xsl:sort select="xs:integer(substring-after(t:idno, '-'))" order="ascending"/>
