@@ -210,54 +210,6 @@ declare function facet:group-by-array($results as item()*, $facet-definition as 
     return facet:list-keys($facets, $count, $facet-definition)
 };
 
-(: Architectura Sinica functions :)
-declare function facet:keywordType($results as item()*, $facet-definition as element(facet:facet-definition)?) as element(facet:key)*{
-    let $ranges := $facet-definition/facet:range
-    let $sort := $facet-definition/facet:order-by 
-    let $facets := 
-        for $range in $ranges/facet:bucket
-        let $path := concat('$results/',$range/@path)
-        let $f := util:eval($path)
-        order by xs:integer($range/@order) descending
-        return
-            (facet:key(string($range/@name), string($range/@name), count($f), $facet-definition),
-                if($range/child::facet:facet-definition) then
-                   for $subfacet in $range/child::facet:facet-definition
-                   return <div class="subfacet">{facet:facet($results, $subfacet)}</div>
-                else ()
-            )
-    let $count := count($facets)
-    return 
-        if($count gt 0) then
-            <div class="facetDefinition facet-grp">
-                <h4>{string($facet-definition/@name)}</h4>
-                {$facets}
-            </div>
-        else ()
-};
-
-
-(:~
- : Create 'Remove' button for selected facets
- : Constructs new URL for user action 'remove facet'
-:)
-declare function facet:selected-facets-display(){
-    for $facet in tokenize($facet:fq,';fq-')
-    let $value := substring-after($facet,':')
-    let $new-fq := string-join(
-                    for $facet-param in tokenize($facet:fq,';fq-') 
-                    return 
-                        if($facet-param = $facet) then ()
-                        else concat(';fq-',$facet-param),'')
-    let $href := if($new-fq != '') then concat('?fq=',replace(replace($new-fq,';fq- ',''),';fq-;fq-',';fq-'),facet:url-params()) else ()
-    return 
-        if($facet != '') then 
-            <span class="label label-facet" title="Remove {$value}">
-                {$value} <a href="{$href}" class="facet icon"> x</a>
-            </span>
-        else()
-};
-
 declare function facet:list-keys($facets as item()*, $count, $facet-definition as element(facet:facet-definition)*){        
 if($count gt 0) then 
     let $max := if(xs:integer($facet-definition/facet:max-values)) then xs:integer($facet-definition/facet:max-values) else 10
@@ -286,7 +238,7 @@ else ()
 declare function facet:key($label, $value, $count, $facet-definition){
    let $facet-query := replace(replace(concat(';fq-',string($facet-definition/@name),':',string($value)),';fq-;fq-;',';fq-'),';fq- ','')
    let $new-fq := 
-        if($facet:fq) then concat('fq=',$facet:fq,$facet-query)
+        if($facet:fq) then concat('fq=',encode-for-uri($facet:fq),encode-for-uri($facet-query))
         else concat('fq=',normalize-space($facet-query))
    let $active := if(contains($facet:fq,concat(';fq-',string($facet-definition/@name),':',string($value)))) then 'active' else ()    
    return 
@@ -294,7 +246,6 @@ declare function facet:key($label, $value, $count, $facet-definition){
             <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active}">{lower-case(global:get-label(string($label)))} <span class="count"> ({string($count)})</span></a>
         else ()        
 };
-
 
 (:~
  : Create 'Remove' button for selected facets
@@ -352,4 +303,30 @@ declare function facet:url-params(){
         else if($param = 'start') then '&amp;start=1'
         else if(request:get-parameter($param, '') = ' ') then ()
         else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
+};
+
+(: Architectura Sinica functions :)
+declare function facet:keywordType($results as item()*, $facet-definition as element(facet:facet-definition)?) as element(facet:key)*{
+    let $ranges := $facet-definition/facet:range
+    let $sort := $facet-definition/facet:order-by 
+    let $facets := 
+        for $range in $ranges/facet:bucket
+        let $path := concat('$results/',$range/@path)
+        let $f := util:eval($path)
+        order by xs:integer($range/@order) descending
+        return
+            (facet:key(string($range/@name), string($range/@name), count($f), $facet-definition),
+                if($range/child::facet:facet-definition) then
+                   for $subfacet in $range/child::facet:facet-definition
+                   return <div class="subfacet">{facet:facet($results, $subfacet)}</div>
+                else ()
+            )
+    let $count := count($facets)
+    return 
+        if($count gt 0) then
+            <div class="facetDefinition facet-grp">
+                <h4>{string($facet-definition/@name)}</h4>
+                {$facets}
+            </div>
+        else ()
 };
