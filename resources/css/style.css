@@ -27,7 +27,8 @@
     border-bottom:4px solid #456889;
 }
 .banner-container {display:inline-block; line-height:2.35em;}
-.banner-text {color: #888; display:inline-block; margin-top:-1.25em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.banner-text {color: #888; display:inline-block; margin-top:-1.25em; vertical-align: middle; letter-spacing: -1px; font:1.25em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
 .banner-icon img{height:40px; overflow:hidden; padding-left: 1em; vertical-align: middle; margin:-.25em .5em 0 .5em; padding:0;}
 body {font-family: arial, sans-serif; background-color:#385978;}
 /* browse menus*/
@@ -320,7 +321,39 @@ pre {
     color:white;
 }
 
+/* .navbar-brand {margin-top: .15em; padding: 0 1em 0 0; margin-left: 0; margin-right: -2em; font-size: 1.35em;} */
+
 /* Special styles for small screens */
+/* 1920x1080 */
+@media screen and (max-width: 1324px) {
+.banner-container {display:inline-block; line-height:2.25em;}
+.banner-text {color: #888; display:inline-block; margin-top:-1em; vertical-align: middle; letter-spacing: -1px; font:1.2em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.banner-icon {font-size:2em; display:inline-block; margin-right:.15em;}
+.banner-icon img{height:35px; overflow:hidden; padding-left: 1em; vertical-align: middle; margin:-.2em .5em 0 .5em; padding:0;}    
+}
+
+@media screen and (max-width: 1170px) {
+#content {
+    background-color: white;
+    padding-top: 100px;
+ }
+.banner-container {display:inline-block; line-height:2.2em;}
+.banner-text {color: #888; display:inline-block; margin-top:-.25em; vertical-align: middle; letter-spacing: -1px; font:1em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.banner-icon {font-size:1.5em; display:inline-block; margin-right:.15em;}
+.banner-icon img{height:30px; overflow:hidden; padding-left: 1em; vertical-align: middle; margin:.25em .5em 0 .5em; padding:0;}
+}
+
+@media screen and (max-width: 1090px) {
+#content {
+    background-color: white;
+    padding-top: 100px;
+ }
+.banner-container {display:inline-block; line-height:2em;}
+.banner-text {color: #888; display:inline-block; margin-top:-.2em; vertical-align: middle; letter-spacing: -1px; font:.95em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
+.banner-icon {font-size:1em; display:inline-block; margin-right:.1em;}
+.banner-icon img{height:28px; overflow:hidden; padding-left: .25em; vertical-align: middle; margin:.25em .25em 0 .5em; padding:0;}
+}
+
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}
 .navbar-nav li {width:100% !important; float:none;}

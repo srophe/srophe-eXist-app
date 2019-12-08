@@ -76,8 +76,6 @@ body {background-color:#385978;}
 /* Banner styles index page (Colors and images are set by internal css for submodules) */
 .banner {font-size: 24px; color:white; background-color:#456889; margin:0 0 1em 0; padding:.5em 1em;; border-bottom:4px solid #456889;}
 .banner-container {display:inline-block; line-height:2.5em;}
-.banner-icon {font-size:2.5em; display:inline-block; margin-right:.15em;}
-.banner-text {color: #888; display:inline-block; margin-top:-.95em; vertical-align: middle; letter-spacing: -1px; font:1.35em Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;}
 .banner-index {
     position:relative;
     margin-top:0;
@@ -566,9 +564,3 @@ button.bibl-show {margin: .5em -1em;}
 .slide {font-weight:400;}
 .more-info a {font-weight:600; color:white;}
 
-@media screen and (max-width: 1170px) {
-#content {
-    background-color: white;
-    padding-top: 100px;
- }
-}
