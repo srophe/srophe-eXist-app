@@ -19,6 +19,7 @@ import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "../con
 
 (: Namespaces :)
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace srophe="https://srophe.app";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
 (: Global Variables :)
@@ -45,15 +46,53 @@ declare function browse:get-all($node as node(), $model as map(*), $collection a
 :)
 declare function browse:show-hits($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
   let $hits := $model("hits")
+  let $facet-config := global:facet-definition-file($collection)
   return 
     (
     if($browse:view = 'map') then 
-        <div class="col-md-12 map-lg" xmlns="http://www.w3.org/1999/xhtml">
+        <div class="col-md-12 map-lg" xmlns="http://www.w3.org/1999/xhtml" id="browseMap">
             {browse:get-map($hits)}
+            <div id="map-filters" class="map-overlay">
+                <span class="filter-label">Filter Map 
+                    <a class="pull-right small togglelink text-info" 
+                    data-toggle="collapse" data-target="#filterMap" 
+                    href="#filterMap" data-text-swap="+ Show"> - Hide </a></span>
+                <div class="collapse in" id="filterMap">
+                      {facet:html-list-facets-as-buttons(facet:count($hits[descendant::tei:geo], $facet-config/descendant::facet:facet-definition))}  
+                </div>
+            </div>
         </div>
-    (: Syriaca.org function :)    
-    else if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then   
-        browse:by-type($hits, $collection, $sort-options)
+    else if($facet-config != '') then
+        <div class="col-md-12" xmlns="http://www.w3.org/1999/xhtml">
+            <div class="float-container">
+                <div class="{if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then "pull-left" else "pull-right paging"}">
+                    {page:pages($hits, $collection, $browse:start, $browse:perpage,'', $sort-options)}
+                </div>
+                    {
+                        if($browse:view = ('type','date','facets','other','ܐ-ܬ','ا-ي') ) then ()
+                        else browse:browse-abc-menu()
+                    }
+           </div>
+           <br/>
+           <div class="row">
+            <div class="col-md-3">{facet:html-list-facets-as-buttons(facet:count($hits, $facet-config/descendant::facet:facet-definition))}</div>
+            <div class="col-md-9">
+               {(
+                   if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else(),  
+                   if($browse:alpha-filter != '') then  
+                    <h3>{(
+                       if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}, attribute lang {"syr"}, attribute class {"label pull-right"}) 
+                       else attribute class {"label"},
+                       $browse:alpha-filter)}</h3>
+                   else (),
+                   <div class="results {if($browse:lang = 'syr' or $browse:lang = 'ar') then 'syr-list' else 'en-list'}">
+                       {if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else()}
+                       {browse:display-hits($hits)}
+                   </div>
+               )}
+             </div>
+         </div> 
+        </div>
     else
         <div class="{if($browse:view = 'type' or $browse:view = 'date' or $browse:view = 'facets') then 'col-md-8 col-md-push-4' else 'col-md-12'}" xmlns="http://www.w3.org/1999/xhtml">
            {( if(($browse:lang = 'syr') or ($browse:lang = 'ar')) then (attribute dir {"rtl"}) else(),
@@ -129,7 +168,7 @@ declare function browse:get-map($hits as node()*){
         let $locations := 
             for $id in $places
             for $geo in collection($config:data-root || '/places/tei')//tei:idno[. = $id][ancestor::tei:TEI[descendant::tei:geo]]
-            let $title := $geo/ancestor::tei:TEI/descendant::*[@syriaca-tags="#syriaca-headword"][1]
+            let $title := if($geo/ancestor::tei:TEI/descendant::*[@srophe:tags="#headword"]) then $geo/ancestor::tei:TEI/descendant::*[@srophe:tags="#headword"][1] else $geo/ancestor::tei:TEI/descendant::*[@syriaca-tags="#syriaca-headword"][1]
             let $type := string($geo/ancestor::tei:TEI/descendant::tei:place/@type)
             let $geo := $geo/ancestor::tei:TEI/descendant::tei:geo
             return 
@@ -161,23 +200,28 @@ declare function browse:get-map($hits as node()*){
 (:~
  : Browse Alphabetical Menus
  : Currently include Syriac, Arabic, Russian and English
+ dir="rtl"
 :)
 declare function browse:browse-abc-menu(){
     <div class="browse-alpha tabbable" xmlns="http://www.w3.org/1999/xhtml">
-        <ul class="list-inline">
+        <ul class="list-inline" >
         {
             if(($browse:lang = 'syr')) then  
+                (attribute dir {"rtl"},
                 for $letter in tokenize('ܐ ܒ ܓ ܕ ܗ ܘ ܙ ܚ ܛ ܝ ܟ ܠ ܡ ܢ ܣ ܥ ܦ ܩ ܪ ܫ ܬ ALL', ' ')
                 return 
                     if($letter = 'ALL') then 
                          <li class="syr-menu {if($browse:alpha-filter = $letter) then "selected badge" else()}" lang="en"><a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>                        
                     else <li class="syr-menu {if($browse:alpha-filter = $letter) then "selected badge" else()}" lang="syr"><a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
-            else if(($browse:lang = 'ar')) then  
-                for $letter in tokenize('ALL ا ب ت ث ج ح  خ  د  ذ  ر  ز  س  ش  ص  ض  ط  ظ  ع  غ  ف  ق  ك ل م ن ه  و ي', ' ')
+                    )
+            else if(($browse:lang = 'ar')) then
+                (attribute dir {"rtl"},
+                for $letter in tokenize('ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي ALL', ' ')
                 return 
                     if($letter = 'ALL') then
                          <li class="ar-menu {if($browse:alpha-filter = $letter) then "selected badge" else()}" lang="en"><a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
                     else <li class="ar-menu {if($browse:alpha-filter = $letter) then "selected badge" else()}" lang="ar"><a href="?lang={$browse:lang}&amp;alpha-filter={$letter}{if($browse:view != '') then concat('&amp;view=',$browse:view) else()}{if(request:get-parameter('element', '') != '') then concat('&amp;element=',request:get-parameter('element', '')) else()}">{$letter}</a></li>
+                )                    
             else if($browse:lang = 'ru') then 
                 for $letter in tokenize('А Б В Г Д Е Ё Ж З И Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я ALL',' ')
                 return 
@@ -190,7 +234,6 @@ declare function browse:browse-abc-menu(){
         </ul>
     </div>
 };
-
 (: Syriaca.org specific functions :)
 declare function browse:by-type($hits, $collection, $sort-options){
     let $facet-config := global:facet-definition-file($collection)
@@ -254,4 +297,22 @@ declare function browse:browse-type($collection){
             else  ()
         }
     </ul>
+};
+
+declare function browse:large-map($node as node(), $model as map(*), $collection, $sort-options as xs:string*, $facets as xs:string?){
+let $hits := util:eval(concat("collection($config:data-root)//tei:TEI[descendant::tei:geo]",facet:facet-filter(global:facet-definition-file($collection))))
+let $facet-config := global:facet-definition-file($collection)
+return 
+<div xmlns="http://www.w3.org/1999/xhtml" id="browseMap">
+    {browse:get-map($hits)}
+    <div id="map-filters" class="map-overlay">
+                <span class="filter-label">Filter Map 
+                    <a class="pull-right small togglelink text-info" 
+                    data-toggle="collapse" data-target="#filterMap" 
+                    href="#filterMap" data-text-swap="+ Show"> - Hide </a></span>
+                <div class="collapse in" id="filterMap">
+                      {facet:html-list-facets-as-buttons(facet:count($hits[descendant::tei:geo], $facet-config/descendant::facet:facet-definition))}  
+                </div>
+            </div>
+</div>
 };

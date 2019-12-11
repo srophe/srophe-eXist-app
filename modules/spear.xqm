@@ -230,7 +230,7 @@ declare function spear:show-hits($node as node(), $model as map(*), $collection,
 
 (: Build factoid title, uses Syriaca.org canonical names for persons and places. :)
 declare function spear:factoid-title($hit){
-    if($hit/tei:listRelation) then rel:relationship-sentence($hit//descendant::tei:relation)
+    if($hit/tei:listRelation) then normalize-space(tei2html:tei2html($hit//descendant::tei:relation/descendant::tei:desc))
     else if($hit/tei:listEvent) then string-join(tei2html:tei2html($hit/tei:listEvent/tei:event),' ')
     else if($hit/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')]) then 
         let $en-title := if($hit/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')]) then 
@@ -347,13 +347,10 @@ if($model("data")//tei:div[@type='factoid']) then
         spear:events($node,$model)     
         )    
     else if($model("data")//tei:div/tei:listRelation) then
-        <div class="factoid">
-           <h4>Relationship</h4>
-           {
-           for $r in $model("data")//tei:div/tei:listRelation/descendant::tei:relation
-            return <p>{rel:relationship-sentence($r)}</p>
-           }
-        </div>  
+        <div class="factoid">{
+           for $r in $model("data")//tei:div[tei:listRelation/descendant::tei:relation]
+           return global:tei2html(<factoid xmlns="http://www.tei-c.org/ns/1.0">{$r}</factoid>)
+           }</div>  
     else 
         let $relationship := 
             <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">{

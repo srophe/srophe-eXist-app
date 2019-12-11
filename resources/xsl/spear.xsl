@@ -236,6 +236,30 @@
                             <xsl:apply-templates select="." mode="spear"/>
                         </xsl:for-each>
                         <xsl:apply-templates select="descendant::t:listRelation" mode="spear"/>
+                        <xsl:if test="@subtype='relation'">
+                            <xsl:for-each select="descendant::t:listRelation/t:relation">
+                                <xsl:apply-templates select="t:desc" mode="spear"/>
+                                <xsl:if test="@type!=''">
+                                    <p>Qualifier(s):  
+                                        <xsl:for-each select="tokenize(@type,' ')">
+                                            <xsl:choose>
+                                                <xsl:when test=". = 'snap:AcknowledgedFamilyRelationship'">(Acknowledged family relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:AdoptedFamilyRelationship'">(Adopted family relationship)</xsl:when>
+                                                <xsl:when test=". = 'syriaca:AllegedRelationship'">(Alleged relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:ClaimedFamilyRelationship'">(Claimed family relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:FosterFamilyRelationship'">(Foster family relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:HalfFamilyRelationship'">(Half family relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:InLawFamilyRelationship'">(In law family relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:MaternalFamilyRelationship'">(Maternal family relationship)</xsl:when>
+                                                <xsl:when test=". = 'snap:PaternalFamilyRelationship'">(Paternal family relationship)</xsl:when>
+                                                <xsl:when test=". = 'syriaca:RitualKinship'">(Ritual kinship)</xsl:when>
+                                                <xsl:when test=". = 'snap:StepFamilyRelationship'">(Step family relationship) </xsl:when>
+                                            </xsl:choose>&#160;
+                                        </xsl:for-each>
+                                    </p>
+                                </xsl:if>    
+                            </xsl:for-each>
+                        </xsl:if>
                         <xsl:for-each select="//t:spear-as-is">
                             <xsl:apply-templates select="." mode="spear"/>
                         </xsl:for-each>
@@ -563,6 +587,11 @@
         <xsl:copy-of select="."/>
     </xsl:template>
     <xsl:template match="t:listRelation" mode="spear"/>
+    <xsl:template match="t:relation" mode="spear">
+        <div>
+            <xsl:apply-templates mode="spear"/>
+        </div>
+    </xsl:template>
     <xsl:template match="t:choice" mode="spear">
         <span class="tei-choice">
             <xsl:choose>
@@ -612,7 +641,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="t:note" mode="spear"/>
+    
     <xsl:template match="*" mode="spear">
         <xsl:choose>
             <xsl:when test="self::t:bibl"/>
