@@ -637,7 +637,7 @@ declare function app:keyword-tree($node as node(), $model as map(*)){
 :)                   
 declare function app:display-featured-image($node as node(), $model as map(*)){
     if($model("hits")//tei:relation[@ref='foaf:depicts'][@ana="featured"] or $model("hits")//tei:relation[@ref='foaf:depicts'][@rendition="featured"]) then 
-        <div class="record-images">
+        <div class="record-image">
         {
             for $image in $model("hits")//tei:relation[@ref='foaf:depicts']
             let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')
@@ -653,12 +653,12 @@ declare function app:display-featured-image($node as node(), $model as map(*)){
 declare function app:display-related-images($node as node(), $model as map(*)){
     if($model("hits")//tei:relation[@ref='foaf:depicts']) then 
         <div class="record-images">
-        {
+        { 
             for $image in $model("hits")//tei:relation[@ref='foaf:depicts'][not(@ana="featured")]
             let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')    
             return app:get-flickr-info($imageURL, 'thumb-images')
         }    
-        </div>            
+        </div>
     else ()        
 };
 

@@ -22,7 +22,7 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 .full-page {margin-top:0;}
 
 /* Detail Page Styles */
-.record-images {display: flex;}
+.record-image {display: flex;}
 .featured-images {
   flex: 1; /* additionally, equal width */
   height: auto;
@@ -1147,10 +1147,10 @@ img#arch-sinic-about {
 
 /* Thumbnails */
 .thumb-images {
-    float: left;
+    /* float: left; */
     height: 175px;
     width: 175px;
-    display: block;
+    display: inline-block;
     padding: 5px;
     text-align: center;
     margin: 1em;
