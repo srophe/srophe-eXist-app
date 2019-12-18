@@ -500,16 +500,15 @@
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:call-template name="ref"/>
+                <xsl:call-template name="ref"/> 
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template name="ref">
         <xsl:choose>
+            <xsl:when test="parent::t:ref or parent::t:ptr"><xsl:apply-templates/></xsl:when>
             <xsl:when test="@ref">
-                <a href="{@ref}">
-                    <xsl:apply-templates/>
-                </a>
+                <a href="{@ref}"><xsl:apply-templates/></a>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:apply-templates/>
