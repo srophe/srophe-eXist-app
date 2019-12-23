@@ -220,22 +220,23 @@
                         </xsl:when>
                     </xsl:choose>
                     <xsl:for-each select="//t:div[@type='factoid']">
-                        <xsl:for-each select="child::*[not(self::t:bibl)][not(self::t:note)][not(self::t:idno)][not(self::t:listRelation)]/child::*/child::*[not(empty(descendant-or-self::text()))]">
+                        <xsl:for-each select="child::*[not(self::t:bibl)][not(self::t:note)][not(self::t:idno)]                             [not(self::t:listRelation)]/child::*/child::*[not(empty(descendant-or-self::text()))]">
                             <xsl:variable name="label">
                                 <xsl:choose>
                                     <xsl:when test="name(.) = 'persName'">Name</xsl:when>
                                     <xsl:when test="name(.) = 'desc'">Description</xsl:when>
                                     <xsl:when test="name(.) = 'socecStatus'">Social rank</xsl:when>
-                                    
+                                    <xsl:when test="name(.) = 'relation'">Relationship</xsl:when>
                                     <xsl:otherwise>
                                         <xsl:value-of select="concat(upper-case(substring(name(.), 1, 1)), substring(name(.), 2))"/>
                                     </xsl:otherwise>
                                 </xsl:choose>
                             </xsl:variable>
-                            <strong><xsl:value-of select="$label"/>: </strong>
-                            <xsl:apply-templates select="." mode="spear"/>
+                            <div class="tei-{$label}">
+                                <strong><xsl:value-of select="$label"/>: </strong>
+                                <xsl:apply-templates mode="spear"/>                                
+                            </div>
                         </xsl:for-each>
-                        <xsl:apply-templates select="descendant::t:listRelation" mode="spear"/>
                         <xsl:if test="@subtype='relation'">
                             <xsl:for-each select="descendant::t:listRelation/t:relation">
                                 <xsl:apply-templates select="t:desc" mode="spear"/>
@@ -254,15 +255,12 @@
                                                 <xsl:when test=". = 'snap:PaternalFamilyRelationship'">(Paternal family relationship)</xsl:when>
                                                 <xsl:when test=". = 'syriaca:RitualKinship'">(Ritual kinship)</xsl:when>
                                                 <xsl:when test=". = 'snap:StepFamilyRelationship'">(Step family relationship) </xsl:when>
-                                            </xsl:choose>&#160;
+                                            </xsl:choose> 
                                         </xsl:for-each>
                                     </p>
                                 </xsl:if>    
                             </xsl:for-each>
                         </xsl:if>
-                        <xsl:for-each select="//t:spear-as-is">
-                            <xsl:apply-templates select="." mode="spear"/>
-                        </xsl:for-each>
                         <xsl:for-each select="descendant::t:note[not(@type='desc')]">
                             <xsl:variable name="label">
                                 <xsl:value-of select="concat(upper-case(substring(@type, 1, 1)), substring(@type, 2))"/>    
@@ -582,15 +580,12 @@
         <xsl:apply-templates mode="spear"/>
     </xsl:template>
     <xsl:template match="tei:idno" mode="spear"/>
-    
-    <xsl:template match="t:spear-as-is" mode="spear">
-        <xsl:copy-of select="."/>
+    <xsl:template match="t:listRelation" mode="spear">
+        <xsl:apply-templates mode="spear"/>
     </xsl:template>
-    <xsl:template match="t:listRelation" mode="spear"/>
+        
     <xsl:template match="t:relation" mode="spear">
-        <div>
             <xsl:apply-templates mode="spear"/>
-        </div>
     </xsl:template>
     <xsl:template match="t:choice" mode="spear">
         <span class="tei-choice">
@@ -688,9 +683,12 @@
     </xsl:template>
     <xsl:template name="ref-spear">
         <xsl:choose>
+            <xsl:when test="contains(@ref,$base-uri) and contains(@ref,'-')">
+                <a href="factoid.html?id={@ref}"><xsl:value-of select="normalize-space(.)"/></a>    
+            </xsl:when>
             <xsl:when test="contains(@ref,$base-uri)">
                 <a href="aggregate.html?id={@ref}"><xsl:value-of select="normalize-space(.)"/>
-                <!--    <xsl:apply-templates mode="spear"/> -->
+                    <!--    <xsl:apply-templates mode="spear"/> -->
                 </a>    
             </xsl:when>
             <xsl:otherwise>

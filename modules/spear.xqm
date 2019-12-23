@@ -353,7 +353,8 @@ if($model("data")//tei:div[@type='factoid']) then
            }</div>  
     else 
         let $relationship := 
-            <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">{
+            if($model("data")//tei:div/descendant::tei:relation/tei:desc) then () 
+            else <spear-as-is xmlns="http://www.tei-c.org/ns/1.0">{
                  for $r in $model("data")//tei:div/descendant::tei:relation
                  return <p><strong>Relationship:</strong> {rel:relationship-sentence($r)}</p>
                 }</spear-as-is>
