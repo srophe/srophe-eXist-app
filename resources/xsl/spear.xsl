@@ -243,19 +243,23 @@
                                 <xsl:if test="@type!=''">
                                     <p>Qualifier(s):  
                                         <xsl:for-each select="tokenize(@type,' ')">
-                                            <xsl:choose>
-                                                <xsl:when test=". = 'snap:AcknowledgedFamilyRelationship'">(Acknowledged family relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:AdoptedFamilyRelationship'">(Adopted family relationship)</xsl:when>
-                                                <xsl:when test=". = 'syriaca:AllegedRelationship'">(Alleged relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:ClaimedFamilyRelationship'">(Claimed family relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:FosterFamilyRelationship'">(Foster family relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:HalfFamilyRelationship'">(Half family relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:InLawFamilyRelationship'">(In law family relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:MaternalFamilyRelationship'">(Maternal family relationship)</xsl:when>
-                                                <xsl:when test=". = 'snap:PaternalFamilyRelationship'">(Paternal family relationship)</xsl:when>
-                                                <xsl:when test=". = 'syriaca:RitualKinship'">(Ritual kinship)</xsl:when>
-                                                <xsl:when test=". = 'snap:StepFamilyRelationship'">(Step family relationship) </xsl:when>
-                                            </xsl:choose> 
+                                            <xsl:variable name="qualifer">
+                                                <xsl:choose>
+                                                    <xsl:when test=". = 'snap:AcknowledgedFamilyRelationship'">Acknowledged family relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:AdoptedFamilyRelationship'">Adopted family relationship</xsl:when>
+                                                    <xsl:when test=". = 'syriaca:AllegedRelationship'">Alleged relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:ClaimedFamilyRelationship'">Claimed family relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:FosterFamilyRelationship'">Foster family relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:HalfFamilyRelationship'">Half family relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:InLawFamilyRelationship'">In law family relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:MaternalFamilyRelationship'">Maternal family relationship</xsl:when>
+                                                    <xsl:when test=". = 'snap:PaternalFamilyRelationship'">Paternal family relationship</xsl:when>
+                                                    <xsl:when test=". = 'syriaca:RitualKinship'">Ritual kinship</xsl:when>
+                                                    <xsl:when test=". = 'snap:StepFamilyRelationship'">Step family relationship</xsl:when>
+                                                </xsl:choose>
+                                            </xsl:variable>
+                                            <xsl:value-of select="$qualifer"/>
+                                            <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
                                         </xsl:for-each>
                                     </p>
                                 </xsl:if>    
