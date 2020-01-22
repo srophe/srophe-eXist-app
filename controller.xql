@@ -89,9 +89,17 @@ else if (contains($exist:path,'/api/')) then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{replace($exist:path,'/api/oai','/srophe/modules/oai.xql')}"/>
      </dispatch>
+    else if($exist:resource = 'cts') then
+     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{replace($exist:path,'/api/cts','/srophe/CTS/cts-resolver.xql')}"/>
+     </dispatch>
     else if($exist:resource = 'sparql') then
      <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="{replace($exist:path,'/api/sparql','/srophe/sparql/run-sparql.xql')}"/>
+     </dispatch>
+    else if($exist:resource = 'content-negotiation') then
+     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="{replace($exist:path,'/api/sparql','/srophe/modules/content-negotiation/content-negotiation.xql')}"/>
      </dispatch>
     else
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

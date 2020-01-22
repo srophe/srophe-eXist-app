@@ -25,43 +25,6 @@
         </div>
         <!-- Script for dynamically changing sort order -->
         <script type="text/javascript" src="../resources/js/sort.js"/>
-        <script>
-            <![CDATA[
-            $(document).ready(function () {
-            populateCTS();
-            });
-            
-            //JQuery to populate CTS sections. May need to move this to main syriaca.org
-            function populateCTS(){
-            var baseURL =  window.location.origin + '/exist/apps/srophe/api/cts'
-            $('.ctsResolver').each(function() {
-            var cachedThis = this;
-            var url = baseURL + '?urn=' + $(this).data('cts-urn') + '&action=' + $(this).data('cts-format')
-            $.ajax({
-            url: url,
-            type: 'get',
-            dataType: 'xml',
-            success: function(data){ 
-            var htmlURL = window.location.origin + '/exist/apps/srophe/api/content-negotiation'; 
-            //get HTML
-            $.ajax({
-            url: htmlURL,
-            type: 'post',
-            contentType: "application/xml", 
-            dataType: "html", 
-            data: data,
-            processData: false,
-            success: function(data){ 
-            $(cachedThis).html(data);
-            }
-            });
-            }
-            });
-            });
-            //console.log('Start CTS development') 
-            }
-            
-            ]]>
-        </script>
+        <script type="text/javascript" src="../resources/js/cts.js"/>
     </div>
 </div>
