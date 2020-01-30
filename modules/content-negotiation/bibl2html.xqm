@@ -19,11 +19,31 @@ declare function bibl2html:citation($nodes as node()*) {
     if($nodes/descendant::tei:monogr and not($nodes/descendant::tei:analytic)) then 
         bibl2html:monograph($nodes/descendant::tei:monogr)
     else if($nodes/descendant::tei:analytic) then bibl2html:analytic($nodes/descendant::tei:analytic)
-    else bibl2html:record($nodes/descendant-or-self::tei:teiHeader)
+    else if($nodes/descendant::tei:teiHeader) then bibl2html:record($nodes/descendant-or-self::tei:teiHeader)
+    else bibl2html:simple-citation($nodes/descendant-or-self::tei:teiHeader)
 };
 
 (:~
- : Output monograph citation
+ : Output a simple citation citation
+:)
+declare function bibl2html:simple-citation($nodes) {
+    let $title := $nodes/tei:title
+    let $persons :=  if($nodes/tei:author) then 
+                        concat(bibl2html:emit-responsible-persons($nodes/tei:author,3),', ')
+                    else if($nodes/tei:editor[not(@role) or @role!='translator']) then 
+                        (bibl2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],3), 
+                        if(count($nodes/tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
+                    else ()
+    let $id := if($nodes/tei:idno) then $nodes/tei:idno[1]
+               else if($nodes/tei:ptr[starts-with(@target,'http://syriaca.org/work/')]) then
+                    <a href="{string($nodes/tei:ptr/@target)}"><img src="{$config:nav-base}/resources/images/icons-syriaca-sm.png" alt="Link to Work Record." height="18px"/></a>
+               else ()                      
+    return 
+        ($persons, tei2html:tei2html($title[1]), $id) 
+};
+
+(:~
+ : Output TEI record citation
 :)
 declare function bibl2html:record($nodes) {
     let $titleStmt := $nodes/descendant::tei:titleStmt

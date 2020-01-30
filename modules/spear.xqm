@@ -18,6 +18,7 @@ import module namespace global="http://syriaca.org/srophe/global" at "lib/global
 import module namespace maps="http://syriaca.org/srophe/maps" at "lib/maps.xqm";
 import module namespace page="http://syriaca.org/srophe/page" at "lib/paging.xqm";
 import module namespace rel="http://syriaca.org/srophe/related" at "lib/get-related.xqm";
+import module namespace bibl2html="http://syriaca.org/srophe/bibl2html" at "content-negotiation/bibl2html.xqm";
 import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "content-negotiation/tei2html.xqm";
 import module namespace timeline="http://syriaca.org/srophe/timeline" at "lib/timeline.xqm";
 
@@ -370,16 +371,17 @@ else
 declare function spear:cts($node as node(), $model as map(*)){
     if($model("data")//tei:div[@type='factoid']/descendant::tei:bibl[@type='urn']) then
         let $refs := $model("data")//tei:div[@type='factoid']/descendant::tei:bibl[@type='urn']/tei:ptr/@target
+        let $source := $model("data")/descendant::tei:sourceDesc/descendant::tei:bibl[tei:ptr[starts-with(@target,'http://syriaca.org/work/')]]
         return
             if($refs != '') then 
                 <div class="panel panel-default" id="cts">
                     <div class="panel-heading clearfix">
-                        <h4 class="panel-title">Text from The Syriac Corpus</h4>
+                        <h4 class="panel-title">Source: {bibl2html:simple-citation($source)}</h4>
                     </div>
                     <div class="panel-body">{
                         for $r in $refs 
                         return 
-                        (<div class="ctsResolver" data-cts-urn="{$r}" data-cts-format="xml"/>,<span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">Go to text <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
+                        (<div class="ctsResolver" data-cts-urn="{$r}" data-cts-format="xml"/>,<span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">See full text at The Syriac Corpus <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
                         }</div>
                 </div> 
             else()    
@@ -791,8 +793,7 @@ return
 :)
 declare %templates:wrap function spear:bibl($node as node(), $model as map(*)){
     let $data := $model("data")
-    let $bibl := $data/tei:div[tei:idno]/descendant::tei:bibl[starts-with(descendant::tei:ptr/@target,'http://syriaca.org/bibl/')]
-    return global:tei2html(<spear-citation xmlns="http://www.tei-c.org/ns/1.0">{($bibl)}</spear-citation>)
+    return global:tei2html(<spear-citation xmlns="http://www.tei-c.org/ns/1.0">{$data}</spear-citation>)
 };
 
 (:
