@@ -28,8 +28,10 @@ declare function bibl2html:citation($nodes as node()*) {
 :)
 declare function bibl2html:simple-citation($nodes) {
     let $title := $nodes/tei:title
-    let $persons :=  if($nodes/tei:author) then 
-                        concat(bibl2html:emit-responsible-persons($nodes/tei:author,3),', ')
+    let $persons := if($nodes/tei:author) then 
+                        if($nodes/tei:author/text() != '') then
+                            concat($nodes/tei:author/text(), ', ')
+                        else concat(bibl2html:emit-responsible-persons($nodes/tei:author,3),', ')
                     else if($nodes/tei:editor[not(@role) or @role!='translator']) then 
                         (bibl2html:emit-responsible-persons($nodes/tei:editor[not(@role) or @role!='translator'],3), 
                         if(count($nodes/tei:editor[not(@role) or @role!='translator']) gt 1) then ' eds., ' else ' ed., ')
@@ -39,7 +41,7 @@ declare function bibl2html:simple-citation($nodes) {
                     <a href="{string($nodes/tei:ptr/@target)}"><img src="{$config:nav-base}/resources/images/icons-syriaca-sm.png" alt="Link to Work Record." height="18px"/></a>
                else ()                      
     return 
-        ($persons, tei2html:tei2html($title[1]), $id) 
+      ($persons, <em>{tei2html:tei2html($title[1])}</em>, $id) 
 };
 
 (:~

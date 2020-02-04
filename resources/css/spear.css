@@ -129,3 +129,5 @@ h4 {font-weight:500;}
 #sparqlFacetsBox .results {margin:0;}
 .browse {margin:0 2em;}
 .browse  .results {margin:1em;}
+
+.panel-title {color:#999 !important; font-weight:500;}

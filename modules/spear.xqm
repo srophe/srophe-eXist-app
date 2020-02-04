@@ -376,7 +376,8 @@ declare function spear:cts($node as node(), $model as map(*)){
             if($refs != '') then 
                 <div class="panel panel-default" id="cts">
                     <div class="panel-heading clearfix">
-                        <h4 class="panel-title">Source: {bibl2html:simple-citation($source)}</h4>
+                        <h2 class="panel-title">Source</h2>
+                        <span class="indent">{bibl2html:simple-citation($source)}</span>
                     </div>
                     <div class="panel-body">{
                         for $r in $refs 

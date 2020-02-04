@@ -106,6 +106,34 @@
         </li>
     </xsl:template>
 
+    <xsl:template match="t:bibl" mode="footnote-inline">
+        <xsl:param name="footnote-number">-1</xsl:param>
+        <xsl:variable name="thisnum">
+            <!-- Isolates footnote number in @xml:id-->
+            <xsl:choose>
+                <xsl:when test="$footnote-number='-1'">
+                    <xsl:value-of select="substring-after(@xml:id, '-')"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$footnote-number"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <!-- When ptr is available, use full bibl record (indicated by ptr) -->
+            <span class="anchor" id="{@xml:id}"/>
+            <!-- Display footnote number -->
+            <span class="tei-footnote-tgt">
+                <xsl:value-of select="$thisnum"/>
+            </span>
+            <xsl:text> </xsl:text>
+            <span class="tei-footnote-content">
+                <xsl:if test="t:author">
+                    <xsl:value-of select="t:author"/>, 
+                </xsl:if>
+                <em><xsl:value-of select="t:title"/></em>
+                <!--<xsl:call-template name="footnote"/>-->
+            </span>
+    </xsl:template>
     <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
      generate a Chicago style footnote for the matched bibl entry; if it contains a 
      pointer, try to look up the master bibliography file and use that

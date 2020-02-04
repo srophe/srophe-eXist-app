@@ -703,24 +703,34 @@
     
     <!-- Needs work -->
     <xsl:template match="t:spear-citation">
-        <div class="well" id="sources">
-            <xsl:if test="not(descendant-or-self::t:div[t:idno]/descendant::t:bibl[@type='urn']) and not(descendant-or-self::t:div[t:idno]/descendant::t:bibl/t:note) and descendant::t:sourceDesc/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/work/')]]">
+        <xsl:if test="not(descendant-or-self::t:div[t:idno]/descendant::t:bibl[@type='urn']) and not(descendant-or-self::t:div[t:idno]/descendant::t:bibl/t:note) and descendant::t:sourceDesc/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/work/')]]">
+            <div class="well sources">
                 <h2>Source</h2>
                 <xsl:variable name="source" select="descendant::t:sourceDesc/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/work/')]]"/>
                 <!--<xsl:apply-templates select="$source" mode="footnote"/>-->
                 <p class="indent">
-                    <xsl:apply-templates select="$source" mode="footnote-inline"/> &#160;                        
+                    <xsl:apply-templates select="$source" mode="footnote-inline"/>                          
                     <a href="{string($source/t:ptr/@target)}"><img src="{$nav-base}/resources/images/icons-syriaca-sm.png" alt="{concat('Link to ',$repository-title,' Work Record.')}" height="18px"/></a>
                 </p>    
-            </xsl:if>
-            <xsl:if test="descendant::t:sourceDesc/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]]">
+        </div>
+        </xsl:if>
+        <xsl:if test="descendant::t:sourceDesc/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]]">
+            <div class="well sources" id="sources">
                 <h2>Citations</h2>
                 <p><small>Any information without attribution has been created following the Syriaca.org <a href="http://syriaca.org/documentation/">editorial guidelines</a>.</small></p>
-                <div><small>Factoid Citations</small></div>
+                <h4>Factoid Citations</h4>
                 <ul>
-                    <xsl:apply-templates select="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]]" mode="footnote"/>
+                    <xsl:for-each select="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]][not(parent::t:note)]">
+                        <xsl:apply-templates select="." mode="footnote"/>
+                    </xsl:for-each>
                 </ul>
-            </xsl:if>
-        </div>
+                <h4>Note Citations</h4>
+                <ul>
+                    <xsl:for-each select="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]][parent::t:note]">
+                        <xsl:apply-templates select="." mode="footnote"/>
+                    </xsl:for-each>               
+                </ul>
+            </div>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
