@@ -233,7 +233,8 @@
                                 </xsl:choose>
                             </xsl:variable>
                             <div class="tei-{$label}">
-                                <strong><xsl:value-of select="$label"/>: </strong>
+                                <strong>
+                            <xsl:value-of select="$label"/>: </strong>
                                 <xsl:apply-templates mode="spear"/>                                
                             </div>
                         </xsl:for-each>
@@ -259,7 +260,9 @@
                                                 </xsl:choose>
                                             </xsl:variable>
                                             <xsl:value-of select="$qualifer"/>
-                                            <xsl:if test="position() != last()"><xsl:text>, </xsl:text></xsl:if>
+                                            <xsl:if test="position() != last()">
+                                        <xsl:text>, </xsl:text>
+                                    </xsl:if>
                                         </xsl:for-each>
                                     </p>
                                 </xsl:if>    
@@ -274,7 +277,12 @@
                                     <xsl:when test="@type='desc'">
                                         <span class="note-label">Description : </span>
                                     </xsl:when>
-                                    <xsl:otherwise><span class="note-label">Note : <xsl:if test="$label != ''"><xsl:value-of select="$label"/></xsl:if></span></xsl:otherwise>
+                                    <xsl:otherwise>
+                                <span class="note-label">Note : <xsl:if test="$label != ''">
+                                        <xsl:value-of select="$label"/>
+                                    </xsl:if>
+                                </span>
+                            </xsl:otherwise>
                                 </xsl:choose>
                                 <br/>
                                 <xsl:apply-templates mode="spear"/>                            
@@ -294,7 +302,9 @@
                                     <xsl:when test="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[@xml:id=$sought][1]">
                                         <xsl:sequence select="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[@xml:id=$sought][1]"/>
                                     </xsl:when>
-                                    <xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+                                    <xsl:otherwise>
+                                        <xsl:sequence select="$editorssourcedoc/descendant::t:body/t:listPerson[1]/t:person[ends-with(@ref,$sought)][1]"/>
+                                    </xsl:otherwise>
                                 </xsl:choose>                            
                             </xsl:for-each>
                         </xsl:variable>
@@ -316,7 +326,8 @@
                             <p class="indent">
                                 <xsl:copy-of select="."/>
 
-                                <a href="factoid.html?id={string(ancestor::t:div[1]/t:idno)}" class="factoid-more"> See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a>
+                                <a href="factoid.html?id={string(ancestor::t:div[1]/t:idno)}" class="factoid-more"> See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
+                                </a>
                             </p>
                         </xsl:for-each>
                     </xsl:for-each-group>
@@ -406,7 +417,8 @@
                                 <xsl:apply-templates mode="spear"/>
                                 <xsl:text> </xsl:text>
                                 <a href="factoid.html?id={string(t:idno)}" class="factoid-more">See factoid page
-                                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a>
+                                        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/>
+                                </a>
                             </p>
                         </xsl:for-each>
                     </xsl:for-each-group>
@@ -624,7 +636,9 @@
             <xsl:when test="descendant::t:note">
                 <xsl:apply-templates select="descendant::t:note" mode="spear"/>
             </xsl:when>
-            <xsl:otherwise><xsl:apply-templates mode="spear"/></xsl:otherwise>
+            <xsl:otherwise>
+                <xsl:apply-templates mode="spear"/>
+            </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
     <xsl:template match="t:trait | t:occupation | t:socecStatus" mode="spear">
@@ -645,7 +659,10 @@
         <xsl:choose>
             <xsl:when test="self::t:bibl"/>
             <xsl:otherwise>
-                <span class="tei-{local-name(.)}"><xsl:sequence select="local:attributes(.)"/><xsl:call-template name="rend-spear"/></span>
+                <span class="tei-{local-name(.)}">
+                    <xsl:sequence select="local:attributes(.)"/>
+                    <xsl:call-template name="rend-spear"/>
+                </span>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -688,10 +705,13 @@
     <xsl:template name="ref-spear">
         <xsl:choose>
             <xsl:when test="contains(@ref,$base-uri) and contains(@ref,'-')">
-                <a href="factoid.html?id={@ref}"><xsl:value-of select="normalize-space(.)"/></a>    
+                <a href="factoid.html?id={@ref}">
+                    <xsl:value-of select="normalize-space(.)"/>
+                </a>    
             </xsl:when>
             <xsl:when test="contains(@ref,$base-uri)">
-                <a href="aggregate.html?id={@ref}"><xsl:value-of select="normalize-space(.)"/>
+                <a href="aggregate.html?id={@ref}">
+                    <xsl:value-of select="normalize-space(.)"/>
                     <!--    <xsl:apply-templates mode="spear"/> -->
                 </a>    
             </xsl:when>
@@ -710,26 +730,28 @@
                 <!--<xsl:apply-templates select="$source" mode="footnote"/>-->
                 <p class="indent">
                     <xsl:apply-templates select="$source" mode="footnote-inline"/>                          
-                    <a href="{string($source/t:ptr/@target)}"><img src="{$nav-base}/resources/images/icons-syriaca-sm.png" alt="{concat('Link to ',$repository-title,' Work Record.')}" height="18px"/></a>
+                    <a href="{string($source/t:ptr/@target)}">
+                        <img src="{$nav-base}/resources/images/icons-syriaca-sm.png" alt="{concat('Link to ',$repository-title,' Work Record.')}" height="18px"/>
+                    </a>
                 </p>    
         </div>
         </xsl:if>
         <xsl:if test="descendant::t:sourceDesc/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]]">
             <div class="well sources" id="sources">
-                <h2>Citations</h2>
-                <p><small>Any information without attribution has been created following the Syriaca.org <a href="http://syriaca.org/documentation/">editorial guidelines</a>.</small></p>
-                <h4>Factoid Citations</h4>
+               <h2>Factoid Citations</h2>
                 <ul>
                     <xsl:for-each select="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]][not(parent::t:note)]">
                         <xsl:apply-templates select="." mode="footnote"/>
                     </xsl:for-each>
                 </ul>
-                <h4>Note Citations</h4>
-                <ul>
-                    <xsl:for-each select="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]][parent::t:note]">
-                        <xsl:apply-templates select="." mode="footnote"/>
-                    </xsl:for-each>               
-                </ul>
+                <xsl:if test="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]][parent::t:note]">
+                    <h2>Note Citations</h2>
+                    <ul>
+                        <xsl:for-each select="descendant::t:div[t:idno]/descendant::t:bibl[t:ptr[starts-with(@target,'http://syriaca.org/bibl/')]][parent::t:note]">
+                            <xsl:apply-templates select="." mode="footnote"/>
+                        </xsl:for-each>               
+                    </ul>                    
+                </xsl:if>
             </div>
         </xsl:if>
     </xsl:template>
