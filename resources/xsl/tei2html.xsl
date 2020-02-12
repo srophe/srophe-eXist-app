@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
        Copyright 2013 New York University  
@@ -310,6 +310,9 @@
     </xsl:template>
     <!-- suppress biblScope in title mode -->
     <xsl:template match="t:biblScope"/>
+    <xsl:template match="preferredCitation">
+        <xsl:apply-templates select="." mode="bibliography"/>.
+    </xsl:template>
     <xsl:template match="t:biblStruct">
         <xsl:choose>
             <xsl:when test="parent::t:body">
@@ -390,7 +393,7 @@
                 </li>
             </xsl:when>
             <xsl:when test=".[@type='gps' and t:geo]">
-                <li>Coordinates  
+                <li>Coordinates 
                     <xsl:if test="@subtype != ''">
                         <xsl:value-of select="concat(' (',@subtype,')')"/>
                     </xsl:if>: 
@@ -422,18 +425,20 @@
             </xsl:when>
             <!-- Adds definition list for depreciated names -->
             <xsl:when test="@type='deprecation'">
-                <li>
+                <div class="tei-note">
                     <span>
-                        <xsl:apply-templates select="../t:link[contains(@target,$xmlid)]"/>:
+                        <xsl:if test="../t:link[contains(@target,$xmlid)]">
+                            <xsl:apply-templates select="../t:link[contains(@target,$xmlid)]"/>:
+                        </xsl:if>
                         <xsl:apply-templates/>
                         <!-- Check for ending punctuation, if none, add . -->
                         <!-- NOTE not working -->
                     </span>
                     <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </li>
+                </div>
             </xsl:when>
             <xsl:when test="@type='ancientVersion'">
-                <li class="note">
+                <div class="tei-note">
                     <xsl:if test="descendant::t:lang/text()">
                         <span class="srp-label">
                             <xsl:value-of select="local:expand-lang(descendant::t:lang[1]/text(),'ancientVersion')"/>:
@@ -444,7 +449,7 @@
                         <xsl:apply-templates/>
                     </span>
                     <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </li>
+                </div>
             </xsl:when>
             <xsl:when test="@type='modernTranslation'">
                 <li>
@@ -461,7 +466,7 @@
                 </li>
             </xsl:when>
             <xsl:when test="@type='editions'">
-                <li>
+                <div class="tei-note">
                     <span>
                         <xsl:sequence select="local:attributes(.)"/>
                         <xsl:apply-templates/>
@@ -500,7 +505,7 @@
                         </xsl:if>
                     </span>
                     <xsl:sequence select="local:add-footnotes(@source,.)"/>
-                </li>
+                </div>
             </xsl:when>
             <xsl:otherwise>
                 <div class="tei-note">  
@@ -549,7 +554,7 @@
                 </xsl:if>
                 <xsl:if test="t:term">
                     <h3>Terms</h3>
-                    <p>
+                    <ul class="inline-list-boxes">
                         <xsl:for-each-group select="t:term" group-by="@syriaca-tags">
                             <xsl:for-each select="current-group()">
                                 <xsl:for-each-group select="." group-by="@xml:lang">
@@ -558,7 +563,7 @@
                                 </xsl:for-each-group>    
                             </xsl:for-each>
                         </xsl:for-each-group>
-                    </p>
+                    </ul>
                 </xsl:if>
                 <br class="clearfix"/>
         </xsl:if>
@@ -877,13 +882,13 @@
                 <h3>
                     <xsl:value-of select="concat(upper-case(substring($label,1,1)),substring($label,2))"/>
                 </h3>
-                <ol>
+                <div class="indent">
                     <xsl:for-each select="current-group()">
                         <xsl:sort select="if(current-grouping-key() = 'MSS') then substring-after(t:bibl/@xml:id,'-') = '' else if(current-grouping-key() = 'editions') then substring-after(t:bibl/@corresp,'-') = '' else if(@xml:lang) then local:expand-lang(@xml:lang,$label) else ." order="ascending"/>
                         <xsl:sort select="if(current-grouping-key() = 'MSS' and (substring-after(t:bibl/@xml:id,'-') castable as xs:integer)) then xs:integer(substring-after(t:bibl/@xml:id,'-')) else if(@xml:lang) then local:expand-lang(@xml:lang,$label) else ()" order="ascending"/>
                         <xsl:apply-templates select="self::*"/>
                     </xsl:for-each>
-                </ol>
+                </div>
             </xsl:for-each-group>
             <xsl:for-each select="t:note[not(exists(@type))]">
                 <h3>Note</h3>
@@ -998,7 +1003,7 @@
         </xsl:if>
     </xsl:template>
     
-    <xsl:template match="t:placeName | t:title | t:persName" mode="list">
+    <xsl:template match="t:placeName | t:title | t:persName | t:term" mode="list">
         <xsl:variable name="nameID" select="concat('#',@xml:id)"/>
         <xsl:choose>
             <!-- Suppress depreciated names here -->

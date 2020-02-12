@@ -187,9 +187,10 @@ declare function rel:build-relationships($node as item()*,$idno as xs:string?, $
                         if($display = 'list-description') then
                             let $names := string-join(($related/@active/string(),$related/@passive/string(),$related/@mutual/string()),' ')
                             let $count := count(tokenize($names,' ')[not(. = $idno)])
-                            let $relationship-type := rel:translate-relationship-type($rel-type)
+                            let $relationship-type := rel:translate-relationship-type($relationship)
+                            let $data-type := if(contains($names,'/keyword/')) then 'keyword(s)' else 'records'
                             return 
-                                (<span class="relationship-type">{rel:get-names($idno, $related-map)}&#160;{$relationship-type} ({$count})</span>,
+                                (<span class="relationship-type">{rel:get-names($idno, $related-map)}&#160;{$relationship-type} ({$count}) {$data-type}.</span>,
                                  <div class="indent">
                                  {(
                                  for $r in subsequence(tokenize($names,' ')[not(. = $idno)],1,2)
