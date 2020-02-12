@@ -41,6 +41,8 @@ declare function rel:get-names($uris as xs:string*,$related-map) {
         else (),
             if(contains(request:get-uri(),'/spear/')) then 
                 <a href="aggregate.html?id={$uri}">{if($name != '') then normalize-space($name) else $uri}</a>
+            else if(starts-with($uri, $config:base-uri)) then 
+                <a href="{replace($uri,$config:base-uri,$config:nav-base)}">{if($name != '') then normalize-space($name) else $uri}</a>
             else 
                 <a href="{$uri}">{if($name != '') then normalize-space($name) else $uri}</a>
         )
@@ -206,8 +208,11 @@ declare function rel:build-relationships($node as item()*,$idno as xs:string?, $
                                     else ()
                                  )}</div>
                                 )
-                         else <div>{rel:relationship-sentence($related,$related-map)}</div>    
-                     } catch * { $related }   
+                         else <div>{
+                            for $r in $related 
+                            return <p>{rel:relationship-sentence($r,$related-map)}</p>
+                            }</div>    
+                     } catch * { (:$related:)concat($err:code, ": ", $err:description) }   
             )}
         </div>
     </div>
@@ -230,11 +235,13 @@ let $relationship-string :=
     else concat("[descendant::tei:relation[@passive[matches(.,'",$recid,"(\W.*)?$')] or @mutual[matches(.,'",$recid,"(\W.*)?$')]]]")
 let $eval-string := concat("collection($config:data-root)/tei:TEI",$relationship-string)
 let $related := util:eval($eval-string)
-let $total := count($related)    
+let $total := count($related)  
+let $title := if(contains($recid,'/keyword/')) then 'Sub-categories ' else 'External relationships '
+let $collection-root := if(contains($recid,'/keyword/')) then '/taxonomy/' else ()
 return
     if($total gt 0) then 
         <div class="panel panel-default external-relationships" xmlns="http://www.w3.org/1999/xhtml">
-            <div class="panel-heading"><h3 class="panel-title">External relationships ({$total})</h3></div>
+            <div class="panel-heading"><h3 class="panel-title">{$title} ({$total})</h3></div>
             <div class="panel-body">
             {
             if($total gt 5) then
@@ -242,7 +249,7 @@ return
                 for $r in subsequence($related,1,5)
                 let $id := replace($r/descendant::tei:idno[1],'/tei','')
                 return tei2html:summary-view($r, (), $id[1]),
-                <a class="more" href="{$config:nav-base}/search.html?relationship-type={$relationship-type}&amp;relation-id={$recid}">See all</a>)
+                <a class="more" href="{$config:nav-base}{$collection-root}/search.html?relationship-type={$relationship-type}&amp;relation-id={$recid}">See all</a>)
             else
                 for $r in $related
                 let $id := replace($r/descendant::tei:idno[1],'/tei','')

@@ -174,8 +174,14 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
             let $root := $hit/ancestor-or-self::tei:TEI
             let $id := $root/descendant::tei:publicationStmt/tei:idno[1]
             group by $facet-grp := $id
-            (:where $root[1]//tei:geo:)
             return <browse xmlns="http://www.tei-c.org/ns/1.0" sort="{$sort[1]}">{$root[1]}</browse>  
+        else if(request:get-parameter('alpha-filter', '') != '') then
+            for $hit in $hits
+            let $root := $hit/ancestor-or-self::tei:TEI
+            let $sort := global:build-sort-string($hit,'')
+            order by $sort collation 'http://www.w3.org/2013/collation/UCA'
+            where matches($sort,global:get-alpha-filter())
+            return <browse xmlns="http://www.tei-c.org/ns/1.0" sort="{$sort}">{$root}</browse> 
         else if(request:get-parameter('alpha-filter', '') = ('ALL','all')) then 
             for $hit in $hits
             let $root := $hit/ancestor-or-self::tei:TEI
@@ -188,10 +194,7 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
             for $hit in $hits
             let $root := $hit/ancestor-or-self::tei:TEI
             let $sort := global:build-sort-string($hit,'')
-            (:let $id := $root/descendant::tei:publicationStmt/tei:idno[1]
-              group by $facet-grp := $id:)
             order by $sort collation 'http://www.w3.org/2013/collation/UCA'
-            where matches($sort,global:get-alpha-filter())
             return <browse xmlns="http://www.tei-c.org/ns/1.0" sort="{$sort}">{$root}</browse>            
 };
 
