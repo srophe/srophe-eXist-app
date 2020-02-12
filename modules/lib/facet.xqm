@@ -375,7 +375,7 @@ declare function facet:controlled-labels($results as item()*, $facet-definitions
 declare function facet:get-label($uri as item()*){
 if(starts-with($uri,'http://syriaca.org/')) then 
   if(contains($uri,'/keyword/')) then
-    lower-case(functx:camel-case-to-words(substring-after($uri,'/keyword/'),' '))
+    replace(lower-case(functx:camel-case-to-words(substring-after($uri,'/keyword/'),' ')),'-',' ')
   else $uri     
 else if(contains($uri,':')) then 
     lower-case(functx:camel-case-to-words(substring-after($uri,':'),' '))  
