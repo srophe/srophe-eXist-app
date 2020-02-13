@@ -382,12 +382,13 @@ declare function spear:cts($node as node(), $model as map(*)){
                     <div class="panel-body">{
                         for $r in $refs 
                         return 
-                        (<div class="ctsResolver" data-cts-urn="{$r}" data-cts-format="xml"/>,<span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">See full text at The Syriac Corpus <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
+                        (<div class="ctsResolver" data-cts-location="https://syriaccorpus.org/" data-cts-urn="{$r}" data-cts-format="xml"/>,
+                        <span><a href="{$config:nav-base}/CTS/cts-resolver.xql?urn={$r}">See full text at The Syriac Corpus <span class="glyphicon glyphicon-circle-arrow-right"> </span></a></span>)
                         }</div>
                 </div> 
             else()    
     else ()
-
+(:api/cts?urn=urn:cts:syriacLit:nhsl8559.syriacCorpus57:1&action=xml:)
 };
 (:~          
     How to list all the factoids?

@@ -5,10 +5,11 @@ $(document).ready(function () {
 
 //JQuery to populate CTS sections. May need to move this to main syriaca.org
 function populateCTS() {
-    var baseURL = window.location.origin + '/exist/apps/srophe/api/cts'
+    //var baseURL = window.location.origin + '/exist/apps/srophe/api/cts'
     $('.ctsResolver').each(function () {
         var cachedThis = this;
-        var url = baseURL + '?urn=' + $(this).data('cts-urn') + '&action=' + $(this).data('cts-format')
+        var baseURL = $(this).data('cts-location')
+        var url = baseURL + '/api/cts?urn=' + $(this).data('cts-urn') + '&action=' + $(this).data('cts-format')
         $.ajax({
             url: url,
             type: 'get',
