@@ -202,13 +202,13 @@
         <span class="footnote-content">
             <xsl:choose>
                 <xsl:when test="descendant::t:ptr[@target and starts-with(@target, '#')]">
-                    <xsl:variable name="target" select="substring-after(descendant::t:ptr/@target,'#')"/>
+                    <xsl:variable name="target" select="substring-after(descendant::t:ptr[1]/@target,'#')"/>
                     <xsl:for-each select="descendant::t:bibl[@xml:id = $target]">
                         <xsl:choose>
                             <xsl:when test="descendant::t:ptr[@target and starts-with(@target, concat($base-uri,'/bibl/'))]">
                                 <!-- Find file path for bibliographic record -->
                                 <xsl:variable name="biblfilepath">
-                                    <xsl:value-of select="concat('xmldb:exist://',$data-root,'/bibl/tei/',substring-after(t:ptr/@target, concat($base-uri,'/bibl/')),'.xml')"/>
+                                    <xsl:value-of select="concat('xmldb:exist://',$data-root,'/bibl/tei/',substring-after(t:ptr[1]/@target, concat($base-uri,'/bibl/')),'.xml')"/>
                                 </xsl:variable>
                                 <xsl:choose>
                                     <xsl:when test="doc-available($biblfilepath)">
@@ -261,7 +261,7 @@
                 </xsl:when>
                 <xsl:when test="descendant::t:ptr[@target and starts-with(@target, concat($base-uri,'/bibl/'))]">
                     <xsl:variable name="biblfilepath">
-                        <xsl:value-of select="concat('xmldb:exist://',$data-root,'/bibl/tei/',substring-after(t:ptr/@target, concat($base-uri,'/bibl/')),'.xml')"/>
+                        <xsl:value-of select="concat('xmldb:exist://',$data-root,'/bibl/tei/',substring-after(t:ptr[1]/@target, concat($base-uri,'/bibl/')),'.xml')"/>
                     </xsl:variable>
                     <xsl:choose>
                         <xsl:when test="doc-available($biblfilepath)">

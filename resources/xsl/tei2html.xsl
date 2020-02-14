@@ -202,7 +202,7 @@
                                         <xsl:for-each-group select="ancestor::t:bibl[@type='lawd:ConceptualWork']/t:bibl" group-by="@type">
                                             <bibList>
                                                 <xsl:for-each select="current-group()">
-                                                    <bibl bibid="{@xml:id}" position="{position()}" type="{local:translate-label(string(current-grouping-key()),count(current-group()))}" ref="{string-join(child::t:ptr/@target,' ')}"/>
+                                                    <bibl bibid="{@xml:id}" position="{position()}" type="{local:translate-label(string(current-grouping-key()),count(current-group()))}" ref="{string-join(child::t:ptr[1]/@target,' ')}"/>
                                                 </xsl:for-each>
                                             </bibList>
                                         </xsl:for-each-group>
