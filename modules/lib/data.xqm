@@ -340,9 +340,9 @@ declare function data:dynamic-paths($search-config as xs:string?){
                 else if($p = 'idno') then
                     data:idno()                    
                 else if(string($config//input[@name = $p]/@element) = '.') then
-                    concat("[ft:query(.//tei:body,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
+                    concat("[descendant-or-self::tei:body[ft:query(.,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]]")
                 else if(string($config//input[@name = $p]/@element) != '') then
-                    concat("[ft:query(.//",string($config//input[@name = $p]/@element),",'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
+                    concat("[descendant::",string($config//input[@name = $p]/@element),"[ft:query(.,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]]")
                 else ()    
             else (),'')
 };
