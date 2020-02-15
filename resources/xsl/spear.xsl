@@ -332,7 +332,7 @@
                         </xsl:for-each>
                     </xsl:for-each-group>
                     <xsl:for-each-group select="t:div[descendant::t:trait[@type='gender']]" group-by="name(t:div[descendant::t:trait[@type='gender']][1])">
-                        <h4>Sex: </h4>
+                        <h4>Gender: </h4>
                         <xsl:for-each select="current-group()">
                             <xsl:sort select="xs:integer(substring-after(t:idno, '-'))" order="ascending"/>
                             <p class="indent">
