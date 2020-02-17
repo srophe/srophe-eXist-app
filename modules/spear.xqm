@@ -80,10 +80,6 @@ declare function spear:get-all($node as node(), $model as map(*), $collection as
     let $facets := facet:facet-filter(global:facet-definition-file($collection))
     return 
         if(request:get-parameter('view', '') = 'places') then 
-                    (:
-                    let $browse-path := concat("collection($config:data-root || $collection-path)//tei:div[descendant::tei:placeName]",facet:facet-filter(spear:get-facets()))
-                    let $spear := util:eval($browse-path)
-                    :)
                     let $spear := collection($config:data-root || $collection-path)//tei:div[descendant::tei:placeName]
                     return 
                         map{"spear" := $spear,
@@ -127,14 +123,7 @@ declare function spear:get-all($node as node(), $model as map(*), $collection as
                                 }                          
         else                    
                     let $browse-path :=
-                       (: if($spear:fq != '') then
-                            string-join(let $facets := spear:get-facets()
-                                for $facet in $facets/descendant::facet:facet-definition
-                                let $facet-path := facet:facet-filter($facet)
-                                where $facet-path != '' 
-                                return concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter($facet))
-                                ,' | ')
-                        else :) concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter(spear:get-facets()))
+                        concat("collection($config:data-root || $collection-path)//tei:div[tei:listPerson]",facet:facet-filter(spear:get-facets()))
                     let $spear := util:eval($browse-path)
                     return 
                         map{"spear" := $spear,
@@ -493,7 +482,23 @@ declare %templates:wrap function spear:events($node as node(), $model as map(*))
     let $events := $model("data")//tei:div[tei:listEvent/descendant::tei:event]
     return
         (ev:build-timeline($events,'events'),
-        ev:build-events-panel($events))
+        (:ev:build-events-panel($events):)
+        <br/>,<h3>Events</h3>,
+        for $event in $events
+        let $date := $event/descendant::tei:event/descendant::tei:date[1]
+        let $sort := 
+            if($date/@notBefore) then $date/@notBefore
+            else if($date/@from) then $date/@from
+            else if($date/@when) then $date/@when 
+            else if($date/@to) then $date/@to 
+            else if($date/@from) then $date/@from 
+            else if($date/@notAfter) then $date/@notAfter                                                 
+            else ()
+        order by $sort descending
+        (:return <div class="results">{spear:factoid-title($event)}</div>:)
+        let $id := $event/tei:idno[@type="URI"]
+        return <div class="event" style="display:block; margin:.75em; border-bottom:1pt solid #eee;">{spear:factoid-title($event)} <a href="factoid.html?id={$id}">See factoid page <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"/></a></div>        
+        )
   else ()  
 };
 
