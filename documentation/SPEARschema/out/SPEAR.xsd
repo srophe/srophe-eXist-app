@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:tei="http://www.tei-c.org/ns/1.0"
+           xmlns:srophe="https://srophe.app"
            elementFormDefault="qualified"
            targetNamespace="http://www.tei-c.org/ns/1.0">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace"
@@ -171,16 +172,16 @@
       <xs:attribute name="cRef" type="xs:string"/>
    </xs:attributeGroup>
    <xs:attributeGroup name="att.datable.w3c.attributes">
-      <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophe-computed-start"/>
-      <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophe-computed-end"/>
+      <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophecomputed-start"/>
+      <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophecomputed-end"/>
       <xs:attributeGroup ref="tei:att.datable.w3c.attribute.when"/>
       <xs:attributeGroup ref="tei:att.datable.w3c.attribute.notBefore"/>
       <xs:attributeGroup ref="tei:att.datable.w3c.attribute.notAfter"/>
       <xs:attributeGroup ref="tei:att.datable.w3c.attribute.from"/>
       <xs:attributeGroup ref="tei:att.datable.w3c.attribute.to"/>
    </xs:attributeGroup>
-   <xs:attributeGroup name="att.datable.w3c.attribute.srophe-computed-start">
-      <xs:attribute name="srophe-computed-start">
+   <xs:attributeGroup name="att.datable.w3c.attribute.srophecomputed-start">
+      <xs:attribute name="srophecomputed-start">
          <xs:annotation>
             <xs:documentation>(Provides a start date conforming to the W3C XML Schema Part 2: Datatypes Second
                 Edition that can contain information specific enough to inform a timeline precisely
@@ -191,8 +192,8 @@
          </xs:simpleType>
       </xs:attribute>
    </xs:attributeGroup>
-   <xs:attributeGroup name="att.datable.w3c.attribute.srophe-computed-end">
-      <xs:attribute name="srophe-computed-end">
+   <xs:attributeGroup name="att.datable.w3c.attribute.srophecomputed-end">
+      <xs:attribute name="srophecomputed-end">
          <xs:annotation>
             <xs:documentation>(Provides an end date conforming to the W3C XML Schema Part 2: Datatypes Second
                 Edition that can contain information specific enough to inform a timeline precisely
@@ -2918,8 +2919,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <xs:element ref="tei:note"/>
             </xs:sequence>
          </xs:choice>
-         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophe-computed-start"/>
-         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophe-computed-end"/>
+         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophecomputed-start"/>
+         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophecomputed-end"/>
          <xs:attributeGroup ref="tei:att.datable.w3c.attribute.when"/>
          <xs:attributeGroup ref="tei:att.datable.w3c.attribute.notBefore"/>
          <xs:attributeGroup ref="tei:att.datable.w3c.attribute.notAfter"/>
@@ -2944,8 +2945,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <xs:element ref="tei:note"/>
             </xs:sequence>
          </xs:choice>
-         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophe-computed-start"/>
-         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophe-computed-end"/>
+         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophecomputed-start"/>
+         <xs:attributeGroup ref="tei:att.datable.w3c.attribute.srophecomputed-end"/>
          <xs:attributeGroup ref="tei:att.datable.w3c.attribute.when"/>
          <xs:attributeGroup ref="tei:att.datable.w3c.attribute.notBefore"/>
          <xs:attributeGroup ref="tei:att.datable.w3c.attribute.notAfter"/>

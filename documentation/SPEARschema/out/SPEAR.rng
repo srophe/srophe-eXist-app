@@ -3,9 +3,10 @@
          xmlns:xlink="http://www.w3.org/1999/xlink"
          xmlns:tei="http://www.tei-c.org/ns/1.0"
          xmlns:teix="http://www.tei-c.org/ns/Examples"
+         xmlns:srophe="https://srophe.app"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2020-04-21T14:18:27Z. .
+Schema generated from ODD source 2020-04-21T14:49:51Z. .
 TEI Edition: Version 4.0.0. Last updated on
 	13th February 2020, revision ccd19b0ba
 TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
@@ -189,17 +190,17 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
       </optional>
    </define>
    <define name="att.datable.w3c.attributes">
-      <ref name="att.datable.w3c.attribute.srophe-computed-start"/>
-      <ref name="att.datable.w3c.attribute.srophe-computed-end"/>
+      <ref name="att.datable.w3c.attribute.srophecomputed-start"/>
+      <ref name="att.datable.w3c.attribute.srophecomputed-end"/>
       <ref name="att.datable.w3c.attribute.when"/>
       <ref name="att.datable.w3c.attribute.notBefore"/>
       <ref name="att.datable.w3c.attribute.notAfter"/>
       <ref name="att.datable.w3c.attribute.from"/>
       <ref name="att.datable.w3c.attribute.to"/>
    </define>
-   <define name="att.datable.w3c.attribute.srophe-computed-start">
+   <define name="att.datable.w3c.attribute.srophecomputed-start">
       <optional>
-         <attribute name="srophe-computed-start">
+         <attribute name="srophe:computed-start">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Provides a start date conforming to the W3C XML Schema Part 2: Datatypes Second
                 Edition that can contain information specific enough to inform a timeline precisely
                 even then that information does not appear in the text being encoded.) The SPEAR project visualizes events using the knightlab timeline. This program required dates more specific than we were able to derive from some of our sources. Winona Salesky created this date attribute in order to visualize our event data on a timeline. </a:documentation>
@@ -216,9 +217,9 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
          </attribute>
       </optional>
    </define>
-   <define name="att.datable.w3c.attribute.srophe-computed-end">
+   <define name="att.datable.w3c.attribute.srophecomputed-end">
       <optional>
-         <attribute name="srophe-computed-end">
+         <attribute name="srophe:computed-end">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Provides an end date conforming to the W3C XML Schema Part 2: Datatypes Second
                 Edition that can contain information specific enough to inform a timeline precisely
                 even then that information does not appear in the text being encoded.) The SPEAR project visualizes events using the knightlab timeline. This program required dates more specific than we were able to derive from some of our sources. Winona Salesky created this date attribute in order to visualize our event data on a timeline. </a:documentation>
@@ -3661,8 +3662,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <ref name="note"/>
             </group>
          </choice>
-         <ref name="att.datable.w3c.attribute.srophe-computed-start"/>
-         <ref name="att.datable.w3c.attribute.srophe-computed-end"/>
+         <ref name="att.datable.w3c.attribute.srophecomputed-start"/>
+         <ref name="att.datable.w3c.attribute.srophecomputed-end"/>
          <ref name="att.datable.w3c.attribute.when"/>
          <ref name="att.datable.w3c.attribute.notBefore"/>
          <ref name="att.datable.w3c.attribute.notAfter"/>
@@ -3686,8 +3687,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <ref name="note"/>
             </group>
          </choice>
-         <ref name="att.datable.w3c.attribute.srophe-computed-start"/>
-         <ref name="att.datable.w3c.attribute.srophe-computed-end"/>
+         <ref name="att.datable.w3c.attribute.srophecomputed-start"/>
+         <ref name="att.datable.w3c.attribute.srophecomputed-end"/>
          <ref name="att.datable.w3c.attribute.when"/>
          <ref name="att.datable.w3c.attribute.notBefore"/>
          <ref name="att.datable.w3c.attribute.notAfter"/>
