@@ -51,7 +51,7 @@
 
         <classSpec ident="att.datable.w3c" type="atts" mode="change" module="tei">
           <attList>
-            <attDef ident="srophe:computed-start" mode="add">
+            <attDef ident="srophe-computed-start" mode="add">
               <gloss>Provides a start date conforming to the W3C XML Schema Part 2: Datatypes Second
                 Edition that can contain information specific enough to inform a timeline precisely
                 even then that information does not appear in the text being encoded.</gloss>
@@ -63,7 +63,7 @@
                 <dataRef key="teidata.temporal.w3c"/>
               </datatype>
             </attDef>
-            <attDef ident="srophe:computed-end" mode="add">
+            <attDef ident="srophe-computed-end" mode="add">
               <gloss>Provides an end date conforming to the W3C XML Schema Part 2: Datatypes Second
                 Edition that can contain information specific enough to inform a timeline precisely
                 even then that information does not appear in the text being encoded.</gloss>
