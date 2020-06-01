@@ -7,7 +7,7 @@
                         <sub-path>descendant::tei:relation[@ref='skos:broadMatch']/@passive</sub-path>
                     </group-by>
                     <max-values show="5">40</max-values>
-                    <order-by direction="ascending">value</order-by>
+                    <order-by direction="descending">value</order-by>
                 </facet-definition>
             </bucket>
             <bucket path="descendant::tei:entryFree[@type = 'building-type']" name="building type" order="3"/>
