@@ -22,6 +22,6 @@
             <sub-path>descendant::tei:entryFree/@type</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
-        <order-by direction="descending">order</order-by>
+        <order-by direction="ascending">order</order-by>
     </facet-definition>
 </facets>
