@@ -1,8 +1,6 @@
 <facets xmlns="http://expath.org/ns/facet">
     <facet-definition name="Search Category">
         <range type="xs:string">
-            <bucket path="descendant::tei:entryFree[@type = 'time period']" name="time period" order="5">
-            </bucket>
             <bucket path="descendant::tei:entryFree[@type = 'architectural-feature']" name="architectural features" order="4">
                 <facet-definition name="Category">
                     <group-by>
@@ -14,6 +12,8 @@
             </bucket>
             <bucket path="descendant::tei:entryFree[@type = 'building-type']" name="building type" order="3"/>
             <bucket path="descendant::tei:entryFree[@type = 'site-type']" name="site type" order="2"/>
+            <bucket path="descendant::tei:entryFree[@type = 'time period']" name="time period" order="5">
+            </bucket>
             <!--
             <bucket path="descendant::tei:entryFree[@type = 'dynasty']" name="dynasty" order="1"/>
             -->
