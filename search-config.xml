@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<search-config>
+    <!--  <field name="author" expression="./ancestor::tei:TEI//tei:author" function="functionName"/> -->
+    <field name="title" expression="descendant-or-self::tei:body" function="title"/>
+    <field name="placeName" expression="descendant::tei:placeName"/>
+    <field name="existenceStart" expression="descendant::tei:state[@type='existence']/@to"/>
+    <field name="existenceEnd" expression="descendant::tei:state[@type='existence']/@from"/>
+    <field name="idno" expression="descendant::tei:idno"/>
+</search-config>

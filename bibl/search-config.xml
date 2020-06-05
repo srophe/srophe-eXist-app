@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<search-config>
+    <field name="title" expression="descendant::tei:title" function="title"/>
+    <field name="author" expression="descendant::tei:author" function="author"/>
+    <field name="publicationPlace" expression="descendant::tei:imprint/tei:pubPlace"/>
+    <field name="publisher" expression="descendant::tei:imprint/tei:publisher"/>
+    <field name="publicationDate" expression="descendant::tei:imprint/tei:date"/>
+    <field name="idno" expression="descendant::tei:idno"/>
+</search-config>

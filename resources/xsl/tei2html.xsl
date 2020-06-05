@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
@@ -691,10 +692,10 @@
                         <xsl:choose>
                             <xsl:when test="contains(current-grouping-key(),':')">
                                 <xsl:variable name="short" select="substring-after(current-grouping-key(),':')"/>
-                                <xsl:value-of select="concat(substring($short,1,1),replace(substring($short,2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                                <xsl:value-of select="concat(substring($short,1,1),replace(substring($short,2),'(\p{Lu})',concat(' ', '$1')))"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:value-of select="concat(substring(current-grouping-key(),1,1),replace(substring(current-grouping-key(),2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                                <xsl:value-of select="concat(substring(current-grouping-key(),1,1),replace(substring(current-grouping-key(),2),'(\p{Lu})',concat(' ', '$1')))"/>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>

@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-module namespace cntneg="http://syriaca.org/srophe/cntneg";
+module namespace cntneg="http://srophe.org/srophe/cntneg";
 (:~
  : Module for content negotiation based on work done by Steve Baskauf
  : https://github.com/baskaufs/guid-o-matic
@@ -24,16 +24,15 @@ module namespace cntneg="http://syriaca.org/srophe/cntneg";
  : Content serialization modules.
  : Additional modules can be added. 
 :)
-import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
-import module namespace feed="http://syriaca.org/srophe/atom" at "atom.xqm";
-import module namespace geojson="http://syriaca.org/srophe/geojson" at "geojson.xqm";
-import module namespace geokml="http://syriaca.org/srophe/geokml" at "geokml.xqm";
-import module namespace jsonld="http://syriaca.org/srophe/jsonld" at "jsonld.xqm";
-import module namespace tei2rdf="http://syriaca.org/srophe/tei2rdf" at "tei2rdf.xqm";
-import module namespace tei2tsv="http://syriaca.org/srophe/tei2tsv" at "tei2tsv.xqm";
-import module namespace tei2ttl="http://syriaca.org/srophe/tei2ttl" at "tei2ttl.xqm";
-import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "tei2html.xqm";
-import module namespace tei2txt="http://syriaca.org/srophe/tei2txt" at "tei2txt.xqm";
+import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
+import module namespace feed="http://srophe.org/srophe/atom" at "atom.xqm";
+import module namespace geojson="http://srophe.org/srophe/geojson" at "geojson.xqm";
+import module namespace geokml="http://srophe.org/srophe/geokml" at "geokml.xqm";
+import module namespace jsonld="http://srophe.org/srophe/jsonld" at "jsonld.xqm";
+import module namespace tei2rdf="http://srophe.org/srophe/tei2rdf" at "tei2rdf.xqm";
+import module namespace tei2ttl="http://srophe.org/srophe/tei2ttl" at "tei2ttl.xqm";
+import module namespace tei2html="http://srophe.org/srophe/tei2html" at "tei2html.xqm";
+import module namespace tei2txt="http://srophe.org/srophe/tei2txt" at "tei2txt.xqm";
 
 (: These are needed for rending as HTML via existdb templating module, can be removed if not using 
 import module namespace config="http://syriaca.org/config" at "config.xqm";
@@ -97,8 +96,6 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
             response:set-header("method", "text"),
             response:set-header("media-type", "text/plain"),
             tei2ttl:ttl-output($data))
-        else if($flag = 'tsv') then 
-            (response:set-header("Content-Type", "text/tab-separated-values; charset=utf-8"), tei2tsv:tei2tsv($data))             
         else if($flag = ('tei','xml')) then 
             (response:set-header("Content-Type", "application/xml; charset=utf-8"),$data)                               
         else if($flag = ('txt','text')) then
@@ -111,7 +108,7 @@ declare function cntneg:content-negotiation($data as item()*, $content-type as x
         (: Output as html using existdb templating module or tei2html.xqm :)
         else
             (response:set-header("Content-Type", "text/html; charset=utf-8"),
-             tei2html:tei2html($data)) 
+             tei2html:tei2html($data))   
 }; 
 
 (:Main entry point via restxq :)
@@ -158,17 +155,6 @@ declare function cntneg:content-negotiation-restxq($data as item()*, $content-ty
                     <output:media-type value='text/plain'/>
                 </output:serialization-parameters>
             </rest:response>, tei2ttl:ttl-output($data))
-        else if($flag = 'tsv') then 
-            (<rest:response> 
-                <http:response status="200"> 
-                    <http:header name="Content-Type" value="text/tab-separated-values; charset=utf-8"/> 
-                </http:response> 
-                <output:serialization-parameters>
-                    <output:encoding value='utf-8'/>
-                    <output:method value='tsv'/>
-                    <output:media-type value='text/tab-separated-values'/>
-                </output:serialization-parameters>
-             </rest:response>,tei2tsv:tei2tsv($data))                     
         else if($flag = 'geojson') then 
             (<rest:response> 
                 <http:response status="200"> 
@@ -226,7 +212,6 @@ declare function cntneg:determine-extension($header){
     else if (contains(string-join($header),"text/plain") or $header = 'txt') then "txt"
     else if (contains(string-join($header),"application/pdf") or $header = 'pdf') then "pdf"
     else if (contains(string-join($header),"application/epub+zip") or $header = 'epub') then "epub"
-    else if (contains(string-join($header),"text/tab-separated-values") or $header = 'tsv') then "tsv"
     else "html"
 };
 
@@ -244,7 +229,6 @@ declare function cntneg:determine-media-type($extension){
     case "txt" return "text/plain"
     case "pdf" return "application/pdf"
     case "epub" return "application/epub+zip"
-    case "tsv" return "text/tsv"
     default return "text/html"
 };
 
@@ -266,6 +250,5 @@ declare function cntneg:determine-type-flag($extension){
     case "text" return "txt"
     case "pdf" return "pdf"
     case "epub" return "epub"
-    case "tsv" return "tsv"
     default return $extension
 };

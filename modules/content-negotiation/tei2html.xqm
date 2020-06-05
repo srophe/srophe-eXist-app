@@ -4,9 +4,9 @@ xquery version "3.0";
  : Used by oai, can be plugged into other outputs as well.
  :)
  
-module namespace tei2html="http://syriaca.org/srophe/tei2html";
-import module namespace bibl2html="http://syriaca.org/srophe/bibl2html" at "bibl2html.xqm";
-import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
+module namespace tei2html="http://srophe.org/srophe/tei2html";
+import module namespace bibl2html="http://srophe.org/srophe/bibl2html" at "bibl2html.xqm";
+import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
 
 declare namespace html="http://purl.org/dc/elements/1.1/";
 declare namespace tei="http://www.tei-c.org/ns/1.0";

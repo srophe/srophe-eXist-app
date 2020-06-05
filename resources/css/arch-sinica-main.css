@@ -98,12 +98,13 @@ h4.slider, #content h1 {
 
 }
 
-.facet-grp h4 {
+.facet-grp h4, .facet-title {
   margin-top:1.5em;
   text-transform: uppercase;
   font-weight:500;
   color:#333333;
   border-bottom: solid #333 2px;
+  display:block;
 }
 
 .facet-list a {

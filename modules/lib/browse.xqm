@@ -3,17 +3,17 @@ xquery version "3.1";
  : Builds HTML browse pages for Srophe Collections and sub-collections 
  : Alphabetical English and Syriac Browse lists, browse by type, browse by date, map browse. 
  :)
-module namespace browse="http://syriaca.org/srophe/browse";
+module namespace browse="http://srophe.org/srophe/browse";
 
 (:eXist templating module:)
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 
 (: Import Srophe application modules. :)
-import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
-import module namespace data="http://syriaca.org/srophe/data" at "data.xqm";
-import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
-import module namespace maps="http://syriaca.org/srophe/maps" at "maps.xqm";
-import module namespace page="http://syriaca.org/srophe/page" at "paging.xqm";
+import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
+import module namespace data="http://srophe.org/srophe/data" at "data.xqm";
+import module namespace tei2html="http://srophe.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
+import module namespace maps="http://srophe.org/srophe/maps" at "maps.xqm";
+import module namespace page="http://srophe.org/srophe/page" at "paging.xqm";
 
 (: Namespaces :)
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -34,7 +34,7 @@ declare variable $browse:perpage {request:get-parameter('perpage', 25) cast as x
  : @param $facets facet xml file name, relative to collection directory
 :)  
 declare function browse:get-all($node as node(), $model as map(*), $collection as xs:string*, $element as xs:string?, $facets as xs:string?){
-    map{"hits" := data:get-records($collection, $element) }
+    map{"hits" : data:get-records($collection, $element) }
 };
 
 (:

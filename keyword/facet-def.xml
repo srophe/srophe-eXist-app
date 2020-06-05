@@ -1,27 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <facets xmlns="http://expath.org/ns/facet">
-    <facet-definition name="Search Category">
-        <range type="xs:string">
-            <bucket path="descendant::tei:entryFree[@type = 'architectural-feature']" name="architectural features" order="4">
-                <facet-definition name="Category">
-                    <group-by>
-                        <sub-path>descendant::tei:relation[@ref='skos:broadMatch']/@passive</sub-path>
-                    </group-by>
-                    <max-values show="5">40</max-values>
-                    <order-by direction="ascending">value</order-by>
-                </facet-definition>
-            </bucket>
-            <bucket path="descendant::tei:entryFree[@type = 'building-type']" name="building type" order="3"/>
-            <bucket path="descendant::tei:entryFree[@type = 'site-type']" name="site type" order="2"/>
-            <bucket path="descendant::tei:entryFree[@type = 'time period']" name="time period" order="5">
-            </bucket>
-            <!--
-            <bucket path="descendant::tei:entryFree[@type = 'dynasty']" name="dynasty" order="1"/>
-            -->
-        </range>
-        <group-by function="facet:keywordType">
+    <facet-definition name="searchCategory" label="Search Category">
+        <group-by>
             <sub-path>descendant::tei:entryFree/@type</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
-        <order-by direction="ascending">order</order-by>
+        <order-by direction="descending">order</order-by>
+    </facet-definition>
+    <facet-definition name="keywordCategory" label="Category">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref='skos:broadMatch']/@passive</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">value</order-by>
     </facet-definition>
 </facets>
