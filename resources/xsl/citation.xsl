@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:local="http://syriaca.org/ns" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs t x saxon local" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
     
     <!-- ================================================================== 
        citation.xsl
@@ -44,6 +43,20 @@
         
         <!-- publication date statement -->
         <xsl:text> last modified </xsl:text>
+        <xsl:for-each select="//t:revisionDesc/t:change">
+            <xsl:sort order="descending" select="@when"/>
+            <xsl:for-each select=".[1]">
+                <xsl:choose>
+                    <xsl:when test="@when castable as xs:date">
+                        <xsl:value-of select="format-date(xs:date(@when), '[MNn] [D], [Y]')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@when"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:for-each>
+        </xsl:for-each>
+        <!--
         <xsl:for-each select="../t:publicationStmt/t:date[1]">
             <xsl:choose>
                 <xsl:when test=". castable as xs:date">
@@ -54,6 +67,7 @@
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:for-each>
+        -->
         <xsl:text>,</xsl:text>
         
         <xsl:text> </xsl:text>

@@ -358,8 +358,8 @@
         <div class="citationinfo">
             <h3>How to Cite This Entry</h3>
             <div id="citation-note" class="well">
-                <xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:titleStmt" mode="cite-foot"/>
-                <div class="collapse" id="showcit">
+                <!--<xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:titleStmt" mode="cite-foot"/>-->
+                <div id="showcit">
                     <div id="citation-bibliography">
                         <h4>Bibliography:</h4>
                         <xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:titleStmt" mode="cite-biblist"/>
@@ -381,7 +381,7 @@
                         <xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:publicationStmt/t:availability/t:licence"/>
                     </div>
                 </div>
-                <a class="togglelink pull-right btn-link" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>
+                <!--<a class="togglelink pull-right btn-link" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>-->
             </div>
         </div>
     </xsl:template>
@@ -691,10 +691,10 @@
                         <xsl:choose>
                             <xsl:when test="contains(current-grouping-key(),':')">
                                 <xsl:variable name="short" select="substring-after(current-grouping-key(),':')"/>
-                                <xsl:value-of select="concat(substring($short,1,1),replace(substring($short,2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                                <xsl:value-of select="concat(substring($short,1,1),replace(substring($short,2),'(\p{Lu})',concat(' ', '$1')))"/>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:value-of select="concat(substring(current-grouping-key(),1,1),replace(substring(current-grouping-key(),2),'(\p{Lu})',concat(' ', '$1')))"></xsl:value-of>
+                                <xsl:value-of select="concat(substring(current-grouping-key(),1,1),replace(substring(current-grouping-key(),2),'(\p{Lu})',concat(' ', '$1')))"/>
                             </xsl:otherwise>
                         </xsl:choose>
                     </xsl:variable>
@@ -880,11 +880,12 @@
     </xsl:template>
     <xsl:template match="t:teiHeader" mode="#all">
         <div class="citationinfo">
-            <h3>How to Cite This Entry <a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>
+            <h3>How to Cite This Entry 
+                <!--<a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>-->
             </h3>
             <div id="citation-note" class="well">
                 <xsl:apply-templates select="t:fileDesc/t:titleStmt" mode="cite-foot"/>
-                <div class="collapse" id="showcit">
+                <div id="showcit">
                     <div id="citation-bibliography">
                         <h4>Bibliography:</h4>
                         <xsl:apply-templates select="t:fileDesc/t:titleStmt" mode="cite-biblist"/>
