@@ -43,19 +43,20 @@
         
         <!-- publication date statement -->
         <xsl:text> last modified </xsl:text>
-        <xsl:for-each select="//t:revisionDesc/t:change">
-            <xsl:sort order="descending" select="@when"/>
-            <xsl:for-each select=".[1]">
-                <xsl:choose>
-                    <xsl:when test="@when castable as xs:date">
-                        <xsl:value-of select="format-date(xs:date(@when), '[MNn] [D], [Y]')"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="@when"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:for-each>
-        </xsl:for-each>
+        <xsl:text> last modified </xsl:text>
+        <xsl:variable name="dates" as="element(t:change)+">
+            <xsl:perform-sort select="//t:revisionDesc/t:change">
+                <xsl:sort order="descending" select="@when"/>
+            </xsl:perform-sort>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$dates[1]/@when castable as xs:date">
+                <xsl:value-of select="format-date(xs:date($dates[1]/@when), '[MNn] [D], [Y]')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="string($dates[1]/@when)"/>
+            </xsl:otherwise>
+        </xsl:choose>
         <!--
         <xsl:for-each select="../t:publicationStmt/t:date[1]">
             <xsl:choose>
