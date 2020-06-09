@@ -28,10 +28,10 @@
     <xsl:template match="t:titleStmt" mode="cite-foot">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-        <!--
-        <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>
-        <xsl:text>, </xsl:text>
-        -->
+        <xsl:if test="t:editor[@role='creator']">
+            <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>
+            <xsl:text>, </xsl:text>            
+        </xsl:if>
         <!-- title of the entry -->
         <xsl:text>“</xsl:text>
         <xsl:apply-templates select="t:title[@level='a'][1]" mode="footnote"/>
@@ -42,7 +42,6 @@
         <xsl:apply-templates select="../descendant::t:title[@level='m'][1]" mode="footnote"/>
         
         <!-- publication date statement -->
-        <xsl:text> last modified </xsl:text>
         <xsl:text> last modified </xsl:text>
         <xsl:variable name="dates" as="element(t:change)+">
             <xsl:perform-sort select="//t:revisionDesc/t:change">
@@ -57,6 +56,19 @@
                 <xsl:value-of select="string($dates[1]/@when)"/>
             </xsl:otherwise>
         </xsl:choose>
+        <!--
+            <xsl:for-each select="//t:revisionDesc/t:change">
+                <xsl:sort order="descending" select="@when"/>
+                <xsl:choose>
+                    <xsl:when test="@when castable as xs:date">
+                        <xsl:value-of select="format-date(xs:date(.[1]/@when), '[MNn] [D], [Y]')"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="@when"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:for-each> 
+        -->            
         <!--
         <xsl:for-each select="../t:publicationStmt/t:date[1]">
             <xsl:choose>
@@ -84,10 +96,11 @@
     <xsl:template match="t:titleStmt" mode="cite-biblist">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-        <!--
-        <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/>
-        <xsl:text>, </xsl:text>
-        -->
+        <xsl:if test="t:editor[@role='creator']">
+            <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/>
+            <xsl:text>, </xsl:text>            
+        </xsl:if>
+        
         <!-- title of the entry -->
         <xsl:text>“</xsl:text>
         <xsl:apply-templates select="t:title[@level='a'][1]" mode="biblist"/>
