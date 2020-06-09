@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
@@ -881,11 +880,12 @@
     </xsl:template>
     <xsl:template match="t:teiHeader" mode="#all">
         <div class="citationinfo">
-            <h3>How to Cite This Entry <a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>
+            <h3>How to Cite This Entry
+                <!--<a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>-->
             </h3>
             <div id="citation-note" class="well">
                 <xsl:apply-templates select="t:fileDesc/t:titleStmt" mode="cite-foot"/>
-                <div class="collapse" id="showcit">
+                <div id="showcit">
                     <div id="citation-bibliography">
                         <h4>Bibliography:</h4>
                         <xsl:apply-templates select="t:fileDesc/t:titleStmt" mode="cite-biblist"/>
