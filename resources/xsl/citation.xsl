@@ -181,27 +181,14 @@
             <div>
                 <h4>Authorial and Editorial Responsibility:</h4>
                 <ul>
+                    <!--
                     <li>
-                        <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
                         <xsl:sequence select="local:emit-responsible-persons-all(t:principal,'footnote')"/>
                         <xsl:text>, general editor</xsl:text>
                         <xsl:if test="count(t:principal) &gt; 1">s</xsl:if>
                         <xsl:text>, </xsl:text>
                         <xsl:apply-templates select="../descendant::t:title[@level='m'][1]" mode="footnote"/>
-                    </li>
-                    <xsl:if test="t:editor[@role='code-author']">
-                    <li>
-                        <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-                        <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role='code-author'],'footnote')"/>
-                        <xsl:text>, editor</xsl:text>
-                        <xsl:if test="count(t:editor[@role='code-author']) &gt; 1">s</xsl:if>
-                        <xsl:text>, </xsl:text>
-                        <xsl:choose>
-                            <xsl:when test="contains(//t:publicationStmt/t:idno[@type='URI'][1],'/keyword/')">Architectural Terminology</xsl:when>
-                            <xsl:otherwise>Dynamic Site Archive</xsl:otherwise>
-                        </xsl:choose>
-                    </li>
-                    </xsl:if>
+                    </li>-->
                     <xsl:if test="t:editor[@role='general']">
                         <li>
                             <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
@@ -210,6 +197,31 @@
                             <xsl:if test="count(t:editor[@role='general'])&gt; 1">s</xsl:if>
                             <xsl:text>, </xsl:text>
                             <xsl:apply-templates select="../descendant::t:title[@level='m'][1]" mode="footnote"/>
+                        </li>
+                    </xsl:if>
+                    <xsl:if test="t:editor[@role='code-author']">
+                        <li>
+                            <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
+                            <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role='code-author'],'footnote')"/>
+                            <xsl:text>, editor</xsl:text>
+                            <xsl:if test="count(t:editor[@role='code-author']) &gt; 1">s</xsl:if>
+                            <xsl:text>, </xsl:text>
+                            <xsl:choose>
+                                <xsl:when test="contains(//t:publicationStmt/t:idno[@type='URI'][1],'/keyword/')">Architectural Terminology</xsl:when>
+                                <xsl:otherwise>Dynamic Site Archive</xsl:otherwise>
+                            </xsl:choose>
+                        </li>
+                    </xsl:if>
+                    <xsl:if test="t:editor[@role='content-author']">
+                        <li>
+                            <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
+                            <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role='content-author'],'biblist')"/>
+                            <xsl:text>, entry contributor</xsl:text>
+                            <xsl:if test="count(t:editor[@role='creator'])&gt; 1">s</xsl:if>
+                            <xsl:text>, </xsl:text>
+                            <xsl:text>“</xsl:text>
+                            <xsl:apply-templates select="t:title[@level='a'][1]" mode="footnote"/>
+                            <xsl:text>”</xsl:text>
                         </li>
                     </xsl:if>
                     <xsl:if test="t:editor[@role= ('creator','contributor')]">
