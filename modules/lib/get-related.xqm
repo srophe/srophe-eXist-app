@@ -11,6 +11,9 @@ import module namespace functx="http://www.functx.com";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
+(: for testing to keep eXist from breaking :)
+declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+
 declare function rel:get-related($uris as xs:string?) as map(xs:string, function(*)){
     map:new(
         for $uri at $i in tokenize($uris,' ')
@@ -310,7 +313,7 @@ let $data :=
     where $sort != ''
     order by $sort
     return concat($id, 'headword:=', $headword)
-return  map { "cited" := $data}    
+return  map { "cited" : $data}    
 };
 
 (:~ 

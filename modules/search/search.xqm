@@ -63,8 +63,8 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
             let $hits := data:search($collection, $search-string, $sort-element)
             return
                 map {
-                        "hits" := $hits,
-                        "query" := $queryExpr
+                        "hits" : $hits,
+                        "query" : $queryExpr
                     } 
 };
 

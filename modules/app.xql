@@ -54,8 +54,8 @@ declare function app:get-work($node as node(), $model as map(*)) {
                 ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml'))
                 (: Debugging ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml')):)
                (:response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html'))):)
-            else map {"hits" := $rec }
-    else map {"hits" := 'Output plain HTML page'}
+            else map {"hits" : $rec }
+    else map {"hits" : 'Output plain HTML page'}
 };
 
 (:~
@@ -360,7 +360,7 @@ declare function app:get-wiki($node as node(), $model as map(*), $wiki-uri as xs
             concat($wiki-uri, request:get-parameter('wiki-page', ''))
         else $wiki-uri
     let $wiki-data := app:wiki-rest-request($uri)
-    return map {"hits" := $wiki-data}
+    return map {"hits" : $wiki-data}
 };
 
 (:~
