@@ -28,8 +28,15 @@
     <xsl:template match="t:titleStmt" mode="cite-foot">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-        <xsl:if test="t:editor[@role='creator']">
-            <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>
+        <xsl:if test="t:editor[@role='creator'] or t:editor[@role='content-author']">
+            <xsl:choose>
+                <xsl:when test="t:editor[@role='creator']">
+                    <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>        
+                </xsl:when>
+                <xsl:when test="t:editor[@role='content-author']">
+                    <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='content-author'],'footnote',1)"/>
+                </xsl:when>
+            </xsl:choose>
             <xsl:text>, </xsl:text>            
         </xsl:if>
         <!-- title of the entry -->
@@ -185,7 +192,7 @@
                     <li>
                         <xsl:sequence select="local:emit-responsible-persons-all(t:principal,'footnote')"/>
                         <xsl:text>, general editor</xsl:text>
-                        <xsl:if test="count(t:principal) &gt; 1">s</xsl:if>
+                        <xsl:if test="count(t:principal) > 1">s</xsl:if>
                         <xsl:text>, </xsl:text>
                         <xsl:apply-templates select="../descendant::t:title[@level='m'][1]" mode="footnote"/>
                     </li>-->
