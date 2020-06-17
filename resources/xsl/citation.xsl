@@ -30,11 +30,11 @@
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
         <xsl:if test="t:editor[@role='creator'] or t:editor[@role='content-author']">
             <xsl:choose>
-                <xsl:when test="t:editor[@role='creator']">
-                    <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>        
-                </xsl:when>
                 <xsl:when test="t:editor[@role='content-author']">
                     <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='content-author'],'footnote',1)"/>
+                </xsl:when>
+                <xsl:when test="t:editor[@role='creator']">
+                    <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>        
                 </xsl:when>
             </xsl:choose>
             <xsl:text>, </xsl:text>            
@@ -103,8 +103,11 @@
     <xsl:template match="t:titleStmt" mode="cite-biblist">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-        <xsl:if test="t:editor[@role='creator']">
-            <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/>
+        <xsl:if test="t:editor[@role='creator'] or t:editor[@role='content-author']">
+            <xsl:choose>
+                <xsl:when test="t:editor[@role='content-author']"><xsl:sequence select="local:emit-responsible-persons(t:editor[@role='content-author'],'biblist',1)"/></xsl:when>
+                <xsl:when test="t:editor[@role='creator']"><xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/></xsl:when>
+            </xsl:choose>
             <xsl:text>, </xsl:text>            
         </xsl:if>
         
