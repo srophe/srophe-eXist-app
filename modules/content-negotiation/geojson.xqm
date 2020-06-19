@@ -11,6 +11,7 @@ module namespace geojson="http://syriaca.org/srophe/geojson";
 import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
+declare namespace srophe="https://srophe.app";
 declare namespace json = "http://www.json.org";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
@@ -54,7 +55,7 @@ declare function geojson:json-wrapper($nodes as node()*) as element()*{
 declare function geojson:geojson-object($node as node()*, $count as xs:integer?) as element()*{
 let $id := if($node/descendant::tei:idno[@type='URI']) then $node/descendant::tei:idno[@type='URI'][1]
            else $node/descendant::tei:idno[1]
-let $title := if($node/descendant::*[@syriaca-tags="#syriaca-headword"]) then $node/descendant::*[@syriaca-tags="#syriaca-headword"][1] 
+let $title := if($node/descendant::*[@srophe:tags="#syriaca-headword"]) then $node/descendant::*[@srophe:tags="#syriaca-headword"][1] 
               else $node/descendant::tei:title[1]
 let $desc := if($node/descendant::tei:desc[1]/tei:quote) then 
                 concat('"',$node/descendant::tei:desc[1]/tei:quote,'"')

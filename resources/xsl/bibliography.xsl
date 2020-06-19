@@ -1208,6 +1208,9 @@
                 <xsl:when test="starts-with($ref,'https://archive.org')">
                     <xsl:text>Link to Archive.org Bibliographic record</xsl:text>
                 </xsl:when>
+                <xsl:when test="starts-with($ref,'https://gedsh.bethmardutho.org')">
+                    <xsl:text>Link to e-GEDSH entry</xsl:text>
+                </xsl:when>
                 <xsl:otherwise>
                     <xsl:text>External link to bibliographic record</xsl:text>
                 </xsl:otherwise>
@@ -1239,6 +1242,9 @@
             </xsl:when>
             <xsl:when test="contains($ref,'archive.org')">
                 <img src="{$nav-base}/resources/images/ialogo.jpg" alt="Link to Archive.org Bibliographic record" height="18px"/>
+            </xsl:when>
+            <xsl:when test="contains($ref,'gedsh.bethmardutho.org')">
+                <img src="{$nav-base}/resources/images/e-gedsh.png" alt="Link to e-GEDSH entry" height="18px"/>
             </xsl:when>
             <xsl:otherwise>
                 <span class="glyphicon glyphicon-book"/>

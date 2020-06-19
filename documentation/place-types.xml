@@ -24,6 +24,10 @@
                     <resp>XML encoding expanded by</resp>
                     <name ref="http://syriaca.org/documentation/editors.xml#tcarlson">Thomas A. Carlson</name>
                 </respStmt>
+                <respStmt>
+                    <resp>XML encoding expanded by</resp>
+                    <name ref="http://syriaca.org/documentation/editors.xml#wpotter">William L. Potter</name>
+                </respStmt>
             </titleStmt>
             <editionStmt>
                 <edition n="1.0"/>
@@ -52,6 +56,9 @@
                     <category xml:id="building">
                         <catDesc>A construction for which there is no narrower category, such as a <term ref="#church">church</term> or <term ref="#mosque">mosque</term>.  Examples of this type include palaces and named city gates.</catDesc>
                     </category>
+                    <category xml:id="cemetery">
+                        <catDesc>A space designated for the interement or final disposition of deceased persons, such as a graveyard or other plot of land set aside for burial.</catDesc>
+                    </category>
                     <category xml:id="church">
                         <catDesc>A building for Christian religious services. It can be a parish church, a monastic church, a cathedral, or a small chapel used only occasionally, but not a chapel that is part of a larger church.</catDesc>
                     </category>
@@ -59,7 +66,7 @@
                         <catDesc>A named place concept which merges multiple distinct place types, such as a city and a diocese.  More specific types are preferred.</catDesc>
                     </category>
                     <category xml:id="designated-space">
-                        <catDesc>An area with artificial boundaries which is not necessarily built up, such as a cemetery, town square, or polo ground.</catDesc>
+                        <catDesc>An area with artificial boundaries which is not necessarily built up, such as a town square or polo ground, and for which there is not a narrower category, such as a <term ref="#cemetery">cemetery</term>.</catDesc>
                     </category>
                     <category xml:id="diocese">
                         <catDesc>An ecclesiastical province governed by a bishop, archbishop, or metropolitan.</catDesc>
@@ -118,10 +125,14 @@
                     <category xml:id="unknown">
                         <catDesc>A place whose name is known, but what sort of place it represents is unknown.</catDesc>
                     </category>
+                    <category xml:id="valley">
+                        <catDesc>A depression which is longer than it is wide. Typically a low area between hills or mountains with a river or wadi running through it.</catDesc>
+                    </category>
                 </taxonomy>
             </classDecl>
         </encodingDesc>
         <revisionDesc>
+            <change when="2020-01-03" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: cemetery, valley</change>
             <change when="2017-03-11" who="http://syriaca.org/documentation/editors.xml#tcarlson">ADDED: composite, designated-space, natural-feature</change>
             <change when="2016-05-03" who="http://syriaca.org/documentation/editors.xml#ngibson">CREATED: place-types.xml</change>
         </revisionDesc>

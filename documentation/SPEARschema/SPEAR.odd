@@ -2306,7 +2306,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <constraintSpec ident="ref-mutual-act-pass-in-relation" scheme="schematron">
+          <constraintSpec ident="name-mutual-act-pass-in-relation" scheme="schematron">
             <constraint>
               <sch:rule context="tei:div/tei:listRelation/tei:relation">
                 <sch:let name="ti"
@@ -2315,13 +2315,13 @@
                   value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana = 'mutual']"/>
                 <sch:let name="reciprocal"
                   value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana = 'reciprocal']"/>
-                <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@active"
+                <sch:assert test=".[@name = $mutual]/@mutual or .[@name = $reciprocal]/@active"
                   >Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
                   relationship and both @active and @passive attributes with reciprocal
                   relationships. Mutual relationships include: <sch:value-of
                     select="string-join($mutual, ';  ')"/>. Reciprocal relationships include:
                     <sch:value-of select="string-join($reciprocal, ';  ')"/>.</sch:assert>
-                <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@passive"
+                <sch:assert test=".[@name = $mutual]/@mutual or .[@name = $reciprocal]/@passive"
                   >Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
                   relationship and both @active and @passive attributes with reciprocal
                   relationships. Mutual relationships include: <sch:value-of
@@ -2369,13 +2369,13 @@
             </constraint>
           </constraintSpec>-->
           <attList>
-            <attDef ident="ref" mode="replace" usage="req">
+            <attDef ident="name" mode="replace" usage="req">
               <datatype minOccurs="1" maxOccurs="1">
                 <dataRef key="teidata.enumerated"/>
               </datatype>
-              <constraintSpec ident="refs-in-context" scheme="schematron">
+              <constraintSpec ident="name-in-context" scheme="schematron">
                 <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@ref">
+                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@name">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:assert
@@ -2385,7 +2385,7 @@
                         select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri, ';  ')"
                       />.</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@ref">
+                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@name">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:assert
@@ -2395,9 +2395,9 @@
                         select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri, ';  ')"
                       />.</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation/@ref">
+                  <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation/@name">
                     <sch:assert test=". = 'dcterms:isPartOf'">
-                      This &lt;relation&gt; element must have a @ref attribute with a value of "dcterms:isPartOf".
+                      This &lt;relation&gt; element must have a @name attribute with a value of "dcterms:isPartOf".
                     </sch:assert>
                   </sch:rule>
                 </constraint>

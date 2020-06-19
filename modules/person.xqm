@@ -15,6 +15,7 @@ import module namespace rel="http://syriaca.org/srophe/related" at "lib/get-rela
 import module namespace timeline="http://syriaca.org/srophe/timeline" at "lib/timeline.xqm";
 import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "content-negotiation/tei2html.xqm";
 
+declare namespace srophe="https://srophe.app";
 declare namespace http="http://expath.org/ns/http-client";
 declare namespace xslt="http://exist-db.org/xquery/transform";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -37,7 +38,7 @@ declare %templates:wrap function person:h1($node as node(), $model as map(*)){
     let $title-nodes := 
             <srophe-title xmlns="http://www.tei-c.org/ns/1.0">
                 {(
-                    $model("hits")//tei:persName[@syriaca-tags],
+                    $model("hits")//tei:persName[@srophe:tags],
                     $model("hits")//tei:seriesStmt,
                     $model("hits")//tei:person/descendant::tei:birth,
                     $model("hits")//tei:person/descendant::tei:death,
@@ -154,9 +155,9 @@ return
                                       let $title := 
                                         if($rec/ancestor::tei:place) then 
                                             <place xml:id="{$rec/ancestor::tei:place/@xml:id}" type="{$rec/ancestor::tei:place/@type}" xmlns="http://www.tei-c.org/ns/1.0">
-                                                {($rec/ancestor::tei:place/tei:placeName[@syriaca-tags="#syriaca-headword"][1])}
+                                                {($rec/ancestor::tei:place/tei:placeName[@srophe:tags="#syriaca-headword"][1])}
                                             </place>
-                                        else $rec/ancestor::tei:TEI/descendant::*[@syriaca-tags="#syriaca-headword"][1]
+                                        else $rec/ancestor::tei:TEI/descendant::*[@srophe:tags="#syriaca-headword"][1]
                                       return 
                                         <item uri="{$rel-rec}" xmlns="http://www.tei-c.org/ns/1.0">
                                             {$title}
@@ -185,7 +186,7 @@ for $item-uri in tokenize($uris,' ')
 let $rec := collection($config:data-root)//tei:idno[. = $item-uri]
 let $geo := if($rec/ancestor::tei:TEI//tei:geo) then $rec/ancestor::tei:TEI//tei:geo
                 else ()
-let $title := string(root($rec)/descendant::*[@syriaca-tags="#syriaca-headword"][1])
+let $title := string(root($rec)/descendant::*[@srophe:tags="#syriaca-headword"][1])
 let $type := if(root($rec)/descendant::tei:place/@type) then concat(' - ', string($rec/ancestor::tei:TEI/descendant::tei:place/@type)) else ()
 let $desc := string($related/tei:desc)
 return 
@@ -362,7 +363,7 @@ declare %templates:wrap function person:display-persons-map($node as node(), $mo
     let $locations := 
         for $id in $places
         for $geo in collection($config:data-root || '/places/tei')//tei:idno[. = $id][ancestor::tei:TEI[descendant::tei:geo]]
-        let $title := $geo/ancestor::tei:TEI/descendant::*[@syriaca-tags="#syriaca-headword"][1]
+        let $title := $geo/ancestor::tei:TEI/descendant::*[@srophe:tags="#syriaca-headword"][1]
         let $type := string($geo/ancestor::tei:TEI/descendant::tei:place/@type)
         let $geo := $geo/ancestor::tei:TEI/descendant::tei:geo
         return 

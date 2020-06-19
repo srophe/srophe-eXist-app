@@ -10,6 +10,7 @@ import module namespace global="http://syriaca.org/srophe/global" at "global.xqm
 import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
 import module namespace functx="http://www.functx.com";
 
+declare namespace srophe="https://srophe.app";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:~
