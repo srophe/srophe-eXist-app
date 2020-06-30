@@ -24,20 +24,6 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
         typeswitch($node)
             case text() return $node
             case comment() return ()
-            case element(tei:abbr) return element abbr {
-                    (tei2html:attributes($node),
-                    tei2html:rend($node))
-                }
-            case element(tei:cell) return element td { 
-                tei2html:rend($node)
-                }
-            case element(tei:choice) return  
-                <span class="tei-choice">{(
-                    tei2html:tei2html($node/tei:reg),
-                    if($node/tei:orig) then 
-                        tei2html:tei2html($node/tei:orig)
-                    else ()
-                )}</span>
             case element(tei:biblScope) return element span {
                 let $unit := if($node/@unit = 'vol') then concat($node/@unit,'.') 
                              else if($node[@unit != '']) then string($node/@unit) 
@@ -56,19 +42,6 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                 if($node/@xml:lang = ('syr','ar','he')) then attribute dir { 'rtl' } else (),
                 tei2html:tei2html($node/node())
                 )}
-            case element(tei:graphic) return element img {(
-                    for $a in $node/@*
-                    return $a,
-                    attribute src { $node/@url },
-                    tei2html:tei2html($node/node())
-                )}             
-            case element(tei:head) return 
-                if($node/parent::tei:div1) then
-                    <h2>{(tei2html:attributes($node),tei2html:rend($node))}</h2>
-                else if($node/parent::tei:div2) then
-                    <h3>{(tei2html:attributes($node),tei2html:rend($node))}</h3>
-                else 
-                    <span class="tei-{name($node/parent::*[1])} tei-head">{(tei2html:attributes($node),tei2html:rend($node))}</span>
             case element(tei:imprint) return element span {
                     if($node/tei:pubPlace/text()) then $node/tei:pubPlace[1]/text() else (),
                     if($node/tei:pubPlace/text() and $node/tei:publisher/text()) then ': ' else (),
@@ -125,59 +98,7 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                         (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
                         tei2html:tei2html($node/node()))                 
                     }</span>
-            case element() return 
-                <span class="tei-{name($node)}">{
-                    (tei2html:attributes($node),
-                    tei2html:rend($node))
-                }</span> 
-            default return tei2html:tei2html($node/node()) 
-};
-
-declare function tei2html:tei2html-spear($nodes as node()*) as item()* {
-    for $node in $nodes
-    return 
-        typeswitch($node)
-            case text() return $node
-            case comment() return ()
-            case element(tei:biblScope) return ()
             default return tei2html:tei2html($node/node())
-};
-
-declare function tei2html:attributes($node as node()*) as item()* {
-   (if($node/@xml:lang) then
-        (attribute xml:lang { $node/@xml:lang }, attribute lang { $node/@xml:lang },
-         if($node/@xml:lang = ('syr','ar','syc','syr-Syrj')) then attribute dir { 'rtl' }
-         else attribute dir { 'ltr' }     
-        )
-    else (),
-    if($node/@xml:id) then
-        attribute id { $node/@xml:id }
-    else if($node/@id) then
-        attribute id { $node/@id }
-    else (),
-    if($node/@n) then
-        <span class="tei-attr-n">{string($node/@n)}</span>
-    else ()
-    )
-};
-
-declare function tei2html:rend($node as node()*) as item()* {
-    if($node/@rend='bold') then
-        <b>{tei2html:ref($node/node())}</b>
-    else if($node/@rend='italic') then
-        <i>{tei2html:ref($node/node())}</i>
-    else if($node/@rend=('superscript','sup')) then
-        <sup>{tei2html:ref($node/node())}</sup>
-    else if($node/@rend=('subscript','sub')) then
-        <sub>{tei2html:ref($node/node())}</sub>
-    else if($node/@rend) then 
-        <span class="tei-rend-{string($node/@rend)}">{tei2html:ref($node/node())}</span>
-    else tei2html:ref($node/node())
-};
-
-declare function tei2html:ref($node as node()*) as item()* {
-    if($node/@ref) then <a href="{@ref}">{tei2html:tei2html($node)}</a>
-    else tei2html:tei2html($node)
 };
 
 (:~ 
@@ -268,12 +189,18 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
 declare function tei2html:summary-view-persons($nodes as node()*, $id as xs:string?) as item()* {
     let $title := if($nodes/descendant-or-self::*[@srophe:tags='#syriaca-headword'][@xml:lang='en']) then 
                     $nodes/descendant-or-self::*[@srophe:tags='#syriaca-headword'][@xml:lang='en'][1]
+                  else if($nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][@xml:lang='en']) then 
+                    $nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][@xml:lang='en'][1]                    
                   else $nodes/descendant-or-self::tei:title[1]/text()
     let $syr-title := 
                 if($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]) then
                      <span xml:lang="syr" lang="syr" dir="rtl">{string-join($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]//text(),' ')}</span>
+                else if($nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')]) then 
+                    $nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')]                     
                 else if($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')]) then 
                     '[Syriac Not Available]'
+                else if($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword')]) then 
+                    '[Syriac Not Available]'                    
                 else () 
     let $ana := for $a in distinct-values($nodes/descendant::tei:seriesStmt/tei:biblScope/tei:title)
                 return tei2html:translate-series($a)
