@@ -432,7 +432,7 @@ declare function search:group-results($node as node(), $model as map(*), $collec
                             <a class="togglelink text-info" 
                             data-toggle="collapse" data-target="#show{replace($label,' ','')}" 
                             href="#show{replace($label,' ','')}" data-text-swap=" + "> - </a>&#160; 
-                            <a href="{replace($facet-grp-p,$config:base-uri,$config:nav-base)}">{$label}</a> (contains {count($place)} buildings)
+                            <a href="{replace($facet-grp-p,$config:base-uri,$config:nav-base)}">{$label}</a> (contains {count($place)} artifact(s))
                             <div class="indent collapse in" style="background-color:#F7F7F9;" id="show{replace($label,' ','')}">{
                                 for $p in $place
                                 let $id := replace($p/descendant::tei:idno[1],'/tei','')
