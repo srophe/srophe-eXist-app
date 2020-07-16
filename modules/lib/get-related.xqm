@@ -320,7 +320,7 @@ return
                 <div id="listRelationships">{
                      for $r at $n in subsequence($related,1,25)
                      let $id := replace($r/descendant::tei:idno[1],'/tei','')
-                     let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains Place' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
+                     let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains artifact(s)' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
                      return 
                      <div>
                          <span class="num">{$n}. </span>

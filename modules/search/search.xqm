@@ -133,7 +133,6 @@ declare
     %templates:default("start", 1)
 function search:show-hits($node as node()*, $model as map(*), $collection as xs:string?, $kwic as xs:string?) {
 <div class="indent" id="search-results" xmlns="http://www.w3.org/1999/xhtml">
-    <div>{search:query-string($collection)}</div>
     {
         if($collection = 'places') then 
             let $hits := $model("group-by-sites") 
