@@ -199,12 +199,12 @@
                             <xsl:apply-templates select="../descendant::t:title[@level='m'][1]" mode="footnote"/>
                         </li>
                     </xsl:if>
-                    <xsl:if test="t:editor[@role='code-author']">
+                    <xsl:if test="t:editor[@role='code-author' or @role='associate']">
                         <li>
                             <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-                            <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role='code-author'],'footnote')"/>
+                            <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role='code-author' or @role='associate'],'footnote')"/>
                             <xsl:text>, editor</xsl:text>
-                            <xsl:if test="count(t:editor[@role='code-author']) &gt; 1">s</xsl:if>
+                            <xsl:if test="count(t:editor[@role='code-author' or @role='associate']) &gt; 1">s</xsl:if>
                             <xsl:text>, </xsl:text>
                             <xsl:choose>
                                 <xsl:when test="contains(//t:publicationStmt/t:idno[@type='URI'][1],'/keyword/')">Architectural Terminology</xsl:when>
