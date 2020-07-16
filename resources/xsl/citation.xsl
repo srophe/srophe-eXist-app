@@ -28,15 +28,8 @@
     <xsl:template match="t:titleStmt" mode="cite-foot">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-        <xsl:if test="t:editor[@role='creator'] or t:editor[@role='content-author']">
-            <xsl:choose>
-                <xsl:when test="t:editor[@role='content-author']">
-                    <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='content-author'],'footnote',1)"/>
-                </xsl:when>
-                <xsl:when test="t:editor[@role='creator']">
-                    <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>        
-                </xsl:when>
-            </xsl:choose>
+        <xsl:if test="t:editor[@role='creator']">
+            <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'footnote',1)"/>
             <xsl:text>, </xsl:text>            
         </xsl:if>
         <!-- title of the entry -->
@@ -103,11 +96,8 @@
     <xsl:template match="t:titleStmt" mode="cite-biblist">
         <!-- creator(s) of the entry -->
         <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
-        <xsl:if test="t:editor[@role='creator'] or t:editor[@role='content-author']">
-            <xsl:choose>
-                <xsl:when test="t:editor[@role='content-author']"><xsl:sequence select="local:emit-responsible-persons(t:editor[@role='content-author'],'biblist',1)"/></xsl:when>
-                <xsl:when test="t:editor[@role='creator']"><xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/></xsl:when>
-            </xsl:choose>
+        <xsl:if test="t:editor[@role='creator']">
+            <xsl:sequence select="local:emit-responsible-persons(t:editor[@role='creator'],'biblist',1)"/>
             <xsl:text>, </xsl:text>            
         </xsl:if>
         
@@ -195,7 +185,7 @@
                     <li>
                         <xsl:sequence select="local:emit-responsible-persons-all(t:principal,'footnote')"/>
                         <xsl:text>, general editor</xsl:text>
-                        <xsl:if test="count(t:principal) > 1">s</xsl:if>
+                        <xsl:if test="count(t:principal) &gt; 1">s</xsl:if>
                         <xsl:text>, </xsl:text>
                         <xsl:apply-templates select="../descendant::t:title[@level='m'][1]" mode="footnote"/>
                     </li>-->
@@ -227,7 +217,7 @@
                             <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
                             <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role='content-author'],'biblist')"/>
                             <xsl:text>, entry contributor</xsl:text>
-                            <xsl:if test="count(t:editor[@role='creator'])&gt; 1">s</xsl:if>
+                            <xsl:if test="count(t:editor[@role='content-author'])&gt; 1">s</xsl:if>
                             <xsl:text>, </xsl:text>
                             <xsl:text>“</xsl:text>
                             <xsl:apply-templates select="t:title[@level='a'][1]" mode="footnote"/>
@@ -239,7 +229,7 @@
                             <!-- Process editors/authors using local function in helper-functions.xsl local:emit-responsible-persons -->
                             <xsl:sequence select="local:emit-responsible-persons-all(t:editor[@role= ('creator','contributor')],'biblist')"/>
                             <xsl:text>, entry contributor</xsl:text>
-                            <xsl:if test="count(t:editor[@role='creator'])&gt; 1">s</xsl:if>
+                            <xsl:if test="count(t:editor[@role= ('creator','contributor')])&gt; 1">s</xsl:if>
                             <xsl:text>, </xsl:text>
                             <xsl:text>“</xsl:text>
                             <xsl:apply-templates select="t:title[@level='a'][1]" mode="footnote"/>
