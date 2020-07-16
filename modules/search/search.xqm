@@ -43,19 +43,27 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
     let $all := 
                 if($collection = 'bibl') then $hits  
                 else if($collection = 'keywords') then
-                  for $h in $hits
-                  let $score := 
-                    if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
-                        global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
-                    else if(request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title') then
-                        if($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
-                            global:build-sort-string($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1],'')
-                        else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
-                    else if($sort-element != '') then 
-                        global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
-                    else ft:score($h) 
-                    order by $score ascending
-                    return $h  
+                    if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance')
+                        or (request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title')
+                    ) then
+                        for $h in $hits
+                        let $score := 
+                          if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
+                              global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
+                          else if(request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title') then
+                              if($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
+                                  global:build-sort-string($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1],'')
+                              else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
+                          else if($sort-element != '') then 
+                              global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
+                          else ft:score($h) 
+                          order by $score ascending
+                          return $h 
+                    else 
+                        for $h in $hits
+                        let $score := ft:score($h) 
+                        order by $score descending
+                        return $h  
                 else if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then $hits
                 else 
                     let $ids := 
@@ -66,19 +74,29 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                             (collection($config:data-root)//tei:TEI[descendant::tei:relation[@passive = $ids]] |
                             collection($config:data-root)//tei:TEI[descendant::tei:relation[@active = $ids]] | 
                             collection($config:data-root)//tei:TEI[descendant::tei:relation[@mutual = $ids]])
-                    for $h in ($hits | $related)
-                    let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
-                    group by $de-dup := $id
-                    let $score :=
-                            if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
-                                global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
-                            else if(request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title') then
-                                global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
-                            else if($sort-element != '') then 
-                                global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
-                            else ft:score($h) 
-                    order by $score ascending
-                    return $h[1]                   
+                    return 
+                        if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance')
+                           or (request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title')) then 
+                            for $h in ($hits | $related)
+                            let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
+                            group by $de-dup := $id
+                            let $score :=
+                                    if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
+                                        global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
+                                    else if(request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title') then
+                                        global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
+                                    else if($sort-element != '') then 
+                                        global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
+                                    else ft:score($h[1]) 
+                            order by $score ascending
+                            return $h[1]  
+                        else 
+                            for $h in ($hits | $related)
+                            let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
+                            group by $de-dup := $id
+                            let $score := ft:score($h[1]) 
+                            order by $score descending
+                            return $h[1]           
     return  
         map {
                 "hits" : $all,
@@ -183,7 +201,7 @@ declare %templates:wrap function search:architectural-features($node as node()*,
                                     else ()}
                             </div>    
                             <div class="checkbox col-sm-8 col-md-9" style="text-align:left;margin:0;padding:0">
-                                <label><input type="checkbox" value="{$id}" name="facet-architecturalFeature"/>{$title}</label>
+                                <label><input type="checkbox" value="true" name="{concat('feature:',$id)}"/>{$title}</label>
                             </div>
                         </div>
                     }
@@ -200,17 +218,20 @@ declare function search:terms(){
 
 (: TCADRT architectural feature search functions :)
 declare function search:features(){
-    string-join(for $feature in request:get-parameter-names()[starts-with(., 'feature-num:' )]
-    let $name := substring-after($feature,'feature-num:')
-    let $num-value := 
-        if(not(empty($feature)) and ($feature castable as xs:integer)) then 
-            xs:integer($feature) 
-        else 0
-    let $number :=
-        if($num-value != 0) then 
-               concat("[descendant::tei:num[. lt;= '",$num-value,"']]")
-        else ()
-    return concat("[descendant::tei:relation[@ana='architectural-feature'][@passive = '",$name,"']",$number,"]"),'')          
+    string-join(
+    for $feature in request:get-parameter-names()[starts-with(., 'feature:' )]
+    let $name := substring-after($feature,'feature:')
+    let $number := 
+        for $feature-number in request:get-parameter-names()[starts-with(., 'feature-num:' )][substring-after(.,'feature-num:') = $name]
+        let $num-value := request:get-parameter($feature-number, '')
+        return
+            if($num-value != '' and $num-value != '0') then 
+               concat("[descendant::tei:num[. = '",$num-value,"']]")
+           else ()
+    return 
+        if(request:get-parameter($feature, '') = 'true') then 
+            concat("[descendant::tei:relation[@ana='architectural-feature'][@passive = '",$name,"']",$number,"]")
+        else ())      
 };
 
 (:~   
@@ -221,8 +242,9 @@ let $search-config := concat($config:app-root, '/', string(config:collection-var
 return
     if($collection != '') then 
         if($collection = 'places') then  
-            concat(data:build-collection-path($collection),
+            concat(data:build-collection-path(''),
             slider:date-filter(()),
+            data:keyword-search(),
             data:element-search('placeName',request:get-parameter('placeName', '')),
             data:element-search('title',request:get-parameter('title', '')),
             data:element-search('bibl',request:get-parameter('bibl', '')),
@@ -234,6 +256,7 @@ return
         else if($collection = 'keywords') then 
             concat(data:build-collection-path($collection),
             slider:date-filter(()),
+            data:keyword-search(),
             data:element-search('title',request:get-parameter('title', '')),
             data:element-search('bibl',request:get-parameter('bibl', '')),
             data:uri(),
@@ -244,6 +267,7 @@ return
         else 
             concat(data:build-collection-path($collection),
             slider:date-filter(()),
+            data:keyword-search(),
             data:element-search('placeName',request:get-parameter('placeName', '')),
             data:element-search('title',request:get-parameter('title', '')),
             data:element-search('bibl',request:get-parameter('bibl', '')),
@@ -253,6 +277,7 @@ return
           )
     else concat(data:build-collection-path($collection),
         slider:date-filter(()),
+        data:keyword-search(),
         data:element-search('placeName',request:get-parameter('placeName', '')),
         data:element-search('title',request:get-parameter('title', '')),
         data:element-search('bibl',request:get-parameter('bibl', '')),

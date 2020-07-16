@@ -16,8 +16,6 @@ declare variable $dir external;
 declare variable $target external;
 
 (
-(: Build indexes and facets on deploy. :)
-sf:update-index(),
 (: Set UID for git-sync. :)
 sm:chmod(xs:anyURI($target || '/modules/git-sync.xql'), "rwsr-xr-x"),
 (: Set UID for index script. :)

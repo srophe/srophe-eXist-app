@@ -10,5 +10,6 @@
     <target>tcadrt</target>
     <prepare>pre-install.xql</prepare>
     <finish>post-install.xql</finish>        
-    <deployed>2020-05-06T22:06:51.321-04:00</deployed>
+    
+<deployed>2020-06-05T11:15:21.195-04:00</deployed>
 </meta>

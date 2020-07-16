@@ -146,7 +146,15 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
  : Build a search XPath based on search parameters. 
  : Add sort options. 
 :)
-declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {                      
+declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {     
+    let $eval-string := if($queryString != '') then $queryString 
+                        else concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
+    let $hits :=
+            if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
+                collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
+            else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]           
+    return $hits/ancestor-or-self::tei:TEI          
+    (:
     let $eval-string := if($queryString != '') then $queryString 
                         else concat(data:build-collection-path($collection), data:create-query($collection))
     let $fields :=  
@@ -170,17 +178,12 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
                 collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
             else if($query != '') then  
                 if($fullText != '') then
-                   util:eval($eval-string)//tei:body[ft:query(., ($query), sf:facet-query())] | util:eval($eval-string)//tei:fileDesc[ft:query(., ($query), sf:facet-query())]
+                   util:eval($eval-string)//tei:body[ft:query(., ($query), sf:facet-query())] 
+                   | util:eval($eval-string)//tei:fileDesc[ft:query(., ($query), sf:facet-query())]
                 else util:eval($eval-string)//tei:body[ft:query(., ($query), sf:facet-query())]
-            else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]
-        (:
-            if($query != '') then  
-                if($fullText != '') then
-                    collection($config:data-root || '/' || $collection)//tei:body[ft:query(., ($query), sf:facet-query())] | collection($config:data-root || '/' || $collection)//tei:fileDesc[ft:query(., ($query), sf:facet-query())]
-                else collection($config:data-root || '/' || $collection)//tei:body[ft:query(., ($query), sf:facet-query())]
-            else collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
-        :)            
+            else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]           
     return $hits/ancestor::tei:TEI 
+       :)
        
 };
 

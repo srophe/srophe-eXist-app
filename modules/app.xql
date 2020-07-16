@@ -428,9 +428,25 @@ declare function app:wiki-page-title($node, $model){
 :)
 declare function app:wiki-page-content($node, $model){
     let $wiki-data := $model("hits")
-    return $wiki-data//html:div[@id='wiki-body'] 
+    return 
+        app:wiki-data($wiki-data//html:div[@id='wiki-body']) 
 };
 
+(:~
+ : Typeswitch to processes wiki anchors links for use with Syriaca.org documentation pages. 
+ : @param $wiki pulls content from specified wiki or wiki page. 
+:)
+declare function app:wiki-data($nodes as node()*) {
+    for $node in $nodes
+    return 
+        typeswitch($node)
+            case element() return
+                element { node-name($node) } {
+                    if($node/@id) then attribute id { replace($node/@id,'user-content-','') } else (),
+                    $node/@*[name()!='id'], app:wiki-data($node/node())
+                }
+            default return $node               
+};
 (:~
  : Pull github wiki data into Syriaca.org documentation pages. 
  : Grabs wiki menus to add to Syraica.org pages
