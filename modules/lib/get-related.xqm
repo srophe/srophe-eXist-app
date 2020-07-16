@@ -373,7 +373,7 @@ declare function rel:cited($idno, $start, $perpage){
                      if($count gt 5) then
                         <div>
                             <a href="{$config:nav-base}/bibl/search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" style="width:100%; margin-bottom:1em;" class="btn btn-info">See all {$count} results</a>
-                        <!--
+                        <!-- 
                             <a href="#" class="btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="modal" data-target="#moreInfo" 
                             data-ref="../search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" 
                             data-label="See all {$count} results" id="moreInfoBtn">
