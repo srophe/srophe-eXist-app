@@ -358,8 +358,8 @@
         <div class="citationinfo">
             <h3>How to Cite This Entry</h3>
             <div id="citation-note" class="well">
-                <!--<xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:titleStmt" mode="cite-foot"/>-->
-                <div id="showcit">
+                <xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:titleStmt" mode="cite-foot"/>
+                <div class="collapse" id="showcit">
                     <div id="citation-bibliography">
                         <h4>Bibliography:</h4>
                         <xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:titleStmt" mode="cite-biblist"/>
@@ -381,7 +381,7 @@
                         <xsl:apply-templates select="descendant-or-self::t:teiHeader/t:fileDesc/t:publicationStmt/t:availability/t:licence"/>
                     </div>
                 </div>
-                <!--<a class="togglelink pull-right btn-link" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>-->
+                <a class="togglelink pull-right btn-link" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>
             </div>
         </div>
     </xsl:template>
@@ -686,7 +686,7 @@
         <xsl:choose>
             <xsl:when test="t:note[exists(@type)]">
                 <xsl:for-each-group select="t:note[not(@type='abstract')][exists(@type)]" group-by="@type">
-                    <xsl:sort select="current-grouping-key()"/>
+                    <!--<xsl:sort select="current-grouping-key()"/>-->
                     <xsl:variable name="label">
                         <xsl:choose>
                             <xsl:when test="contains(current-grouping-key(),':')">
@@ -880,7 +880,7 @@
     </xsl:template>
     <xsl:template match="t:teiHeader" mode="#all">
         <div class="citationinfo">
-            <h3>How to Cite This Entry 
+            <h3>How to Cite This Entry
                 <!--<a class="btn-sm btn-info togglelink pull-right" data-toggle="collapse" data-target="#showcit" data-text-swap="Hide citation">Show full citation information...</a>-->
             </h3>
             <div id="citation-note" class="well">
