@@ -31,6 +31,15 @@ declare function local:content-negotiation($exist:path, $exist:resource){
             <forward url="{$exist:controller}/modules/content-negotiation/content-negotiation.xql"/>
             <add-parameter name="format" value="{$format}"/>
         </dispatch>
+    else if(starts-with($exist:resource, 'data')) then 
+        let $format := request:get-parameter('format', '')
+        let $collection := request:get-parameter('collection', '')
+        return 
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">        
+            <forward url="{$exist:controller}/modules/data.xql"/>
+            <add-parameter name="format" value="{$format}"/>
+            <add-parameter name="collection" value="{$collection}"/>
+        </dispatch>
     else
         let $id := if($exist:resource = ('tei','xml','txt','pdf','json','geojson','kml','jsonld','rdf','ttl','atom')) then
                         tokenize(replace($exist:path,'/tei|/xml|/txt|/pdf|/json|/geojson|/kml|/jsonld|/rdf|/ttl|/atom',''),'/')[last()]
