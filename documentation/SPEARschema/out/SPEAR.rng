@@ -6,7 +6,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2020-07-30T15:58:20Z. .
+Schema generated from ODD source 2020-07-31T12:27:58Z. .
 TEI Edition: Version 4.0.0. Last updated on
 	13th February 2020, revision ccd19b0ba
 TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
@@ -1855,9 +1855,8 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                       context="tei:sourceDesc//tei:bibl[@type = 'urn']/tei:ptr/@target">
                <sch:let name="docURIno"
                         value="//tei:publicationStmt/tei:idno[@type]/substring-after(substring-before(., '/tei'), 'spear/')"/>
-               <sch:assert test="starts-with(., concat('urn:cts:syriacLit:nhsl', $docURIno, '.syriacCorpus'))"> The @target attribute on a &lt;ptr&gt; element inside a &lt;bibl&gt; element
-                      with @type="urn" must begin either with "urn:cts:syriacLit:nhsl<sch:value-of select="$docURIno"/>.syriacCorpus" followed by the corresponding Syriac
-                      Corpus URI number. </sch:assert>
+               <sch:assert test="starts-with(., 'urn:cts:')"> The @target attribute on a &lt;ptr&gt; element inside a &lt;bibl&gt; element
+                      with @type="urn" must begin either with "urn:cts:".</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns:srophe="https://srophe.app"

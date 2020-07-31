@@ -2209,11 +2209,9 @@
                     <sch:let name="docURIno"
                       value="//tei:publicationStmt/tei:idno[@type]/substring-after(substring-before(., '/tei'), 'spear/')"/>
                     <sch:assert
-                      test="starts-with(., concat('urn:cts:syriacLit:nhsl', $docURIno, '.syriacCorpus'))"
+                      test="starts-with(., 'urn:cts:')"
                       > The @target attribute on a &lt;ptr&gt; element inside a &lt;bibl&gt; element
-                      with @type="urn" must begin either with "urn:cts:syriacLit:nhsl<sch:value-of
-                        select="$docURIno"/>.syriacCorpus" followed by the corresponding Syriac
-                      Corpus URI number. </sch:assert>
+                      with @type="urn" must begin either with "urn:cts:".</sch:assert>
                   </sch:rule>
                   <sch:rule context="//tei:body/tei:div/tei:bibl[@type = 'urn']/tei:ptr/@target">
                     <sch:let name="urnBase"
