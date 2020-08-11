@@ -2321,7 +2321,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <constraintSpec ident="name-mutual-act-pass-in-relation" scheme="schematron">
+          <constraintSpec ident="ref-mutual-act-pass-in-relation" scheme="schematron">
             <constraint>
               <sch:rule context="tei:div/tei:listRelation/tei:relation">
                 <sch:let name="ti"
@@ -2330,13 +2330,13 @@
                   value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana = 'mutual']"/>
                 <sch:let name="reciprocal"
                   value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana = 'reciprocal']"/>
-                <sch:assert test=".[@name = $mutual]/@mutual or .[@name = $reciprocal]/@active"
+                <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@active"
                   >Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
                   relationship and both @active and @passive attributes with reciprocal
                   relationships. Mutual relationships include: <sch:value-of
                     select="string-join($mutual, ';  ')"/>. Reciprocal relationships include:
                     <sch:value-of select="string-join($reciprocal, ';  ')"/>.</sch:assert>
-                <sch:assert test=".[@name = $mutual]/@mutual or .[@name = $reciprocal]/@passive"
+                <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@passive"
                   >Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
                   relationship and both @active and @passive attributes with reciprocal
                   relationships. Mutual relationships include: <sch:value-of
@@ -2347,7 +2347,7 @@
                 <sch:report test=".[@mutual]/@passive">A &lt;relation&gt; element cannot take both
                   @passive and @mutual attributes.</sch:report>
               </sch:rule>
-              <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
+              <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation"><!-- This will need to change once we change the way we link related event factoids -->
                 <sch:assert test="@mutual">A @mutual attribute is required on &lt;relation&gt;
                   elements in event factoids.</sch:assert>
                 <sch:report test="@active">@active attributes are not allowed on &lt;relation&gt;
@@ -2367,25 +2367,11 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <!--<constraintSpec ident="active-or-passsive-relation-sourceDesc" scheme="schematron">
-            <constraint>
-              <sch:rule context="//tei:sourceDesc/tei:listRelation/tei:relation">
-                <sch:let name="docURIno"
-                  value="//tei:publicationStmt/tei:idno[@type='URI']/substring-after(substring-before(., '/tei'), 'spear/')"/>
-                <sch:assert test="matches(@active, concat('http://syriaca.org/work/', $docURIno))">
-                  The @active attribute must be "http://syriaca.org/work/<sch:value-of select="$docURIno"/>".
-                </sch:assert>
-              </sch:rule>
-            </constraint>
-          </constraintSpec>-->
           <attList>
-            <attDef ident="name" mode="replace" usage="req">
-              <datatype minOccurs="1" maxOccurs="1">
-                <dataRef key="teidata.enumerated"/>
-              </datatype>
-              <constraintSpec ident="name-in-context" scheme="schematron">
+            <attDef ident="ref" mode="change" usage="opt">
+              <constraintSpec ident="ref-in-context" scheme="schematron">
                 <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@name">
+                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@ref">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:assert
@@ -2395,7 +2381,7 @@
                         select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri, ';  ')"
                       />.</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@name">
+                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@ref">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:assert
@@ -2405,10 +2391,19 @@
                         select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri, ';  ')"
                       />.</sch:assert>
                   </sch:rule>
+                </constraint>
+              </constraintSpec>
+            </attDef>
+            <attDef ident="name" mode="change" usage="opt">
+              <constraintSpec ident="name-in-relation" scheme="schematron">
+                <constraint>
                   <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation/@name">
                     <sch:assert test=". = 'dcterms:isPartOf'">
                       This &lt;relation&gt; element must have a @name attribute with a value of "dcterms:isPartOf".
                     </sch:assert>
+                  </sch:rule>
+                  <sch:rule context="tei:text//tei:relation">
+                    <sch:report test="/@name">A @name attribute cannot appear here.</sch:report>
                   </sch:rule>
                 </constraint>
               </constraintSpec>
@@ -2420,10 +2415,28 @@
               <constraintSpec ident="type-on-relation" scheme="schematron">
                 <constraint>
                   <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
-                    <sch:report test="@type">A &lt;relation&gt; element inside an event factoid
-                      cannot take a @type attribute.</sch:report>
+                    <sch:assert test="@type = 'event'">A &lt;relation&gt; element inside an event factoid
+                      must take a @type attribute with the value "event".</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@type">
+                  <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation">
+                    <sch:assert test="@type = 'part'">A @type attribute the value
+                      "part" is required.</sch:assert>
+                  </sch:rule>
+                  <sch:rule context="tei:div/tei:listRelation/tei:relation">
+                    <sch:report test="@type">The @type attribute cannot appear in a relation factoid.
+                      It may only be used in a &lt;relation&gt; element describing a relationship
+                      between two events. </sch:report>
+                  </sch:rule>
+                </constraint>
+              </constraintSpec>
+            </attDef>
+            <attDef ident="ana" mode="change" usage="rec">
+              <datatype minOccurs="0" maxOccurs="unbounded">
+                <dataRef key="teidata.enumerated"/>
+              </datatype>
+              <constraintSpec ident="ana-on-event-relation" scheme="schematron">
+                <constraint>
+                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@ana">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:let name="qrURI"
@@ -2433,138 +2446,15 @@
                       test="
                       every $i in (tokenize(., ' '))
                       satisfies $i = $qrURI"
-                      ><sch:value-of select="$error"/> is not is use. The value of this @type attribute must 
+                      ><sch:value-of select="$error"/> is not is use. The value of this @ana attribute must 
                       be one of the following: <sch:value-of select="string-join($qrURI, ';  ')"/>.</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation">
-                    <sch:assert test="@type = 'part'">A @type attribute the value
-                      "part" is required.</sch:assert>
-                  </sch:rule>
-                </constraint>
-              </constraintSpec>
-            </attDef>
-            <attDef ident="ana" mode="change" usage="rec">
-              <!-- I cannot remember why I require this attribute or why I need to indicate that a relationship is an element relationship. -->
-              <datatype minOccurs="0" maxOccurs="unbounded">
-                <dataRef key="teidata.enumerated"/>
-              </datatype>
-              <constraintSpec ident="ana-on-event-relation" scheme="schematron">
-                <constraint>
                   <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
-                    <sch:assert test="@ana">A &lt;relation&gt; element inside an event factoid must
-                      have an @ana attribute.</sch:assert>
-                  </sch:rule>
-                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@ana">
-                    <sch:assert test=". = 'event'">A &lt;relation&gt; element inside an event
-                      factoid must have an @ana attribute with a value of "event".</sch:assert>
-                  </sch:rule>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation">
-                    <sch:report test="@ana">The @ana attribute cannot appear in a relation factoid.
-                      It may only be used in a &lt;relation&gt; element describing a relationship
-                      between two events. </sch:report>
+                    <sch:report test="@ana">A &lt;relation&gt; element inside an event factoid cannot
+                      have an @ana attribute.</sch:report>
                   </sch:rule>
                 </constraint>
               </constraintSpec>
-            </attDef>
-            <attDef ident="mutual" mode="change" usage="opt">
-              <datatype minOccurs="1" maxOccurs="unbounded">
-                <dataRef key="teidata.pointer"/>
-              </datatype>
-              <!--<constraintSpec ident="mutual-on-relation-in-eventFactoid" scheme="schematron">
-                <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@mutual">
-                    <sch:assert
-                      test="every $i in (tokenize(., ' ')) satisfies starts-with($i, 'http://syriaca.org/person/')"
-                      >@mutual attributes on &lt;relation&gt; elements of relation factoids must
-                      contain a properly formatted Syriaca.org person URI that starts with
-                      'http://syriaca.org/person/'.</sch:assert>
-                    <sch:report
-                      test="every $i in (tokenize(., ' ')) satisfies matches(substring-after($i, 'person/'), '\D')"
-                      >This @mutual attribute requires a properly formatted Syriaca.org person URI
-                      that cannot end with anything other than a number.</sch:report>
-                    <sch:assert
-                      test="every $i in (tokenize(., ' ')) satisfies matches(substring-after($i, 'person/'), '\d')"
-                      >This @mutual attribute requires a properly formatted Syriaca.org person URI
-                      ends with a number.</sch:assert>
-                  </sch:rule>
-                  <sch:assert test="count(distinct-values(tokenize(., ' '))) = count(tokenize(., ' '))">
-                    The same person URI may not appear twice as the value of the @mutual attribute. </sch:assert>
-                  <!-\- I need to test this further. I'm not certain it's working correctly. -\->
-                </constraint>
-              </constraintSpec>-->
-            </attDef>
-            <attDef ident="active" mode="change" usage="opt">
-              <datatype minOccurs="1" maxOccurs="unbounded">
-                <dataRef key="teidata.pointer"/>
-              </datatype>
-              <!--<constraintSpec ident="active-on-relation-in-context" scheme="schematron">
-                <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@active">
-                    <sch:assert
-                      test="every $i in (tokenize(., ' ')) satisfies starts-with($i, 'http://syriaca.org/person/')"
-                      >@active attributes on &lt;relation&gt; elements of relation factoids must
-                      contain a properly formatted Syriaca.org person URI that starts with
-                      'http://syriaca.org/person/'.</sch:assert>
-                    <sch:report
-                      test="every $i in (tokenize(., ' ')) satisfies matches(substring-after($i, 'person/'), '\D')"
-                      >This @active attribute requires a properly formatted Syriaca.org person URI
-                      that cannot end with anything other than a number.</sch:report>
-                    <sch:assert
-                      test="every $i in (tokenize(., ' ')) satisfies matches(substring-after($i, 'person/'), '\d')"
-                      >This @active attribute requires a properly formatted Syriaca.org person URI
-                      ends with a number.</sch:assert>
-                  </sch:rule>
-                  <!-\- I need to test this further. I'm not certain it's working correctly. -\->
-                  
-                  <sch:rule context="//tei:sourceDesc/tei:listRelation/tei:relation/@active">
-                    <sch:let name="docURIno"
-                      value="//tei:publicationStmt/tei:idno[@type='URI']/substring-after(substring-before(., '/tei'), 'spear/')"/>
-                    <sch:assert test="matches(., concat('http://syriaca.org/work/', $docURIno))">
-                      The @active attribute muar be "http://syriaca.org/work/<sch:value-of select="$docURIno"/>".
-                    </sch:assert>
-                  </sch:rule>
-                </constraint>
-              </constraintSpec>-->
-            </attDef>
-            <attDef ident="passive" mode="change" usage="opt">
-              <datatype minOccurs="1" maxOccurs="unbounded">
-                <dataRef key="teidata.pointer"/>
-              </datatype>
-              <!--<constraintSpec ident="passive-on-relation-in-context" scheme="schematron">
-                <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@passive">
-                    <sch:assert
-                      test="every $i in (tokenize(., ' ')) satisfies starts-with($i, 'http://syriaca.org/person/')"
-                      >@passive attributes on &lt;relation&gt; elements of relation factoids must
-                      contain a properly formatted Syriaca.org person URI that starts with
-                      'http://syriaca.org/person/'.</sch:assert>
-                    <sch:report
-                      test="every $i in (tokenize(., ' ')) satisfies matches(substring-after($i, 'person/'), '\D')"
-                      >This @active attribute requires a properly formatted Syriaca.org person URI
-                      that cannot end with anything other than a number.</sch:report>
-                    <sch:assert
-                      test="every $i in (tokenize(., ' ')) satisfies matches(substring-after($i, 'person/'), '\d')"
-                      >This @passive attribute requires a properly formatted Syriaca.org person URI
-                      ends with a number.</sch:assert>
-                  </sch:rule>
-                  <!-\- I need to test this further. I'm not certain it's working correctly. -\->
-                  <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation">
-                    <sch:assert test="@passive">
-                      This &lt;relation&gt; element must have a @passive attribute.
-                    </sch:assert>
-                  </sch:rule>
-                  <sch:rule context="//tei:sourceDesc/tei:listRelation/tei:relation/@passive">
-                    <sch:assert test="matches(., concat('http://syriaca.org/work/', '\d+'))">
-                      This @active attribute must contain a properly formatted 
-                      Syriaca.org work URI ('http://syriaca.org/work/{\d+}').
-                    </sch:assert>
-                    <sch:report test="matches(substring-after(., 'http://syriaca.org/work/'), '\D+')">
-                      Report: This @active attribute must contain a properly formatted 
-                      Syriaca.org work URI ('http://syriaca.org/work/{\d+}').
-                    </sch:report>
-                  </sch:rule>
-                </constraint>
-              </constraintSpec>-->
             </attDef>
           </attList>
           <exemplum>
