@@ -19,26 +19,26 @@ normalize-space(string-join($nodes//text(),' '))
 
 declare function tei2tsv:tei2tsv($nodes as node()*) {
 let $headers :=concat(string-join(
-                ('title', 'uri','principal','principal2','principal3','editor', 'editor2', 'editor3', 'published',
+                ('title', 'uri','principal','principal2','principal3','editor', 'editor2', 'editor3', 'published','team',
                  'term-en','term-zh-latn-pinyin','term-zh-Hant',
                  'term-zh-Hans','term-Wade-Giles','term-other','term-other2',
-                 'getty-scopeNote-en','getty-scopeNote-zh-Hans',
-                 'sources-note-en','sources-note-zh-Hans',
-                 'scope-note-brief-en','scope-note-brief-zh-Hans',
-                 'scope-note-full-en','scope-note-full-zh-Hans',
-                 'note-brief-en','note-brief-zh-Hans',
-                 'note-full-en','note-full-zh-Hans',
-                 'related-concepts-en','related-concepts-zh-Hans',
-                 'related-concepts2-en','related-concepts2-zh-Hans',
-                 'related-concepts3-en','related-concepts3-zh-Hans',
-                 'related-concepts4-en','related-concepts4-zh-Hans',
-                 'related-concepts5-en','related-concepts5-zh-Hans',
-                 'related-concepts6-en','related-concepts6-zh-Hans',
-                 'related-concepts7-en','related-concepts7-zh-Hans',
-                 'related-concepts8-en','related-concepts8-zh-Hans',
-                 'related-concepts9-en','related-concepts9-zh-Hans',
-                 'related-concepts10-en','related-concepts10-zh-Hans',
-                 'related-terms-en','related-terms-zh-Hans',
+                 'getty-scopeNote-en','getty-scopeNote-zh-hant',
+                 'sources-note-en','sources-note-zh-hant',
+                 'scope-note-brief-en','scope-note-brief-zh-hant',
+                 'scope-note-full-en','scope-note-full-zh-hant',
+                 'note-brief-en','note-brief-zh-hant',
+                 'note-full-en','note-full-zh-hant',
+                 'related-concepts-en','related-concepts-zh-hant',
+                 'related-concepts2-en','related-concepts2-zh-hant',
+                 'related-concepts3-en','related-concepts3-zh-hant',
+                 'related-concepts4-en','related-concepts4-zh-hant',
+                 'related-concepts5-en','related-concepts5-zh-hant',
+                 'related-concepts6-en','related-concepts6-zh-hant',
+                 'related-concepts7-en','related-concepts7-zh-hant',
+                 'related-concepts8-en','related-concepts8-zh-hant',
+                 'related-concepts9-en','related-concepts9-zh-hant',
+                 'related-concepts10-en','related-concepts10-zh-hant',
+                 'related-terms-en','related-terms-zh-hant',
                  'otherNote','otherNote2',
                  'bibl','relations'),"&#x9;"),
                   '&#xa;')
@@ -55,6 +55,7 @@ let $data :=
     let $editor2 := tei2tsv:value($record/descendant::tei:editor[2])
     let $editor3 := tei2tsv:value($record/descendant::tei:editor[3])
     let $published := tei2tsv:value($record/descendant::tei:publicationStmt/tei:date)
+    let $team := tei2tsv:value($record/descendant::tei:name[@type='team'])
     let $term1 := tei2tsv:value($n/tei:term[@xml:lang="en"][1])
     let $term2 := tei2tsv:value($n/tei:term[@xml:lang="zh-latn-pinyin"][1])
     let $term3 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hant"][1])
@@ -62,40 +63,40 @@ let $data :=
     let $term5 := tei2tsv:value($n/tei:term[@xml:lang="Wade-Giles"][1])
     let $term6 := tei2tsv:value($n/tei:term[5])
     let $term7 := tei2tsv:value($n/tei:term[6])  
-    let $getty-scopeNote-en := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $getty-scopeNote-zh-Hans := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"][tei:p[@xml:lang = 'zh-Hans']])
-    let $sources-note-en := tei2tsv:value($n/tei:note[@type="sources"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $sources-note-zh-Hans := tei2tsv:value($n/tei:note[@type="sources"][tei:p[@xml:lang = 'zh-Hans']])
-    let $scope-note-brief-en := tei2tsv:value($n/tei:note[@type="Scope Note (brief)"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $scope-note-brief-zh-Hans := tei2tsv:value($n/tei:note[@type="Scope Note (brief)"][tei:p[@xml:lang = 'zh-Hans']])    
-    let $scope-note-full-en := tei2tsv:value($n/tei:note[@type="Scope Note (full)"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $scope-note-full-zh-Hans := tei2tsv:value($n/tei:note[@type="Scope Note (full)"][tei:p[@xml:lang = 'zh-Hans']])
-    let $note-brief-en := tei2tsv:value($n/tei:note[@type="Note (brief)"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $note-brief-zh-Hans := tei2tsv:value($n/tei:note[@type="Note (brief)"][tei:p[@xml:lang = 'zh-Hans']])    
-    let $note-full-en := tei2tsv:value($n/tei:note[@type="Note (full)"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $note-full-zh-Hans := tei2tsv:value($n/tei:note[@type="Note (full)"][tei:p[@xml:lang = 'zh-Hans']])
-    let $related-concepts-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][1])
-    let $related-concepts-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][1])
-    let $related-concepts2-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][2])
-    let $related-concepts2-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][2])    
-    let $related-concepts3-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][3])
-    let $related-concepts3-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][3])
-    let $related-concepts4-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][4])
-    let $related-concepts4-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][4])
-    let $related-concepts5-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][5])
-    let $related-concepts5-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][5])
-    let $related-concepts6-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][6])
-    let $related-concepts6-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][6])
-    let $related-concepts7-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][7])
-    let $related-concepts7-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][7])
-    let $related-concepts8-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][8])
-    let $related-concepts8-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][8])
-    let $related-concepts9-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][9])
-    let $related-concepts9-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][9])
-    let $related-concepts10-en := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]][10])
-    let $related-concepts10-zh-Hans := tei2tsv:value($n/tei:note[@type="related concepts"][tei:p[@xml:lang = 'zh-Hans']][10])
-    let $related-terms-en := tei2tsv:value($n/tei:note[@type="related terms"][tei:p[@xml:lang = 'en'] or tei:p[not(@xml:lang)]])
-    let $related-terms-zh-Hans := tei2tsv:value($n/tei:note[@type="related terms"][@xml:lang = 'zh-Hans'])    
+    let $getty-scopeNote-en := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $getty-scopeNote-zh-hant := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'zh-hant'])
+    let $sources-note-en := tei2tsv:value($n/tei:note[@type="sources"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $sources-note-zh-hant := tei2tsv:value($n/tei:note[@type="sources"]/tei:p[@xml:lang = 'zh-hant'])
+    let $scope-note-brief-en := tei2tsv:value($n/tei:note[@type="Scope Note (brief)"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $scope-note-brief-zh-hant := tei2tsv:value($n/tei:note[@type="Scope Note (brief)"]/tei:p[@xml:lang = 'zh-hant'])    
+    let $scope-note-full-en := tei2tsv:value($n/tei:note[@type="Scope Note (full)"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $scope-note-full-zh-hant := tei2tsv:value($n/tei:note[@type="Scope Note (full)"]/tei:p[@xml:lang = 'zh-hant'])
+    let $note-brief-en := tei2tsv:value($n/tei:note[@type="Note (brief)"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $note-brief-zh-hant := tei2tsv:value($n/tei:note[@type="Note (brief)"]/tei:p[@xml:lang = 'zh-hant'])    
+    let $note-full-en := tei2tsv:value($n/tei:note[@type="Note (full)"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $note-full-zh-hant := tei2tsv:value($n/tei:note[@type="Note (full)"]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts-en := tei2tsv:value($n/tei:note[@type="related concepts"][1]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][1]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts2-en := tei2tsv:value($n/tei:note[@type="related concepts"][2]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts2-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][2]/tei:p[@xml:lang = 'zh-hant'])    
+    let $related-concepts3-en := tei2tsv:value($n/tei:note[@type="related concepts"][3]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts3-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][3]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts4-en := tei2tsv:value($n/tei:note[@type="related concepts"][4]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts4-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][4]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts5-en := tei2tsv:value($n/tei:note[@type="related concepts"][5]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts5-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][5]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts6-en := tei2tsv:value($n/tei:note[@type="related concepts"][6]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts6-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][6]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts7-en := tei2tsv:value($n/tei:note[@type="related concepts"][7]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts7-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][7]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts8-en := tei2tsv:value($n/tei:note[@type="related concepts"][8]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts8-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][8]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts9-en := tei2tsv:value($n/tei:note[@type="related concepts"][9]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts9-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][9]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-concepts10-en := tei2tsv:value($n/tei:note[@type="related concepts"][10]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-concepts10-zh-hant := tei2tsv:value($n/tei:note[@type="related concepts"][10]/tei:p[@xml:lang = 'zh-hant'])
+    let $related-terms-en := tei2tsv:value($n/tei:note[@type="related terms"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
+    let $related-terms-zh-hant := tei2tsv:value($n/tei:note[@type="related terms"]/tei:p[@xml:lang = 'zh-hant'])
     let $otherNote := tei2tsv:value($n/tei:note[not(@type)][1])
     let $otherNote2 := tei2tsv:value($n/tei:note[not(@type)][2])
     let $bibl := string-join(
@@ -107,18 +108,18 @@ let $data :=
     return 
         concat(
             string-join(($title,$uri,$principal,$principal2,
-            $principal3,$editor,$editor2,$editor3,$published,
+            $principal3,$editor,$editor2,$editor3,$published,$team,
             $term1,$term2,$term3,$term4,$term5,$term6,
-            $term7,$getty-scopeNote-en, $getty-scopeNote-zh-Hans,
-            $sources-note-en,$sources-note-zh-Hans,$scope-note-brief-en,$scope-note-brief-zh-Hans,    
-            $scope-note-full-en,$scope-note-full-zh-Hans,
-            $note-brief-en,$note-brief-zh-Hans,$note-full-en,$note-full-zh-Hans,
-            $related-concepts-en, $related-concepts-zh-Hans,
-            $related-concepts2-en,$related-concepts2-zh-Hans,$related-concepts3-en,$related-concepts3-zh-Hans,
-            $related-concepts4-en,$related-concepts4-zh-Hans,$related-concepts5-en,$related-concepts5-zh-Hans,
-            $related-concepts6-en,$related-concepts6-zh-Hans,$related-concepts7-en,$related-concepts7-zh-Hans,
-            $related-concepts8-en,$related-concepts8-zh-Hans,$related-concepts9-en,$related-concepts9-zh-Hans,
-            $related-concepts10-en,$related-concepts10-zh-Hans,$related-terms-en,$related-terms-zh-Hans,
+            $term7,$getty-scopeNote-en, $getty-scopeNote-zh-hant,
+            $sources-note-en,$sources-note-zh-hant,$scope-note-brief-en,$scope-note-brief-zh-hant,    
+            $scope-note-full-en,$scope-note-full-zh-hant,
+            $note-brief-en,$note-brief-zh-hant,$note-full-en,$note-full-zh-hant,
+            $related-concepts-en, $related-concepts-zh-hant,
+            $related-concepts2-en,$related-concepts2-zh-hant,$related-concepts3-en,$related-concepts3-zh-hant,
+            $related-concepts4-en,$related-concepts4-zh-hant,$related-concepts5-en,$related-concepts5-zh-hant,
+            $related-concepts6-en,$related-concepts6-zh-hant,$related-concepts7-en,$related-concepts7-zh-hant,
+            $related-concepts8-en,$related-concepts8-zh-hant,$related-concepts9-en,$related-concepts9-zh-hant,
+            $related-concepts10-en,$related-concepts10-zh-hant,$related-terms-en,$related-terms-zh-hant,
             $otherNote,$otherNote2,$bibl,$relations
             ),"&#x9;"),'&#xa;'))
 return concat($headers,($data))    
