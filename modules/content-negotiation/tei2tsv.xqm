@@ -20,7 +20,7 @@ normalize-space(string-join($nodes//text(),' '))
 declare function tei2tsv:tei2tsv($nodes as node()*) {
 let $headers :=concat(string-join(
                 ('title', 'uri','principal','principal2','principal3','editor', 'editor2', 'editor3', 'published','team',
-                 'term-en','term-zh-latn-pinyin','term-zh-Hant',
+                 'term-en','term-literal_translation','term-zh-latn-pinyin','term-zh-Hant',
                  'term-zh-Hans','term-Wade-Giles','term-other','term-other2',
                  'getty-scopeNote-en','getty-scopeNote-zh-hant',
                  'sources-note-en','sources-note-zh-hant',
@@ -57,12 +57,13 @@ let $data :=
     let $published := tei2tsv:value($record/descendant::tei:publicationStmt/tei:date)
     let $team := tei2tsv:value($record/descendant::tei:name[@type='team'])
     let $term1 := tei2tsv:value($n/tei:term[@xml:lang="en"][1])
-    let $term2 := tei2tsv:value($n/tei:term[@xml:lang="zh-latn-pinyin"][1])
-    let $term3 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hant"][1])
-    let $term4 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hans"][1])
-    let $term5 := tei2tsv:value($n/tei:term[@xml:lang="Wade-Giles"][1])
-    let $term6 := tei2tsv:value($n/tei:term[5])
-    let $term7 := tei2tsv:value($n/tei:term[6])  
+    let $term2 := tei2tsv:value($n/tei:term[@xml:lang="en"][@type="literal_translation"])
+    let $term3 := tei2tsv:value($n/tei:term[@xml:lang="zh-latn-pinyin"][1])
+    let $term4 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hant"][1])
+    let $term5 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hans"][1])
+    let $term6 := tei2tsv:value($n/tei:term[@xml:lang="Wade-Giles"][1])
+    let $term7 := tei2tsv:value($n/tei:term[6])
+    let $term8 := tei2tsv:value($n/tei:term[7])  
     let $getty-scopeNote-en := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
     let $getty-scopeNote-zh-hant := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'zh-Hant'])
     let $sources-note-en := tei2tsv:value($n/tei:note[@type="sources"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
@@ -110,7 +111,7 @@ let $data :=
             string-join(($title,$uri,$principal,$principal2,
             $principal3,$editor,$editor2,$editor3,$published,$team,
             $term1,$term2,$term3,$term4,$term5,$term6,
-            $term7,$getty-scopeNote-en, $getty-scopeNote-zh-hant,
+            $term7,$term8,$getty-scopeNote-en, $getty-scopeNote-zh-hant,
             $sources-note-en,$sources-note-zh-hant,$scope-note-brief-en,$scope-note-brief-zh-hant,    
             $scope-note-full-en,$scope-note-full-zh-hant,
             $note-brief-en,$note-brief-zh-hant,$note-full-en,$note-full-zh-hant,
