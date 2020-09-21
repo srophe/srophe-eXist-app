@@ -134,11 +134,11 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
  : Used by templating module, not needed if full record is being displayed 
 :)
 declare function app:h1($node as node(), $model as map(*)){
-let $english := <span xml:lang="en">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/text()[1]}</span>
-let $chinese := <span xml:lang="zh-Hant">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/tei:foreign/text()[1]}</span>
+let $english := <span xml:lang="en">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/descendant-or-self::*[not(self::tei:foreign)]/text()}</span>
+let $chinese := <span xml:lang="zh-Hant">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/tei:foreign/text()}</span>
 let $title := if($english != '' and $chinese != '') then 
                   ($english, ' ' , $chinese)
-              else string-join($model("hits")/descendant::tei:titleStmt/tei:title[1]//text(),' ')
+              else string-join($model("hits")/descendant::tei:titleStmt/tei:title[1]/descendant-or-self::text(),' ')
 return   
         <div class="title">
             <h1>{$title}</h1>
