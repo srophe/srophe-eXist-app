@@ -138,7 +138,7 @@ let $english := <span xml:lang="en">{$model("hits")/descendant::tei:titleStmt/te
 let $chinese := <span xml:lang="zh-Hant">{$model("hits")/descendant::tei:titleStmt/tei:title[1]/tei:foreign/text()[1]}</span>
 let $title := if($english != '' and $chinese != '') then 
                   ($english, ' ' , $chinese)
-              else String-join($model("hits")/descendant::tei:titleStmt/tei:title[1]//text(),' ')
+              else string-join($model("hits")/descendant::tei:titleStmt/tei:title[1]//text(),' ')
 return   
         <div class="title">
             <h1>{$title}</h1>
