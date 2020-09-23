@@ -16,8 +16,12 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 let $collection :=  request:get-parameter("collection", ())
 let $format :=  request:get-parameter("format", ())
+let $collection-path := 
+            if(config:collection-vars($collection)/@data-root != '') then concat('/',config:collection-vars($collection)/@data-root)
+            else if($collection != '') then concat('/',$collection)
+            else ()
 let $data := if($collection != '') then
-                  collection($config:data-root || '/' || $collection)
+                  collection($config:data-root || $collection-path)
              else collection($config:data-root)
 let $request-format := if($format != '') then $format else 'xml'
 return cntneg:content-negotiation($data, $request-format,())
