@@ -54,11 +54,11 @@
                 record-URI-pattern="URI for building links to record views."
                 app-root="folder name in app" 
                 data-root="folder name in data"/>-->
-            <collection name="sites" app-root="/geo/" data-root="places/sites" record-URI-pattern="https://architecturasinica.org/place/"/>
-            <collection name="buildings" app-root="/geo/" data-root="places/buildings" record-URI-pattern="https://architecturasinica.org/place/"/>
             <collection name="places" app-root="/geo/" data-root="places" record-URI-pattern="https://architecturasinica.org/place/"/>
             <collection name="keywords" title="Architectural Features" app-root="/keyword/" data-root="keywords" record-URI-pattern="https://architecturasinica.org/keyword/"/>
             <collection name="bibl" title="Bibliography" app-root="/bibl/" data-root="bibl" record-URI-pattern="https://architecturasinica.org/bibl/"/>
+            <collection name="sites" app-root="/geo/" data-root="places/sites" record-URI-pattern="https://architecturasinica.org/place/"/>
+            <collection name="buildings" app-root="/geo/" data-root="places/buildings" record-URI-pattern="https://architecturasinica.org/place/"/>
         </collections>
         <!--
         <google_analytics>var _gaq=[['_setAccount',''],['_trackPageview']];
