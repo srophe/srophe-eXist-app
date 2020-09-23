@@ -16,8 +16,92 @@ return concat('"',replace(normalize-space(string-join($nodes//text(),' ')),$q,co
 :)
 normalize-space(string-join($nodes//text(),' '))
 };
+declare function tei2tsv:tei2tsv($nodes as node()*){
+let $collection := request:get-parameter("collection", ())
+return 
+    if($collection = 'sites') then
+        tei2tsv:tei2tsv-sites($nodes)
+    else if($collection = 'buildings') then
+        tei2tsv:tei2tsv-buildings($nodes)        
+    else tei2tsv:tei2tsv-keywords($nodes)
+};
 
-declare function tei2tsv:tei2tsv($nodes as node()*) {
+declare function tei2tsv:tei2tsv-sites($nodes as node()*) {
+let $headers :=concat(string-join(
+                ('title', 'uri', 'principal', 'editor', 'editor2', 'editor3', 'published',
+                'site-name-en','site-name-zh-latn-pinyin','site-name-zh-Hant','site-name-zh-Hans',
+                'site-name-Wade-Giles','site-name-other','site-name-other2','date','dynasty','site data',
+                'site type','buildings in site'),"&#x9;"),'&#xa;')
+let $data :=                   
+    string-join(
+    for $record in $nodes//tei:TEI
+    let $n := $record/descendant::tei:place
+    let $title := tei2tsv:value($record/descendant::tei:title[1])
+    let $uri := replace($record/descendant::tei:idno[1],'/tei','')
+    let $principal := tei2tsv:value($record/descendant::tei:principal[1])
+    let $editor := tei2tsv:value($record/descendant::tei:editor[1])
+    let $editor2 := tei2tsv:value($record/descendant::tei:editor[2])
+    let $editor3 := tei2tsv:value($record/descendant::tei:editor[3])
+    let $published := tei2tsv:value($record/descendant::tei:publicationStmt/tei:date)
+    let $site-name-en := tei2tsv:value($n/tei:placeName[@xml:lang="en"][1])
+    let $site-name-zh-latn-pinyin := tei2tsv:value($n/tei:placeName[@xml:lang="zh-latn-pinyin"][1])
+    let $site-name-zh-Hant := tei2tsv:value($n/tei:placeName[@xml:lang="zh-Hant"][1])
+    let $site-name-zh-Hans := tei2tsv:value($n/tei:placeName[@xml:lang="zh-Hans"][1])
+    let $site-name-Wade-Giles := tei2tsv:value($n/tei:placeName[@xml:lang="Wade-Giles" or @xml:lang = 'zh-latn-wadegile'][1])
+    let $site-name-other := tei2tsv:value($n/tei:placeName[6])
+    let $site-name-other2 := tei2tsv:value($n/tei:placeName[7])  
+    let $date := concat($n/tei:state[@type="existence"][1]/@from,'/',$n/tei:state[@type="existence"][1]/@to)
+    let $dynasty := tei2tsv:value($n/tei:state[@subtype="dynasty"]/tei:desc)
+    let $site-data := tei2tsv:value($n/tei:desc[@type="site-data"])
+    let $site-type := tei2tsv:value($n/tei:trait[@type="type"])
+    let $buildings-in-site := string($record/descendant::tei:relation[@ana="site-type"]/@passive)
+    return 
+        concat(
+            string-join(($title,$uri,$principal,$editor,$editor2,$editor3,$published,
+            $site-name-en, $site-name-zh-latn-pinyin, $site-name-zh-Hant, $site-name-zh-Hans, $site-name-Wade-Giles, 
+            $site-name-other, $site-name-other2, $date, $dynasty, $site-data, $site-type, $buildings-in-site),"&#x9;"),'&#xa;'))
+return concat($headers,($data))    
+};
+
+declare function tei2tsv:tei2tsv-buildings($nodes as node()*) {
+let $headers :=concat(string-join(
+                ('title', 'uri', 'principal', 'editor', 'editor2', 'editor3', 'published',
+                'building-name-en','building-name-zh-latn-pinyin','building-name-zh-Hant','building-name-zh-Hans',
+                'building-name-Wade-Giles','building-name-other','building-name-other2','date','dynasty','building data',
+                'building type','contained in what site'),"&#x9;"),
+                  '&#xa;')
+let $data :=                   
+    string-join(
+    for $record in $nodes//tei:TEI
+    let $n := $record/descendant::tei:place
+    let $title := tei2tsv:value($record/descendant::tei:title[1])
+    let $uri := replace($record/descendant::tei:idno[1],'/tei','')
+    let $principal := tei2tsv:value($record/descendant::tei:principal[1])
+    let $editor := tei2tsv:value($record/descendant::tei:editor[1])
+    let $editor2 := tei2tsv:value($record/descendant::tei:editor[2])
+    let $editor3 := tei2tsv:value($record/descendant::tei:editor[3])
+    let $published := tei2tsv:value($record/descendant::tei:publicationStmt/tei:date)
+    let $site-name-en := tei2tsv:value($n/tei:placeName[@xml:lang="en"][1])
+    let $site-name-zh-latn-pinyin := tei2tsv:value($n/tei:placeName[@xml:lang="zh-latn-pinyin"][1])
+    let $site-name-zh-Hant := tei2tsv:value($n/tei:placeName[@xml:lang="zh-Hant"][1])
+    let $site-name-zh-Hans := tei2tsv:value($n/tei:placeName[@xml:lang="zh-Hans"][1])
+    let $site-name-Wade-Giles := tei2tsv:value($n/tei:placeName[@xml:lang="Wade-Giles" or @xml:lang = 'zh-latn-wadegile'][1])
+    let $site-name-other := tei2tsv:value($n/tei:placeName[6])
+    let $site-name-other2 := tei2tsv:value($n/tei:placeName[7])  
+    let $date := concat($n/tei:state[@type="existence"][1]/@from,'/',$n/tei:state[@type="existence"][1]/@to)
+    let $dynasty := tei2tsv:value($n/tei:state[@subtype="dynasty"]/tei:desc)
+    let $site-data := tei2tsv:value($n/tei:desc[@type="site-data"])
+    let $site-type := tei2tsv:value($n/tei:trait[@type="type"])
+    let $buildings-in-site := string($record/descendant::tei:relation[@ref="schema:containedInPlace"]/@passive)
+    return 
+        concat(
+            string-join(($title,$uri,$principal,$editor,$editor2,$editor3,$published,
+            $site-name-en, $site-name-zh-latn-pinyin, $site-name-zh-Hant, $site-name-zh-Hans, $site-name-Wade-Giles, 
+            $site-name-other, $site-name-other2, $date, $dynasty, $site-data, $site-type, $buildings-in-site),"&#x9;"),'&#xa;'))
+return concat($headers,($data))    
+};
+
+declare function tei2tsv:tei2tsv-keywords($nodes as node()*) {
 let $headers :=concat(string-join(
                 ('title', 'uri','principal','principal2','principal3','editor', 'editor2', 'editor3', 'published','team',
                  'term-en','term-literal_translation','term-zh-latn-pinyin','term-zh-Hant',
@@ -61,7 +145,7 @@ let $data :=
     let $term3 := tei2tsv:value($n/tei:term[@xml:lang="zh-latn-pinyin"][1])
     let $term4 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hant"][1])
     let $term5 := tei2tsv:value($n/tei:term[@xml:lang="zh-Hans"][1])
-    let $term6 := tei2tsv:value($n/tei:term[@xml:lang="Wade-Giles"][1])
+    let $term6 := tei2tsv:value($n/tei:term[@xml:lang="Wade-Giles" or @xml:lang = 'zh-latn-wadegile'][1])
     let $term7 := tei2tsv:value($n/tei:term[6])
     let $term8 := tei2tsv:value($n/tei:term[7])  
     let $getty-scopeNote-en := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
