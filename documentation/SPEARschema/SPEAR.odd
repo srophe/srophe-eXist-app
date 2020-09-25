@@ -6,7 +6,7 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>TEI Customization for SPEAR: Syriaca Persons, Events, and Relations</title>
+        <title>TEI Customization for Usaybia.net based on SPEAR: Syriaca Persons, Events, and Relations</title>
         <editor role="creator"><name ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
             Schwartz</name></editor>
       </titleStmt>
@@ -14,7 +14,7 @@
         <edition n="1.0"/>
       </editionStmt>
       <publicationStmt>
-        <publisher>Syriaca.org: The Syriac Reference Portal</publisher>
+        <publisher>Usaybia.net</publisher>
         <availability>
           <licence target="http://creativecommons.org/licenses/by/3.0/">
             <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
@@ -37,13 +37,15 @@
     <revisionDesc>
       <change who="http://syriaca.org/documentation/editors.xml#dschwartz" when="2016-10-20">First
         draft</change>
+      <change who="http://syriaca.org/documentation/editors.xml#ngibson" when="2020-09-25">Usaybia.net customizations</change>
     </revisionDesc>
   </teiHeader>
   <text>
     <body>
 
-      <p>This schema has been created to to constrain the TEI P5 for validating the born-digital
-        project SPEAR: Syriac Persons, Events, and Relations. This customization will be used for
+      <p>This schema was originally created to constrain the TEI P5 for validating the born-digital
+        project SPEAR: Syriac Persons, Events, and Relations and has been adapted for the Usaybia.net project. 
+        This customization will be used for
         the encoding of many different documents by many different researchers having differnet
         levels of training. As such, a schema is particularly important. The highly-structured data
         model of SPEAR also requires some modifications and additions to TEI P5.</p>
@@ -156,8 +158,8 @@
                   The second &lt;title&gt; element under a &lt;titleStmt&gt; element must have 
                   @type attribute with a value of "sub".
                 </sch:assert>
-                <sch:assert test="normalize-space(.) = 'A SPEAR Prosopography'">
-                  The text node of this subtitle must be "A SPEAR Prosopography".
+                <sch:assert test="normalize-space(.) = 'A Factoid Prosopography'">
+                  The text node of this subtitle must be "A Factoid Prosopography".
                 </sch:assert>
               </sch:rule>
             </constraint>
@@ -174,7 +176,7 @@
             <p> The TEI guidelines recommend that the <gi>titleStmt</gi> element also indicate who
               is responsible for this TEI file. Since <gi>author</gi> is typically used for the
               author of a print or manuscript text which was then encoded in TEI, we avoid the use
-              of the <gi>author</gi> element. Instead, we identify Syriaca.org as the sponsoring
+              of the <gi>author</gi> element. Instead, we identify Usaybia.net as the sponsoring
               institution.</p>
           </remarks>
         </elementSpec>
@@ -210,9 +212,9 @@
               </sch:rule>
               <sch:rule context="//tei:titleStmt/tei:respStmt/tei:name/@ref">
                 <sch:let name="edsDoc"
-                  value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/editors.xml')"/>
+                  value="doc('https://raw.githubusercontent.com/usaybia/srophe-eXist-app/master/documentation/editors.xml')"/>
                 <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
-                <sch:let name="refValues" value="for $i in $eds return concat('http://syriaca.org/documentation/editors.xml#', $i)"/>
+                <sch:let name="refValues" value="for $i in $eds return concat('https://usaybia.net/documentation/editors.xml#', $i)"/>
                 <sch:assert test="
                   every $i in .
                   satisfies $i = $refValues">
@@ -225,7 +227,7 @@
           
           <remarks>
             <p>This customization limits the vaules of @ref attributes on a <gi>name</gi> element inside the <gi>titleStmt</gi> 
-            to a Syriaca.org URI for project contributors.</p>
+            to contributors mentioned in the project documentation.</p>
           </remarks>
         </elementSpec>
         
@@ -266,7 +268,7 @@
           </content>
           
           <remarks>
-            <p>The <gi>publicationStmt</gi> is where we identify Syriaca.org as the entity responsible for publishing this information, 
+            <p>The <gi>publicationStmt</gi> is where we identify Usaybia.net as the entity responsible for publishing this information, 
               indicate the date of the most recent edit, and identify the use license (Creative Commons CC-BY).</p>
           </remarks>
         </elementSpec>
@@ -278,15 +280,16 @@
           <constraintSpec ident="authorityText" scheme="schematron">
             <constraint>
               <sch:rule context="//tei:publicationStmt/tei:authority">
-                <sch:assert test="normalize-space(.) = 'Syriaca.org: The Syriac Reference Portal'">
-                  The &lt;authority&gt; element should contain the text: "Syriaca.org: The Syriac Reference Portal."
+                <sch:assert test="normalize-space(.) = 'Usaybia.net'">
+                  The &lt;authority&gt; element should contain the text: "Usaybia.net"
+                  <!-- Expand this with a more complete name. -->
                 </sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
           
           <remarks>
-            <p>The identification of Syriaca.org as the responsible entity is accomplished by an <gi>authority</gi> element.</p>
+            <p>The identification of Usaybia.net as the responsible entity is accomplished by an <gi>authority</gi> element.</p>
           </remarks>
         </elementSpec>
         
@@ -324,14 +327,15 @@
             </sequence>  
           </content>
           <!-- Test the following constraintSpecs further. They don't seem to be working correctly. May need to move them close to parent elements. -->
-          <constraintSpec ident="titleInSeriesStmt" scheme="schematron">
+          <!--<constraintSpec ident="titleInSeriesStmt" scheme="schematron">
             <constraint>
               <sch:rule context="tei:seriesStmt[1]/tei:title[1]">
                 <sch:assert test="@level='s'">
                   The &lt;title&gt; element requires a @level attribute with a value of "s".
                 </sch:assert>
-                <sch:assert test=". = 'SPEAR: Syriac Persons, Events, and Relations'">
-                  This &lt;title&gt; element must be "SPEAR: Syriac Persons, Events, and Relations".
+                <sch:assert test=". = 'Usaybia.net'">
+                  This &lt;title&gt; element must be "Usaybia.net".
+                  <!-\- Expand this with a more complete name. -\->
                 </sch:assert>
               </sch:rule>
               <sch:rule context="tei:seriesStmt[2]/tei:title[1]">
@@ -339,24 +343,23 @@
                   The &lt;title&gt; element requires a @level attribute with a value of "m".
                 </sch:assert>
                 <sch:assert test="
-                  . = 'The Lives of the Eastern Saints' or 
-                  . = 'The Letters of Severus of Antioch'
+                  . = 'Ibn Abī Uṣaybiʿa, History of Physicians'
                   ">
-                  This &lt;title&gt; element must be "The Lives of the Eastern Saints"
-                  or "The Letters of Severus of Antioch".
+                  This &lt;title&gt; element must be "Ibn Abī Uṣaybiʿa, History of Physicians".
+                  <!-\- Expand this with a more complete name. -\->
                 </sch:assert>
               </sch:rule>
               <sch:rule context="tei:seriesStmt[2]/tei:title[2]">
                 <sch:assert test="@type='sub'">
                   The &lt;title&gt; element requires a @type attribute with a value of "sub".
                 </sch:assert>
-                <sch:assert test=". = 'A SPEAR Prosopography'">
-                  This &lt;title&gt; element must be "A SPEAR Prosopography".
+                <sch:assert test=". = 'A Factoid Prosopography'">
+                  This &lt;title&gt; element must be "A Factoid Prosopography".
                 </sch:assert>
               </sch:rule>
             </constraint>
-          </constraintSpec>
-          <constraintSpec ident="editorInSeriesStmt" scheme="schematron">
+          </constraintSpec>-->
+          <!--<constraintSpec ident="editorInSeriesStmt" scheme="schematron">
             <constraint>
               <sch:rule context="tei:seriesStmt/tei:editor">
                 <sch:assert test="@role='general'">
@@ -368,21 +371,21 @@
                   This &lt;editor&gt; element cannot have a @role attribute with a value of "creator".
                 </sch:report>
               </sch:rule>
-              <sch:rule context="tei:seriesStmt[1]/tei:editor">
-                <sch:assert test="@ref='http://syriaca.org/documentation/editors.xml#dschwartz'">
-                  This &lt;editor&gt; element must have a @ref attribute with a value of "http://syriaca.org/documentation/editors.xml#dschwartz".
+              <!-\-<sch:rule context="tei:seriesStmt[1]/tei:editor">
+                <sch:assert test="@ref='https://syriaca.org/documentation/editors.xml#dschwartz'">
+                  This &lt;editor&gt; element must have a @ref attribute with a value of "https://syriaca.org/documentation/editors.xml#dschwartz".
                 </sch:assert>
                 <sch:assert test=". = 'Daniel L. Schwartz'">
                   This &lt;editor&gt; element must be "Daniel L. Schwartz".
                 </sch:assert>
-              </sch:rule>
+              </sch:rule>-\->
             </constraint>
-          </constraintSpec>
-          <constraintSpec ident="uriInSeriesStmt" scheme="schematron">
+          </constraintSpec>-->
+          <!--<constraintSpec ident="uriInSeriesStmt" scheme="schematron">
             <constraint>
               <sch:rule context="tei:seriesStmt[1]/tei:idno">
-                <sch:assert test=". = 'http://syriaca.org/spear'">
-                  This &lt;idno&gt; element must be "http://syriaca.org/spear".
+                <sch:assert test=". = 'https://usaybia.net/factoids'">
+                  This &lt;idno&gt; element must be "https://usaybia.net/factoids".
                 </sch:assert>
               </sch:rule>
               <sch:rule context="tei:seriesStmt[2]/tei:idno[preceding-sibling::tei:title = 'The Lives of the Eastern Saints']">
@@ -396,8 +399,8 @@
                 </sch:assert>
               </sch:rule>
             </constraint>
-          </constraintSpec>
-          <constraintSpec ident="biblScopeInSeriesStmt" scheme="schematron">
+          </constraintSpec>-->
+          <!--<constraintSpec ident="biblScopeInSeriesStmt" scheme="schematron">
             <constraint>
               <sch:rule context="tei:seriesStmt[1]">
                 <sch:report test="tei:biblScope">
@@ -427,7 +430,7 @@
                 </sch:assert>
               </sch:rule>
             </constraint>
-          </constraintSpec>
+          </constraintSpec>-->
           
           
           <!-- remarks needed -->
@@ -565,9 +568,9 @@
                   >Each @xml:id attribute on a &lt;bibl&gt; element must have a unique
                   value.</sch:assert>
                 <sch:report test="matches(substring-after(., '-'), '\D')">A properly formatted
-                  Syriaca.org person URI ends with a number.</sch:report>
+                  Usaybia.net person URI ends with a number.</sch:report>
                 <sch:assert test="matches(substring-after(., '-'), '\d')">A properly formatted
-                  Syriaca.org person URI ends with a number.</sch:assert>
+                  Usaybia.net person URI ends with a number.</sch:assert>
               </sch:rule>
             </constraint>
           </constraintSpec>
@@ -587,10 +590,10 @@
             <p>SPEAR only uses @xml:id and @type attributes on the <gi>bibl</gi> element. SPEAR uses
               <gi>bibl</gi> elements with an @xml:id only in the <gi>back</gi> of the TEI file. The 
               @type attribute indicates whether the <gi>bibl</gi> is "primary", "secondary", or a "urn". 
-              Since SPEAR relies on the Linked Data infrastructure of Syriaca.org, a <gi>bibl</gi>
-              element only requires a <gi>ptr</gi> element indicating the Syriaca.org URI or CTS URN for 
+              Since SPEAR relies on the Linked Data infrastructure of Usaybia.net, a <gi>bibl</gi>
+              element only requires a <gi>ptr</gi> element indicating the Usaybia.net URI or CTS URN for 
               the bibliographic reference. When indicating a CTS URNs no other additional information 
-              is required. When indicating a Syriaca.org URI, a <gi>citedRange</gi> is needed.</p>
+              is required. When indicating a Usaybia.net URI, a <gi>citedRange</gi> is needed.</p>
           </remarks>
         </elementSpec>
 
@@ -827,9 +830,9 @@
               </sch:rule>
               <sch:rule context="//tei:titleStmt//tei:editor/@ref">
                 <sch:let name="edsDoc"
-                  value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/editors.xml')"/>
+                  value="doc('https://raw.githubusercontent.com/usaybia/srophe-eXist-app/master/documentation/editors.xml')"/>
                 <sch:let name="eds" value="$edsDoc//tei:text/tei:body/tei:listPerson/tei:person/@xml:id"/>
-                <sch:let name="refValues" value="for $i in $eds return concat('http://syriaca.org/documentation/editors.xml#', $i)"/>
+                <sch:let name="refValues" value="for $i in $eds return concat('https://usaybia.net/documentation/editors.xml#', $i)"/>
                 <sch:assert test="
                   every $i in .
                   satisfies $i = $refValues">
@@ -1181,8 +1184,8 @@
             <constraint>
               <sch:rule context="//tei:publicationStmt/tei:idno[@type='URI']">
                 <sch:let name="fileNo" value="replace(document-uri(/), '[\D]', '')"/>
-                <sch:assert test=". = concat('http://syriaca.org/spear/', $fileNo, '/tei')">
-                  The text node of this &lt;idno&gt; element must be "http://syriaca.org.spear/<sch:value-of select="$fileNo"/>/tei".
+                <sch:assert test=". = concat('https://usaybia.net/factoids/', $fileNo, '/tei')">
+                  The text node of this &lt;idno&gt; element must be "https://usaybia.net/factoids/<sch:value-of select="$fileNo"/>/tei".
                 </sch:assert>
               </sch:rule>
             </constraint>
@@ -1323,7 +1326,7 @@
                 <sch:assert
                   test="normalize-space(.) = 'This regularized date was calculated by the SPEAR editor from a non-calendrical dating system such as regnal years, etc.'"
                   > The only note allowed in this context must contain the following text: "This
-                  regularized date was calculated by the SPEAR editor from a non-calendrical dating
+                  regularized date was calculated by the factoid editor from a non-calendrical dating
                   system such as regnal years, etc." </sch:assert>
               </sch:rule>
             </constraint>
@@ -1397,6 +1400,7 @@
               <constraintSpec ident="ref-on-persName" scheme="schematron">
                 <constraint>
                   <sch:rule context="//tei:text//tei:persName/@ref" role="warning">
+                    <!-- Need to create Usaybia.net indexes -->
                     <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/persons.xml')"></sch:let>
                     <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                     <sch:let name="error" value="."/>
@@ -1432,6 +1436,7 @@
               <constraintSpec ident="ref-on-placeName" scheme="schematron">
                 <constraint>
                   <sch:rule context="//tei:text//tei:placeName/@ref" role="warning">
+                    <!-- Need to create Usaybia.net indexes -->
                     <sch:let name="placeIndex" value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/places.xml')"/>
                     <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
                     <sch:let name="error" value="."/>
@@ -1468,24 +1473,22 @@
                 <constraint>
                   <sch:rule context="tei:sourceDesc//tei:bibl[@type = 'primary']/tei:ptr/@target">
                     <sch:let name="docURIno"
-                      value="//tei:publicationStmt/tei:idno[@type]/substring-after(substring-before(., '/tei'), 'spear/')"/>
+                      value="//tei:publicationStmt/tei:idno[@type]/substring-after(substring-before(., '/tei'), 'factoids/')"/>
                     <sch:assert
-                      test=". = concat('http://syriaca.org/work/', $docURIno) or starts-with(., 'http://syriaca.org/bibl/')"
+                      test=". = concat('https://usaybia.net/work/', $docURIno) or starts-with(., 'https://usaybia.net/bibl/')"
                       > The @target attribute on a &lt;ptr&gt; element inside a &lt;bibl&gt; element
                       with @type="primary" takes limited values. It either must be
-                        "http://syriaca.org/work/<sch:value-of select="$docURIno"/>" or
-                      "http://syriaca.org/bibl/" followed by the corresponding Syriaca.org bibl URI
+                      "https://usaybia.net/work/<sch:value-of select="$docURIno"/>" or
+                      "https://usaybia.net/bibl/" followed by the corresponding Usaybia.net bibl URI
                       number. </sch:assert>
                   </sch:rule>
                   <sch:rule context="tei:sourceDesc//tei:bibl[@type = 'urn']/tei:ptr/@target">
                     <sch:let name="docURIno"
-                      value="//tei:publicationStmt/tei:idno[@type]/substring-after(substring-before(., '/tei'), 'spear/')"/>
+                      value="//tei:publicationStmt/tei:idno[@type]/substring-after(substring-before(., '/tei'), 'factoids/')"/>
                     <sch:assert
-                      test="starts-with(., concat('urn:cts:syriacLit:nhsl', $docURIno, '.syriacCorpus'))"
+                      test="starts-with(., 'urn:cts:arabicLit:')"
                       > The @target attribute on a &lt;ptr&gt; element inside a &lt;bibl&gt; element
-                      with @type="urn" must begin either with "urn:cts:syriacLit:nhsl<sch:value-of
-                        select="$docURIno"/>.syriacCorpus" followed by the corresponding Syriac
-                      Corpus URI number. </sch:assert>
+                      with @type="urn" must beginwith "urn:cts:arabicLit:". </sch:assert>
                   </sch:rule>
                   <sch:rule context="//tei:body/tei:ab/tei:bibl[@type = 'urn']/tei:ptr/@target">
                     <sch:let name="urnBase"
@@ -1571,6 +1574,7 @@
                   elements in event factoids.</sch:report>
               </sch:rule>
               <sch:rule context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@mutual | tei:ab/tei:listRelation/tei:relation/@active | tei:ab/tei:listRelation/tei:relation/@passive" role="warning">
+                <!-- Need to create Usaybia.net indexes -->
                 <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/persons.xml')"></sch:let>
                 <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                 <sch:let name="error" value="."/>
