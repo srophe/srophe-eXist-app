@@ -131,7 +131,8 @@ declare function tei2tsv:tei2tsv-keywords($nodes as node()*) {
 let $headers :=concat(string-join(
                 ('title', 'uri','principal','principal2','principal3','editor', 'editor2', 'editor3', 'published','team',
                  'term-en','term-literal_translation','term-zh-latn-pinyin','term-zh-Hant',
-                 'term-zh-Hans','term-Wade-Giles','term-other','term-other2',
+                 'term-zh-Hans','term-Wade-Giles','term-other','term-other2','term-other3','term-other4',
+                 'term-other5','term-other6','term-other7','term-other8','term-other9','term-other10',
                  'getty-scopeNote-en','getty-scopeNote-zh-hant',
                  'sources-note-en','sources-note-zh-hant',
                  'scope-note-brief-en','scope-note-brief-zh-hant',
@@ -174,6 +175,14 @@ let $data :=
     let $term6 := tei2tsv:value($n/tei:term[@xml:lang="Wade-Giles" or @xml:lang = 'zh-latn-wadegile'][1])
     let $term7 := tei2tsv:value($n/tei:term[6])
     let $term8 := tei2tsv:value($n/tei:term[7])  
+    let $term9 := tei2tsv:value($n/tei:term[8])  
+    let $term10 := tei2tsv:value($n/tei:term[9])  
+    let $term11 := tei2tsv:value($n/tei:term[10])  
+    let $term12 := tei2tsv:value($n/tei:term[11])  
+    let $term13 := tei2tsv:value($n/tei:term[12])  
+    let $term14 := tei2tsv:value($n/tei:term[13])  
+    let $term15 := tei2tsv:value($n/tei:term[14])  
+    let $term16 := tei2tsv:value($n/tei:term[15])  
     let $getty-scopeNote-en := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
     let $getty-scopeNote-zh-hant := tei2tsv:value($n/tei:note[@type="getty:scopeNote" or @type="Scope Note"]/tei:p[@xml:lang = 'zh-Hant'])
     let $sources-note-en := tei2tsv:value($n/tei:note[@type="sources"]/tei:p[@xml:lang = 'en' or not(@xml:lang)])
@@ -221,7 +230,7 @@ let $data :=
             string-join(($title,$uri,$principal,$principal2,
             $principal3,$editor,$editor2,$editor3,$published,$team,
             $term1,$term2,$term3,$term4,$term5,$term6,
-            $term7,$term8,$getty-scopeNote-en, $getty-scopeNote-zh-hant,
+            $term7,$term8,$term9,$term10,$term11,$term12,$term13,$term14,$term15,$term16,$getty-scopeNote-en, $getty-scopeNote-zh-hant,
             $sources-note-en,$sources-note-zh-hant,$scope-note-brief-en,$scope-note-brief-zh-hant,    
             $scope-note-full-en,$scope-note-full-zh-hant,
             $note-brief-en,$note-brief-zh-hant,$note-full-en,$note-full-zh-hant,
