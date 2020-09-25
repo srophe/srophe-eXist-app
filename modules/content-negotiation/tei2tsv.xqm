@@ -30,7 +30,10 @@ declare function tei2tsv:tei2tsv-sites($nodes as node()*) {
 let $headers :=concat(string-join(
                 ('title', 'uri', 'principal', 'editor', 'editor2', 'editor3', 'published',
                 'site-name-en','site-name-zh-latn-pinyin','site-name-zh-Hant','site-name-zh-Hans',
-                'site-name-Wade-Giles','site-name-other','site-name-other2','date','dynasty','site data',
+                'site-name-Wade-Giles','site-name-other','site-name-other2','site-name-other3',
+                'site-name-other4','site-name-other5','site-name-other6','site-name-other7',
+                'site-name-other8','site-name-other9','site-name-other10',
+                'date','dynasty','site data',
                 'site type','buildings in site'),"&#x9;"),'&#xa;')
 let $data :=                   
     string-join(
@@ -49,7 +52,15 @@ let $data :=
     let $site-name-zh-Hans := tei2tsv:value($n/tei:placeName[@xml:lang="zh-Hans"][1])
     let $site-name-Wade-Giles := tei2tsv:value($n/tei:placeName[@xml:lang="Wade-Giles" or @xml:lang = 'zh-latn-wadegile'][1])
     let $site-name-other := tei2tsv:value($n/tei:placeName[6])
-    let $site-name-other2 := tei2tsv:value($n/tei:placeName[7])  
+    let $site-name-other2 := tei2tsv:value($n/tei:placeName[7])
+    let $site-name-other3 := tei2tsv:value($n/tei:placeName[8])
+    let $site-name-other4 := tei2tsv:value($n/tei:placeName[9])
+    let $site-name-other5 := tei2tsv:value($n/tei:placeName[10])
+    let $site-name-other6 := tei2tsv:value($n/tei:placeName[11])
+    let $site-name-other7 := tei2tsv:value($n/tei:placeName[12])
+    let $site-name-other8 := tei2tsv:value($n/tei:placeName[13])
+    let $site-name-other9 := tei2tsv:value($n/tei:placeName[14])
+    let $site-name-other10 := tei2tsv:value($n/tei:placeName[15])
     let $date := concat($n/tei:state[@type="existence"][1]/@from,'/',$n/tei:state[@type="existence"][1]/@to)
     let $dynasty := tei2tsv:value($n/tei:state[@subtype="dynasty"]/tei:desc)
     let $site-data := tei2tsv:value($n/tei:desc[@type="site-data"])
@@ -59,7 +70,9 @@ let $data :=
         concat(
             string-join(($title,$uri,$principal,$editor,$editor2,$editor3,$published,
             $site-name-en, $site-name-zh-latn-pinyin, $site-name-zh-Hant, $site-name-zh-Hans, $site-name-Wade-Giles, 
-            $site-name-other, $site-name-other2, $date, $dynasty, $site-data, $site-type, $buildings-in-site),"&#x9;"),'&#xa;'))
+            $site-name-other, $site-name-other2,$site-name-other3,$site-name-other4,$site-name-other5,$site-name-other6,
+            $site-name-other7,$site-name-other8,$site-name-other9,$site-name-other10,
+            $date, $dynasty, $site-data, $site-type, $buildings-in-site),"&#x9;"),'&#xa;'))
 return concat($headers,($data))    
 };
 
@@ -67,7 +80,10 @@ declare function tei2tsv:tei2tsv-buildings($nodes as node()*) {
 let $headers :=concat(string-join(
                 ('title', 'uri', 'principal', 'editor', 'editor2', 'editor3', 'published',
                 'building-name-en','building-name-zh-latn-pinyin','building-name-zh-Hant','building-name-zh-Hans',
-                'building-name-Wade-Giles','building-name-other','building-name-other2','date','dynasty','building data',
+                'building-name-Wade-Giles','building-name-other','building-name-other2',
+                'building-name-other3','building-name-other4','building-name-other5','building-name-other6',
+                'building-name-other7','building-name-other8','building-name-other9','building-name-other10',
+                'date','dynasty','building data',
                 'building type','contained in what site'),"&#x9;"),
                   '&#xa;')
 let $data :=                   
@@ -87,7 +103,15 @@ let $data :=
     let $site-name-zh-Hans := tei2tsv:value($n/tei:placeName[@xml:lang="zh-Hans"][1])
     let $site-name-Wade-Giles := tei2tsv:value($n/tei:placeName[@xml:lang="Wade-Giles" or @xml:lang = 'zh-latn-wadegile'][1])
     let $site-name-other := tei2tsv:value($n/tei:placeName[6])
-    let $site-name-other2 := tei2tsv:value($n/tei:placeName[7])  
+    let $site-name-other2 := tei2tsv:value($n/tei:placeName[7])
+    let $site-name-other3 := tei2tsv:value($n/tei:placeName[8])  
+    let $site-name-other4 := tei2tsv:value($n/tei:placeName[9])  
+    let $site-name-other5 := tei2tsv:value($n/tei:placeName[10])  
+    let $site-name-other6 := tei2tsv:value($n/tei:placeName[11])  
+    let $site-name-other7 := tei2tsv:value($n/tei:placeName[12])  
+    let $site-name-other8 := tei2tsv:value($n/tei:placeName[13])  
+    let $site-name-other9 := tei2tsv:value($n/tei:placeName[14])  
+    let $site-name-other10 := tei2tsv:value($n/tei:placeName[15])  
     let $date := concat($n/tei:state[@type="existence"][1]/@from,'/',$n/tei:state[@type="existence"][1]/@to)
     let $dynasty := tei2tsv:value($n/tei:state[@subtype="dynasty"]/tei:desc)
     let $site-data := tei2tsv:value($n/tei:desc[@type="site-data"])
@@ -97,7 +121,9 @@ let $data :=
         concat(
             string-join(($title,$uri,$principal,$editor,$editor2,$editor3,$published,
             $site-name-en, $site-name-zh-latn-pinyin, $site-name-zh-Hant, $site-name-zh-Hans, $site-name-Wade-Giles, 
-            $site-name-other, $site-name-other2, $date, $dynasty, $site-data, $site-type, $buildings-in-site),"&#x9;"),'&#xa;'))
+            $site-name-other, $site-name-other2, $site-name-other3, $site-name-other4, $site-name-other5, $site-name-other6,
+            $site-name-other7, $site-name-other8, $site-name-other9, $site-name-other10, 
+            $date, $dynasty, $site-data, $site-type, $buildings-in-site),"&#x9;"),'&#xa;'))
 return concat($headers,($data))    
 };
 
