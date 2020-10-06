@@ -31,13 +31,22 @@ declare function local:content-negotiation($exist:path, $exist:resource){
             <forward url="{$exist:controller}/modules/content-negotiation/content-negotiation.xql"/>
             <add-parameter name="format" value="{$format}"/>
         </dispatch>
+    else if(starts-with($exist:resource, 'data')) then 
+        let $format := request:get-parameter('format', '')
+        let $collection := request:get-parameter('collection', '')
+        return 
+        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">        
+            <forward url="{$exist:controller}/modules/data.xql"/>
+            <add-parameter name="format" value="{$format}"/>
+            <add-parameter name="collection" value="{$collection}"/>
+        </dispatch>
     else
         let $id := if($exist:resource = ('tei','xml','txt','pdf','json','geojson','kml','jsonld','rdf','ttl','atom')) then
                         tokenize(replace($exist:path,'/tei|/xml|/txt|/pdf|/json|/geojson|/kml|/jsonld|/rdf|/ttl|/atom',''),'/')[last()]
                    else replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1")
         let $record-uri-root := substring-before($exist:path,$id)
         let $id := if($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)]) then
-                        concat($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)]/@record-URI-pattern,$id)
+                        concat($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)][1]/@record-URI-pattern,$id)
                    else $id
         let $html-path := concat($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)][1]/@app-root,'record.html')
         let $format := if($exist:resource = ('tei','xml','txt','pdf','json','geojson','kml','jsonld','rdf','ttl','atom')) then
@@ -111,7 +120,7 @@ else if(replace($exist:path, $exist:resource,'') =  $exist:record-uris) then
         let $id := replace(xmldb:decode($exist:resource), "^(.*)\..*$", "$1")
         let $record-uri-root := replace($exist:path,$exist:resource,'')
         let $id := if($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)]) then
-                        concat($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)]/@record-URI-pattern,$id)
+                        concat($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)][1]/@record-URI-pattern,$id)
                    else ()
         let $html-path := concat($config:get-config//repo:collection[ends-with(@record-URI-pattern, $record-uri-root)][1]/@app-root,'record.html')
         let $format := fn:tokenize($exist:resource, '\.')[fn:last()]
