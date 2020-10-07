@@ -330,7 +330,7 @@ return
             else
                 for $r at $n in $related
                 let $id := replace($r/descendant::tei:idno[1],'/tei','')
-                let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains artifact(s)' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
+                let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains Place' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
                 return 
                     <div>
                         <span class="num">{$n}. </span>
@@ -372,7 +372,7 @@ declare function rel:cited($idno, $start, $perpage){
                      if($count gt 5) then
                         <div>
                             <a href="{$config:nav-base}/bibl/search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" style="width:100%; margin-bottom:1em;" class="btn btn-info">See all {$count} results</a>
-                        <!-- 
+                        <!--
                             <a href="#" class="btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="modal" data-target="#moreInfo" 
                             data-ref="../search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" 
                             data-label="See all {$count} results" id="moreInfoBtn">
