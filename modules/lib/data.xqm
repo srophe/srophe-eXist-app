@@ -151,7 +151,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
                         else concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
     let $hits :=
             if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
-                collection($config:data-root || '/' || $collection)[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]
+                collection($config:data-root || '/' || $collection)//tei:TEI[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]
             else util:eval($eval-string)[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]           
     let $sortElement := if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
                  else if($sort-element != '') then $sort-element
