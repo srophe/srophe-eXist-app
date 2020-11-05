@@ -3,15 +3,22 @@ xquery version "3.0";
  : Basic data interactions, returns raw data for use in other modules  
  : Used by ../app.xql and content-negotiation/content-negotiation.xql  
 :)
-module namespace data="http://syriaca.org/srophe/data";
+module namespace data="http://srophe.org/srophe/data";
 
-import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
-import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
+import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
+import module namespace global="http://srophe.org/srophe/global" at "global.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "facet.xqm";
+import module namespace sf = "http://srophe.org/srophe/facets" at "facets.xql";
 import module namespace functx="http://www.functx.com";
-import module namespace slider = "http://syriaca.org/srophe/slider" at "date-slider.xqm";
+import module namespace slider = "http://srophe.org/srophe/slider" at "date-slider.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+
+declare variable $data:QUERY_OPTIONS := map {
+    "leading-wildcard": "yes",
+    "filter-rewrite": "yes"
+};
+
 
 (:~
  : Return document by id/tei:idno or document path
@@ -139,28 +146,64 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
  : Build a search XPath based on search parameters. 
  : Add sort options. 
 :)
-declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {                      
+declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {     
     let $eval-string := if($queryString != '') then $queryString 
-                        else concat(data:build-collection-path($collection), data:create-query($collection),facet:facet-filter(global:facet-definition-file($collection)),slider:date-filter(()))
+                        else concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
+    let $hits :=
+            if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
+                collection($config:data-root || '/' || $collection)[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]
+            else util:eval($eval-string)[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]           
+    let $sortElement := if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
+                 else if($sort-element != '') then $sort-element
+                 else ()
     return 
-        if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then 
-            for $hit at $n in util:eval($eval-string)
-            order by global:build-sort-string(data:add-sort-options($hit, request:get-parameter('sort-element', '')),'')
-            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>
-        else if($sort-element != '' and $sort-element != 'relevance') then  
-            for $hit at $n in util:eval($eval-string)
-            order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
-            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>
-        else if($collection = 'bibl') then 
-            let $sort-element := if(request:get-parameter('sort-element', '')) then request:get-parameter('sort-element', '') else 'author'
-            for $hit at $n in util:eval($eval-string)
-            order by global:build-sort-string(data:add-sort-options($hit,'bibl', $sort-element),'')
-            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>            
-        else 
-            for $hit at $n in util:eval($eval-string)
-            order by ft:score($hit) descending
-            return <search score="{ft:score($hit)}" n="{$n}">{root($hit)}</search>
+        if($sortElement != '' and $sortElement != 'relevance' or request:get-parameter('view', '') = 'all') then 
+                for $hit in $hits
+                let $root := $hit/ancestor-or-self::tei:TEI
+                let $sort := 
+                    if($collection = 'bibl') then
+                        global:build-sort-string(data:add-sort-options-bibl($root, $sortElement),'')
+                    else global:build-sort-string(data:add-sort-options($root, $sortElement),'')
+                order by $sort ascending collation 'http://www.w3.org/2013/collation/UCA'
+                return $root
+            else 
+                for $hit in $hits
+                let $root := $hit/ancestor-or-self::tei:TEI
+                order by ft:score($hit) descending
+                return $root 
+           
+    (:
+    let $eval-string := if($queryString != '') then $queryString 
+                        else concat(data:build-collection-path($collection), data:create-query($collection))
+    let $fields :=  
+            string-join(
+            for $param in request:get-parameter-names()[starts-with(., 'field-')]
+            let $dimension := substring-after($param, 'field-')
+            return concat(' +', $dimension, ':',  data:clean-string(request:get-parameter($param, ()))),''
+            )
+    let $fullText := if(request:get-parameter('keyword', ()) != '') then
+                        data:clean-string(request:get-parameter('keyword', ()))
+                     else if(request:get-parameter('fullText', ()) != '') then
+                        data:clean-string(request:get-parameter('fullText', ()))
+                     else if(request:get-parameter('q', ()) != '') then
+                        data:clean-string(request:get-parameter('q', ()))
+                     else ()
+    let $query := if($fullText != '') then 
+                    $fullText || $fields
+                  else $fields
+    let $hits :=
+            if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
+                collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
+            else if($query != '') then  
+                if($fullText != '') then
+                   util:eval($eval-string)//tei:body[ft:query(., ($query), sf:facet-query())] 
+                   | util:eval($eval-string)//tei:fileDesc[ft:query(., ($query), sf:facet-query())]
+                else util:eval($eval-string)//tei:body[ft:query(., ($query), sf:facet-query())]
+            else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]           
+    return $hits/ancestor::tei:TEI 
+       :)
 };
+
 
 (:~   
  : Builds general search string.
@@ -209,6 +252,32 @@ declare function data:add-sort-options($hit, $sort-option as xs:string*){
             else if($hit/descendant::tei:death) then $hit/descendant::tei:death/@syriaca-computed-start
             else ()
         else $hit
+    else $hit
+};
+
+(:~ 
+ : Adds sort filter based on sort prameter
+ : Currently supports sort on title, author, publication date and person dates
+ : @param $sort-option
+:)
+declare function data:add-sort-options-bibl($hit, $sort-option as xs:string*){
+    if($sort-option != '') then
+        if($sort-option = 'title') then 
+                global:build-sort-string($hit/descendant::tei:biblStruct/descendant::tei:title[1],request:get-parameter('lang', ''))
+            else if($sort-option = 'author') then 
+                if($hit/descendant::tei:biblStruct/descendant::tei:author[1]) then 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname[1]
+                    else $hit//descendant::tei:author[1]
+                else 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname[1]
+                    else $hit/descendant::tei:titleStmt/tei:editor[1]
+            else if($sort-option = 'pubDate') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            else if($sort-option = 'pubPlace') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            else $hit
     else $hit
 };
 
@@ -312,9 +381,9 @@ declare function data:dynamic-paths($search-config as xs:string?){
                 if($p = 'keyword') then
                     data:keyword-search()
                 else if(string($config//input[@name = $p]/@element) = '.') then
-                    concat("[ft:query(.//tei:body,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
+                    concat("[ft:query(descendant-or-self::tei:body,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
                 else if(string($config//input[@name = $p]/@element) != '') then
-                    concat("[ft:query(.//",string($config//input[@name = $p]/@element),",'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
+                    concat("[ft:query(descendant-or-self::",string($config//input[@name = $p]/@element),",'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
                 else ()    
             else (),'')
 };
@@ -325,10 +394,10 @@ declare function data:dynamic-paths($search-config as xs:string?){
 declare function data:keyword-search(){
     if(request:get-parameter('keyword', '') != '') then 
         for $query in request:get-parameter('keyword', '') 
-        return concat("[ft:query(descendant::tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+        return concat("[ft:query(.,'",data:clean-string($query),"',data:search-options()) or ft:query(ancestor::tei:TEI/descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
     else if(request:get-parameter('q', '') != '') then 
         for $query in request:get-parameter('q', '') 
-        return concat("[ft:query(descendant::tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+        return concat("[ft:query(.,'",data:clean-string($query),"',data:search-options()) or ft:query(ancestor::tei:TEI/descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
     else ()
 };
 
@@ -386,22 +455,3 @@ declare function data:element-search($element, $query){
         else ()
     else ()
 };
-
-(:
- : Add your custom search paths here: 
- : Example of a complex search used by Syriaca.org
- : Search for bibl records with matching URI
- declare function search:bibl(){
-    if($search:bibl != '') then  
-        let $terms := data:clean-string($search:bibl)
-        let $ids := 
-            if(matches($search:bibl,'^http://syriaca.org/')) then
-                normalize-space($search:bibl)
-            else 
-                string-join(distinct-values(
-                for $r in collection($global:data-root || '/bibl')//tei:body[ft:query(.,$terms, data:search-options())]/ancestor::tei:TEI/descendant::tei:publicationStmt/tei:idno[starts-with(.,'http://syriaca.org')][1]
-                return concat(substring-before($r,'/tei'),'(\s|$)')),'|')
-        return concat("[descendant::tei:bibl/tei:ptr[@target[matches(.,'",$ids,"')]]]")
-    else ()  
-};
-:)
