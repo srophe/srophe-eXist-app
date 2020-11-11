@@ -34,7 +34,7 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 }
 
 .featured-images a img {
-    width:100%;
+    width:50%;
     border: 2px solid white;
 }
 
