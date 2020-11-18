@@ -4,22 +4,23 @@ xquery version "3.1";
  : Output TEI to HTML via eXist-db templating system. 
  : Add your own custom modules at the end of the file. 
 :)
-module namespace app="http://syriaca.org/srophe/templates";
+module namespace app="http://srophe.org/srophe/templates";
 
 (:eXist templating module:)
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 
 (: Import Srophe application modules. :)
-import module namespace config="http://syriaca.org/srophe/config" at "config.xqm";
-import module namespace data="http://syriaca.org/srophe/data" at "lib/data.xqm";
+import module namespace config="http://srophe.org/srophe/config" at "config.xqm";
+import module namespace data="http://srophe.org/srophe/data" at "lib/data.xqm";
 import module namespace facet="http://expath.org/ns/facet" at "lib/facet.xqm";
-import module namespace global="http://syriaca.org/srophe/global" at "lib/global.xqm";
-import module namespace maps="http://syriaca.org/srophe/maps" at "lib/maps.xqm";
-import module namespace page="http://syriaca.org/srophe/page" at "lib/paging.xqm";
-import module namespace rel="http://syriaca.org/srophe/related" at "lib/get-related.xqm";
-import module namespace slider = "http://syriaca.org/srophe/slider" at "lib/date-slider.xqm";
-import module namespace teiDocs="http://syriaca.org/srophe/teiDocs" at "teiDocs/teiDocs.xqm";
-import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "content-negotiation/tei2html.xqm";
+import module namespace sf="http://srophe.org/srophe/facets" at "../lib/facets.xql";
+import module namespace global="http://srophe.org/srophe/global" at "lib/global.xqm";
+import module namespace maps="http://srophe.org/srophe/maps" at "lib/maps.xqm";
+import module namespace page="http://srophe.org/srophe/page" at "lib/paging.xqm";
+import module namespace rel="http://srophe.org/srophe/related" at "lib/get-related.xqm";
+import module namespace slider = "http://srophe.org/srophe/slider" at "lib/date-slider.xqm";
+import module namespace teiDocs="http://srophe.org/srophe/teiDocs" at "teiDocs/teiDocs.xqm";
+import module namespace tei2html="http://srophe.org/srophe/tei2html" at "content-negotiation/tei2html.xqm";
 
 
 (: Namespaces :)
@@ -55,8 +56,8 @@ declare function app:get-work($node as node(), $model as map(*)) {
         return 
             if(empty($rec)) then 
                 response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html')))
-            else map {"hits" := $rec }
-    else map {"hits" := 'Output plain HTML page'}
+            else map {"hits" : $rec }
+    else map {"hits" : 'Output plain HTML page'}
 };
 
 (:~
@@ -325,8 +326,11 @@ declare function app:display-facets($node as node(), $model as map(*), $collecti
     let $hits := $model("hits")
     let $facet-config := global:facet-definition-file($collection)
     return 
-        if(not(empty($facet-config))) then 
-            (facet:output-html-facets($hits, $facet-config/descendant::facet:facets/facet:facet-definition))
+        if(not(empty($facet-config))) then
+            if($collection = 'keywords') then
+                sf:nested-display($model("hits"),$facet-config)
+            else sf:display($model("hits"),$facet-config)
+            (:(facet:output-html-facets($hits, $facet-config/descendant::facet:facets/facet:facet-definition)):)
         else ()
 };
 
@@ -397,7 +401,7 @@ declare function app:get-wiki($node as node(), $model as map(*), $wiki-uri as xs
             concat($wiki-uri, request:get-parameter('wiki-page', ''))
         else $wiki-uri
     let $wiki-data := app:wiki-rest-request($uri)
-    return map {"hits" := $wiki-data}
+    return map {"hits" : $wiki-data}
 };
 
 (:~
@@ -424,9 +428,25 @@ declare function app:wiki-page-title($node, $model){
 :)
 declare function app:wiki-page-content($node, $model){
     let $wiki-data := $model("hits")
-    return $wiki-data//html:div[@id='wiki-body'] 
+    return 
+        app:wiki-data($wiki-data//html:div[@id='wiki-body']) 
 };
 
+(:~
+ : Typeswitch to processes wiki anchors links for use with Syriaca.org documentation pages. 
+ : @param $wiki pulls content from specified wiki or wiki page. 
+:)
+declare function app:wiki-data($nodes as node()*) {
+    for $node in $nodes
+    return 
+        typeswitch($node)
+            case element() return
+                element { node-name($node) } {
+                    if($node/@id) then attribute id { replace($node/@id,'user-content-','') } else (),
+                    $node/@*[name()!='id'], app:wiki-data($node/node())
+                }
+            default return $node               
+};
 (:~
  : Pull github wiki data into Syriaca.org documentation pages. 
  : Grabs wiki menus to add to Syraica.org pages

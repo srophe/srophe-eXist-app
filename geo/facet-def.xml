@@ -1,38 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <facets xmlns="http://expath.org/ns/facet">
-    <facet-definition name="Dynasty">
-        <group-by function="facet:group-by-array">
-            <sub-path>descendant::tei:relation[@ref="dcterms:temporal"][@ana='dynasty']/@passive</sub-path>
+    <facet-definition name="dynasty" label="Dynasty">
+        <group-by>
+            <!-- May need a function to resolve name, see how fast/slow it is  -->
+            <sub-path>descendant::tei:relation[@ana = 'dynasty']/@passive</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
         <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="Province">
+    <facet-definition name="province" label="Province">
         <group-by>
-            <sub-path>descendant::tei:region[@type='province']/tei:placeName[@xml:lang='en']</sub-path>
+            <sub-path>descendant::tei:place/descendant::tei:region[@type='province']/tei:placeName[@xml:lang='zh-latn-pinyin']</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
-        <order-by direction="descending">count</order-by>
+        <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="Site Type">
+    <facet-definition name="siteType" label="Site Type">
         <group-by>
-            <sub-path>descendant::tei:trait[@sub-type='site-type']/tei:desc[@xml:lang='en']/text()</sub-path>
+            <sub-path>descendant::tei:place/tei:trait[@sub-type='site-type']/tei:desc[@xml:lang='en']</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
-        <order-by direction="descending">count</order-by>
+        <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="Building Type">
+    <facet-definition name="buildingType" label="Building Type">
         <group-by>
-            <sub-path>descendant::tei:trait[@sub-type='building-type']/tei:desc[@xml:lang='en']/text()</sub-path>
+            <sub-path>descendant::tei:place/tei:trait[@sub-type='building-type']/tei:desc[@xml:lang='en']</sub-path>
         </group-by>
         <max-values show="5">40</max-values>
-        <order-by direction="descending">count</order-by>
+        <order-by direction="ascending">count</order-by>
     </facet-definition>
-    <facet-definition name="Architectural Feature">
-        <group-by function="facet:group-by-array">
-            <!-- <group-by function="facet:group-feature"> -->
-            <sub-path>descendant::tei:relation[@ref="dcterms:subject"][@ana='architectural-feature']/@passive</sub-path>
+    <facet-definition name="architecturalFeature" label="Architectural Feature">
+        <group-by>
+            <sub-path>descendant::tei:relation[@ref="dcterms:subject"]/@passive</sub-path>
         </group-by>
-        <max-values show="5">60</max-values>
-        <order-by direction="descending">count</order-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
     </facet-definition>
+    <!--
+    <facet-definition name="sites" label="Sites">
+        <group-by function="group-by-array">
+            <sub-path>descendant::tei:relation[@ref="dcterms:isPartOf"]/@passive</sub-path>
+        </group-by>
+        <max-values show="5">40</max-values>
+        <order-by direction="ascending">count</order-by>
+    </facet-definition>
+    -->
 </facets>

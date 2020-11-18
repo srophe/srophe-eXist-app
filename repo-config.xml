@@ -1,14 +1,4 @@
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>Architectura Sinica</description>
-    <author>Winona Salesky</author>
-    <website>https://architecturasinica.org</website>
-    <status>beta</status>
-    <license>GNU-LGPL</license>
-    <copyright>true</copyright>
-    <type>application</type>
-    <target>tcadrt</target>
-    <prepare>pre-install.xql</prepare>
-    <finish>post-install.xql</finish>
     <config>
         <!-- App title -->
         <title>Architectura Sinica</title>

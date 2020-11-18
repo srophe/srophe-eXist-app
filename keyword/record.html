@@ -1,32 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/page.html" data-template-at="content">
-    <div class="interior-content white keywords record">
-        <div data-template="app:h1"/>
-        <div data-template="app:other-data-formats" data-template-formats="print,tei"/>
-        <div class="row">
-            <div class="col-md-7">
-                <div data-template="app:display-featured-image"/>                    
-                <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
-                <div data-template="app:keyword-tree"/>
+        <div class="interior-content white keywords record">
+            <div data-template="app:h1"/>
+            <div data-template="app:other-data-formats" data-template-formats="print,tei"/>
+            <div class="row">
+                <div class="col-md-7">
+                    <div data-template="app:display-featured-image"/>                    
+                    <div data-template="app:display-nodes" data-template-paths="/descendant::tei:body"/>
+                    <div data-template="app:keyword-tree"/>
+                </div>
+                <div class="col-md-5">
+                    <div data-template="app:external-relationships" data-template-relationship-type="dcterms:subject"/>
+                </div>
             </div>
-            <div class="col-md-5">
-                <div data-template="app:external-relationships" data-template-relationship-type="dcterms:subject"/>
-            </div>
+            <div data-template="app:display-nodes" data-template-paths="/descendant::tei:teiHeader"/>
         </div>
-        <div data-template="app:display-nodes" data-template-paths="/descendant::tei:teiHeader"/>
-    </div>
     <script><![CDATA[
-        $(document).ready(function () {
-        $('a.more').click(function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        var href = $(this).attr('href');
-        $.get(href, function( data ) {
-        $( "#listRelationships" ).append( data );
-        $("a.more").toggle();
-        }).fail(function() {
-        console.log('fail')
-        });
-        });
-        });
+            $(document).ready(function () {
+                $('a.more').click(function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    var href = $(this).attr('href');
+                    $.get(href, function( data ) {
+                        $( "#listRelationships" ).append( data );
+                        $("a.more").toggle();
+                    }).fail(function() {
+                        console.log('fail')
+                    });
+                 });
+            });
         ]]></script>
 </div>

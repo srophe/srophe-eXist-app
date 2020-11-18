@@ -16,7 +16,7 @@ xquery version "3.0";
  :
  :)
 
-module namespace slider = "http://syriaca.org/srophe/slider";
+module namespace slider = "http://srophe.org/srophe/slider";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (:
@@ -90,13 +90,14 @@ let $maxPadding := slider:expand-dates((xs:date(slider:expand-dates(string($d[la
 let $params := 
     string-join(
     for $param in request:get-parameter-names()
+    for $p in request:get-parameter($param, '')
+    where $p != ''
     return 
         if($param = 'startDate') then ()
         else if($param = 'endDate') then ()
         else if($param = 'start') then ()
         else if($param = 'id') then ()
-        else if(request:get-parameter($param, '') = ' ') then ()
-        else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
+        else concat('&amp;',$param, '=',$p),'')
 return 
 if(not(empty($min)) and not(empty($max))) then
     <div>

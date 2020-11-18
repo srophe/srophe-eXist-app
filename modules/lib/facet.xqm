@@ -18,8 +18,7 @@ xquery version "3.1";
  :)
  
 module namespace facet = "http://expath.org/ns/facet";
-import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
-import module namespace config="http://syriaca.org/srophe/config" at "config.xqm";
+import module namespace global="http://srophe.org/srophe/global" at "global.xqm";
 import module namespace functx="http://www.functx.com";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
@@ -242,14 +241,9 @@ declare function facet:key($label, $value, $count, $facet-definition){
         if($facet:fq) then concat('fq=',encode-for-uri($facet:fq),encode-for-uri($facet-query))
         else concat('fq=',normalize-space($facet-query))
    let $active := if(contains($facet:fq,concat(';fq-',string($facet-definition/@name),':',string($value)))) then 'active' else ()    
-   let $facetLabel := 
-                    if(starts-with($label, $config:base-uri)) then 
-                       let $title := collection($config:data-root)//tei:idno[. = concat($label,'/tei')]/ancestor::tei:TEI/descendant::tei:title[1]//text()
-                       return if($title) then $title else $label
-                    else lower-case(global:get-label(string($label)))
    return 
         if($count gt 0) then 
-            <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active}">{$facetLabel} <span class="count"> ({string($count)})</span></a>
+            <a href="?{$new-fq}{facet:url-params()}" class="facet-label {$active}">{lower-case(global:get-label(string($label)))} <span class="count"> ({string($count)})</span></a>
         else ()        
 };
 

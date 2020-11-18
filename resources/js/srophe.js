@@ -51,6 +51,7 @@ $("#email").validate({
 });
 
 //Reload only search-results-panel for research-tool form
+/* 
 $("#research-tool").submit(function(e){
     e.preventDefault();
     var url = $(this).attr('action')
@@ -61,8 +62,9 @@ $("#research-tool").submit(function(e){
         console.log(textStatus);
     });
 });
-
+*/
 //Reload only search-results-panel for research-tool form
+/* 
 $(".pagination a").click(function(e){
     e.preventDefault();
     var url = $(this).attr('href')
@@ -73,8 +75,9 @@ $(".pagination a").click(function(e){
         console.log(textStatus);
     });
 });
-
+*/
 //Reload only search-results-panel for research-tool form
+/* 
 $(".facet-list a").click(function(e){
     e.preventDefault();
     var url = $(this).attr('href')
@@ -85,6 +88,7 @@ $(".facet-list a").click(function(e){
         console.log(textStatus);
     });
 });
+*/
 
 $("a.reset").click(function(e){
     window.location = window.location.pathname;

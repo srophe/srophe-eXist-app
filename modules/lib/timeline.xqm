@@ -1,13 +1,13 @@
 xquery version "3.0";
 
-module namespace timeline="http://syriaca.org/srophe/timeline";
+module namespace timeline="http://srophe.org/srophe/timeline";
 
 (:~
  : Module to build timeline json passed to http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js widget
  : @author Winona Salesky <wsalesky@gmail.com>
  : @authored 2014-08-05
 :)
-import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
+import module namespace global="http://srophe.org/srophe/global" at "global.xqm";
 
 declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace json = "http://www.json.org";

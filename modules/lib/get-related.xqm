@@ -1,25 +1,24 @@
 xquery version "3.0";
 (: Get and build TEI relationships :)
-module namespace rel="http://syriaca.org/srophe/related";
-import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
-import module namespace global="http://syriaca.org/srophe/global" at "global.xqm";
-import module namespace data="http://syriaca.org/srophe/data" at "data.xqm";
-import module namespace maps="http://syriaca.org/srophe/maps" at "maps.xqm";
-import module namespace slider = "http://syriaca.org/srophe/slider" at "date-slider.xqm";
-import module namespace tei2html="http://syriaca.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
+module namespace rel="http://srophe.org/srophe/related";
+import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
+import module namespace global="http://srophe.org/srophe/global" at "global.xqm";
+import module namespace data="http://srophe.org/srophe/data" at "data.xqm";
+import module namespace maps="http://srophe.org/srophe/maps" at "maps.xqm";
+import module namespace slider = "http://srophe.org/srophe/slider" at "date-slider.xqm";
+import module namespace tei2html="http://srophe.org/srophe/tei2html" at "../content-negotiation/tei2html.xqm";
 
 import module namespace functx="http://www.functx.com";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
 declare function rel:get-related($uris as xs:string?) as map(xs:string, function(*)){
-    map:new(
+    let $map := map{}
+    return map:merge(
         for $uri at $i in tokenize($uris,' ')
         let $data := data:get-document($uri)
         where not(empty($data))
-        return
-            map:entry($uri,$data), "?strength=primary"
-    )
+        return map:put($map, $uri, $data)) 
 };
 
 (:~
@@ -331,7 +330,7 @@ return
             else
                 for $r at $n in $related
                 let $id := replace($r/descendant::tei:idno[1],'/tei','')
-                let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains artifact(s)' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
+                let $title := if($r/descendant::tei:place/tei:placeName and $label = 'Contains Place' ) then $r/descendant::tei:place/tei:placeName[1]/text() else $r/descendant::tei:titleStmt/tei:title[1]/text()
                 return 
                     <div>
                         <span class="num">{$n}. </span>
@@ -373,7 +372,7 @@ declare function rel:cited($idno, $start, $perpage){
                      if($count gt 5) then
                         <div>
                             <a href="{$config:nav-base}/bibl/search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" style="width:100%; margin-bottom:1em;" class="btn btn-info">See all {$count} results</a>
-                        <!-- 
+                        <!--
                             <a href="#" class="btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="modal" data-target="#moreInfo" 
                             data-ref="../search.html?bibl={$current-id}&amp;perpage={$count}&amp;sort=alpha" 
                             data-label="See all {$count} results" id="moreInfoBtn">
@@ -400,5 +399,5 @@ let $data :=
     where $sort != ''
     order by $sort
     return concat($id, 'headword:=', $headword)
-return  map { "cited" := $data}    
+return  map { "cited" : $data}    
 };
