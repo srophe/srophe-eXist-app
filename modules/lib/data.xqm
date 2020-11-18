@@ -151,9 +151,27 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
                         else concat(data:build-collection-path($collection), data:create-query($collection),slider:date-filter(()))
     let $hits :=
             if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
-                collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
-            else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]           
-    return $hits/ancestor-or-self::tei:TEI          
+                collection($config:data-root || '/' || $collection)//tei:TEI[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]
+            else util:eval($eval-string)[descendant-or-self::tei:body[ft:query(., (),sf:facet-query())]]           
+    let $sortElement := if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
+                 else if($sort-element != '') then $sort-element
+                 else ()
+    return 
+        if($sortElement != '' and $sortElement != 'relevance' or request:get-parameter('view', '') = 'all') then 
+                for $hit in $hits
+                let $root := $hit/ancestor-or-self::tei:TEI
+                let $sort := 
+                    if($collection = 'bibl') then
+                        global:build-sort-string(data:add-sort-options-bibl($root, $sortElement),'')
+                    else global:build-sort-string(data:add-sort-options($root, $sortElement),'')
+                order by $sort ascending collation 'http://www.w3.org/2013/collation/UCA'
+                return $root
+            else 
+                for $hit in $hits
+                let $root := $hit/ancestor-or-self::tei:TEI
+                order by ft:score($hit) descending
+                return $root 
+           
     (:
     let $eval-string := if($queryString != '') then $queryString 
                         else concat(data:build-collection-path($collection), data:create-query($collection))
@@ -184,7 +202,6 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]           
     return $hits/ancestor::tei:TEI 
        :)
-       
 };
 
 
@@ -366,7 +383,7 @@ declare function data:dynamic-paths($search-config as xs:string?){
                 else if(string($config//input[@name = $p]/@element) = '.') then
                     concat("[ft:query(descendant-or-self::tei:body,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
                 else if(string($config//input[@name = $p]/@element) != '') then
-                    concat("[ft:query(.//",string($config//input[@name = $p]/@element),",'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
+                    concat("[ft:query(descendant-or-self::",string($config//input[@name = $p]/@element),",'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
                 else ()    
             else (),'')
 };
@@ -377,10 +394,10 @@ declare function data:dynamic-paths($search-config as xs:string?){
 declare function data:keyword-search(){
     if(request:get-parameter('keyword', '') != '') then 
         for $query in request:get-parameter('keyword', '') 
-        return concat("[ft:query(descendant::tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+        return concat("[ft:query(descendant-or-self::tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(ancestor::tei:TEI/descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
     else if(request:get-parameter('q', '') != '') then 
         for $query in request:get-parameter('q', '') 
-        return concat("[ft:query(descendant::tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
+        return concat("[ft:query(descendant-or-self::tei:body,'",data:clean-string($query),"',data:search-options()) or ft:query(ancestor::tei:TEI/descendant::tei:teiHeader,'",data:clean-string($query),"',data:search-options())]")
     else ()
 };
 

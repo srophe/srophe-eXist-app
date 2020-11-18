@@ -49,13 +49,15 @@ declare function sf:build-index(){
         </text>
         <text qname="tei:fileDesc"/>
         <text qname="tei:biblStruct"/>
+        <text qname="tei:publisher"/>
+        <text qname="tei:pubPlace"/>
         <text qname="tei:div"/>
         <text qname="tei:author" boost="2.0"/>
         <text qname="tei:persName" boost="2.0"/>
         <text qname="tei:placeName" boost="2.0"/>
         <text qname="tei:title" boost="10.5"/>
-        <text qname="tei:location"/>
         <text qname="tei:desc" boost="1.0"/>
+        <text qname="tei:location"/>
         <text qname="tei:event"/>
         <text qname="tei:note"/>
         <text qname="tei:term"/>
@@ -398,7 +400,6 @@ else
     }
 };
 
-
 (:~
  : Build map for search query
  : Used by search functions
@@ -419,7 +420,6 @@ declare function sf:facet-query() {
         }
     ))
 };
-
 
 (:~
  : Adds type casting when type is specified facet:facet:group-by/@type
@@ -454,23 +454,10 @@ declare function sf:type($value as item()*, $type as xs:string?) as item()*{
 
 (: Syriaca.org strip non sort characters :)
 declare function sf:build-sort-string($titlestring as xs:string?) as xs:string* {
-    replace(normalize-space($titlestring),'^\s+|^[‘|ʻ|ʿ|ʾ]|^[tT]he\s+[^\p{L}]+|^[dD]e\s+|^[dD]e-|^[oO]n\s+[aA]\s+|^[oO]n\s+|^[aA]l-|^[aA]n\s|^[aA]\s+|^\d*\W|^[^\p{L}]','')
+    replace(normalize-space($titlestring),'^\s+|^[‘|ʻ|ʿ|ʾ]|^[tT]he\s+|^[dD]e\s+|^[dD]e-|^[oO]n\s+[aA]\s+|^[oO]n\s+|^[aA]l-|^[aA]n\s|^[aA]\s+|^\d*\W|^[^\p{L}]','')
 };
 
-
-(: tcadrt functions 
- : Test hierarchical facets
- 
- exist-db example: 
-<facet dimension="subject" expression="idx:subject-hierarchy(db:info/db:subjectset/db:subject/db:subjectterm)" hierarchical="yes"/>
-declare function idx:subject-hierarchy($key as xs:string*) {
-    array:for-each (array {$key}, function($k) {
-        doc('/db/subjects/subjects.xml')//subject[@name=$k]/ancestor-or-self::subject/@name
-    })
-};
-relation ref="skos:broadMatch" active="https://architecturasinica.org/keyword/k000001" passive="Bracketing"
-<facet dimension="searchCategory" expression="sf:facet(descendant-or-self::tei:body, '/db/apps/tcadrt/keyword/facet-def.xml', 'searchCategory')"/>                
-:)
+(: tcadrt functions :)
 declare function sf:facet-searchCategory($element as item()*, $facet-definition as item(), $name as xs:string){
     (:for $key in $element/descendant::tei:relation[@ref='skos:broadMatch']/@passive
     return 
