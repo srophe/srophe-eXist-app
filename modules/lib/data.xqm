@@ -243,6 +243,32 @@ declare function data:add-sort-options($hit, $sort-option as xs:string*){
  : Currently supports sort on title, author, publication date and person dates
  : @param $sort-option
 :)
+declare function data:add-sort-options-bibl($hit, $sort-option as xs:string*){
+    if($sort-option != '') then
+        if($sort-option = 'title') then 
+                global:build-sort-string($hit/descendant::tei:biblStruct/descendant::tei:title[1],request:get-parameter('lang', ''))
+            else if($sort-option = 'author') then 
+                if($hit/descendant::tei:biblStruct/descendant::tei:author[1]) then 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:author[1]/descendant-or-self::tei:surname[1]
+                    else $hit//descendant::tei:author[1]
+                else 
+                    if($hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname) then 
+                        $hit/descendant::tei:biblStruct/descendant::tei:editor[1]/descendant-or-self::tei:surname[1]
+                    else $hit/descendant::tei:titleStmt/tei:editor[1]
+            else if($sort-option = 'pubDate') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:date[1]
+            else if($sort-option = 'pubPlace') then 
+                $hit/descendant::tei:biblStruct/descendant::tei:imprint[1]/descendant-or-self::tei:pubPlace[1]
+            else $hit
+    else $hit
+};
+
+(:~ 
+ : Adds sort filter based on sort prameter
+ : Currently supports sort on title, author, publication date and person dates
+ : @param $sort-option
+:)
 declare function data:add-sort-options($hit, $collection, $sort-option as xs:string*){
     if($sort-option != '') then
         if($collection = 'bibl') then
@@ -338,7 +364,7 @@ declare function data:dynamic-paths($search-config as xs:string?){
                 if($p = 'keyword') then
                     data:keyword-search()
                 else if(string($config//input[@name = $p]/@element) = '.') then
-                    concat("[ft:query(.//tei:body,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
+                    concat("[ft:query(descendant-or-self::tei:body,'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
                 else if(string($config//input[@name = $p]/@element) != '') then
                     concat("[ft:query(.//",string($config//input[@name = $p]/@element),",'",data:clean-string(request:get-parameter($p, '')),"',data:search-options())]")
                 else ()    
