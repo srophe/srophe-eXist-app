@@ -1,6 +1,6 @@
 xquery version "3.0";
 
-module namespace maps = "http://syriaca.org/srophe/maps";
+module namespace maps = "http://srophe.org/srophe/maps";
 
 (:~
  : Module builds leafletjs maps and/or Google maps
@@ -9,8 +9,8 @@ module namespace maps = "http://syriaca.org/srophe/maps";
  : @author Winona Salesky <wsalesky@gmail.com>
  : @authored 2014-06-25
 :)
-import module namespace geojson = "http://syriaca.org/srophe/geojson" at "../content-negotiation/geojson.xqm";
-import module namespace config="http://syriaca.org/srophe/config" at "../config.xqm";
+import module namespace geojson = "http://srophe.org/srophe/geojson" at "../content-negotiation/geojson.xqm";
+import module namespace config="http://srophe.org/srophe/config" at "../config.xqm";
 
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
@@ -36,10 +36,10 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
         <div id="map"/>
         <script type="text/javascript">
             <![CDATA[
-            var terrain = L.tileLayer('http://api.tiles.mapbox.com/v3/sgillies.map-ac5eaoks/{z}/{x}/{y}.png', {attribution: "ISAW, 2012"});
+            var terrain = L.tileLayer('https://a.tiles.mapbox.com/v3/isawnyu.map-knmctlkh/{z}/{x}/{y}.png', {attribution: "ISAW, 2012"});
                                 
             /* Not added by default, only through user control action */
-            var streets = L.tileLayer('http://api.tiles.mapbox.com/v3/sgillies.map-pmfv2yqx/{z}/{x}/{y}.png', {attribution: "ISAW, 2012"});
+            var streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: "ISAW, 2012"});
                                 
             var imperium = L.tileLayer('http://pelagios.dme.ait.ac.at/tilesets/imperium//{z}/{x}/{y}.png', {attribution: 'Tiles: &lt;a href="http://pelagios-project.blogspot.com/2012/09/a-digital-map-of-roman-empire.html"&gt;Pelagios&lt;/a&gt;, 2012; Data: NASA, OSM, Pleiades, DARMC', maxZoom: 11 });
                                 
@@ -98,8 +98,7 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
                                         
         L.control.layers({
                         "Terrain (default)": terrain,
-                        "Streets": streets,
-                        "Imperium": imperium }).addTo(map);
+                        "Streets": streets }).addTo(map);
         geojson.addTo(map);     
         ]]>
         </script>
