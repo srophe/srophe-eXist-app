@@ -54,7 +54,10 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                     else 
                         for $h in $hits
                         let $score := 
-                          if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
+                          if(request:get-parameter('sort-element', '') != '' and 
+                             request:get-parameter('sort-element', '') != 'relevance' and
+                             request:get-parameter('sort-element', '') != 'title'
+                             ) then
                              global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
                           else if($sort-element != '' and $sort-element != 'title') then 
                              global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
