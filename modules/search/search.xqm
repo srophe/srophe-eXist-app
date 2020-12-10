@@ -43,27 +43,27 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
     let $all := 
                 if($collection = 'bibl') then $hits  
                 else if($collection = 'keywords') then
-                    if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance')
-                        or (request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title')
-                    ) then
-                        for $h in $hits
-                        let $score := 
-                          if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
-                              global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
-                          else if(request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title') then
-                              if($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
-                                  global:build-sort-string($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1],'')
-                              else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
-                          else if($sort-element != '') then 
-                              global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
-                          else ft:score($h) 
-                          order by $score ascending
-                          return $h 
-                    else 
+                    if(request:get-parameter('sort-element', '') = 'relevance' or  
+                        request:get-parameter('q', '') != '' or 
+                        request:get-parameter('term', '') != '' or 
+                        request:get-parameter('placeName', '') != '') then
                         for $h in $hits
                         let $score := ft:score($h) 
                         order by $score descending
-                        return $h  
+                        return $h                                 
+                    else 
+                        for $h in $hits
+                        let $score := 
+                          if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
+                             global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
+                          else if($sort-element != '' and $sort-element != 'title') then 
+                             global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
+                          else 
+                             if($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
+                                global:build-sort-string($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1],'')
+                             else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
+                          order by $score ascending
+                          return $h 
                 else if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then $hits
                 else 
                     let $ids := 
@@ -138,8 +138,6 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                         for $p in $hit
                         let $id := replace($p/descendant::tei:idno[1],'/tei','')
                         return
-                            (:if($groups[. = $id]) then () 
-                            else:) 
                                 <div class="col-md-11" style="margin-right:-1em; padding-top:.5em;">
                                      {tei2html:summary-view(root($p), '', $id)}
                                 </div>                        
@@ -149,14 +147,14 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
                 for $hit at $p in subsequence($hits, $search:start, $search:perpage)
                 let $id := replace($hit/descendant::tei:idno[1],'/tei','')
                 return 
-                 <div class="row record" xmlns="http://www.w3.org/1999/xhtml">
+                <div class="row record" xmlns="http://www.w3.org/1999/xhtml">
                      <div class="col-md-1" style="margin-right:-1em; padding-top:.25em;">        
                          <span class="badge" style="margin-right:1em;">{$search:start + $p - 1}</span> 
                      </div>
                      <div class="col-md-11" style="margin-right:-1em; padding-top:.25em;">
                          {tei2html:summary-view(root($hit), '', $id)}
                      </div>
-                 </div> 
+                 </div>
        } 
 </div>
 };
