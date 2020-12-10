@@ -41,8 +41,7 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                      data:search($collection, $queryExpr,$sort-element)
                  else data:search($collection, '',$sort-element)
     let $all := 
-                if($collection = 'bibl') then $hits  
-                else if($collection = 'keywords') then
+                if($collection = 'keywords') then
                     if(request:get-parameter('sort-element', '') = 'relevance' or  
                         request:get-parameter('q', '') != '' or 
                         request:get-parameter('term', '') != '' or 
@@ -67,7 +66,6 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                              else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
                           order by $score ascending
                           return $h 
-                else if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then $hits
                 else 
                     let $ids := 
                         for $id in $hits 
@@ -78,28 +76,34 @@ declare %templates:wrap function search:search-data($node as node(), $model as m
                             collection($config:data-root)//tei:TEI[descendant::tei:relation[@active = $ids]] | 
                             collection($config:data-root)//tei:TEI[descendant::tei:relation[@mutual = $ids]])
                     return 
-                        if((request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance')
-                           or (request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title')) then 
-                            for $h in ($hits | $related)
-                            let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
-                            group by $de-dup := $id
-                            let $score :=
-                                    if(request:get-parameter('sort-element', '') != '' and request:get-parameter('sort-element', '') != 'relevance') then
-                                        global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
-                                    else if(request:get-parameter-names() = '' or empty(request:get-parameter-names()) or request:get-parameter('sort-element', '') = 'title') then
-                                        global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
-                                    else if($sort-element != '') then 
-                                        global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
-                                    else ft:score($h[1]) 
-                            order by $score ascending
-                            return $h[1]  
-                        else 
+                        if(request:get-parameter('sort-element', '') = 'relevance' or  
+                        request:get-parameter('q', '') != '' or 
+                        request:get-parameter('term', '') != '' or 
+                        request:get-parameter('placeName', '') != '') then
                             for $h in ($hits | $related)
                             let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
                             group by $de-dup := $id
                             let $score := ft:score($h[1]) 
                             order by $score descending
-                            return $h[1]           
+                            return $h[1]   
+                        else 
+                            for $h in ($hits | $related)
+                            let $id := $h/descendant::tei:publicationStmt/tei:idno[@type='URI'][1]
+                            group by $de-dup := $id
+                            let $score :=
+                                    if(request:get-parameter('sort-element', '') != '' and 
+                                        request:get-parameter('sort-element', '') != 'relevance' and
+                                        request:get-parameter('sort-element', '') != 'title'
+                                        ) then
+                                        global:build-sort-string(data:add-sort-options($h, request:get-parameter('sort-element', '')),'')
+                                     else if($sort-element != '' and $sort-element != 'title') then 
+                                        global:build-sort-string(data:add-sort-options($h[1],  $sort-element),'')
+                                     else 
+                                        if($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
+                                           global:build-sort-string($h/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1],'')
+                                        else global:build-sort-string($h/descendant::tei:titleStmt/tei:title[1],'') 
+                            order by $score ascending
+                            return $h[1]   
     return  
         map {
                 "hits" : $all,
