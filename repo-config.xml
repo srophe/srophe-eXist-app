@@ -11,7 +11,7 @@
         <!-- Web Site URL -->
         <url>https://architecturasinica.org/</url>
         <!-- Root of app for building dynamic links. Default is eXist app root -->
-        <nav-base>/exist/apps/tcadrt</nav-base>
+        <nav-base></nav-base>
         <!-- eXist app root for app deployment-->
         <app-root>tcadrt</app-root>
         <!-- eXist data app root for gazetteer data -->
@@ -28,7 +28,7 @@
         <maps>
             <!--  <option selected="true" api-key="API_KEY_HERE">google</option> -->
             <option>google</option>
-            <option selected="true">leaflet</option>
+            <option selected="true" api-key="pk.eyJ1Ijoid3NhbGVza3kiLCJhIjoiY2tpc3dxOXJ5MGx0MjMycnhzMjM0dmZ4aCJ9.iCuGKHojqVUlaMuJObEz-w">leaflet</option>
         </maps>
         <!-- Keyboard options 
         <keyboard-options>
