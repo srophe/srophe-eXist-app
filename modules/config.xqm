@@ -66,7 +66,7 @@ declare variable $config:document-id := $config:get-config//repo:document-ids/te
 
 (: Map rendering, google or leaflet :)
 declare variable $config:app-map-option := $config:get-config//repo:maps/repo:option[@selected='true']/text();
-declare variable $config:map-api-key := $config:get-config//repo:maps/repo:option[@selected='true']/@api-key;
+declare variable $config:map-api-key := string($config:get-config//repo:maps/repo:option[@selected='true']/@api-key);
 
 
 (: Recaptcha Key :)
