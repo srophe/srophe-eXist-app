@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TEI 
   xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-  xmlns:srophe="https://srophe.app"
   xmlns="http://www.tei-c.org/ns/1.0">
   
   <teiHeader>
@@ -50,46 +49,16 @@
         model of SPEAR also requires some modifications and additions to TEI P5.</p>
 
       <schemaSpec ident="SPEAR" start="TEI">
-
-        <desc/>
         <moduleRef key="core"
           include="author bibl biblScope choice citedRange corr date desc editor head listBibl name note num orig p ptr publisher pubPlace ref reg resp respStmt rs sic title"/>
         <moduleRef key="tei"/>
         <moduleRef key="header" include="authority availability catDesc category change classDecl edition editionStmt editorialDecl encodingDesc fileDesc funder idno licence profileDesc publicationStmt revisionDesc seriesStmt sourceDesc sponsor taxonomy teiHeader titleStmt"/>
-        <moduleRef key="textstructure" include="back body div TEI text"/>
+        <moduleRef key="linking" include="ab"/>
+        <moduleRef key="textstructure" include="back body TEI text"/>
         <moduleRef key="namesdates"
           include="birth death education event langKnowledge langKnown listEvent listPerson listRelation nationality occupation orgName persName person personGrp placeName relation residence socecStatus state trait"/>
-
-        <classSpec ident="att.datable.w3c" type="atts" mode="change" module="tei">
-          <attList>
-            <attDef ident="srophe:computed-start" mode="add">
-              <gloss>Provides a start date conforming to the W3C XML Schema Part 2: Datatypes Second
-                Edition that can contain information specific enough to inform a timeline precisely
-                even then that information does not appear in the text being encoded.</gloss>
-              <desc>The SPEAR project visualizes events using the knightlab timeline. This program
-                required dates more specific than we were able to derive from some of our sources.
-                Winona Salesky created this date attribute in order to visualize our event data on a
-                timeline. </desc>
-              <datatype>
-                <dataRef key="teidata.temporal.w3c"/>
-              </datatype>
-            </attDef>
-            <attDef ident="srophe:computed-end" mode="add">
-              <gloss>Provides an end date conforming to the W3C XML Schema Part 2: Datatypes Second
-                Edition that can contain information specific enough to inform a timeline precisely
-                even then that information does not appear in the text being encoded.</gloss>
-              <desc>The SPEAR project visualizes events using the knightlab timeline. This program
-                required dates more specific than we were able to derive from some of our sources.
-                Winona Salesky created this date attribute in order to visualize our event data on a
-                timeline. </desc>
-              <datatype>
-                <dataRef key="teidata.temporal.w3c"/>
-              </datatype>
-            </attDef>
-          </attList>
-        </classSpec>
-
-        
+ 
+                
         <classSpec type="atts" ident="att.global.analytic" mode="add">
           <desc>I have needed to include this because it somehow disappeared from this
             customization. I do not know why this was necessary.</desc>
@@ -100,7 +69,7 @@
               </datatype>
               <constraintSpec ident="anaValues" scheme="schematron">
                 <constraint>
-                  <sch:rule context="//tei:div/tei:listEvent/tei:event/@ana | //tei:langKnown/@ana | //tei:occupation/@ana | //tei:socecStatus/@ana | //tei:state/@ana | //tei:trait/@ana">
+                  <sch:rule context="//tei:ab/tei:listEvent/tei:event/@ana | //tei:langKnown/@ana | //tei:occupation/@ana | //tei:socecStatus/@ana | //tei:state/@ana | //tei:trait/@ana">
                     <sch:let name="anaValues" value="tokenize(., ' ')"/>
                     <sch:assert test="
                       every $i in $anaValues
@@ -193,38 +162,14 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <titleStmt>
-                <title level="m" type="main">Chronicle of Edessa</title>
-                <title type="sub">A SPEAR Prosopography</title>
-                <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
-                <editor role="creator" ref="http://syriaca.org/documentation/editors.xml#dschwartz"
-                  >Daniel L. Schwartz</editor>
-                <respStmt>
-                  <resp>Data architecture, data entry, editing, proofreading, and revision
-                    by</resp>
-                  <name ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
-                    Schwartz</name>
-                </respStmt>
-              </titleStmt>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
         
         <elementSpec ident="sponsor" module="header" mode="change"><!-- text node should not validate if blank -->
           <content>
             <textNode/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <titleStmt> 
-                ... 
-                <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor> 
-                ...
-              </titleStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p> The TEI guidelines recommend that the <gi>titleStmt</gi> element also indicate who
               is responsible for this TEI file. Since <gi>author</gi> is typically used for the
@@ -277,16 +222,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <respStmt>
-                <resp>Data architecture, data entry, editing, proofreading, and revision
-                  by</resp>
-                <name ref="http://syriaca.org/documentation/editors.xml#dschwartz">Daniel L.
-                  Schwartz</name>
-              </respStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization limits the vaules of @ref attributes on a <gi>name</gi> element inside the <gi>titleStmt</gi> 
             to a Syriaca.org URI for project contributors.</p>
@@ -298,16 +234,7 @@
           <content>
             <textNode/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <titleStmt> 
-                ... 
-                <funder>The National Endowment for the Humanities</funder>
-                <funder>The International Balzan Prize Foundation</funder> 
-                ... 
-              </titleStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p> Within the <gi>titleStmt</gi>, funding bodies are identified by use of the
               <gi>funder</gi> element. If multiple funding bodies are relevant, then each one gets
@@ -319,13 +246,7 @@
           <content>
             <elementRef key="edition" minOccurs="1" maxOccurs="1"/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <editionStmt>
-                <edition n="1.0"/>
-              </editionStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p> The <gi>editionStmt</gi> allows the specification of an edition or version number.
               When a TEI file is first published online, that edition should be "1.0". Subsequent
@@ -343,20 +264,7 @@
               <elementRef key="date" minOccurs="1"/>
             </sequence>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <publicationStmt>
-                <authority>Syriaca.org: The Syriac Reference Portal</authority>
-                <idno type="URI">http://syriaca.org/spear/847/tei</idno>
-                <availability>
-                  <licence target="http://creativecommons.org/licenses/by/3.0/"><p
-                    >Distributed under a Creative Commons Attribution 3.0 Unported
-                    License.</p></licence>
-                </availability>
-                <date when="2019-09-30">30 September 2019</date>
-              </publicationStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>The <gi>publicationStmt</gi> is where we identify Syriaca.org as the entity responsible for publishing this information, 
               indicate the date of the most recent edit, and identify the use license (Creative Commons CC-BY).</p>
@@ -376,20 +284,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <publicationStmt>
-                <authority>Syriaca.org: The Syriac Reference Portal</authority>
-                <idno type="URI">http://syriaca.org/spear/847/tei</idno>
-                <availability>
-                  <licence target="http://creativecommons.org/licenses/by/3.0/"><p
-                    >Distributed under a Creative Commons Attribution 3.0 Unported
-                    License.</p></licence>
-                </availability>
-                <date when="2019-09-30">30 September 2019</date>
-              </publicationStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>The identification of Syriaca.org as the responsible entity is accomplished by an <gi>authority</gi> element.</p>
           </remarks>
@@ -408,20 +303,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <publicationStmt>
-                <authority>Syriaca.org: The Syriac Reference Portal</authority>
-                <idno type="URI">http://syriaca.org/spear/847/tei</idno>
-                <availability>
-                  <licence target="http://creativecommons.org/licenses/by/3.0/"><p
-                    >Distributed under a Creative Commons Attribution 3.0 Unported
-                    License.</p></licence>
-                </availability>
-                <date when="2019-09-30">30 September 2019</date>
-              </publicationStmt>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p> The <gi>license</gi> element within the <gi>availability</gi> element is used to specify the Creative Commons CC-BY license under which 
               this record is made available. Some records incorporate information from works under copyright (with permission), a fact which is also 
@@ -546,31 +428,8 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <seriesStmt>
-                <title level="s">SPEAR: Syriac Persons, Events, and Relations</title>
-                <editor role="general" ref="http://syriaca.org/documentation/editors.xml#dschwartz"
-                  >Daniel L. Schwartz</editor>
-                <idno type="URI">http://syriaca.org/spear</idno>
-              </seriesStmt>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <seriesStmt>
-                <title level="m" xml:lang="en">The Lives of the Eastern Saints</title>
-                <title type="sub">A SPEAR Prosopography</title>
-                <editor role="general" ref="http://syriaca.org/documentation/editors.xml#dschwartz"
-                  >Daniel L. Schwartz</editor>
-                <idno type="URI">http://syriaca.org/spear/lives-eastern-saints</idno>
-                <biblScope unit="volume">
-                  <title level="s">SPEAR: Syriac Persons, Events, and Relations</title>
-                  <idno type="URI">http://syriaca.org/spear</idno>
-                </biblScope>
-              </seriesStmt>
-            </egXML>
-          </exemplum>
+          
+          
           <!-- remarks needed -->
         </elementSpec>
         
@@ -581,29 +440,7 @@
               <elementRef key="listRelation" minOccurs="0" maxOccurs="unbounded"/>
             </sequence>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <sourceDesc>
-                <listBibl>
-                  <head>Sources for the Data in this Born Digital Prosopography</head>
-                  <bibl type="primary"><title>Lives of the Eastern Saints III</title><title>Peter
-                    and Photius</title><author><persName ref="http://syriaca.org/person/74"
-                      >John of Ephesus</persName></author><editor><persName
-                        ref="http://syriaca.org/person/403">E. W.
-                        Brooks</persName></editor><ptr target="http://syriaca.org/bibl/2033"
-                        /></bibl>
-                  <bibl type="primary"><title>Peter and Photius</title><author><persName
-                    ref="http://syriaca.org/person/74">John of
-                    Ephesus</persName></author><ptr target="http://syriaca.org/work/847"
-                    /></bibl>
-                </listBibl>
-                <listRelation>
-                  <relation type="part" active="http://syriaca.org/work/847"
-                    ref="dcterms:isPartOf" passive="http://syriaca.org/work/9501"/>
-                </listRelation>
-              </sourceDesc>
-            </egXML>
-          </exemplum>
+          
           <!-- remarks needed -->
         </elementSpec>
         
@@ -626,36 +463,14 @@
           <content>
             <elementRef key="taxonomy" minOccurs="1" maxOccurs="1"/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <classDecl>
-                <taxonomy>
-                  <category xml:id="calculated">
-                    <catDesc> Used to denote a date calculated by the editor from a regnal year
-                      or some other dating method given in the text. </catDesc>
-                  </category>
-                </taxonomy>
-              </classDecl>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
         
         <elementSpec ident="taxonomy" module="header" mode="change">
           <content>
             <elementRef key="category" minOccurs="1" maxOccurs="1"/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <classDecl>
-                <taxonomy>
-                  <category xml:id="calculated">
-                    <catDesc> Used to denote a date calculated by the editor from a regnal year
-                      or some other dating method given in the text. </catDesc>
-                  </category>
-                </taxonomy>
-              </classDecl>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
         
         <elementSpec ident="category" module="header" mode="change">
@@ -669,36 +484,14 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <classDecl>
-                <taxonomy>
-                  <category xml:id="calculated">
-                    <catDesc> Used to denote a date calculated by the editor from a regnal year
-                      or some other dating method given in the text. </catDesc>
-                  </category>
-                </taxonomy>
-              </classDecl>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
         
         <elementSpec ident="catDesc" module="header" mode="change">
           <content>
             <textNode/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <classDecl>
-                <taxonomy>
-                  <category xml:id="calculated">
-                    <catDesc> Used to denote a date calculated by the editor from a regnal year
-                      or some other dating method given in the text. </catDesc>
-                  </category>
-                </taxonomy>
-              </classDecl>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
         
         <elementSpec ident="revisionDesc" module="header" mode="change">
@@ -713,56 +506,30 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <revisionDesc status="draft">
-                <change
-                  who="http://syriaca.org/documentation/editors.xml#dmichelson http://syriaca.org/documentation/editors.xml#ekeogh http://syriaca.org/documentation/editors.xml#egarret http://syriaca.org/documentation/editors.xml#egibes http://syriaca.org/documentation/editors.xml#mdebie http://syriaca.org/documentation/editors.xml#sgross http://syriaca.org/documentation/editors.xml #upossekel"
-                  status="draft">Initial data collected by David A. Michelson, Muriel Debie, Eric
-                  Garret, Elizabeth Gibes, Simcha Gross, and Ute Possekel at "Mapping Ancient Lives
-                  &amp; Social Networks: A Digital Workshop," held at Marquette University, 23-24 May
-                  2017.</change>
-              </revisionDesc>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
         
         <elementSpec ident="body" module="textstructure" mode="change">
           <content>
-            <elementRef key="div" minOccurs="1" maxOccurs="unbounded"/>
+            <elementRef key="ab" minOccurs="1" maxOccurs="unbounded"/>
           </content>
           <remarks>
-            <p>The body of a SPEAR file contains factoids, each of which appears in a separate <gi>div</gi> element. 
-              As such,  <gi>div</gi> is the only acceptable child element of <gi>body</gi>.</p>
+            <p>The body of a SPEAR file contains factoids, each of which appears in a separate <gi>ab</gi> element. 
+              As such,  <gi>ab</gi> is the only acceptable child element of <gi>body</gi>.</p>
           </remarks>
         </elementSpec>
 
         <elementSpec ident="listRelation" mode="change" module="namesdates">
           <content>
-            <elementRef key="relation" minOccurs="1" maxOccurs="1"/>
+            <elementRef key="relation" minOccurs="1" maxOccurs="unbounded"/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-9" resp="#upossekel #mdebie #egarret">
-                <idno type="URI">http://syriaca.org/spear/847-9</idno>
-                <listRelation>
-                  <relation ref="syriaca:FellowMonastics"
-                    mutual="http://syriaca.org/person/2011 http://syriaca.org/person/3014 http://syriaca.org/person/3693"
-                  />
-                </listRelation>
-                <bibl>
-                  ...
-                </bibl>
-              </div>
-            </egXML>
-          </exemplum>
           <remarks>
             <p>SPEAR has three basic types of data located in <gi>listPerson</gi>, <gi>listEvent</gi>,
               and <gi>listRelation</gi> elements. The first two are allowed to nest inside a
-              <gi>div</gi> element while the last one is not. For uniformity and ease of encoding,
+              <gi>ab</gi> element while the last one is not. For uniformity and ease of encoding,
               SPEAR makes the <gi>listRelation</gi> element a part of the model class
               model.listLike so that it can function like other list elements and nest directly
-              under the <gi>div</gi> element. SPEAR removes all attributes from the
+              under the <gi>ab</gi> element. SPEAR removes all attributes from the
               <gi>listRelation</gi> element and restricts the child elements to <gi>relation</gi>.</p>
           </remarks>
         </elementSpec>
@@ -813,48 +580,9 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-10" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-10</idno>
-                <listRelation>
-                  ...
-                </listRelation>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/633"/>
-                  <citedRange unit="pp">1</citedRange>
-                </bibl>
-                <bibl type="urn">
-                  <ptr target="urn:cts:syriacLit:nhsl8559.syriacCorpus57:1"/>
-                </bibl>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/657"/>
-                  <citedRange unit="part">8</citedRange>
-                </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-5" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-5</idno>
-                <listPerson>
-                  ...
-                </listPerson>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/10510"/><citedRange
-                  unit="pp">552</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/bibl/2033"/><citedRange
-                  unit="pp">206</citedRange></bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <bibl type="urn">
-                <ptr target="urn:cts:syriacLit:nhsl8559.syriacCorpus57:8"/>
-              </bibl>
-            </egXML>
-          </exemplum>
+          
+          
+          
           <remarks>
             <p>SPEAR only uses @xml:id and @type attributes on the <gi>bibl</gi> element. SPEAR uses
               <gi>bibl</gi> elements with an @xml:id only in the <gi>back</gi> of the TEI file. The 
@@ -894,20 +622,7 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <bibl type="primary" xml:id="bibl8559-2">
-                <title xml:lang="en" level="a">The Chronicle of Edessa</title>
-                <title level="j">The Journal of Sacred Literature, New Series [=Series
-                  4]</title>
-                <editor role="translator">B. Cowper</editor>
-                <date when="1865" srophe:computed-start="1865-01-01">1865</date>
-                <biblScope unit="vol">5</biblScope>
-                <biblScope unit="pp">28-45</biblScope>
-                <ptr target="http://syriaca.org/bibl/657"/>
-              </bibl>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
 
         <elementSpec ident="citedRange" module="core" mode="replace">
@@ -936,20 +651,7 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-4" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-4</idno>
-                <listPerson>
-                  ...
-                </listPerson>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/10510"/><citedRange
-                  unit="pp">552</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/bibl/2033"/><citedRange
-                  unit="pp">206</citedRange></bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>SPEAR only allows text in a <gi>citedRange</gi> element and requires the use of a @unit attribute with a closed list.
               SPEAR prefers that encoders use the part value and cite ancient texts according to
@@ -962,47 +664,8 @@
             <memberOf key="model.linePart"/>
             <memberOf key="model.pPart.editorial"/>
           </classes>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <event ana="http://syriaca.org/keyword/monasteries">
-                <desc> The<placeName ref="http://syriaca.org/place/399">Convent of John
-                  Urtaya</placeName>was founded in <choice>
-                    <reg><date notBefore="0388-10" notAfter="0389-09"
-                      calendar="Gregorian" srophe:computed-end="0388-09-01"
-                      srophe:computed-start="0389-10-01">388/9</date></reg>
-                    <orig><date when-custom="0700" datingMethod="Seleucid">A. Gr.
-                      700</date></orig>
-                  </choice></desc>
-              </event>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-147" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-147</idno>
-                <listEvent>
-                  <event
-                    ana="http://syriaca.org/keyword/emperors http://syriaca.org/keyword/accession">
-                    <desc> In <choice>
-                      <corr><date when="0364-03" calendar="Gregorian"
-                        srophe:computed-start="0364-03-01">March 364</date></corr>
-                      <sic><date when="0364-02" calendar="Gregorian"
-                        srophe:computed-start="0364-02-01">February A. D.
-                        364</date></sic>
-                      <orig><date when-custom="0675-05"
-                        datingMethod="Seleucid-SyriacMonths">Shebāṭ A. Gr.
-                        675</date></orig>
-                    </choice><persName ref="http://syriaca.org/person/2309"> Valens
-                    </persName> became King of <placeName ref="http://syriaca.org/place/166"
-                      > Rome </placeName>. </desc>
-                  </event>
-                </listEvent>
-                <bibl> ... </bibl>
-                <note type="errata"> The author mistakenly asserts that Valens became emperor the
-                  same month as Valentinian. </note>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
         </elementSpec>
 
         <elementSpec ident="date" module="core" mode="change">
@@ -1054,78 +717,10 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <event ana="http://syriaca.org/keyword/monasteries">
-                <desc> The<placeName ref="http://syriaca.org/place/399">Convent of John
-                  Urtaya</placeName>was founded in <choice>
-                    <reg><date notBefore="0388-10" notAfter="0389-09"
-                      calendar="Gregorian" srophe:computed-end="0388-09-01"
-                      srophe:computed-start="0389-10-01">388/9</date></reg>
-                    <orig><date when-custom="0700" datingMethod="Seleucid">A. Gr.
-                      700</date></orig>
-                  </choice></desc>
-              </event>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <event ana="http://syriaca.org/keyword/prayer http://syriaca.org/keyword/canon-law">
-                <desc><date notBefore="0513" notAfter="0518" calendar="Gregorian"> Sometime
-                  between 513 and 518 </date>, <persName
-                    ref="http://syriaca.org/person/3075"> prominent men in <placeName
-                      ref="http://syriaca.org/place/10"> Antioch
-                    </placeName></persName> petitioned <persName
-                      ref="http://syriaca.org/person/51"> Severus </persName> to allow
-                  <persName ref="http://syriaca.org/person/2575"> Romulus </persName>
-                  to conduct prayers in <placeName ref="http://syriaca.org/place/10">
-                    Antioch </placeName> even though he was under the authority of
-                  <persName ref="http://syriaca.org/person/2574"> Philoxenus
-                  </persName>, bishop of <placeName ref="http://syriaca.org/place/2661">
-                    Doliche </placeName>. </desc>
-              </event>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <event
-                ana="http://syriaca.org/keyword/bishops http://syriaca.org/keyword/accession">
-                <desc> In <choice>
-                  <reg><date notBefore="0511-04-11" notAfter="0512-04-10"
-                    calendar="Gregorian" srophe:computed-end="0512-04-10"
-                    srophe:computed-start="0511-04-11">511/2</date><note
-                      ana="calculated">This regularized date was calculated by the
-                      SPEAR editor from a non-calendrical dating system such as
-                      regnal years, etc.</note></reg>
-                  <orig><date datingMethod="regnalYear">the 21st year of the reign of
-                    Anastasios</date></orig>
-                </choice><persName ref="http://syriaca.org/person/790"> Timotheos
-                </persName> became Bishop of <placeName
-                  ref="http://syriaca.org/place/2290"> Constantinople </placeName>.
-                </desc>
-              </event>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <event
-                ana="http://syriaca.org/keyword/bishops http://syriaca.org/keyword/accession">
-                <desc> In <choice>
-                  <reg><date notBefore="0511-04-11" notAfter="0512-04-10"
-                    calendar="Gregorian" srophe:computed-end="0512-04-10"
-                    srophe:computed-start="0511-04-11">511/2</date><note
-                      ana="calculated">This regularized date was calculated by the
-                      SPEAR editor from a non-calendrical dating system such as
-                      regnal years, etc.</note></reg>
-                  <orig><date datingMethod="regnalYear">the 21st year of the reign of
-                    Anastasios</date></orig>
-                </choice><persName ref="http://syriaca.org/person/790"> Timotheos
-                </persName> became Bishop of <placeName
-                  ref="http://syriaca.org/place/2290"> Constantinople </placeName>.
-                </desc>
-              </event>
-            </egXML>
-          </exemplum>
+          
+          
+          
+          
           <remarks>
             <p></p>
             <!-- I need to deal with an inconsistency in my encoding. Calendar and datingMethod currently offer two different ways to refer to something like the Seleucid Calendar. -->
@@ -1142,25 +737,27 @@
               <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="orgName" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="rs" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="listRelation" minOccurs="0" maxOccurs="1"/>
             </sequence>
           </content>
           <constraintSpec ident="descContent" scheme="schematron">
             <constraint>
-              <sch:rule context="//tei:div//tei:desc">
+              <sch:rule context="//tei:ab//tei:desc">
                 <sch:report test="not(*) and string-length(normalize-space(.)) eq 0">Element of type
                   &lt;desc&gt; cannot be empty.</sch:report>
               </sch:rule>
-              <sch:rule context="tei:div/tei:listEvent/tei:event/tei:desc" role="warning">
+              <sch:rule context="tei:ab/tei:listEvent/tei:event/tei:desc" role="warning">
                 <sch:assert test="./tei:persName or tei:placeName">The &lt;desc&gt; element should
                   generally contain either a &lt;persName&gt; or a &lt;placeName&gt; element. SPEAR
                   encourages a liberal use of &lt;persName&gt;, &lt;placeName&gt;, and &lt;date&gt;
                   elements in the &lt;desc&gt; element of event factoids.</sch:assert>
               </sch:rule>
+              
             </constraint>
           </constraintSpec>
           <constraintSpec ident="descInRelation" scheme="schematron">
             <constraint>
-              <sch:rule context="//tei:div/tei:listEvent/tei:listRelation/tei:relation/tei:desc">
+              <sch:rule context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation/tei:desc">
                 <sch:let name="SameEventURIs" value="tokenize(parent::tei:relation/@mutual, ' ')"/>
                 <sch:assert test="count(child::tei:rs) = count($SameEventURIs)">
                   This &lt;desc&gt; element must contain <sch:value-of select="count($SameEventURIs)"/> &lt;rs&gt; elements, one for each values in the @mutual attribute on &lt;relation&gt;.
@@ -1169,13 +766,13 @@
                   The &lt;desc&gt; element requires &lt;rs&gt; elements with unique @ref attribute values. 
                 </sch:assert>
               </sch:rule>
-              <sch:rule context="//tei:div/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:SameEvent']/tei:desc">
+              <sch:rule context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:SameEvent']/tei:desc">
                 <sch:let name="SameEventURIs" value="tokenize(parent::tei:relation/@mutual, ' ')"/>
                 <sch:assert test="starts-with(normalize-space(.), 'The following factoids deal with the same event: ')">
                   This &lt;desc&gt; must begin with "The following factoids deal with the same event: " 
                 </sch:assert>
               </sch:rule>
-              <sch:rule context="//tei:div/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:ProxmiateEvent']/tei:desc">
+              <sch:rule context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:ProxmiateEvent']/tei:desc">
                 <sch:let name="SameEventURIs" value="tokenize(parent::tei:relation/@mutual, ' ')"/>
                 <sch:assert test="starts-with(normalize-space(.), 'The following factoids deal with closely related events: ')">
                   This &lt;desc&gt; must begin with "The following factoids deal with related events: " 
@@ -1195,16 +792,16 @@
             <textNode/>
           </content>
           <constraintSpec ident="rsInRelationDesc" scheme="schematron">
-            <!-- I need to rewrite a rule that will do this this @active, @passive, and @mutual in div/listRelation. -->
+            <!-- I need to rewrite a rule that will do this this @active, @passive, and @mutual in ab/listRelation. -->
             <constraint>
-              <sch:rule context="//tei:div/tei:listEvent/tei:listRelation/tei:relation/tei:desc/tei:rs/@ref">
+              <sch:rule context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation/tei:desc/tei:rs/@ref">
                 <sch:let name="SameEventURIs" value="tokenize(ancestor::tei:relation/@mutual, ' ')"/>
                 <sch:let name="countMutual" value="for $i in $SameEventURIs return count($i)"/>
                 <sch:assert test=". = $SameEventURIs">
                   Acceptable values: <sch:value-of select="string-join($SameEventURIs, '; ')"/>
                 </sch:assert>
               </sch:rule>
-              <sch:rule context="//tei:div//tei:rs">
+              <sch:rule context="//tei:ab//tei:rs">
                 <sch:let name="URIno" value="substring-after(@ref, 'spear/')"/>
                 <sch:assert test=". = $URIno">
                   The text node of this &lt;rs&gt; element must be <sch:value-of select="$URIno"/>.
@@ -1276,33 +873,7 @@
             <memberOf key="model.choicePart"/>
             <memberOf key="model.pPart.transcriptional"/>
           </classes>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-147" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-147</idno>
-                <listEvent>
-                  <event
-                    ana="http://syriaca.org/keyword/emperors http://syriaca.org/keyword/accession">
-                    <desc> In <choice>
-                      <corr><date when="0364-03" calendar="Gregorian"
-                        srophe:computed-start="0364-03-01">March 364</date></corr>
-                      <sic><date when="0364-02" calendar="Gregorian"
-                        srophe:computed-start="0364-02-01">February A. D.
-                        364</date></sic>
-                      <orig><date when-custom="0675-05"
-                        datingMethod="Seleucid-SyriacMonths">Shebāṭ A. Gr.
-                        675</date></orig>
-                    </choice><persName ref="http://syriaca.org/person/2309"> Valens
-                    </persName> became King of <placeName ref="http://syriaca.org/place/166"
-                      > Rome </placeName>. </desc>
-                  </event>
-                </listEvent>
-                <bibl> ... </bibl>
-                <note type="errata"> The author mistakenly asserts that Valens became emperor the
-                  same month as Valentinian. </note>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p></p>
           </remarks>
@@ -1311,11 +882,7 @@
         <elementSpec ident="listEvent" module="namesdates" mode="replace">
           <content>
             <elementRef key="event" minOccurs="1" maxOccurs="1"/>
-            <elementRef key="listRelation" minOccurs="0" maxOccurs="1"/>
           </content>
-          <remarks>
-            <p></p>
-          </remarks>
         </elementSpec>
 
         <elementSpec ident="listPerson" module="namesdates" mode="replace">
@@ -1415,45 +982,44 @@
           </remarks>
         </elementSpec>
 
-        <elementSpec ident="div" module="textstructure" mode="change">
-          <classes mode="replace">
-            <memberOf key="model.divLike"/>
-          </classes>
+        <elementSpec ident="ab" module="linking" mode="replace">
+          <!-- I cannot get a valid result unless I use @mode="replace". I should be able to use "change" but the results don't work. Try again later. -->
           <content>
             <alternate>
               <sequence preserveOrder="true">
                 <elementRef key="idno" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="listPerson" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
-                <elementRef key="note" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
               </sequence>
 
               <sequence preserveOrder="true">
                 <elementRef key="idno" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="listEvent" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
-                <elementRef key="note" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="listRelation" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
               </sequence>
 
               <sequence preserveOrder="true">
                 <elementRef key="idno" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="listRelation" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
-                <elementRef key="note" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="note" minOccurs="0" maxOccurs="unbounded"/>
               </sequence>
             </alternate>
           </content>
-          <constraintSpec ident="atts-on-factoidDiv" scheme="schematron">
+          <constraintSpec ident="atts-on-ab" scheme="schematron">
             <constraint>
-              <sch:rule context="tei:div[ancestor::tei:body]">
-                <sch:assert test="@xml:id">Elements of type &lt;div&gt; within the &lt;body&gt; element
+              <sch:rule context="tei:ab[ancestor::tei:body]">
+                <sch:assert test="@xml:id">Elements of type &lt;ab&gt; within the &lt;body&gt; element
                   require an @xml:id attribute.</sch:assert>
-                <sch:assert test="@resp">Elements of type &lt;div&gt; within the body element
+                <sch:assert test="@resp">Elements of type &lt;ab&gt; within the body element
                   require a @resp attribute.</sch:assert>
-                <sch:assert test="@type='factoid'">Elements of type &lt;div&gt; within the body element
+                <sch:assert test="@type='factoid'">Elements of type &lt;ab&gt; within the body element
                 require a @type attribute with the value "factoid".</sch:assert>
               </sch:rule>
-              <sch:rule context="tei:div[ancestor::tei:body]/@resp">
+              <sch:rule context="tei:ab[ancestor::tei:body]/@resp">
                 <sch:let name="contributorRefs" value="//tei:name[ancestor::tei:respStmt]/@ref"/>
                 <sch:let name="respPtrs" value="for $i in $contributorRefs return substring-after($i, '.xml')"/>
                 <sch:assert test="
@@ -1466,11 +1032,11 @@
             </constraint>
           </constraintSpec>
           <attList>
-            <attDef ident="xml:id" usage="opt" mode="add">
+            <attDef ident="xml:id" usage="req" mode="add">
               <datatype>
                 <dataRef name="ID"/>
               </datatype>
-              <constraintSpec ident="divFactoid-ids" scheme="schematron">
+              <constraintSpec ident="ab-ids" scheme="schematron">
                 <constraint>
                   <sch:assert test="starts-with(., 'factoid-')">An @xml:id attribute
                     starts with 'factoid-'.</sch:assert>
@@ -1478,19 +1044,19 @@
                     SPEAR factoid URI ends with a hyphen followed by a number.</sch:report>
                   <sch:assert test="matches(substring-after(., '-'), '\d')">A properly formatted
                     SPEAR factoid URI ends with a number.</sch:assert>
-                  <sch:assert test="count(distinct-values(//tei:div/@xml:id)) eq count(//tei:div/@xml:id)"
-                    >Each &lt;div&gt; element @uri attribute must end with a unique number following
+                  <sch:assert test="count(distinct-values(//tei:ab/@xml:id)) eq count(//tei:ab/@xml:id)"
+                    >Each &lt;ab&gt; element @uri attribute must end with a unique number following
                     the "-".</sch:assert>
                 </constraint>
               </constraintSpec>
             </attDef>
-            <attDef ident="resp" usage="opt" mode="add">
+            <attDef ident="resp" usage="req" mode="add">
               <!-- Take rule from place ODD that will require values to validate against the list. -->
               <datatype minOccurs="1" maxOccurs="unbounded">
                 <dataRef key="teidata.pointer"/>
               </datatype>
             </attDef>
-            <attDef ident="type" usage="opt">
+            <attDef ident="type" usage="req">
               <datatype>
                 <dataRef key="teidata.enumerated"/>
               </datatype>
@@ -1572,108 +1138,22 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-17" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-17</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3192"> Mar Afwrsm </persName>
-                  </person>
-                </listPerson>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/10510"/><citedRange
-                  unit="pp">554</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/bibl/2033"/><citedRange
-                  unit="pp">208</citedRange></bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-40" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-40</idno>
-                <listPerson>
-                  <personGrp>
-                    <persName ref="http://syriaca.org/person/3669"> The monks who resided in
-                      <placeName ref="http://syriaca.org/place/399"> the Convent of John
-                        Urtaya in <placeName ref="http://syriaca.org/place/8"
-                          >Amida</placeName></placeName></persName>
-                  </personGrp>
-                </listPerson>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/10510"/><citedRange
-                  unit="pp">555</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/bibl/2033"/><citedRange
-                  unit="pp">209</citedRange></bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-545" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-545</idno>
-                <listEvent>
-                  <event ana="http://syriaca.org/keyword/natural-disasters">
-                    <desc> The first time the walls of <placeName
-                      ref="http://syriaca.org/place/78"> Edessa </placeName> were broken
-                      down was in <choice>
-                        <reg><date when="0201-11" calendar="Gregorian"
-                          srophe:computed-start="0201-11-01">November A. D.
-                          201</date></reg>
-                        <orig><date when-custom="0513-02"
-                          datingMethod="Seleucid-SyriacMonths">Teshri II A. Gr.
-                          513</date></orig>
-                      </choice></desc>
-                  </event>
-                  <listRelation>
-                    <relation ref="syriaca:SameEvent" ana="event"
-                      mutual="http://syriaca.org/spear/8559-18 http://syriaca.org/spear/8559-545"
-                    />
-                  </listRelation>
-                </listEvent>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/633"/>
-                  <citedRange unit="pp">13</citedRange>
-                </bibl>
-                <bibl type="urn">
-                  <ptr target="urn:cts:syriacLit:nhsl8559.syriacCorpus57:106"/>
-                </bibl>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/657"/>
-                  <citedRange unit="part">106</citedRange>
-                </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-3" resp="#mdoerfler #jnsaint-laurent">
-                <idno type="URI">http://syriaca.org/spear/814-3</idno>
-                <listRelation>
-                  <relation ref="snap:SiblingOf"
-                    type="snap:MaternalFamilyRelationship snap:HalfFamilyRelationship"
-                    mutual="http://syriaca.org/person/1117 http://syriaca.org/person/1548"/>
-                </listRelation>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/814"/><citedRange
-                  unit="pp">299</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/814"/><citedRange
-                  unit="pp">299</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/bibl/1409"/><citedRange
-                  unit="pp">299</citedRange></bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
+          
           <remarks>
             <p>
               <!-- Rewrite -->
               This customization requires the basic pattern of SPEAR to be encoded correctly. Each
-              factoid is encoded in a <gi>div</gi> element. Since each factoid contains data of type
-              Person, Event, or Relation, the schema requires that a <gi>div</gi> must then contain a
+              factoid is encoded in a <gi>ab</gi> element. Since each factoid contains data of type
+              Person, Event, or Relation, the schema requires that a <gi>ab</gi> must then contain a
               <gi>listPerson</gi>, <gi>listEvent</gi>, or <gi>listRelation</gi> element. Since every
-              factoid requires a bibliographic reference, every <gi>div</gi> must contain one or more
+              factoid requires a bibliographic reference, every <gi>ab</gi> must contain one or more
               <gi>bibl</gi> elements. The encoder then has the option of adding a <gi>note</gi>
               element to the factoid as well. This customization also requires that every
-              <gi>div</gi> element receives a @uri attribute that identifies the content of the
-              <gi>div</gi> as a SPEAR factoid.</p>
+              <gi>ab</gi> element receives a @uri attribute that identifies the content of the
+              <gi>ab</gi> as a SPEAR factoid.</p>
           </remarks>
         </elementSpec>
         
@@ -1683,8 +1163,8 @@
           </classes>
           <constraintSpec ident="type-on-idno" scheme="schematron">
             <constraint>
-              <sch:rule context="tei:div[ancestor::tei:body]/tei:idno">
-                <sch:assert test="@type='URI'">An &lt;idno&gt; elements inside a factoid &lt;div&gt;
+              <sch:rule context="tei:ab[ancestor::tei:body]/tei:idno">
+                <sch:assert test="@type='URI'">An &lt;idno&gt; elements inside a factoid &lt;ab&gt;
                   requires a @type attribute with the value "URI".</sch:assert>
               </sch:rule>
               <sch:rule context="//tei:publicationStmt/tei:idno">
@@ -1709,8 +1189,8 @@
           </constraintSpec>
           <constraintSpec ident="factoidIDNO" scheme="schematron">
             <constraint>
-              <sch:rule context="tei:div[ancestor::tei:body]/tei:idno">
-                <sch:let name="factoidNo" value="parent::tei:div/@xml:id/substring-after(., 'factoid')"/>
+              <sch:rule context="tei:ab[ancestor::tei:body]/tei:idno">
+                <sch:let name="factoidNo" value="parent::tei:ab/@xml:id/substring-after(., 'factoid')"/>
                 <sch:assert
                   test="contains(., concat(//tei:publicationStmt/tei:idno[@type]/substring-before(., '/tei'), $factoidNo))"
                   >This factoid URI must be: "<sch:value-of
@@ -1726,47 +1206,9 @@
               </datatype>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <publicationStmt>
-                <authority>Syriaca.org: The Syriac Reference Portal</authority>
-                <idno type="URI">http://syriaca.org/spear/794/tei</idno>
-                <availability>
-                  <licence target="http://creativecommons.org/licenses/by/3.0/"><p
-                    >Distributed under a Creative Commons Attribution 3.0 Unported
-                    License.</p></licence>
-                </availability>
-                <date/>
-              </publicationStmt>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <seriesStmt>
-                <title level="s">SPEAR: Syriac Persons, Events, and Relations</title>
-                <editor role="general" ref="http://syriaca.org/documentation/editors.xml#dschwartz"
-                  >Daniel L. Schwartz</editor>
-                <idno type="URI">http://syriaca.org/spear</idno>
-              </seriesStmt>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-1" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/794-1</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/1524"> The divine blessed man
-                      Zeʿora </persName>
-                  </person>
-                </listPerson>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/794"/><citedRange
-                  unit="pp">18</citedRange></bibl>
-                <bibl type="primary"><ptr target="http://syriaca.org/bibl/1409"/><citedRange
-                  unit="pp">18</citedRange></bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
         </elementSpec>
 
         <elementSpec ident="event" module="namesdates" mode="change">
@@ -1793,30 +1235,13 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-7" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3056-7</idno>
-                <listEvent>
-                  <event ana="http://syriaca.org/keyword/prayer http://syriaca.org/keyword/canon-law">
-                    <desc><date notBefore="0513" notAfter="0518" calendar="Gregorian"> Sometime
-                      between 513 and 518 </date>, <persName
-                        ref="http://syriaca.org/person/3075"> prominent men in <placeName
-                          ref="http://syriaca.org/place/10"> Antioch
-                        </placeName></persName> petitioned <persName
-                          ref="http://syriaca.org/person/51"> Severus </persName> to allow
-                      <persName ref="http://syriaca.org/person/2575"> Romulus </persName>
-                      to conduct prayers in <placeName ref="http://syriaca.org/place/10">
-                        Antioch </placeName> even though he was under the authority of
-                      <persName ref="http://syriaca.org/person/2574"> Philoxenus
-                      </persName>, bishop of <placeName ref="http://syriaca.org/place/2661">
-                        Doliche </placeName>. </desc>
-                  </event>
-                </listEvent>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          <constraintSpec ident="relation-in-event" scheme="schematron">
+            <constraint>
+              <sch:rule context="//tei:ab//tei:event/tei:desc/tei:listRelation/tei:relation">
+                <sch:report test="tei:desc">A &lt;relation&gt; element inside of an &lt;event&gt; element cannot take a &lt;desc&gt; element.</sch:report>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
           <remarks>
             <p>This customization removes the <gi>event</gi> element from all model and attribute
               classes. It removes the @where attribute and makes the <gi>desc</gi> element the only
@@ -1825,12 +1250,6 @@
         </elementSpec>
 
         <elementSpec ident="note" module="core" mode="change">
-          <classes mode="replace">
-            <memberOf key="model.correspActionPart"/>
-            <memberOf key="model.correspContextPart"/>
-            <memberOf key="model.correspDescPart"/>
-            <memberOf key="model.noteLike"/>
-          </classes>
           <constraintSpec ident="note-children-in-context" scheme="schematron">
             <constraint>
               <sch:rule context="tei:note[parent::tei:birth and preceding-sibling::tei:placeName]">
@@ -1916,20 +1335,15 @@
               <datatype>
                 <dataRef key="teidata.enumerated"/>
               </datatype>
-              <constraintSpec ident="type-note-child-div" scheme="schematron">
+              <constraintSpec ident="type-note-child-ab" scheme="schematron">
                 <constraint>
-                  <sch:rule context="tei:div/tei:note">
-                    <sch:assert test="@type = 'incerta' or 'dubia' or 'errata'">Only notes of @type "incerta", "dubia", or
-                      "errata" may appear as children of a &lt;div&gt; element.</sch:assert>
+                  <sch:rule context="//tei:ab/tei:note/@type">
+                    <sch:report test=". = 'desc'">"Desc" not allowed. Only notes of @type "incerta", "dubia", or
+                      "errata" or "relatedEvent" may appear as children of an &lt;ab&gt; element.</sch:report>
                   </sch:rule>
-                  <!--<sch:rule context="tei:div/tei:note/@type">
-                    <sch:report test=". = 'desc'">Only notes of @type "incerta", "dubia", or
-                      "errata" may appear as children of a &lt;div&gt; element.</sch:report>
+                  <sch:rule context="//tei:note[@type='relatedEvent']">
+                    <sch:assert test=".[ancestor::tei:ab/@subtype='event']">"relatedEvent" not allowed. This type of note is only allowed as a descendant of &lt;ab&gt; with @type="event".</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:div/tei:note/@type">
-                    <sch:assert test=". = 'incerta' or 'dubia' or 'errata'">Only notes of @type "incerta", "dubia", or
-                      "errata" may appear as children of a &lt;div&gt; element.</sch:assert>
-                  </sch:rule>-->
                 </constraint>
               </constraintSpec>
               <constraintSpec ident="notes-type-desc" scheme="schematron">
@@ -1939,7 +1353,7 @@
                     <sch:assert test="@type = 'desc'">Elements of type &lt;note&gt; must contain the
                       attribute @type="desc" and other &lt;note&gt; types are not allowed in this context.
                       Other types of notes ("incerta", "dubia", and "errata") may appear as children of
-                      the &lt;div&gt; element as needed.</sch:assert>
+                      the &lt;ab&gt; element as needed.</sch:assert>
                   </sch:rule>
                 </constraint>
               </constraintSpec>
@@ -1948,100 +1362,21 @@
                 <valItem ident="incerta"/>
                 <valItem ident="dubia"/>
                 <valItem ident="errata"/>
+                <valItem ident="relatedEvent"/>
               </valList>
             </attDef>
             <attDef ident="ana" usage="opt" mode="replace">
               <datatype>
-                <dataRef key="teidata.enumerated"/>
+                <dataRef key="teidata.pointer"/>
               </datatype>
               <valList type="closed">
-                <valItem ident="calculated"/>
+                <valItem ident="#calculated"/>
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-52" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-52</idno>
-                <listEvent>
-                  <event
-                    ana="http://syriaca.org/keyword/emperors http://syriaca.org/keyword/accession">
-                    <desc> In <choice>
-                      <corr><date when="-0044" calendar="Gregorian"
-                        srophe:computed-start="-0044-01-01">44 B.C.</date></corr>
-                      <sic><date notBefore="-0046-10" notAfter="-0045-09"
-                        calendar="Gregorian">46/5 B.C.</date></sic>
-                      <orig><date when-custom="0266" datingMethod="Seleucid">A. Gr.
-                        266</date></orig>
-                    </choice><persName ref="http://syriaca.org/person/2238"> Augustus
-                    </persName> became King of <placeName ref="http://syriaca.org/place/166"
-                      > Rome </placeName>. </desc>
-                  </event>
-                </listEvent>
-                <bibl> ... </bibl>
-                <note type="errata"> The author has apparently mistaken the date of Augustus'
-                  accession. </note>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-96" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-96</idno>
-                <listEvent>
-                  <event
-                    ana="http://syriaca.org/keyword/holy-places http://syriaca.org/keyword/architecture">
-                    <desc><persName ref="http://syriaca.org/person/326"> Aitalaha </persName>
-                      built <placeName ref="http://syriaca.org/place/2589"> the cemetery
-                      </placeName> and the eastern side of the <placeName
-                        ref="http://syriaca.org/place/2588"> Church of <placeName
-                          ref="http://syriaca.org/place/78"> Edessa
-                        </placeName></placeName> in <choice>
-                          <reg><date notBefore="0324-10" notAfter="0325-09"
-                            calendar="Gregorian" srophe:computed-end="0325-09-01"
-                            srophe:computed-start="0324-10-01">324/5</date></reg>
-                          <orig><date when-custom="0636" datingMethod="Seleucid">A. Gr.
-                            636</date></orig>
-                        </choice>. </desc>
-                  </event>
-                </listEvent>
-                <bibl>....</bibl>
-                <note type="incerta"> The text seems to be confused regarding the relative dates of
-                  several events in this section.
-                  <bibl type="secondary">
-                    <ptr target="http://syriaca.org/bibl/660"/>
-                    <citedRange unit="pp">94-95</citedRange>
-                  </bibl>
-                </note>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-440" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-440</idno>
-                <listEvent>
-                  <event
-                    ana="http://syriaca.org/keyword/bishops http://syriaca.org/keyword/accession">
-                    <desc> In <choice>
-                      <reg><date notBefore="0511-04-11" notAfter="0512-04-10"
-                        calendar="Gregorian" srophe:computed-end="0512-04-10"
-                        srophe:computed-start="0511-04-11">511/2</date><note
-                          ana="calculated">This regularized date was calculated by the
-                          SPEAR editor from a non-calendrical dating system such as
-                          regnal years, etc.</note></reg>
-                      <orig><date datingMethod="regnalYear">the 21st year of the reign of
-                        Anastasios</date></orig>
-                    </choice><persName ref="http://syriaca.org/person/790"> Timotheos
-                    </persName> became Bishop of <placeName
-                      ref="http://syriaca.org/place/2290"> Constantinople </placeName>.
-                    </desc>
-                  </event>
-                </listEvent>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
           <remarks>
             <p>
               
@@ -2076,42 +1411,8 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-6" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3013-6</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2767"> The religious deacon, father
-                      Theodore </persName>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-200" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-200</idno>
-                <listPerson>
-                  <personGrp>
-                    <persName ref="http://syriaca.org/person/2224"> The Huns who entered
-                      <placeName ref="http://syriaca.org/place/166"> Roman territory
-                      </placeName> in <choice>
-                        <reg><date when="0395-07" calendar="Gregorian"
-                          srophe:computed-start="0395-07-01">July, 395</date></reg>
-                        <orig><date when-custom="0706-10"
-                          datingMethod="Seleucid-SyriacMonths">Tammuz A. Gr.
-                          706</date></orig>
-                      </choice></persName>
-                    <ptr target="http://syriaca.org/keyword/huns"/>
-                  </personGrp>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
           <remarks>
             <p>
               
@@ -2145,37 +1446,8 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-46" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3004-46</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/680"> Peter of <placeName
-                      ref="http://syriaca.org/place/2674"> Iberia </placeName></persName>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-37" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/804-37</idno>
-                <listEvent>
-                  <event ana="http://syriaca.org/keyword/charity">
-                    <desc><persName ref="http://syriaca.org/person/3025">Euphemia</persName>
-                      helped those outside of <placeName ref="http://syriaca.org/place/8"
-                        >Amida</placeName> as well and took the sick to <persName
-                          ref="http://syriaca.org/person/3613">the superintendents of the
-                          hospitals</persName> for care. </desc>
-                  </event>
-                </listEvent>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
           <remarks>
             <p>
               
@@ -2213,7 +1485,7 @@
                       > The @target attribute on a &lt;ptr&gt; element inside a &lt;bibl&gt; element
                       with @type="urn" must begin either with "urn:cts:".</sch:assert>
                   </sch:rule>
-                  <sch:rule context="//tei:body/tei:div/tei:bibl[@type = 'urn']/tei:ptr/@target">
+                  <sch:rule context="//tei:body/tei:ab/tei:bibl[@type = 'urn']/tei:ptr/@target">
                     <sch:let name="urnBase"
                       value="//tei:sourceDesc//tei:bibl[@type = 'urn']/tei:ptr/@target"/>
                     <sch:assert test="starts-with(., concat($urnBase, ':'))">URN in a &lt;bibl&gt;
@@ -2234,68 +1506,9 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <sourceDesc>
-                <listBibl>
-                  <head>Sources for the Data in this Born Digital Prosopography</head>
-                  <bibl type="primary">
-                    <title xml:lang="en">The Sixth Book of the Select Letters of Severus,
-                      Patriarch of Antioch in the Syriac Version of Athanasius of
-                      Nisibis</title>
-                    <title type="sub">Translation, I.1 - II.3</title>
-                    <author><persName ref="http://syriaca.org/person/51">Severus of
-                      Antioch</persName></author>
-                    <editor><persName ref="http://syriaca.org/person/403">E. W.
-                      Brooks</persName></editor>
-                    <ptr target="http://syriaca.org/bibl/668"/>
-                  </bibl>
-                  <bibl type="primary">
-                    <title>To Theodore, Archimandrite of the Monastery of Romanus</title>
-                    <author><persName ref="http://syriaca.org/person/51"/>Severus of
-                      Antioch</author>
-                    <ptr target="http://syriaca.org/work/3112"/>
-                  </bibl>
-                </listBibl>
-              </sourceDesc>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-13" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3056-13</idno>
-                <listRelation>
-                  ...
-                </listRelation>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/668"/>
-                  <citedRange unit="part">1.28</citedRange>
-                  <citedRange unit="pp">90</citedRange>
-                </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-193" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-193</idno>
-                <listPerson>
-                  ...
-                </listPerson>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/633"/>
-                  <citedRange unit="pp">5</citedRange>
-                </bibl>
-                <bibl type="urn">
-                  <ptr target="urn:cts:syriacLit:nhsl8559.syriacCorpus57:39"/>
-                </bibl>
-                <bibl type="primary">
-                  <ptr target="http://syriaca.org/bibl/657"/>
-                  <citedRange unit="part">39</citedRange>
-                </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
           <remarks>
             <p>
               
@@ -2309,9 +1522,9 @@
           </content>
           <constraintSpec ident="descInRelation" scheme="schematron">
             <constraint>
-              <sch:rule context="//tei:body//tei:relation">
+              <sch:rule context="//tei:body/tei:ab/tei:listRelation/tei:relation">
                 <sch:assert test="tei:desc">
-                  The &lt;relation&gt; element require a &lt;desc&gt;.
+                  This &lt;relation&gt; element requires a &lt;desc&gt;.
                 </sch:assert>
               </sch:rule>
               <sch:rule context="//tei:sourceDesc//tei:relation">
@@ -2323,7 +1536,7 @@
           </constraintSpec>
           <constraintSpec ident="ref-mutual-act-pass-in-relation" scheme="schematron">
             <constraint>
-              <sch:rule context="tei:div/tei:listRelation/tei:relation">
+              <sch:rule context="tei:ab[@type='relation']/tei:listRelation/tei:relation">
                 <sch:let name="ti"
                   value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                 <sch:let name="mutual"
@@ -2347,7 +1560,7 @@
                 <sch:report test=".[@mutual]/@passive">A &lt;relation&gt; element cannot take both
                   @passive and @mutual attributes.</sch:report>
               </sch:rule>
-              <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation"><!-- This will need to change once we change the way we link related event factoids -->
+              <sch:rule context="tei:ab[@subtype='event']/tei:listRelation/tei:relation">
                 <sch:assert test="@mutual">A @mutual attribute is required on &lt;relation&gt;
                   elements in event factoids.</sch:assert>
                 <sch:report test="@active">@active attributes are not allowed on &lt;relation&gt;
@@ -2355,7 +1568,7 @@
                 <sch:report test="@passive">@passive attributes are not allowed on &lt;relation&gt;
                   elements in event factoids.</sch:report>
               </sch:rule>
-              <sch:rule context="tei:div/tei:listRelation/tei:relation/@mutual | tei:div/tei:listRelation/tei:relation/@active | tei:div/tei:listRelation/tei:relation/@passive" role="warning">
+              <sch:rule context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@mutual | tei:ab/tei:listRelation/tei:relation/@active | tei:ab/tei:listRelation/tei:relation/@passive" role="warning">
                 <sch:let name="personIndex" value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/persons.xml')"></sch:let>
                 <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                 <sch:let name="error" value="."/>
@@ -2371,7 +1584,7 @@
             <attDef ident="ref" mode="change" usage="opt">
               <constraintSpec ident="ref-in-context" scheme="schematron">
                 <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@ref">
+                  <sch:rule context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@ref">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:assert
@@ -2381,7 +1594,7 @@
                         select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri, ';  ')"
                       />.</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@ref">
+                  <sch:rule context="tei:ab[@subtype='event']/tei:listRelation/tei:relation/@ref">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:assert
@@ -2408,27 +1621,31 @@
                 </constraint>
               </constraintSpec>
             </attDef>
-            <attDef ident="type" mode="change" usage="opt">
-              <datatype minOccurs="1" maxOccurs="unbounded">
+            <attDef ident="type" mode="change" usage="req">
+              <datatype maxOccurs="1">
                 <dataRef key="teidata.enumerated"/>
               </datatype>
               <constraintSpec ident="type-on-relation" scheme="schematron">
                 <constraint>
-                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
+                  <sch:rule context="tei:ab/tei:listEvent/tei:listRelation/tei:relation">
                     <sch:assert test="@type = 'event'">A &lt;relation&gt; element inside an event factoid
                       must take a @type attribute with the value "event".</sch:assert>
                   </sch:rule>
                   <sch:rule context="tei:sourceDesc/tei:listRelation/tei:relation">
-                    <sch:assert test="@type = 'part'">A @type attribute the value
+                    <sch:assert test="@type = 'part'">A @type attribute with the value
                       "part" is required.</sch:assert>
-                  </sch:rule>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation">
-                    <sch:report test="@type">The @type attribute cannot appear in a relation factoid.
-                      It may only be used in a &lt;relation&gt; element describing a relationship
-                      between two events. </sch:report>
                   </sch:rule>
                 </constraint>
               </constraintSpec>
+              <valList >
+                <valItem ident="person">
+                  <desc>Used to denote relationships involving persons</desc>
+                </valItem>
+                <valItem ident="event">
+                  <desc>Used to denote relationships between event factoids</desc>
+                </valItem>
+                <valItem ident="part"/>
+              </valList>
             </attDef>
             <attDef ident="ana" mode="change" usage="rec">
               <datatype minOccurs="0" maxOccurs="unbounded">
@@ -2436,7 +1653,7 @@
               </datatype>
               <constraintSpec ident="ana-on-event-relation" scheme="schematron">
                 <constraint>
-                  <sch:rule context="tei:div/tei:listRelation/tei:relation/@ana">
+                  <sch:rule context="tei:ab/tei:listRelation/tei:relation/@ana">
                     <sch:let name="ti"
                       value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                     <sch:let name="qrURI"
@@ -2449,7 +1666,7 @@
                       ><sch:value-of select="$error"/> is not is use. The value of this @ana attribute must 
                       be one of the following: <sch:value-of select="string-join($qrURI, ';  ')"/>.</sch:assert>
                   </sch:rule>
-                  <sch:rule context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
+                  <sch:rule context="tei:ab/tei:listEvent/tei:listRelation/tei:relation">
                     <sch:report test="@ana">A &lt;relation&gt; element inside an event factoid cannot
                       have an @ana attribute.</sch:report>
                   </sch:rule>
@@ -2457,100 +1674,11 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-21" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3140-21</idno>
-                <listRelation>
-                  <relation ref="snap:SpouseOf"
-                    mutual="http://syriaca.org/person/3121 http://syriaca.org/person/3120"/>
-                </listRelation>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-13" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3013-13</idno>
-                <listRelation>
-                  <relation ref="syriaca:MonasticHeadOver" active="http://syriaca.org/person/2669"
-                    passive="http://syriaca.org/person/3033"/>
-                </listRelation>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-27" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3046-27</idno>
-                <listRelation>
-                  <relation ref="syriaca:CommuneTogether"
-                    mutual="http://syriaca.org/person/2458 http://syriaca.org/person/3065"/>
-                </listRelation>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-555" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-555</idno>
-                <listEvent>
-                  <event ana="http://syriaca.org/keyword/emperors http://syriaca.org/keyword/bishops http://syriaca.org/keyword/natural-disasters">
-                    <desc> The fourth time the walls of <placeName
-                      ref="http://syriaca.org/place/78"> Edessa </placeName> were broken
-                      down was in the days of the king <persName
-                        ref="http://syriaca.org/person/2268"> Justin </persName> and of the
-                      bishop <persName ref="http://syriaca.org/person/2236"> Asclepius
-                      </persName> in <choice>
-                        <reg><date notBefore="0524-10" notAfter="0525-09"
-                          calendar="Gregorian" srophe:computed-end="0525-09-01"
-                          srophe:computed-start="0524-10-01">424/5</date></reg>
-                        <orig><date when-custom="0836" datingMethod="Seleucid">A. Gr.
-                          836</date></orig>
-                      </choice></desc>
-                  </event>
-                  <listRelation>
-                    <relation ref="syriaca:SameEvent" ana="event"
-                      mutual="http://syriaca.org/spear/8559-476 http://syriaca.org/spear/8559-555"/>
-                  </listRelation>
-                </listEvent>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-542" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-542</idno>
-                <listEvent>
-                  <event ana="http://syriaca.org/keyword/war http://syriaca.org/keyword/violence">
-                    <desc> In <choice>
-                      <reg><date when="0540-05" calendar="Gregorian"
-                        srophe:computed-start="0540-05-01">May 540</date></reg>
-                      <orig><date when-custom="0851-08"
-                        datingMethod="Seleucid-SyriacMonths">Iyār A. Gr.
-                        851</date></orig>
-                    </choice><persName ref="http://syriaca.org/person/2244"> Chosroes
-                    </persName> broke the peace and invaded <placeName
-                      ref="http://syriaca.org/place/166"> Roman territory </placeName>. He
-                      laid waste <placeName ref="http://syriaca.org/place/185"> Shura
-                      </placeName>, <placeName ref="http://syriaca.org/place/18"> Aleppo
-                      </placeName>, and <placeName ref="http://syriaca.org/place/10"> Antioch
-                      </placeName>. </desc>
-                  </event>
-                  <listRelation>
-                    <relation ref="syriaca:ProximateEvent" ana="event"
-                      mutual="http://syriaca.org/spear/8559-542 http://syriaca.org/spear/8559-538"
-                    />
-                  </listRelation>
-                </listEvent>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
+          
+          
           <remarks>
             <p>This customization removes from the <gi>relation</gi> element all attributes except
               @name, @type, @ana, @mutual, @passive, and @active. It also restricts values for the
@@ -2608,176 +1736,19 @@
               </sequence>
             </alternate>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2245"/>
-                <birth>
-                  <choice>
-                    <reg><date notBefore="-0003-10" notAfter="-0002-09"
-                      calendar="Gregorian" srophe:computed-start="-0003-10-01"
-                      srophe:computed-end="-0002-09-01">3/2 B.C.</date></reg>
-                    <orig><date when-custom="0309" datingMethod="Seleucid">A. Gr.
-                      309</date></orig>
-                  </choice>
-                  <note type="desc"> Jesus was born in 3/2 B.C. </note>
-                </birth>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/3263"/>
-                <death><date when="0529"/><note type="desc"><persName
-                  ref="http://syriaca.org/person/3263">Symy</persName> died in
-                  529. </note></death>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/1788"/>
-                <death><placeName ref="http://syriaca.org/place/586"/><note type="desc"><persName
-                  ref="http://syriaca.org/person/1788">Isaac of Dara</persName> died in
-                  <placeName ref="http://syriaca.org/place/586">Constantinople</placeName>.
-                </note></death>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2032"/>
-                <birth><placeName ref="http://syriaca.org/place/2865"/><note type="desc"
-                  ><persName ref="http://syriaca.org/person/2032"
-                    >Kashish</persName> was born in <placeName
-                      ref="http://syriaca.org/place/2865">Ê¿Aina da Frakha which is
-                      beyond <placeName ref="http://syriaca.org/place/2825">Nirba d
-                        Å kwÅ¡</placeName>.</placeName></note></birth>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2032"/>
-                <education ana="http://syriaca.org/keyword/bible http://syriaca.org/keyword/exegesis"><note type="desc"
-                  ><persName ref="http://syriaca.org/person/2032"
-                    >Kashish</persName> studied the reading of the Holy Scriptures
-                  at the <placeName ref="http://syriaca.org/place/399"> Monastery of
-                    John Urtraya </placeName> in the city of <placeName
-                      ref="http://syriaca.org/place/8"> Amida.
-                    </placeName></note></education>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/3218"/>
-                <langKnowledge>
-                  <langKnown ana="http://syriaca.org/keyword/urtaye"/>
-                  <note type="desc"><persName ref="http://syriaca.org/person/3218"
-                    >John</persName>spoke Urtaye.</note>
-                </langKnowledge>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2562"/>
-                <nationality><placeName ref="http://syriaca.org/place/1469"/><note
-                  type="desc"><persName ref="http://syriaca.org/person/2562"
-                    >Epiphanius</persName> was a citizen of <placeName
-                      ref="http://syriaca.org/place/1469">Perga</placeName>.
-                </note></nationality>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2606"/>
-                <occupation ana="http://syriaca.org/keyword/readers"><note type="desc"
-                  ><persName ref="http://syriaca.org/person/2606"
-                    >Archelaus</persName> was a reader in <placeName
-                      ref="http://syriaca.org/place/195"
-                      >Tyre</placeName>.</note></occupation>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/3183"/>
-                <residence><placeName ref="http://syriaca.org/place/2826"/><note type="desc"
-                  ><persName ref="http://syriaca.org/person/3183">Abba</persName>
-                  resided in the <placeName ref="http://syriaca.org/place/2826"
-                    >Convent of Nut</placeName>. </note></residence>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2400"/>
-                <socecStatus ana="http://syriaca.org/keyword/slaves">
-                  <note type="desc">
-                    <persName ref="http://syriaca.org/person/2400">John</persName>
-                    was a slave.
-                  </note>
-                </socecStatus>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/1524"/>
-                <state type="sanctity" ana="http://syriaca.org/keyword/saints">
-                  <note type="desc"><persName ref="http://syriaca.org/person/1524"
-                    >ZeÊ¿ora</persName> was a saint.</note>
-                </state>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/2416"/>
-                <trait type="gender" ana="http://syriaca.org/keyword/female">
-                  <note type="desc"><persName ref="http://syriaca.org/person/2416"
-                    >Thecla</persName> was female.</note>
-                </trait>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/3154"/>
-                <trait type="physical" ana="http://syriaca.org/keyword/hair">
-                  <note type="desc"><persName ref="http://syriaca.org/person/3154"
-                    >Sergius</persName> had long hair that marked his ascetic
-                    profession and wore a habit that marked him as an anchorite. </note>
-                </trait>
-              </person>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <person>
-                <persName ref="http://syriaca.org/person/3218"/>
-                <trait type="ethnicLabel" ana="http://syriaca.org/keyword/syrian">
-                  <note type="desc"><persName ref="http://syriaca.org/person/3218">John
-                    Urtaya</persName>was Syrian.</note>
-                </trait>
-              </person>
-            </egXML>
-          </exemplum>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           <remarks>
             <p>This customization removes all attributes from the <gi>person</gi> element except for
               the @ref attribute.</p>
@@ -2811,48 +1782,7 @@
             <attDef ident="from" mode="delete"/>
             <attDef ident="to" mode="delete"/>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-3" resp="#jwickes">
-                <idno type="URI">http://syriaca.org/spear/842-3</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2032"/>
-                    <birth><placeName ref="http://syriaca.org/place/2865"/><note type="desc"
-                      ><persName ref="http://syriaca.org/person/2032"
-                        >Kashish</persName> was born in <placeName
-                          ref="http://syriaca.org/place/2865">ʿAina da Frakha which is
-                          beyond <placeName ref="http://syriaca.org/place/2825">Nirba d
-                            Škwš</placeName>.</placeName></note></birth>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-55" resp="#dschwartz">
-                <idno type="URI">http://syriaca.org/spear/8559-55</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2245"/>
-                    <birth>
-                      <choice>
-                        <reg><date notBefore="-0003-10" notAfter="-0002-09"
-                          calendar="Gregorian" srophe:computed-start="-0003-10-01"
-                          srophe:computed-end="-0002-09-01">3/2 B.C.</date></reg>
-                        <orig><date when-custom="0309" datingMethod="Seleucid">A. Gr.
-                          309</date></orig>
-                      </choice>
-                      <note type="desc"> Jesus was born in 3/2 B.C. </note>
-                    </birth>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization restricts the attribute classes of the <gi>birth</gi> element to
               att.datable.w3c but excludes the @to and @from attributes. If more precise dating is
@@ -2887,39 +1817,8 @@
             <attDef ident="from" mode="delete"/>
             <attDef ident="to" mode="delete"/>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-215" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-215</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3263"/>
-                    <death><date when="0529"/><note type="desc"><persName
-                      ref="http://syriaca.org/person/3263">Symy</persName> died in
-                      529. </note></death>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-11" resp="#rbarczok #kgibson">
-                <idno type="URI">http://syriaca.org/spear/836-11</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/1788"/>
-                    <death><placeName ref="http://syriaca.org/place/586"/><note type="desc"><persName
-                      ref="http://syriaca.org/person/1788">Isaac of Dara</persName> died in
-                      <placeName ref="http://syriaca.org/place/586">Constantinople</placeName>.
-                    </note></death>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
           <remarks>
             <p>This customization restricts the attribute classes of the <gi>birth</gi> element to
               att.datable.w3c but excludes the @to and @from attributes. If more precise dating is
@@ -2963,26 +1862,7 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-5" resp="#jwickes">
-                <idno type="URI">http://syriaca.org/spear/842-5</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2032"/>
-                    <education ana="http://syriaca.org/keyword/bible http://syriaca.org/keyword/exegesis"><note type="desc"
-                      ><persName ref="http://syriaca.org/person/2032"
-                        >Kashish</persName> studied the reading of the Holy Scriptures
-                      at the <placeName ref="http://syriaca.org/place/399"> Monastery of
-                        John Urtraya </placeName> in the city of <placeName
-                          ref="http://syriaca.org/place/8"> Amida.
-                        </placeName></note></education>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization restricts the attribute classes of the <gi>education</gi> element
               to att.datable.w3c and the @ana attribute. If more precise dating is required for a
@@ -3002,24 +1882,7 @@
               <elementRef key="note" minOccurs="1" maxOccurs="1"/>
             </sequence>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-39" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3004-39</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2562"/>
-                    <nationality><placeName ref="http://syriaca.org/place/1469"/><note
-                      type="desc"><persName ref="http://syriaca.org/person/2562"
-                        >Epiphanius</persName> was a citizen of <placeName
-                          ref="http://syriaca.org/place/1469">Perga</placeName>.
-                    </note></nationality>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>The TEI name for the <gi>nationality</gi> element is highly problematic from a
               pre-Modern perspective. Citizenship would be preferable in one sense, yet could in
@@ -3044,25 +1907,7 @@
               <elementRef key="note" minOccurs="1" maxOccurs="1"/>
             </sequence>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-179" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-179</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3183"/>
-                    <residence><placeName ref="http://syriaca.org/place/2826"/><note type="desc"
-                      ><persName ref="http://syriaca.org/person/3183">Abba</persName>
-                      resided in the <placeName ref="http://syriaca.org/place/2826"
-                        >Convent of Nut</placeName>. </note></residence>
-                  </person>
-                </listPerson>
-                <bibl type="primary"><ptr target="http://syriaca.org/work/10510"/><citedRange
-                  unit="pp">570</citedRange></bibl>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization limits the attribute classes of the <gi>residence</gi> element to
               att.datable.custom and att.datable.w3c and removes the <gi>residence</gi> element from
@@ -3102,59 +1947,9 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-3" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3020-3</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2606"/>
-                    <occupation ana="http://syriaca.org/keyword/readers"><note type="desc"
-                      ><persName ref="http://syriaca.org/person/2606"
-                        >Archelaus</persName> was a reader in <placeName
-                          ref="http://syriaca.org/place/195"
-                          >Tyre</placeName>.</note></occupation>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-3" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3020-3</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2606"/>
-                    <occupation ana="http://syriaca.org/keyword/readers"><note type="desc"
-                      ><persName ref="http://syriaca.org/person/2606"
-                        >Archelaus</persName> was a reader in <placeName
-                          ref="http://syriaca.org/place/195"
-                          >Tyre</placeName>.</note></occupation>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-3" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3053-3</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2568"/>
-                    <occupation ana="http://syriaca.org/keyword/physicians"><note type="desc"
-                      ><persName ref="http://syriaca.org/person/2568"
-                        >Theotecnus</persName> was an archiatros or chief
-                      physician.</note></occupation>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
           <remarks>
             <p>This customization removes the <gi>occupation</gi> element from all attribute and
               member classes. It makes the <gi>note</gi> element the only acceptable child of the
@@ -3170,24 +1965,7 @@
               <elementRef key="note" minOccurs="1" maxOccurs="1"/>
             </sequence>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-22" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-22</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3218"/>
-                    <langKnowledge>
-                      <langKnown ana="http://syriaca.org/keyword/urtaye"/>
-                      <note type="desc"><persName ref="http://syriaca.org/person/3218"
-                        >John</persName>spoke Urtaye.</note>
-                    </langKnowledge>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization removes the <gi>langKnowledge</gi> element from all attribute and
               member classes. It makes the <gi>langKnown</gi> element the only acceptable child of
@@ -3231,24 +2009,7 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-22" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-22</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3218"/>
-                    <langKnowledge>
-                      <langKnown ana="http://syriaca.org/keyword/urtaye"/>
-                      <note type="desc"><persName ref="http://syriaca.org/person/3218"
-                        >John</persName>spoke Urtaye.</note>
-                    </langKnowledge>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization removes the <gi>langKnown</gi> element from all model and attribute
               classes. It also provides a semi closed value list for the required @tag attribute and
@@ -3288,25 +2049,7 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-9" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3069-9</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2400"/>
-                    <socecStatus ana="http://syriaca.org/keyword/slaves">
-                      <note type="desc">
-                        <persName ref="http://syriaca.org/person/2400">John</persName>
-                        was a slave.
-                      </note>
-                    </socecStatus>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
           <remarks>
             <p>This customization removes the <gi>socecStatus</gi> element from all attribute and
               member classes. It makes the <gi>note</gi> element the only acceptable child of the
@@ -3398,58 +2141,9 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-51" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/797-51</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3154"/>
-                    <trait type="physical" ana="http://syriaca.org/keyword/hair">
-                      <note type="desc"><persName ref="http://syriaca.org/person/3154"
-                        >Sergius</persName> had long hair that marked his ascetic
-                        profession and wore a habit that marked him as an anchorite. </note>
-                    </trait>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-7" resp="#ktorabi #dschwartz">
-                <idno type="URI">http://syriaca.org/spear/3012-7</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/2416"/>
-                    <trait type="gender" ana="http://syriaca.org/keyword/female">
-                      <note type="desc"><persName ref="http://syriaca.org/person/2416"
-                        >Thecla</persName> was female.</note>
-                    </trait>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-23" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/10510-23</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/3218"/>
-                    <trait type="ethnicLabel" ana="http://syriaca.org/keyword/syrian">
-                      <note type="desc"><persName ref="http://syriaca.org/person/3218">John
-                        Urtaya</persName>was Syrian.</note>
-                    </trait>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
+          
+          
+          
           <remarks>
             <p>This customization removes the <gi>trait</gi> element from all attribute and member
               classes. It makes the <gi>note</gi> element the only acceptable child of the
@@ -3463,19 +2157,7 @@
           <content>
             <elementRef key="listBibl" minOccurs="1" maxOccurs="1"/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <back>
-                <listBibl>
-                  <head>Works Cited</head>
-                  <bibl type="primary" xml:id="bibl3033-1"><title xml:lang="en">The Sixth Book of the
-                    Select Letters of Severus, Patriarch of Antioch in the Syriac Version of
-                    Athanasius of Nisibis</title><title type="sub">Translation, I.1 -
-                      II.3</title><ptr target="http://syriaca.org/bibl/668"/></bibl>
-                </listBibl>
-              </back>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
 
         <elementSpec ident="listBibl" module="core" mode="change">
@@ -3483,19 +2165,7 @@
             <elementRef key="head" minOccurs="1" maxOccurs="1"/>
             <elementRef key="bibl" minOccurs="1" maxOccurs="unbounded"/>
           </content>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <back>
-                <listBibl>
-                  <head>Works Cited</head>
-                  <bibl type="primary" xml:id="bibl3033-1"><title xml:lang="en">The Sixth Book of the
-                    Select Letters of Severus, Patriarch of Antioch in the Syriac Version of
-                    Athanasius of Nisibis</title><title type="sub">Translation, I.1 -
-                      II.3</title><ptr target="http://syriaca.org/bibl/668"/></bibl>
-                </listBibl>
-              </back>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
 
         <elementSpec ident="head" module="core" mode="change">
@@ -3513,19 +2183,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <back>
-                <listBibl>
-                  <head>Works Cited</head>
-                  <bibl type="primary" xml:id="bibl3033-1"><title xml:lang="en">The Sixth Book of the
-                    Select Letters of Severus, Patriarch of Antioch in the Syriac Version of
-                    Athanasius of Nisibis</title><title type="sub">Translation, I.1 -
-                      II.3</title><ptr target="http://syriaca.org/bibl/668"/></bibl>
-                </listBibl>
-              </back>
-            </egXML>
-          </exemplum>
+          
         </elementSpec>
 
         <elementSpec ident="state" module="namesdates" mode="replace">
@@ -3591,26 +2249,8 @@
               </valList>
             </attDef>
           </attList>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples">
-              <div type="factoid" xml:id="factoid-4" resp="#ktorabi">
-                <idno type="URI">http://syriaca.org/spear/794-4</idno>
-                <listPerson>
-                  <person>
-                    <persName ref="http://syriaca.org/person/1524"/>
-                    <state type="sanctity" ana="http://syriaca.org/keyword/saints">
-                      <note type="desc"><persName ref="http://syriaca.org/person/1524"
-                        >ZeÊ¿ora</persName> was a saint.</note>
-                    </state>
-                  </person>
-                </listPerson>
-                <bibl> ... </bibl>
-              </div>
-            </egXML>
-          </exemplum>
-          <exemplum>
-            <egXML xmlns="http://www.tei-c.org/ns/Examples"> </egXML>
-          </exemplum>
+          
+          
         </elementSpec>
 </schemaSpec>
 

@@ -2,11 +2,10 @@
 <grammar xmlns:xlink="http://www.w3.org/1999/xlink"
          xmlns:tei="http://www.tei-c.org/ns/1.0"
          xmlns:teix="http://www.tei-c.org/ns/Examples"
-         xmlns:srophe="https://srophe.app"
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2020-08-10T22:35:45Z. .
+Schema generated from ODD source 2020-09-01T16:26:35Z. .
 TEI Edition: Version 4.0.0. Last updated on
 	13th February 2020, revision ccd19b0ba
 TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
@@ -189,51 +188,11 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
       </optional>
    </define>
    <define name="att.datable.w3c.attributes">
-      <ref name="att.datable.w3c.attribute.srophecomputed-start"/>
-      <ref name="att.datable.w3c.attribute.srophecomputed-end"/>
       <ref name="att.datable.w3c.attribute.when"/>
       <ref name="att.datable.w3c.attribute.notBefore"/>
       <ref name="att.datable.w3c.attribute.notAfter"/>
       <ref name="att.datable.w3c.attribute.from"/>
       <ref name="att.datable.w3c.attribute.to"/>
-   </define>
-   <define name="att.datable.w3c.attribute.srophecomputed-start">
-      <optional>
-         <attribute name="srophe:computed-start">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Provides a start date conforming to the W3C XML Schema Part 2: Datatypes Second
-                Edition that can contain information specific enough to inform a timeline precisely
-                even then that information does not appear in the text being encoded.) The SPEAR project visualizes events using the knightlab timeline. This program required dates more specific than we were able to derive from some of our sources. Winona Salesky created this date attribute in order to visualize our event data on a timeline. </a:documentation>
-            <choice>
-               <data type="date"/>
-               <data type="gYear"/>
-               <data type="gMonth"/>
-               <data type="gDay"/>
-               <data type="gYearMonth"/>
-               <data type="gMonthDay"/>
-               <data type="time"/>
-               <data type="dateTime"/>
-            </choice>
-         </attribute>
-      </optional>
-   </define>
-   <define name="att.datable.w3c.attribute.srophecomputed-end">
-      <optional>
-         <attribute name="srophe:computed-end">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(Provides an end date conforming to the W3C XML Schema Part 2: Datatypes Second
-                Edition that can contain information specific enough to inform a timeline precisely
-                even then that information does not appear in the text being encoded.) The SPEAR project visualizes events using the knightlab timeline. This program required dates more specific than we were able to derive from some of our sources. Winona Salesky created this date attribute in order to visualize our event data on a timeline. </a:documentation>
-            <choice>
-               <data type="date"/>
-               <data type="gYear"/>
-               <data type="gMonth"/>
-               <data type="gDay"/>
-               <data type="gYearMonth"/>
-               <data type="gMonthDay"/>
-               <data type="time"/>
-               <data type="dateTime"/>
-            </choice>
-         </attribute>
-      </optional>
    </define>
    <define name="att.datable.w3c.attribute.when">
       <optional>
@@ -324,7 +283,6 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
             id="SPEAR-att.datable.w3c-att-datable-w3c-when-constraint-rule-1">
       <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@when]">
          <sch:report test="@notBefore|@notAfter|@from|@to" role="nonfatal">The @when attribute cannot be used with any other att.datable.w3c attributes.</sch:report>
@@ -334,7 +292,6 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
             id="SPEAR-att.datable.w3c-att-datable-w3c-from-constraint-rule-2">
       <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@from]">
          <sch:report test="@notBefore" role="nonfatal">The @from and @notBefore attributes cannot be used together.</sch:report>
@@ -344,7 +301,6 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
             id="SPEAR-att.datable.w3c-att-datable-w3c-to-constraint-rule-3">
       <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@to]">
          <sch:report test="@notAfter" role="nonfatal">The @to and @notAfter attributes cannot be used together.</sch:report>
@@ -369,7 +325,6 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
             id="SPEAR-att.datable-calendar-calendar-constraint-rule-4">
       <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@calendar]">
          <sch:assert test="string-length(.) gt 0"> @calendar indicates the system or calendar to
@@ -595,6 +550,7 @@ Suggested values include: 1] internal; 2] external; 3] conjecture</a:documentati
    </define>
    <define name="att.global.attributes">
       <ref name="att.global.rendition.attributes"/>
+      <ref name="att.global.linking.attributes"/>
       <ref name="att.global.analytic.attributes"/>
       <ref name="att.global.responsibility.attributes"/>
       <ref name="att.global.source.attributes"/>
@@ -772,7 +728,6 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
             id="SPEAR-att.typed-subtypeTyped-constraint-rule-5">
       <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@subtype]">
          <sch:assert test="@type">The <sch:name/> element should not be categorized in detail with @subtype unless also categorized in general with @type</sch:assert>
@@ -802,7 +757,6 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
             id="SPEAR-att.pointing-targetLang-targetLang-constraint-rule-6">
       <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
          <sch:assert test="@target">@targetLang should only be used on <sch:name/> if @target is specified.</sch:assert>
@@ -1506,7 +1460,6 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
                   id="SPEAR-p-abstractModel-structure-p-constraint-report-4">
             <rule context="tei:p">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
                        test="not(ancestor::tei:floatingText) and (ancestor::tei:p or ancestor::tei:ab)          and not(parent::tei:exemplum                |parent::tei:item                |parent::tei:note                |parent::tei:q                |parent::tei:quote                |parent::tei:remarks                |parent::tei:said                |parent::tei:sp                |parent::tei:stage                |parent::tei:cell                |parent::tei:figure                )">
         Abstract model violation: Paragraphs may not occur inside other paragraphs or ab elements.
       </report>
@@ -1516,7 +1469,6 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
                   id="SPEAR-p-abstractModel-structure-l-constraint-report-5">
             <rule context="tei:p">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
                        test="ancestor::tei:l[not(.//tei:note//tei:p[. = current()])]">
         Abstract model violation: Lines may not contain higher-level structural elements such as div, p, or ab.
       </report>
@@ -1553,21 +1505,22 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
                <zeroOrMore>
                   <ref name="rs"/>
                </zeroOrMore>
+               <optional>
+                  <ref name="listRelation"/>
+               </optional>
             </group>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-desc-descContent-constraint-rule-7">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:div//tei:desc">
+                      context="//tei:ab//tei:desc">
                <sch:report test="not(*) and string-length(normalize-space(.)) eq 0">Element of type
                   &lt;desc&gt; cannot be empty.</sch:report>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listEvent/tei:event/tei:desc"
+                      context="tei:ab/tei:listEvent/tei:event/tei:desc"
                       role="warning">
                <sch:assert test="./tei:persName or tei:placeName">The &lt;desc&gt; element should
                   generally contain either a &lt;persName&gt; or a &lt;placeName&gt; element. SPEAR
@@ -1578,9 +1531,8 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-desc-descInRelation-constraint-rule-9">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:div/tei:listEvent/tei:listRelation/tei:relation/tei:desc">
+                      context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation/tei:desc">
                <sch:let name="SameEventURIs"
                         value="tokenize(parent::tei:relation/@mutual, ' ')"/>
                <sch:assert test="count(child::tei:rs) = count($SameEventURIs)">
@@ -1591,9 +1543,8 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
                 </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:div/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:SameEvent']/tei:desc">
+                      context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:SameEvent']/tei:desc">
                <sch:let name="SameEventURIs"
                         value="tokenize(parent::tei:relation/@mutual, ' ')"/>
                <sch:assert test="starts-with(normalize-space(.), 'The following factoids deal with the same event: ')">
@@ -1601,9 +1552,8 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
                 </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:div/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:ProxmiateEvent']/tei:desc">
+                      context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation[@ref='syriaca:ProxmiateEvent']/tei:desc">
                <sch:let name="SameEventURIs"
                         value="tokenize(parent::tei:relation/@mutual, ' ')"/>
                <sch:assert test="starts-with(normalize-space(.), 'The following factoids deal with closely related events: ')">
@@ -1657,7 +1607,6 @@ Normalization 12. Critical Apparatus]</a:documentation>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-name-refOnName-constraint-rule-12">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:titleStmt/tei:respStmt/tei:name">
                <sch:assert test="@ref">
@@ -1665,7 +1614,6 @@ Normalization 12. Critical Apparatus]</a:documentation>
                 </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:titleStmt/tei:respStmt/tei:name/@ref">
                <sch:let name="edsDoc"
@@ -1695,9 +1643,8 @@ Normalization 12. Critical Apparatus]</a:documentation>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-rs-rsInRelationDesc-constraint-rule-14">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:div/tei:listEvent/tei:listRelation/tei:relation/tei:desc/tei:rs/@ref">
+                      context="//tei:ab/tei:listEvent/tei:listRelation/tei:relation/tei:desc/tei:rs/@ref">
                <sch:let name="SameEventURIs"
                         value="tokenize(ancestor::tei:relation/@mutual, ' ')"/>
                <sch:let name="countMutual" value="for $i in $SameEventURIs return count($i)"/>
@@ -1706,9 +1653,8 @@ Normalization 12. Critical Apparatus]</a:documentation>
                </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:div//tei:rs">
+                      context="//tei:ab//tei:rs">
                <sch:let name="URIno" value="substring-after(@ref, 'spear/')"/>
                <sch:assert test=". = $URIno">
                   The text node of this &lt;rs&gt; element must be <sch:value-of select="$URIno"/>.
@@ -1803,7 +1749,6 @@ Suggested values include: 1] Gregorian; 2] Seleucid</a:documentation>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-date-calendar-Gregorian-in-reg-date-constraint-rule-16">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:date[parent::tei:reg]/@calendar">
                <sch:assert test=". = 'Gregorian'">A &lt;date&gt; element inside a &lt;reg&gt;
@@ -1821,9 +1766,7 @@ Suggested values include: 1] Gregorian; 2] Seleucid</a:documentation>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-ptr-ptrAtts-constraint-report-7">
             <rule context="tei:ptr">
-               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
-                       test="@target and @cRef">Only one of the
+               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="@target and @cRef">Only one of the
 attributes @target and @cRef may be supplied on <name/>.</report>
             </rule>
          </pattern>
@@ -1838,7 +1781,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-ptr-target-ptr-targets-in-context-constraint-rule-17">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:sourceDesc//tei:bibl[@type = 'primary']/tei:ptr/@target">
                <sch:let name="docURIno"
@@ -1850,7 +1792,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                       number. </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:sourceDesc//tei:bibl[@type = 'urn']/tei:ptr/@target">
                <sch:let name="docURIno"
@@ -1859,9 +1800,8 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                       with @type="urn" must begin either with "urn:cts:".</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:body/tei:div/tei:bibl[@type = 'urn']/tei:ptr/@target">
+                      context="//tei:body/tei:ab/tei:bibl[@type = 'urn']/tei:ptr/@target">
                <sch:let name="urnBase"
                         value="//tei:sourceDesc//tei:bibl[@type = 'urn']/tei:ptr/@target"/>
                <sch:assert test="starts-with(., concat($urnBase, ':'))">URN in a &lt;bibl&gt;
@@ -1869,7 +1809,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                       element of the &lt;teiHeader&gt;: "<sch:value-of select="$urnBase"/>:".</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:body//tei:bibl[@type = 'primary']/tei:ptr/@target">
                <sch:assert test=". = //tei:sourceDesc//tei:bibl[@type = 'primary']/tei:ptr/@target"> The
@@ -1888,9 +1827,7 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-ref-refAtts-constraint-report-8">
             <rule context="tei:ref">
-               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
-                       test="@target and @cRef">Only one of the
+               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="@target and @cRef">Only one of the
 	attributes @target' and @cRef' may be supplied on <name/>
                </report>
             </rule>
@@ -1920,14 +1857,12 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-head-head-in-listBibl-constraint-rule-21">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:sourceDesc//tei:head">
                <sch:assert test="normalize-space(.) = 'Sources for the Data in this Born Digital Prosopography'"> A &lt;head&gt; element inside the &lt;sourceDesc&gt; must contain the text node:
                   "Sources for the Data in this Born Digital Prosopography". </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:back//tei:head">
                <sch:assert test="normalize-space(.) = 'Works Cited'"> A &lt;head&gt; element inside
@@ -1948,7 +1883,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-note-note-children-in-context-constraint-rule-23">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:birth and preceding-sibling::tei:placeName]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a birth place factoid
@@ -1957,14 +1891,12 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                   must contain a &lt;placeName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:birth and preceding-sibling::tei:date]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a birth date factoid
                   must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:nationality and preceding-sibling::tei:placeName]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a citizenship factoid
@@ -1973,7 +1905,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                   must contain a &lt;placeName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:death and preceding-sibling::tei:placeName]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a death place factoid
@@ -1982,28 +1913,24 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                   must contain a &lt;placeName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:education]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in an education factoid
                   must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:death and preceding-sibling::tei:date]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a death date factoid
                   must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:occupation]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in an occupation factoid
                   must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:residence and preceding-sibling::tei:placeName]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a residence factoid must
@@ -2012,35 +1939,30 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                   must contain a &lt;placeName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:socecStatus]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a socioeconomic status
                   factoid must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:langKnowledge and preceding-sibling::tei:langKnown]">
                <sch:assert test="tei:persName">The &lt;note&gt; element in a language-known factoid
                   must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:trait]">
                <sch:assert test="tei:persName">The &lt;note&gt; element inside the &lt;trait&gt;
                   element must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:state]">
                <sch:assert test="tei:persName">The &lt;note&gt; element inside the &lt;state&gt;
                   element must contain a &lt;persName&gt; element.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:reg and preceding-sibling::tei:date]">
                <sch:assert test="@ana">This &lt;note&gt; element requires an @ana
@@ -2050,7 +1972,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-note-date-note-content-constraint-rule-36">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:reg and preceding-sibling::tei:date]">
                <sch:assert test="normalize-space(.) = 'This regularized date was calculated by the SPEAR editor from a non-calendrical dating system such as regnal years, etc.'"> The only note allowed in this context must contain the following text: "This
@@ -2058,6 +1979,38 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                   system such as regnal years, etc." </sch:assert>
             </sch:rule>
          </pattern>
+         <ref name="att.global.attribute.xmlid"/>
+         <ref name="att.global.attribute.n"/>
+         <ref name="att.global.attribute.xmllang"/>
+         <ref name="att.global.attribute.xmlbase"/>
+         <ref name="att.global.attribute.xmlspace"/>
+         <ref name="att.global.rendition.attribute.rend"/>
+         <ref name="att.global.rendition.attribute.style"/>
+         <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
+         <ref name="att.global.responsibility.attribute.cert"/>
+         <ref name="att.global.responsibility.attribute.resp"/>
+         <ref name="att.global.source.attribute.source"/>
+         <ref name="att.placement.attributes"/>
+         <ref name="att.pointing.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
+         <ref name="att.written.attributes"/>
+         <optional>
+            <attribute name="ana">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               <choice>
+                  <value>#calculated</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+               </choice>
+            </attribute>
+         </optional>
          <optional>
             <attribute name="type">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
@@ -2070,40 +2023,36 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                   <value>errata</value>
                   <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+                  <value>relatedEvent</value>
+                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
                </choice>
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-note-type-type-note-child-div-constraint-rule-37">
+                  id="SPEAR-note-type-type-note-child-ab-constraint-rule-37">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:note">
-               <sch:assert test="@type = 'incerta' or 'dubia' or 'errata'">Only notes of @type "incerta", "dubia", or
-                      "errata" may appear as children of a &lt;div&gt; element.</sch:assert>
+                      context="//tei:ab/tei:note/@type">
+               <sch:report test=". = 'desc'">"Desc" not allowed. Only notes of @type "incerta", "dubia", or
+                      "errata" or "relatedEvent" may appear as children of an &lt;ab&gt; element.</sch:report>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      context="//tei:note[@type='relatedEvent']">
+               <sch:assert test=".[ancestor::tei:ab/@subtype='event']">"relatedEvent" not allowed. This type of note is only allowed as a descendant of &lt;ab&gt; with @type="event".</sch:assert>
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-note-type-notes-type-desc-constraint-rule-38">
+                  id="SPEAR-note-type-notes-type-desc-constraint-rule-39">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:note[parent::tei:birth or parent::tei:death or parent::tei:education or parent::tei:langKnowledge or parent::tei:nationality or parent::occupation or parent::tei:residence or parent::tei:socecStatus or parent::tei:state or parent::tei:trait]">
                <sch:assert test="@type = 'desc'">Elements of type &lt;note&gt; must contain the
                       attribute @type="desc" and other &lt;note&gt; types are not allowed in this context.
                       Other types of notes ("incerta", "dubia", and "errata") may appear as children of
-                      the &lt;div&gt; element as needed.</sch:assert>
+                      the &lt;ab&gt; element as needed.</sch:assert>
             </sch:rule>
          </pattern>
-         <optional>
-            <attribute name="ana">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <choice>
-                  <value>calculated</value>
-                  <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               </choice>
-            </attribute>
-         </optional>
          <empty/>
       </element>
    </define>
@@ -2121,9 +2070,8 @@ attributes @target and @cRef may be supplied on <name/>.</report>
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a secondary statement of responsibility for a bibliographic item, for example the name of an individual, institution or organization, (or of several such) acting as editor, compiler, translator, etc. [3.11.2.2. Titles, Authors, and Editors]</a:documentation>
          <ref name="macro.phraseSeq"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-editor-editorInTitleStmt-constraint-rule-39">
+                  id="SPEAR-editor-editorInTitleStmt-constraint-rule-40">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:titleStmt/tei:editor">
                <sch:assert test="@role">
@@ -2134,7 +2082,6 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                 </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:titleStmt//tei:editor/@ref">
                <sch:let name="edsDoc"
@@ -2396,16 +2343,14 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </group>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-bibl-id-in-back-bibl-constraint-rule-41">
+                  id="SPEAR-bibl-id-in-back-bibl-constraint-rule-42">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:back//tei:bibl">
                <sch:assert test="@xml:id">A &lt;bibl&gt; element in the back matter must contain an
                   @xml:id attribute.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:back//tei:bibl/@xml:id">
                <sch:let name="docURIno"
@@ -2500,11 +2445,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </oneOrMore>
          </group>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-titleStmt-titleInTitleStmt-constraint-rule-43">
+                  id="SPEAR-titleStmt-titleInTitleStmt-constraint-rule-44">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:titleStmt/tei:title[1]">
                <sch:assert test="@level='m' or @level='a'">
@@ -2520,7 +2464,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:titleStmt/tei:title[2]">
                <sch:assert test="@type='sub'">
@@ -2588,11 +2531,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(release authority) supplies the name of a person or other agency responsible for making a work available, other than a publisher or distributor. [2.2.4. Publication, Distribution, Licensing, etc.]</a:documentation>
          <text/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-authority-authorityText-constraint-rule-45">
+                  id="SPEAR-authority-authorityText-constraint-rule-46">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:publicationStmt/tei:authority">
                <sch:assert test="normalize-space(.) = 'Syriaca.org: The Syriac Reference Portal'">
@@ -2616,20 +2558,18 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </choice>
          </zeroOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-idno-type-on-idno-constraint-rule-46">
+                  id="SPEAR-idno-type-on-idno-constraint-rule-47">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div[ancestor::tei:body]/tei:idno">
-               <sch:assert test="@type='URI'">An &lt;idno&gt; elements inside a factoid &lt;div&gt;
+                      context="tei:ab[ancestor::tei:body]/tei:idno">
+               <sch:assert test="@type='URI'">An &lt;idno&gt; elements inside a factoid &lt;ab&gt;
                   requires a @type attribute with the value "URI".</sch:assert>
             </sch:rule>
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:publicationStmt/tei:idno">
                <sch:assert test="@type='URI'">This &lt;idno&gt; element
@@ -2638,7 +2578,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:seriesStmt/tei:idno">
                <sch:assert test="@type='URI'">This &lt;idno&gt; element
@@ -2646,11 +2585,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-idno-doc-idno-uri-constraint-rule-49">
+                  id="SPEAR-idno-doc-idno-uri-constraint-rule-50">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:publicationStmt/tei:idno[@type='URI']">
                <sch:let name="fileNo" value="replace(document-uri(/), '[\D]', '')"/>
@@ -2660,15 +2598,14 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-idno-factoidIDNO-constraint-rule-50">
+                  id="SPEAR-idno-factoidIDNO-constraint-rule-51">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div[ancestor::tei:body]/tei:idno">
+                      context="tei:ab[ancestor::tei:body]/tei:idno">
                <sch:let name="factoidNo"
-                        value="parent::tei:div/@xml:id/substring-after(., 'factoid')"/>
+                        value="parent::tei:ab/@xml:id/substring-after(., 'factoid')"/>
                <sch:assert test="contains(., concat(//tei:publicationStmt/tei:idno[@type]/substring-before(., '/tei'), $factoidNo))">This factoid URI must be: "<sch:value-of select="concat(//tei:publicationStmt/tei:idno[@type]/substring-before(., '/tei'), $factoidNo)"/>.</sch:assert>
             </sch:rule>
          </pattern>
@@ -2715,11 +2652,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains information about a licence or other legal agreement applicable to the text. [2.2.4. Publication, Distribution, Licensing, etc.]</a:documentation>
          <ref name="p"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-licence-licence-constraint-rule-51">
+                  id="SPEAR-licence-licence-constraint-rule-52">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:licence/tei:p">
                <sch:assert test="normalize-space(.) = 'Distributed under a Creative Commons Attribution 3.0 Unported License.'">
@@ -2757,11 +2693,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </group>
          </oneOrMore>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-seriesStmt-titleInSeriesStmt-constraint-rule-52">
+                  id="SPEAR-seriesStmt-titleInSeriesStmt-constraint-rule-53">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[1]/tei:title[1]">
                <sch:assert test="@level='s'">
@@ -2774,7 +2709,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]/tei:title[1]">
                <sch:assert test="@level='m'">
@@ -2788,7 +2722,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]/tei:title[2]">
                <sch:assert test="@type='sub'">
@@ -2800,11 +2733,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-seriesStmt-editorInSeriesStmt-constraint-rule-55">
+                  id="SPEAR-seriesStmt-editorInSeriesStmt-constraint-rule-56">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt/tei:editor">
                <sch:assert test="@role='general'">
@@ -2814,7 +2746,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt/tei:editor">
                <sch:report test="@role='creator'">
@@ -2824,7 +2755,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[1]/tei:editor">
                <sch:assert test="@ref='http://syriaca.org/documentation/editors.xml#dschwartz'">
@@ -2836,11 +2766,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-seriesStmt-uriInSeriesStmt-constraint-rule-58">
+                  id="SPEAR-seriesStmt-uriInSeriesStmt-constraint-rule-59">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[1]/tei:idno">
                <sch:assert test=". = 'http://syriaca.org/spear'">
@@ -2850,7 +2779,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]/tei:idno[preceding-sibling::tei:title = 'The Lives of the Eastern Saints']">
                <sch:assert test=". = 'http://syriaca.org/spear/lives-eastern-saints'">
@@ -2860,7 +2788,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]/tei:idno[preceding-sibling::tei:title = 'The Letters of Severus of Antioch']">
                <sch:assert test=". = 'http://syriaca.org/spear/letters-severus'">
@@ -2869,11 +2796,10 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-seriesStmt-biblScopeInSeriesStmt-constraint-rule-61">
+                  id="SPEAR-seriesStmt-biblScopeInSeriesStmt-constraint-rule-62">
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[1]">
                <sch:report test="tei:biblScope">
@@ -2883,7 +2809,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]">
                <sch:assert test="tei:biblScope">
@@ -2893,7 +2818,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]/tei:biblScope">
                <sch:assert test="@unit='volume'">
@@ -2907,7 +2831,6 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
                       xmlns:rng="http://relaxng.org/ns/structure/1.0"
                       xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:seriesStmt[2]/tei:biblScope/tei:title">
                <sch:assert test="@level='s'">
@@ -2985,6 +2908,14 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
          <ref name="att.global.rendition.attribute.rend"/>
          <ref name="att.global.rendition.attribute.style"/>
          <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
          <ref name="att.global.analytic.attribute.ana"/>
          <ref name="att.global.responsibility.attribute.cert"/>
          <ref name="att.global.responsibility.attribute.resp"/>
@@ -3060,6 +2991,237 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
          <empty/>
       </element>
    </define>
+   <define name="att.global.linking.attributes">
+      <ref name="att.global.linking.attribute.corresp"/>
+      <ref name="att.global.linking.attribute.synch"/>
+      <ref name="att.global.linking.attribute.sameAs"/>
+      <ref name="att.global.linking.attribute.copyOf"/>
+      <ref name="att.global.linking.attribute.next"/>
+      <ref name="att.global.linking.attribute.prev"/>
+      <ref name="att.global.linking.attribute.exclude"/>
+      <ref name="att.global.linking.attribute.select"/>
+   </define>
+   <define name="att.global.linking.attribute.corresp">
+      <optional>
+         <attribute name="corresp">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(corresponds) points to elements that correspond to the current element in some way.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI"/>
+               </oneOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.synch">
+      <optional>
+         <attribute name="synch">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(synchronous) points to elements that are synchronous with the current element.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI"/>
+               </oneOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.sameAs">
+      <optional>
+         <attribute name="sameAs">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to an element that is the same as the current element.</a:documentation>
+            <data type="anyURI"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.copyOf">
+      <optional>
+         <attribute name="copyOf">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to an element of which the current element is a copy.</a:documentation>
+            <data type="anyURI"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.next">
+      <optional>
+         <attribute name="next">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to the next element of a virtual aggregate of which the current element is part.</a:documentation>
+            <data type="anyURI"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.prev">
+      <optional>
+         <attribute name="prev">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(previous) points to the previous element of a virtual aggregate of which the current element is part.</a:documentation>
+            <data type="anyURI"/>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.exclude">
+      <optional>
+         <attribute name="exclude">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">points to elements that are in exclusive alternation with the current element.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI"/>
+               </oneOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="att.global.linking.attribute.select">
+      <optional>
+         <attribute name="select">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">selects one or more alternants; if one alternant is selected, the ambiguity or uncertainty is marked as resolved. If more than one alternant is selected, the degree of ambiguity or uncertainty is marked as reduced by the number of alternants not selected.</a:documentation>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI"/>
+               </oneOrMore>
+            </list>
+         </attribute>
+      </optional>
+   </define>
+   <define name="ab">
+      <element name="ab">
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <choice>
+            <group>
+               <ref name="idno"/>
+               <ref name="listPerson"/>
+               <oneOrMore>
+                  <ref name="bibl"/>
+               </oneOrMore>
+               <zeroOrMore>
+                  <ref name="note"/>
+               </zeroOrMore>
+            </group>
+            <group>
+               <ref name="idno"/>
+               <ref name="listEvent"/>
+               <oneOrMore>
+                  <ref name="bibl"/>
+               </oneOrMore>
+               <optional>
+                  <ref name="listRelation"/>
+               </optional>
+               <zeroOrMore>
+                  <ref name="note"/>
+               </zeroOrMore>
+            </group>
+            <group>
+               <ref name="idno"/>
+               <ref name="listRelation"/>
+               <oneOrMore>
+                  <ref name="bibl"/>
+               </oneOrMore>
+               <zeroOrMore>
+                  <ref name="note"/>
+               </zeroOrMore>
+            </group>
+         </choice>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="SPEAR-ab-atts-on-ab-constraint-rule-66">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      context="tei:ab[ancestor::tei:body]">
+               <sch:assert test="@xml:id">Elements of type &lt;ab&gt; within the &lt;body&gt; element
+                  require an @xml:id attribute.</sch:assert>
+               <sch:assert test="@resp">Elements of type &lt;ab&gt; within the body element
+                  require a @resp attribute.</sch:assert>
+               <sch:assert test="@type='factoid'">Elements of type &lt;ab&gt; within the body element
+                require a @type attribute with the value "factoid".</sch:assert>
+            </sch:rule>
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      context="tei:ab[ancestor::tei:body]/@resp">
+               <sch:let name="contributorRefs" value="//tei:name[ancestor::tei:respStmt]/@ref"/>
+               <sch:let name="respPtrs"
+                        value="for $i in $contributorRefs return substring-after($i, '.xml')"/>
+               <sch:assert test="                   every $i in (tokenize(., ' '))                   satisfies $i = $respPtrs">
+                  Acceptable values for this @resp attribute include: 
+                  <sch:value-of select="string-join($respPtrs, '; ')"/>.
+                </sch:assert>
+            </sch:rule>
+         </pattern>
+         <attribute name="xml:id">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <data type="ID"/>
+         </attribute>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="SPEAR-ab-xmlid-ab-ids-constraint-assert-79">
+            <rule context="tei:ab/@xml:id">
+               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="starts-with(., 'factoid-')">An @xml:id attribute
+                    starts with 'factoid-'.</sch:assert>
+               <sch:report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="matches(substring-after(., '-'), '\D')">A properly formatted
+                    SPEAR factoid URI ends with a hyphen followed by a number.</sch:report>
+               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="matches(substring-after(., '-'), '\d')">A properly formatted
+                    SPEAR factoid URI ends with a number.</sch:assert>
+               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                           test="count(distinct-values(//tei:ab/@xml:id)) eq count(//tei:ab/@xml:id)">Each &lt;ab&gt; element @uri attribute must end with a unique number following
+                    the "-".</sch:assert>
+            </rule>
+         </pattern>
+         <attribute name="resp">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <list>
+               <oneOrMore>
+                  <data type="anyURI"/>
+               </oneOrMore>
+            </list>
+         </attribute>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <data type="token">
+               <param name="pattern">[^\p{C}\p{Z}]+</param>
+            </data>
+         </attribute>
+         <attribute name="subtype">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>birthDate</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth date) Used to designate person factoids that encode birth dates</a:documentation>
+               <value>birthPlace</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth place) Used to designate person factoids that encode birth places</a:documentation>
+               <value>citizenship</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(citizenship) Used to designate person factoids that encode citizenship</a:documentation>
+               <value>deathDate</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death date) Used to designate person factoids that encode death dates</a:documentation>
+               <value>deathPlace</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death place) Used to designate person factoids that encode death places</a:documentation>
+               <value>education</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(education) Used to designate person factoids that encode education</a:documentation>
+               <value>ethnicLabel</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(ethnic label) Used to designate person factoids that encode ethnic labels</a:documentation>
+               <value>event</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(event) Used to designate event factoids</a:documentation>
+               <value>gender</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(gender) Used to designate person factoids that encode gender</a:documentation>
+               <value>langKnown</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language known) Used to designate person factoids that encode language knowledge</a:documentation>
+               <value>mentalState</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(mental state) Used to designate person factoids that encode mental states</a:documentation>
+               <value>nameVariant</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(name variant) Used to designate person factoids that encode name variants</a:documentation>
+               <value>occupation</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(occupation) Used to designate person factoids that encode occupations</a:documentation>
+               <value>physicalTrait</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(physical trait) Used to designate person factoids that encode physical traits</a:documentation>
+               <value>relation</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relation) Used to designate relation factoids</a:documentation>
+               <value>residence</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(residence) Used to designate person factoids that encode places and dates of residence</a:documentation>
+               <value>sanctity</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(sanctity) Used to designate person factoids that encode sanctity</a:documentation>
+               <value>socecStatus</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(socio-economic status) Used to designate person factoids that encode socio-econimic status</a:documentation>
+            </choice>
+         </attribute>
+         <empty/>
+      </element>
+   </define>
    <define name="TEI">
       <element name="TEI">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(TEI document) contains a single TEI-conformant document, combining a single TEI header with one or more members of the model.resource class. Multiple <code xmlns="http://www.w3.org/1999/xhtml">&lt;TEI&gt;</code> elements may be combined within a <code xmlns="http://www.w3.org/1999/xhtml">&lt;TEI&gt;</code> (or <code xmlns="http://www.w3.org/1999/xhtml">&lt;teiCorpus&gt;</code>) element. [4. Default Text Structure 15.1. Varieties of Composite Text]</a:documentation>
@@ -3081,19 +3243,16 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
          </group>
          <sch:ns xmlns:rng="http://relaxng.org/ns/structure/1.0"
                  xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                 xmlns:srophe="https://srophe.app"
                  xmlns="http://www.tei-c.org/ns/1.0"
                  prefix="tei"
                  uri="http://www.tei-c.org/ns/1.0"/>
          <sch:ns xmlns:rng="http://relaxng.org/ns/structure/1.0"
                  xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                 xmlns:srophe="https://srophe.app"
                  xmlns="http://www.tei-c.org/ns/1.0"
                  prefix="xs"
                  uri="http://www.w3.org/2001/XMLSchema"/>
          <sch:ns xmlns:rng="http://relaxng.org/ns/structure/1.0"
                  xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                 xmlns:srophe="https://srophe.app"
                  xmlns="http://www.tei-c.org/ns/1.0"
                  prefix="rng"
                  uri="http://relaxng.org/ns/structure/1.0"/>
@@ -3143,176 +3302,10 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
       <element name="body">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text body) contains the whole body of a single unitary text, excluding any front or back matter. [4. Default Text Structure]</a:documentation>
          <oneOrMore>
-            <ref name="div"/>
+            <ref name="ab"/>
          </oneOrMore>
          <ref name="att.global.attributes"/>
          <ref name="att.declaring.attributes"/>
-         <empty/>
-      </element>
-   </define>
-   <define name="div">
-      <element name="div">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(text division) contains a subdivision of the front, body, or back of a text. [4.1. Divisions of the Body]</a:documentation>
-         <choice>
-            <group>
-               <ref name="idno"/>
-               <ref name="listPerson"/>
-               <oneOrMore>
-                  <ref name="bibl"/>
-               </oneOrMore>
-               <optional>
-                  <ref name="note"/>
-               </optional>
-            </group>
-            <group>
-               <ref name="idno"/>
-               <ref name="listEvent"/>
-               <oneOrMore>
-                  <ref name="bibl"/>
-               </oneOrMore>
-               <optional>
-                  <ref name="note"/>
-               </optional>
-            </group>
-            <group>
-               <ref name="idno"/>
-               <ref name="listRelation"/>
-               <oneOrMore>
-                  <ref name="bibl"/>
-               </oneOrMore>
-               <optional>
-                  <ref name="note"/>
-               </optional>
-            </group>
-         </choice>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-div-atts-on-factoidDiv-constraint-rule-65">
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div[ancestor::tei:body]">
-               <sch:assert test="@xml:id">Elements of type &lt;div&gt; within the &lt;body&gt; element
-                  require an @xml:id attribute.</sch:assert>
-               <sch:assert test="@resp">Elements of type &lt;div&gt; within the body element
-                  require a @resp attribute.</sch:assert>
-               <sch:assert test="@type='factoid'">Elements of type &lt;div&gt; within the body element
-                require a @type attribute with the value "factoid".</sch:assert>
-            </sch:rule>
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div[ancestor::tei:body]/@resp">
-               <sch:let name="contributorRefs" value="//tei:name[ancestor::tei:respStmt]/@ref"/>
-               <sch:let name="respPtrs"
-                        value="for $i in $contributorRefs return substring-after($i, '.xml')"/>
-               <sch:assert test="                   every $i in (tokenize(., ' '))                   satisfies $i = $respPtrs">
-                  Acceptable values for this @resp attribute include: 
-                  <sch:value-of select="string-join($respPtrs, '; ')"/>.
-                </sch:assert>
-            </sch:rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-div-abstractModel-structure-l-constraint-report-12">
-            <rule context="tei:div">
-               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
-                       test="ancestor::tei:l">
-        Abstract model violation: Lines may not contain higher-level structural elements such as div.
-      </report>
-            </rule>
-         </pattern>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-div-abstractModel-structure-p-constraint-report-13">
-            <rule context="tei:div">
-               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
-                       test="ancestor::tei:p or ancestor::tei:ab and not(ancestor::tei:floatingText)">
-        Abstract model violation: p and ab may not contain higher-level structural elements such as div.
-      </report>
-            </rule>
-         </pattern>
-         <optional>
-            <attribute name="xml:id">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <data type="ID"/>
-            </attribute>
-         </optional>
-         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-div-xmlid-divFactoid-ids-constraint-assert-79">
-            <rule context="tei:div/@xml:id">
-               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           test="starts-with(., 'factoid-')">An @xml:id attribute
-                    starts with 'factoid-'.</sch:assert>
-               <sch:report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           test="matches(substring-after(., '-'), '\D')">A properly formatted
-                    SPEAR factoid URI ends with a hyphen followed by a number.</sch:report>
-               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           test="matches(substring-after(., '-'), '\d')">A properly formatted
-                    SPEAR factoid URI ends with a number.</sch:assert>
-               <sch:assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                           test="count(distinct-values(//tei:div/@xml:id)) eq count(//tei:div/@xml:id)">Each &lt;div&gt; element @uri attribute must end with a unique number following
-                    the "-".</sch:assert>
-            </rule>
-         </pattern>
-         <optional>
-            <attribute name="resp">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <list>
-                  <oneOrMore>
-                     <data type="anyURI"/>
-                  </oneOrMore>
-               </list>
-            </attribute>
-         </optional>
-         <optional>
-            <attribute name="type">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-               <data type="token">
-                  <param name="pattern">[^\p{C}\p{Z}]+</param>
-               </data>
-            </attribute>
-         </optional>
-         <attribute name="subtype">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>birthDate</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth date) Used to designate person factoids that encode birth dates</a:documentation>
-               <value>birthPlace</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth place) Used to designate person factoids that encode birth places</a:documentation>
-               <value>citizenship</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(citizenship) Used to designate person factoids that encode citizenship</a:documentation>
-               <value>deathDate</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death date) Used to designate person factoids that encode death dates</a:documentation>
-               <value>deathPlace</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death place) Used to designate person factoids that encode death places</a:documentation>
-               <value>education</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(education) Used to designate person factoids that encode education</a:documentation>
-               <value>ethnicLabel</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(ethnic label) Used to designate person factoids that encode ethnic labels</a:documentation>
-               <value>event</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(event) Used to designate event factoids</a:documentation>
-               <value>gender</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(gender) Used to designate person factoids that encode gender</a:documentation>
-               <value>langKnown</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language known) Used to designate person factoids that encode language knowledge</a:documentation>
-               <value>mentalState</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(mental state) Used to designate person factoids that encode mental states</a:documentation>
-               <value>nameVariant</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(name variant) Used to designate person factoids that encode name variants</a:documentation>
-               <value>occupation</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(occupation) Used to designate person factoids that encode occupations</a:documentation>
-               <value>physicalTrait</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(physical trait) Used to designate person factoids that encode physical traits</a:documentation>
-               <value>relation</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relation) Used to designate relation factoids</a:documentation>
-               <value>residence</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(residence) Used to designate person factoids that encode places and dates of residence</a:documentation>
-               <value>sanctity</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(sanctity) Used to designate person factoids that encode sanctity</a:documentation>
-               <value>socecStatus</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(socio-economic status) Used to designate person factoids that encode socio-econimic status</a:documentation>
-            </choice>
-         </attribute>
          <empty/>
       </element>
    </define>
@@ -3566,9 +3559,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-persName-ref-ref-on-persName-constraint-rule-67">
+                  id="SPEAR-persName-ref-ref-on-persName-constraint-rule-68">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:text//tei:persName/@ref"
                       role="warning">
@@ -3594,9 +3586,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-placeName-ref-ref-on-placeName-constraint-rule-68">
+                  id="SPEAR-placeName-ref-ref-on-placeName-constraint-rule-69">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:text//tei:placeName/@ref"
                       role="warning">
@@ -3630,8 +3621,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <ref name="note"/>
             </group>
          </choice>
-         <ref name="att.datable.w3c.attribute.srophecomputed-start"/>
-         <ref name="att.datable.w3c.attribute.srophecomputed-end"/>
          <ref name="att.datable.w3c.attribute.when"/>
          <ref name="att.datable.w3c.attribute.notBefore"/>
          <ref name="att.datable.w3c.attribute.notAfter"/>
@@ -3655,8 +3644,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <ref name="note"/>
             </group>
          </choice>
-         <ref name="att.datable.w3c.attribute.srophecomputed-start"/>
-         <ref name="att.datable.w3c.attribute.srophecomputed-end"/>
          <ref name="att.datable.w3c.attribute.when"/>
          <ref name="att.datable.w3c.attribute.notBefore"/>
          <ref name="att.datable.w3c.attribute.notAfter"/>
@@ -3677,9 +3664,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </list>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-education-ana-ref-in-education-constraint-rule-69">
+                  id="SPEAR-education-ana-ref-in-education-constraint-rule-70">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:education/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -3704,9 +3690,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains data relating to any kind of significant event associated with a person, place, or organization. [13.3.1. Basic Principles]</a:documentation>
          <ref name="desc"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-event-ana-on-event-constraint-rule-70">
+                  id="SPEAR-event-ana-on-event-constraint-rule-71">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:event/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -3721,6 +3706,14 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                   URIs when possible but appropriate URIs are not always available in the Syriaca.org taxonomy. Please
                   consult the taxonomy. If no appropriate keyword exists please choosing a keyword of your own.
                 </sch:assert>
+            </sch:rule>
+         </pattern>
+         <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
+                  id="SPEAR-event-relation-in-event-constraint-rule-72">
+            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+                      xmlns="http://www.tei-c.org/ns/1.0"
+                      context="//tei:ab//tei:event/tei:desc/tei:listRelation/tei:relation">
+               <sch:report test="tei:desc">A &lt;relation&gt; element inside of an &lt;event&gt; element cannot take a &lt;desc&gt; element.</sch:report>
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
@@ -3752,9 +3745,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(language known) summarizes the state of a person's linguistic competence, i.e., knowledge of a single language. [15.2.2. The Participant Description]</a:documentation>
          <ref name="macro.phraseSeq.limited"/>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-langKnown-ana-in-langKnown-constraint-rule-71">
+                  id="SPEAR-langKnown-ana-in-langKnown-constraint-rule-73">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:langKnown/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -3795,9 +3787,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
       <element name="listEvent">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
          <ref name="event"/>
-         <optional>
-            <ref name="listRelation"/>
-         </optional>
       </element>
    </define>
    <define name="listPerson">
@@ -3837,9 +3826,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </list>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-occupation-ana-ana-in-occupation-constraint-rule-72">
+                  id="SPEAR-occupation-ana-ana-in-occupation-constraint-rule-74">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:occupation/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -3862,7 +3850,9 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    <define name="listRelation">
       <element name="listRelation">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">provides information about relationships identified amongst people, places, and organizations, either informally as prose or as formally expressed relation links. [13.3.2.3. Personal Relationships]</a:documentation>
-         <ref name="relation"/>
+         <oneOrMore>
+            <ref name="relation"/>
+         </oneOrMore>
          <ref name="att.global.attributes"/>
          <ref name="att.typed.attributes"/>
          <ref name="att.sortable.attributes"/>
@@ -4025,17 +4015,15 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             <ref name="desc"/>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-relation-descInRelation-constraint-rule-73">
+                  id="SPEAR-relation-descInRelation-constraint-rule-75">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="//tei:body//tei:relation">
+                      context="//tei:body/tei:ab/tei:listRelation/tei:relation">
                <sch:assert test="tei:desc">
-                  The &lt;relation&gt; element require a &lt;desc&gt;.
+                  This &lt;relation&gt; element requires a &lt;desc&gt;.
                 </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="//tei:sourceDesc//tei:relation">
                <sch:report test="tei:desc">
@@ -4044,11 +4032,10 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </sch:rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-relation-ref-mutual-act-pass-in-relation-constraint-rule-75">
+                  id="SPEAR-relation-ref-mutual-act-pass-in-relation-constraint-rule-77">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listRelation/tei:relation">
+                      context="tei:ab[@type='relation']/tei:listRelation/tei:relation">
                <sch:let name="ti"
                         value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                <sch:let name="mutual"
@@ -4069,9 +4056,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                   @passive and @mutual attributes.</sch:report>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
+                      context="tei:ab[@subtype='event']/tei:listRelation/tei:relation">
                <sch:assert test="@mutual">A @mutual attribute is required on &lt;relation&gt;
                   elements in event factoids.</sch:assert>
                <sch:report test="@active">@active attributes are not allowed on &lt;relation&gt;
@@ -4080,9 +4066,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                   elements in event factoids.</sch:report>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listRelation/tei:relation/@mutual | tei:div/tei:listRelation/tei:relation/@active | tei:div/tei:listRelation/tei:relation/@passive"
+                      context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@mutual | tei:ab/tei:listRelation/tei:relation/@active | tei:ab/tei:listRelation/tei:relation/@passive"
                       role="warning">
                <sch:let name="personIndex"
                         value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/persons.xml')"/>
@@ -4097,23 +4082,19 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                   id="SPEAR-relation-reforkeyorname-constraint-assert-93">
             <rule context="tei:relation">
                <assert xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
                        test="@ref or @key or @name">One of the attributes  'name', 'ref' or 'key' must be supplied</assert>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-relation-activemutual-constraint-report-22">
             <rule context="tei:relation">
-               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
-                       test="@active and @mutual">Only one of the attributes @active and @mutual may be supplied</report>
+               <report xmlns:sch="http://purl.oclc.org/dsdl/schematron" test="@active and @mutual">Only one of the attributes @active and @mutual may be supplied</report>
             </rule>
          </pattern>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
                   id="SPEAR-relation-activepassive-constraint-report-23">
             <rule context="tei:relation">
                <report xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                       xmlns:srophe="https://srophe.app"
                        test="@passive and not(@active)">the attribute 'passive' may be supplied only if the attribute 'active' is supplied</report>
             </rule>
          </pattern>
@@ -4125,6 +4106,14 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
          <ref name="att.global.rendition.attribute.rend"/>
          <ref name="att.global.rendition.attribute.style"/>
          <ref name="att.global.rendition.attribute.rendition"/>
+         <ref name="att.global.linking.attribute.corresp"/>
+         <ref name="att.global.linking.attribute.synch"/>
+         <ref name="att.global.linking.attribute.sameAs"/>
+         <ref name="att.global.linking.attribute.copyOf"/>
+         <ref name="att.global.linking.attribute.next"/>
+         <ref name="att.global.linking.attribute.prev"/>
+         <ref name="att.global.linking.attribute.exclude"/>
+         <ref name="att.global.linking.attribute.select"/>
          <ref name="att.global.responsibility.attribute.cert"/>
          <ref name="att.global.responsibility.attribute.resp"/>
          <ref name="att.global.source.attribute.source"/>
@@ -4146,11 +4135,10 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-relation-ana-ana-on-event-relation-constraint-rule-78">
+                  id="SPEAR-relation-ana-ana-on-event-relation-constraint-rule-80">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listRelation/tei:relation/@ana">
+                      context="tei:ab/tei:listRelation/tei:relation/@ana">
                <sch:let name="ti"
                         value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                <sch:let name="qrURI"
@@ -4161,9 +4149,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       be one of the following: <sch:value-of select="string-join($qrURI, ';  ')"/>.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
+                      context="tei:ab/tei:listEvent/tei:listRelation/tei:relation">
                <sch:report test="@ana">A &lt;relation&gt; element inside an event factoid cannot
                       have an @ana attribute.</sch:report>
             </sch:rule>
@@ -4179,61 +4166,43 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-relation-ref-ref-in-context-constraint-rule-80">
+                  id="SPEAR-relation-ref-ref-in-context-constraint-rule-82">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listRelation/tei:relation/@ref">
+                      context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@ref">
                <sch:let name="ti"
                         value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                <sch:assert test=". = $ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri">Value must be one of the following from the Syriaca.org taxonomy:
                         <sch:value-of select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri, ';  ')"/>.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listEvent/tei:listRelation/tei:relation/@ref">
+                      context="tei:ab[@subtype='event']/tei:listRelation/tei:relation/@ref">
                <sch:let name="ti"
                         value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
                <sch:assert test=". = $ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri">Value must be one of the following from the Syriaca.org taxonomy:
                         <sch:value-of select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri, ';  ')"/>.</sch:assert>
             </sch:rule>
          </pattern>
-         <optional>
-            <attribute name="type">
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
-               <list>
-                  <oneOrMore>
-                     <data type="token">
-                        <param name="pattern">[^\p{C}\p{Z}]+</param>
-                     </data>
-                  </oneOrMore>
-               </list>
-            </attribute>
-         </optional>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">characterizes the element in some sense, using any convenient classification scheme or typology.</a:documentation>
+            <data type="token">
+               <param name="pattern">[^\p{C}\p{Z}]+</param>
+            </data>
+         </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-relation-type-type-on-relation-constraint-rule-82">
+                  id="SPEAR-relation-type-type-on-relation-constraint-rule-84">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listEvent/tei:listRelation/tei:relation">
+                      context="tei:ab/tei:listEvent/tei:listRelation/tei:relation">
                <sch:assert test="@type = 'event'">A &lt;relation&gt; element inside an event factoid
                       must take a @type attribute with the value "event".</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:sourceDesc/tei:listRelation/tei:relation">
-               <sch:assert test="@type = 'part'">A @type attribute the value
+               <sch:assert test="@type = 'part'">A @type attribute with the value
                       "part" is required.</sch:assert>
-            </sch:rule>
-            <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
-                      xmlns="http://www.tei-c.org/ns/1.0"
-                      context="tei:div/tei:listRelation/tei:relation">
-               <sch:report test="@type">The @type attribute cannot appear in a relation factoid.
-                      It may only be used in a &lt;relation&gt; element describing a relationship
-                      between two events. </sch:report>
             </sch:rule>
          </pattern>
          <choice>
@@ -4267,9 +4236,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </attribute>
          </optional>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-relation-name-name-in-relation-constraint-rule-85">
+                  id="SPEAR-relation-name-name-in-relation-constraint-rule-86">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:sourceDesc/tei:listRelation/tei:relation/@name">
                <sch:assert test=". = 'dcterms:isPartOf'">
@@ -4277,7 +4245,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                     </sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:text//tei:relation">
                <sch:report test="/@name">A @name attribute cannot appear here.</sch:report>
@@ -4322,9 +4289,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             <data type="anyURI"/>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-socecStatus-ana-ana-in-socecStatus-constraint-rule-87">
+                  id="SPEAR-socecStatus-ana-ana-in-socecStatus-constraint-rule-88">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:socecStatus/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -4357,9 +4323,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </list>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-state-ana-ana-in-state-constraint-rule-88">
+                  id="SPEAR-state-ana-ana-in-state-constraint-rule-89">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:state[@type='mental']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -4376,7 +4341,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       preferred descriptive term: <sch:value-of select="string-join($mentalStates, ';  ')"/>.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:state[@type='sanctity']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -4429,9 +4393,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             </list>
          </attribute>
          <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-                  id="SPEAR-trait-ana-ana-in-trait-constraint-rule-90">
+                  id="SPEAR-trait-ana-ana-in-trait-constraint-rule-91">
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:trait[@type='ethnicLabel']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -4448,7 +4411,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       preferred descriptive term: <sch:value-of select="string-join($ethnicLabels, ';  ')"/>.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:trait[@type='gender']/@ana">
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = 'http://syriaca.org/keyword/eunuch' or $i = 'http://syriaca.org/keyword/female' or $i = 'http://syriaca.org/keyword/male' or $i = 'http://syriaca.org/keyword/nun-as-monk'"
@@ -4461,7 +4423,6 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       choosing.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                      xmlns:srophe="https://srophe.app"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:trait[@type='physical']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -4493,11 +4454,10 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
       </optional>
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
-            id="SPEAR-att.global.analytic-ana-anaValues-constraint-rule-93">
+            id="SPEAR-att.global.analytic-ana-anaValues-constraint-rule-94">
       <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
-                xmlns:srophe="https://srophe.app"
                 xmlns="http://www.tei-c.org/ns/1.0"
-                context="//tei:div/tei:listEvent/tei:event/@ana | //tei:langKnown/@ana | //tei:occupation/@ana | //tei:socecStatus/@ana | //tei:state/@ana | //tei:trait/@ana">
+                context="//tei:ab/tei:listEvent/tei:event/@ana | //tei:langKnown/@ana | //tei:occupation/@ana | //tei:socecStatus/@ana | //tei:state/@ana | //tei:trait/@ana">
          <sch:let name="anaValues" value="tokenize(., ' ')"/>
          <sch:assert test="                       every $i in $anaValues                       satisfies starts-with($i, 'http://syriaca.org/keyword/')">
                       Each @ana attribute value must start with "http://syriaca.org/keyword/" and multiple 
