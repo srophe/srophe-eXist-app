@@ -1,0 +1,113 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:math="http://www.w3.org/1998/Math/MathML" xml:lang="en">
+    <title>
+        <level>
+            <item>a</item>
+            <item>m</item>
+            <item>j</item>
+            <item>s</item>
+            <item>u</item>
+        </level>
+    </title>
+    <langUsage xml:id="tcadrt">
+        <language ident="en">English</language>
+        <language ident="zh-latn-pinyin">Pinyin</language>
+        <language ident="zh-Hant">Traditional Chinese</language>
+        <language ident="zh-Hans">Simplified Chinese</language>
+    </langUsage>
+    <langUsage>
+        <language>ar</language>
+        <language>ar-Syrc</language>
+        <language>ara-syrc</language>
+        <language>cop</language>
+        <language>cu</language>
+        <language>de</language>
+        <language>el</language>
+        <language>el-Latn-iso843</language>
+        <language>en</language>
+        <language>en-x-gedsh</language>
+        <language>en-x-lah</language>
+        <language>en-xsrp1</language>
+        <language>eng</language>
+        <language>es</language>
+        <language>fr</language>
+        <language>fr-x-bhs</language>
+        <language>fr-x-fiey</language>
+        <language>fr-x-zanetti</language>
+        <language>gez</language>
+        <language>grc</language>
+        <language>hy</language>
+        <language>it</language>
+        <language>ka</language>
+        <language>la</language>
+        <language>lat</language>
+        <language>nl</language>
+        <language>pl</language>
+        <language>pt</language>
+        <language>ru</language>
+        <language>ru-Latn-iso9r95</language>
+        <language>sog</language>
+        <language>syr</language>
+        <language>syr-Syrc</language>
+        <language>syr-Syrj</language>
+        <language>syr-Syrn</language>
+        <language>syr-pal</language>
+    </langUsage>
+    <!-- 
+    
+    -->
+    <keywordTypes>
+        <type>architectural-feature</type>
+        <type>time period</type>
+        <type>site-type</type>
+        <type>building-type</type>
+        <type>fortification elements</type>
+    </keywordTypes>
+    <notes>
+        <type>getty:scopeNote</type>
+        <type>Scope Note</type>
+        <type>sources</type>
+        <type>Scope Note (brief)</type>
+        <type>Scope Note (full)</type>
+        <type>Note (brief)</type>
+        <type>Note (full)</type>
+        <type>related concepts</type>
+        <type>related terms</type>
+    </notes>
+    <persName>
+        <sort>1</sort>
+        <sort>2</sort>
+        <sort>3</sort>
+        <sort>4</sort>
+        <sort>5</sort>
+        <addName>
+            <type>family</type>
+            <type>untagged-title</type>
+        </addName>
+        <roleName>
+            <type>office</type>
+            <type>saint</type>
+        </roleName>
+    </persName>
+    <placeType>
+        <type>building</type>
+        <type>church</type>
+        <type>diocese</type>
+        <type>fortification</type>
+        <type>island</type>
+        <type>madrasa</type>
+        <type>monastery</type>
+        <type>mosque</type>
+        <type>mountain</type>
+        <type>open-water</type>
+        <type>parish</type>
+        <type>province</type>
+        <type>quarter</type>
+        <type>region</type>
+        <type>river</type>
+        <type>settlement</type>
+        <type>state</type>
+        <type>synagogue</type>
+        <type>temple</type>
+        <type>unknown</type>
+    </placeType>
+</TEI>

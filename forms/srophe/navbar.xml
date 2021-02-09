@@ -1,0 +1,62 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+                <span class="icon-bar"/>
+            </button>
+            <a class="navbar-brand" href="index.html" style="margin-top:.25em;">Syriaca.org</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="nav-title">
+                    <a href="../index.html">Administrative Pages</a>
+                </li>
+                <li>
+                    <a href="../upload.html">Upload New Records</a>
+                </li>
+                <li>
+                    <a href="../browse.html">Records</a>
+                </li>
+                <li>
+                    <a href="../browse-comments.html">Comments</a>
+                </li>
+                <li class="dropdown">
+                    <a href="../forms/form.xq?form=srophe/initialize.xhtml" class="dropdown-toggle lonely-caret" data-toggle="dropdown">
+                       TEI Forms  <b class="caret"/>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="../forms/form.xq?form=srophe/initialize.xhtml">Reserve URI and create TEI</a>
+                        </li>
+                        <li role="presentation" class="divider"/>
+                        <li>
+                            <a href="../forms/form.xq?form=srophe/person.xml">Person Records </a>
+                        </li>
+                        <li>
+                            <a href="../forms/form.xq?form=srophe/place.xml">Place Records </a>
+                        </li>
+                        <li>
+                            <a href="../forms/form.xq?form=srophe/work.xml">Work Records </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li style="margin-top:.5em;padding-top:.5em;">
+                    <xf:submit submission="s-logout" appearance="minimal" ref="instance('i-user-info')//*:user[. != '']">
+                        <xf:label> <span class="glyphicon glyphicon-user"/>  <xf:output ref="instance('i-user-info')//*:user"/>  <span class="glyphicon glyphicon-remove"/>  </xf:label>
+                    </xf:submit>
+                    <xf:trigger appearance="minimal" ref="instance('i-user-info')//*:user[. = '']">
+                        <xf:label> <span class="glyphicon glyphicon-user"/>   Login </xf:label>
+                        <xf:action ev:event="DOMActivate">
+                            <xf:show dialog="login"/>
+                        </xf:action>
+                    </xf:trigger>
+                </li> 
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</div>

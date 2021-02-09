@@ -1,0 +1,153 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:saxon="http://saxon.sf.net/" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:functx="http://www.functx.com" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title level="a" xml:lang="en"/>
+                <title level="m">LOGAR Linked Open Gazetteer of the Andean Region</title>
+                <sponsor>LOGAR Linked Open Gazetteer of the Andean Region</sponsor>
+                <funder>The National Endowment for the Humanities</funder>
+                <principal>Steven A. Wernke</principal>
+                <principal>Akira Saito</principal>
+                <editor role="creator">Steven A. Wernke</editor>
+                <editor role="creator">Jeremy Mumford</editor>
+                <respStmt>
+                    <resp>Editing, proofreading, data entry and revision by</resp>
+                    <name type="person" ref="http://syriaca.org/documentation/editors.xml#swernke">Steven A. Wernke</name>
+                </respStmt>
+                <respStmt>
+                    <resp>Editing, proofreading, data entry and revision by</resp>
+                    <name type="person" ref="http://syriaca.org/documentation/editors.xml#jmumford">Jeremy Mumford</name>
+                </respStmt>
+            </titleStmt>
+            <editionStmt>
+                <edition n="1.0"/>
+            </editionStmt>
+            <publicationStmt>
+                <authority>LOGAR Linked Open Gazetteer of the Andean Region</authority>
+                <idno type="URI"/>
+                <availability>
+                    <licence target="http://creativecommons.org/licenses/by/3.0/">
+                        <p>Distributed under a Creative Commons Attribution 3.0 Unported License.</p>
+                    </licence>
+                </availability>
+                <date/>
+            </publicationStmt>
+            <encodingDesc>
+                <editorialDecl>
+                    <p>This record created following the LOGAR guidelines. 
+                        Documentation available at: <ref target="http://logarandes.org/documentation">http://logarandes.org/documentation</ref>.</p>
+                </editorialDecl>
+            </encodingDesc>
+            <sourceDesc>
+                <p>Born digital.</p>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>This record created following the Syriaca.org guidelines.
+                    Documentation available at: <ref target="http://syriaca.org/documentation">http://syriaca.org/documentation</ref>.</p>
+                <interpretation>
+                    <p>Approximate dates described in terms of centuries or partial centuries
+                        have been interpreted as documented in
+                        <ref target="http://syriaca.org/documentation/dates.html">Syriaca.org Dates</ref>.</p>
+                </interpretation>
+            </editorialDecl>
+            <classDecl>
+                <taxonomy>
+                    <category xml:id="syriaca-headword">
+                        <catDesc>The name used by Syriaca.org for document titles, citation, and disambiguation.
+                            These names have been created according to the Syriac.org guidelines for headwords:
+                            <ref target="http://syriaca.org/documentation/headwords.html">http://syriaca.org/documentation/headwords.html</ref>.</catDesc>
+                    </category>
+                    <category xml:id="syriaca-anglicized">
+                        <catDesc>An anglicized version of a name, included to facilitate searching.</catDesc>
+                    </category>
+                </taxonomy>
+                <taxonomy>
+                    <category xml:id="syriaca-author">
+                        <catDesc>A person who is relevant to the Guide to Syriac Authors</catDesc>
+                    </category>
+                    <category xml:id="syriaca-saint">
+                        <catDesc>A person who is relevant to the Bibliotheca Hagiographica Syriaca.</catDesc>
+                    </category>
+                </taxonomy>
+            </classDecl>
+        </encodingDesc>
+        <profileDesc>
+            <langUsage>
+                <language ident="syr">Unvocalized Syriac of any variety or period</language>
+                <language ident="syr-Syrj">Vocalized West Syriac</language>
+                <language ident="syr-Syrn">Vocalized East Syriac</language>
+                <language ident="en">English</language>
+                <language ident="en-x-gedsh">Names or terms Romanized into English according to the standards
+                    adopted by the Gorgias Encyclopedic Dictionary of the Syriac Heritage</language>
+                <language ident="ar">Arabic</language>
+                <language ident="fr">French</language>
+                <language ident="de">German</language>
+                <language ident="la">Latin</language>
+            </langUsage>
+        </profileDesc>
+        <revisionDesc>
+            <change who="" n="1.0" when="">CREATED: person </change>
+        </revisionDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <listPerson>
+                <person xml:id="person-x">
+                    <persName xml:id="namex-1" xml:lang=""/>
+                    <persName xml:id="namex-1" xml:lang="" source="" syriaca-tags="#syriaca-headword">
+                        <roleName/>
+                        <forename/>
+                        <addName/>
+                    </persName>
+                    <persName xml:id="namex-1" xml:lang="" source="" syriaca-tags="#syriaca-headword">
+                        <roleName type="" sort=""/>
+                        <forename type="" sort=""/>
+                        <addName type="" sort=""/>
+                    </persName>
+                    <note/>
+                    <note>
+                        <quote source=""/>
+                    </note>
+                    <note type="" xml:id="abstract-en-x">
+                        <quote source=""/>
+                    </note>
+                    <idno type="URI"/>
+                    <sex source=""/>
+                    <state source="">
+                        <note/>
+                    </state>
+                    <event source=""/>
+                    <birth/>
+                    <birth when="" to="" from="" notAfter="" notBefore="" source=""/>
+                    <death/>
+                    <death when="" to="" from="" notAfter="" notBefore="" source=""/>
+                    <floruit/>
+                    <floruit notBefore="" notAfter="" to="" when="" from="" source=""/>
+                    <bibl xml:id="bibx-x">
+                        <title/>
+                    </bibl>
+                </person>
+                <relation name="x" active="#person-x" passive="x" source="#bibx">
+                    <desc xml:lang="en"/>
+                </relation>
+            </listPerson>
+            <listPlace>
+                <place xml:id="place-78" type="settlement">
+                    <placeName xml:id="namex-x" xml:lang=""/>
+                    <placeName xml:id="namex-1" xml:lang="" source="" syriaca-tags="#syriaca-headword"/>
+                    <placeName ref=""/>
+                    <location type="" source="">
+                    </location>
+                    <location type="" subtype="">
+                        <measure unit="" quantity=""/>
+                        <offset/>
+                        <placeName/>
+                        <geo/>
+                    </location>
+                </place>
+            </listPlace>
+        </body>
+    </text>
+</TEI>

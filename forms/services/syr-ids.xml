@@ -1,0 +1,32 @@
+<list xmlns="http://www.tei-c.org/ns/1.0">
+    <div class="Person">
+        <form-type type="person"/>
+        <last-calculated type="person" uri="http://syriaca.org/person/" num="3501"/>
+        <last-dev uri="http://syriaca.org/person/" num="3501"/>
+    </div>
+    <div class="Place">
+        <form-type type="place"/>
+        <last-calculated type="place" uri="http://syriaca.org/place/" num="2615"/>
+        <last-dev uri="http://syriaca.org/place/" num="2615"/>
+    </div>
+    <div class="Subject">
+        <form-type type="subject"/>
+        <last-calculated type="subject" uri="http://syriaca.org/subject/" num="2"/>
+        <last-dev uri="http://syriaca.org/subject/" num="2"/>
+    </div>
+    <div class="Manuscript">
+        <form-type type="manuscript"/>
+        <last-calculated type="manuscript" uri="http://syriaca.org/manuscript/" num="1421"/>
+        <last-dev uri="http://syriaca.org/manuscript/" num="1421"/>
+    </div>
+    <div class="Work">
+        <form-type type="work"/>
+        <last-calculated type="work" uri="http://syriaca.org/work/" num="10522"/>
+        <last-dev uri="http://syriaca.org/work/" num="10522"/>
+    </div>
+    <div class="Bibl">
+        <form-type type="bibl"/>
+        <last-calculated type="bibl" uri="http://syriaca.org/bibl/" num="2445"/>
+        <last-dev uri="http://syriaca.org/bibl/" num="2445"/>
+    </div>
+</list>

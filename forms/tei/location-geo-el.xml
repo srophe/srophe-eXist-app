@@ -1,0 +1,16 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <fieldset class="well">    
+            <!-- NOTE: does this also need source? -->
+            <!-- Depreicated -->
+            <!-- Need to work on more complex location element -->
+        <xf:repeat ref="tei:location/tei:geo" id="new-coords">
+            <xf:trigger appearance="minimal" class="btn remove">
+                <xf:label/>
+                <xf:delete ev:event="DOMActivate" at="index('new-coords')"/>
+            </xf:trigger>
+            <xf:input ref=".">
+                <xf:label>Coordinates</xf:label>
+            </xf:input>
+        </xf:repeat>
+    </fieldset>
+</div>

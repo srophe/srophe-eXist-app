@@ -1,0 +1,49 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0" class="tei-element">
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:repeat ref="tei:title" id="new-title-el">
+        <xf:trigger appearance="minimal" class="btn remove">
+            <xf:label/>
+            <xf:delete ev:event="DOMActivate" ref="."/>
+        </xf:trigger>
+        <xf:input ref="." class="input-md">
+            <xf:label>Title</xf:label>
+        </xf:input>
+        <span>
+    <xf:select1 ref="@xml:lang">
+        <xf:label>Lang</xf:label>
+        <xf:item>
+            <xf:label>--- Select Language ---</xf:label>
+            <xf:value/>
+        </xf:item>
+        <xf:itemset ref="instance('i-ctr-vals')//tei:langUsage/tei:language">
+            <xf:label ref="."/>
+            <xf:value ref="."/>
+        </xf:itemset>
+    </xf:select1>
+</span>
+        <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+            <!-- add level attribute -->
+        <div class="divider"/>
+    </xf:repeat>
+</div>

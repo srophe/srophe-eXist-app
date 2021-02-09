@@ -1,0 +1,82 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <xf:dialog id="new-name" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <xf:trigger class="btn btn-default modal-close pull-right top" appearance="minimal">
+                    <xf:label> </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:hide dialog="new-name"/>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+            <div class="modal-body" style="background-color:white;">
+                <h4>Search Syriaca.org Person/Place Names:</h4>
+                <xf:group class="input-md input-group">
+                    <xf:input id="search-names" ref="instance('i-search')/q" incremental="true">
+                        <xf:label>Search: </xf:label>
+                        <!-- for each key press send the s1 search out -->
+                        <xf:send submission="s-name-lookup" ev:event="xforms-value-changed" ref="string-length(instance('i-search')/q) &gt; 2" class="input-group-btn"/>
+                    </xf:input>
+                    <xf:select1 ref="instance('i-search')/element" class="inline">
+                        <xf:label> Element:</xf:label>
+                        <xf:item>
+                            <xf:label>Person</xf:label>
+                            <xf:value>persName</xf:value>
+                        </xf:item>
+                        <xf:item>
+                            <xf:label>Place</xf:label>
+                            <xf:value>placeName</xf:value>
+                        </xf:item>
+                    </xf:select1>
+                </xf:group>
+                <xf:select1 ref="instance('i-selected')/tei:TEI/child::*/@ref" appearance="full" class="checkbox select-group">
+                    <xf:itemset ref="instance('i-search-results')/tei:TEI">
+                        <xf:label ref="child::*"/>
+                        <xf:value ref="child::*/@ref"/>
+                    </xf:itemset>
+                     <!-- Insert selected element into i-selected, delete place holder node -->
+                    <xf:action ev:event="xforms-value-changed">
+                        <xf:setvalue ref="instance('i-add-name')/@ref" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
+                        <xf:setvalue ref="instance('i-add-name')" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]"/>
+                    </xf:action>
+                </xf:select1>
+                <xf:group class="horiz-tab-menu">
+                    <xf:trigger appearance="minimal" class="tabs view">
+                        <xf:label>View Selection </xf:label>
+                        <xf:toggle case="view-selected-names" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger class="btn save" appearance="minimal">
+                        <xf:label> Add to Document </xf:label>
+                        <xf:setvalue ref="instance('i-add-name')/@ref" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
+                         <!--<xf:insert ev:event="DOMActivate" ref="tei:name" origin="instance('i-add-name')"/>-->
+                         <!--<xf:wrap control="t" pre="<persName ref="{instance('i-add-name')/@ref}">" post="</persName>"/>-->
+                        <xf:message level="modal" ev:event="DOMActivate">Saved!</xf:message>
+                    </xf:trigger>
+                </xf:group>
+                <xf:switch id="review-names" class="tab-panel">
+                    <xf:case id="view-selected-names" selected="true()">
+                        <xf:group class="view" ref="instance('i-add-name')">
+                            <xf:output ref=".">
+                                <xf:label>Name: </xf:label>
+                            </xf:output>
+                            <br/>
+                            <xf:output ref="@ref">
+                                <xf:label>ID: </xf:label>
+                            </xf:output>
+                        </xf:group>
+                    </xf:case>
+                </xf:switch>
+            </div>
+            <div class="modal-footer">
+                <xf:trigger class="btn btn-default modal-close pull-right" appearance="minimal">
+                    <xf:label> </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:hide dialog="new-name"/>
+                        <!--<xf:setvalue ref="instance('i-selected')/tei:TEI/child::*/@ref" value="''"/>-->
+                        <xf:setvalue ref="instance('i-search-results')/tei:TEI" value="''"/>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+        </div>
+    </xf:dialog>
+</div>

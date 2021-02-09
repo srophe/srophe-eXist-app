@@ -1,0 +1,88 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <xf:group class="horiz-tab-menu">
+        <xf:trigger appearance="minimal" class="tabs edit">
+            <xf:label>Create New Record </xf:label>
+            <xf:toggle case="create-rec" ev:event="DOMActivate"/>
+        </xf:trigger>
+        <xf:trigger appearance="minimal" class="tabs edit">
+            <xf:label>Edit Record </xf:label>
+            <xf:toggle case="edit-rec" ev:event="DOMActivate"/>
+        </xf:trigger>
+        <xf:submit class="btn btn-default pull-right" submission="s-recalculate-uri" appearance="minimal">
+            <xf:label>Recalculate next available URI</xf:label>
+            <xf:action ev:event="DOMActivate">
+                <xf:reset/>
+            </xf:action>
+        </xf:submit>
+    </xf:group>
+    <xf:switch id="rec-type">
+        <xf:case id="create-rec" selected="true()">
+            <h3>Create New Syrica.org Record</h3>
+            <p class="text-muted">Instructions, best practices, could be a modal pop up.</p>
+            <xf:select1 ref="instance('i-new-id')/id/@type">
+                <xf:label>Select new record type:</xf:label>
+                <xf:item>
+                    <xf:label>person</xf:label>
+                    <xf:value>person</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>place</xf:label>
+                    <xf:value>place</xf:value>
+                </xf:item>
+                <xf:action ev:event="xforms-value-changed">
+                    <xf:setvalue ref="instance('i-new-id')/id/@num" value="instance('i-ids')//id[@type = instance('i-new-id')/id/@type]/@num + 1"/>
+                    <xf:setvalue ref="instance('i-new-id')/id/@uri" value="concat('http://syriaca.org/',instance('i-new-id')/id/@type,'/',instance('i-ids')//id[@type = instance('i-new-id')/id/@type]/@num + 1)"/>
+                    <xf:setvalue ref="instance('i-rec-id')//id" value="instance('i-new-id')/id/@uri"/>
+                    <xf:setvalue ref="instance('i-rec-id')//type" value="instance('i-new-id')/id/@type"/>
+                    <xf:setvalue ref="instance('i-rec-id')//num" value="instance('i-ids')//id[@type = instance('i-new-id')/id/@type]/@num + 1"/>
+                    <xf:send submission="s-increment-uri"/>
+                    <xf:send submission="s-get-ids"/>
+                </xf:action>
+            </xf:select1>
+            <!--
+            <xf:trigger class="btn btn-default" appearance="minimal">
+                <xf:label>Create New Record </xf:label>
+                <xf:action ev:event="DOMActivate">
+                    <xf:setvalue ref="instance('i-new-id')/id/@num" value="instance('i-ids')//id[@type = instance('i-new-id')/id/@type]/@num + 1"/>
+                    <xf:setvalue ref="instance('i-new-id')/id/@uri" value="concat('http://syriaca.org/',instance('i-new-id')/id/@type,'/',instance('i-ids')//id[@type = instance('i-new-id')/id/@type]/@num + 1)"/>
+                    <xf:setvalue ref="instance('i-rec-id')//id" value="instance('i-new-id')/id/@uri"/>
+                    <xf:setvalue ref="instance('i-rec-id')//type" value="instance('i-new-id')/id/@type"/>
+                    <xf:setvalue ref="instance('i-rec-id')//num" value="instance('i-ids')//id[@type = instance('i-new-id')/id/@type]/@num + 1"/>
+                    <xf:send submission="s-increment-uri"/>
+                    <xf:send submission="s-get-ids"/>
+                </xf:action>
+            </xf:trigger>
+            -->
+            <br/>
+            <xf:group ref="instance('i-new-id')/id[@type != '']">
+                <p class="indent">You are creating a new <strong>
+                        <xf:output ref="instance('i-new-id')/id/@type"/>
+                    </strong> with Syriaca.org URI of <strong>
+                        <xf:output ref="instance('i-new-id')/id/@uri"/>
+                    </strong>
+                </p>
+                <xf:trigger class="btn btn-default indent" submission="s-increment-uri" appearance="minimal">
+                    <xf:label>Confirm</xf:label>
+                    <!-- Trigger, saves new id to syr-ids via increment-uri.xql -->
+                    <xf:action ev:event="DOMActivate">
+                        <xf:send submission="s-create-rec"/>
+                        <xf:toggle case="edit-new-rec"/>
+                    </xf:action>
+                </xf:trigger>
+            </xf:group>
+        </xf:case>
+        <xf:case id="edit-rec">
+            <xf:input ref="instance('i-rec-id')//id" class="input-md top-padding">
+                <xf:label>ID: </xf:label>
+            </xf:input>
+            <xf:trigger class="btn btn-default indent" appearance="minimal">
+                <xf:label>Get Record</xf:label>
+                <!-- Trigger, saves new id to syr-ids via increment-uri.xql -->
+                <xf:action ev:event="DOMActivate">
+                    <xf:send submission="s-edit-rec"/>
+                    <xf:toggle case="edit-new-rec"/>
+                </xf:action>
+            </xf:trigger>
+        </xf:case>
+    </xf:switch>
+</div>

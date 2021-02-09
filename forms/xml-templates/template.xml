@@ -1,0 +1,137 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title level="a" xml:lang="en"/>
+                <title level="m" xml:lang="en">The Syriac Gazetteer</title>
+                <sponsor>Syriaca.org: The Syriac Reference Portal</sponsor>
+                <funder>The National Endowment for the Humanities</funder>
+                <funder>The International Balzan Prize Foundation</funder>
+                <principal>David A. Michelson</principal>
+                <editor role="general" ref="http://syriaca.org/documentation/editors.xml#tcarlson">Thomas A. Carlson</editor>
+                <editor role="general" ref="http://syriaca.org/documentation/editors.xml#dmichelson">David A. Michelson</editor>
+                <editor role="creator" ref="http://syriaca.org/documentation/editors.xml#tcarlson">Thomas A. Carlson</editor>
+                <editor role="creator" ref="http://syriaca.org/documentation/editors.xml#dmichelson">David A. Michelson</editor>
+            </titleStmt>
+            <editionStmt>
+                <edition n="1.0"/>
+            </editionStmt>
+            <publicationStmt>
+                <authority>Syriaca.org: The Syriac Reference Portal</authority>
+                <idno type="URI">temp/tei</idno>
+                <date/>
+            </publicationStmt>
+            <sourceDesc>
+                <bibl/>
+            </sourceDesc>
+        </fileDesc>
+        <encodingDesc>
+            <editorialDecl>
+                <p>This record created following the Syriaca.org guidelines. Documentation available at: <ref target="http://syriaca.org/documentation">http://syriaca.org/documentation</ref>.</p>
+                <p>The capitalization of names from GEDSH (<idno type="URI">http://syriaca.org/bibl/1</idno>) was normalized (i.e. names in ALL-CAPS were replaced by Proper-noun capitalization).</p>
+                <p>The unchanging parts of alternate names from Barsoum (<idno type="URI">http://syriaca.org/bibl/2</idno>, <idno type="URI">http://syriaca.org/bibl/3</idno>, or <idno type="URI">http://syriaca.org/bibl/4</idno>) have been supplied to each alternate.</p>
+                <p>Names from the English translation of Barsoum (<idno type="URI">http://syriaca.org/bibl/4</idno>) were put in sentence word order rather than fronting a dictionary headword.  Any commas in the Barsoum name in English were removed.</p>
+                <p>The <gi>state</gi> element of @type="existence" indicates the period for which this place was in use as a place of its indicated type (e.g. an inhabited settlement, a functioning monastery or church, an administrative province).  Natural features always in existence have no <gi>state</gi> element of @type="existence".</p>
+            </editorialDecl>
+            <classDecl>
+                <taxonomy>
+                    <category xml:id="syriaca-headword">
+                        <catDesc>The name used by Syriaca.org for document titles, citation, and disambiguation. These names have been created according to the Syriac.org guidelines for headwords: <ref target="http://syriaca.org/documentation/headwords.html">http://syriaca.org/documentation/headwords.html</ref>.</catDesc>
+                    </category>
+                </taxonomy>
+            </classDecl>
+        </encodingDesc>
+        <profileDesc>
+            <langUsage>
+                <language ident="syr">Unvocalized Syriac of any variety or period</language>
+                <language ident="syr-Syrj">Vocalized West Syriac</language>
+                <language ident="syr-Syrn">Vocalized East Syriac</language>
+                <language ident="en">English</language>
+                <language ident="ar">Arabic</language>
+            </langUsage>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <listPlace>
+                <place xml:id="place-XXX" type="">
+                    <!--Must include 1 english name place type -->
+                    <placeName xml:id="nameXXX-X" source=""/>
+                    <!-- additional descriptions -->
+                    <desc/>
+                    <desc source="">
+                    </desc>
+                    <desc xml:lang="">
+                        <quote source=""/>
+                    </desc>
+                    <note/>
+                    <note type="" xml:lang="" source=""/>
+                    <location type="" source="">
+                        <!--<desc/>-->
+                        <!--
+                           <measure unit="days-journey" quantity="5">five day journey</measure>
+                        <offset>eastward from</offset>
+                        <placeName ref="http://syriaca.org/place/18">Aleppo</placeName>
+                        -->
+                    </location>
+                    <!-- Optional location text and gps -->
+                    <location type="gps" source="">
+                        <lat>LAT</lat>
+                        <long>LONG</long>
+                    </location>
+                    <!-- much trickier -->
+                    
+                    <!-- events bind computed dates at creation able to insert place names -->
+                    <event source="#bibXX-X">
+                        <p xml:lang=""/>
+                    </event>
+                    <event notBefore="" notAfter="" to="" when="" from="" source="">
+                        <p xml:lang="en"/>
+                    </event>
+                    <!-- attestations -->
+                    <event type="attestation" source="#bibXX-X">
+                        <p xml:lang=""/>
+                    </event>
+                    <event type="attestation" notBefore="" notAfter="" to="" when="" from="" source="">
+                        <p xml:lang=""/>
+                        <link target=""/>
+                    </event>
+                    <!-- existance? guidelines on when to use when, from ect. -->
+                    <state type="existence" from="" source="#bibXX-X"/>
+                    <!-- confession dropdown?-->
+                    <state type="confession" xml:id="confessionXX-X" ref="http://syriaca.org/confessions.xml#christians">
+                        <label/>
+                    </state>
+                    <state type="confession" xml:id="confessionXX-X" ref="" from="" to="" when="" notBefore="" notAfter="" source="">
+                        <label/>
+                    </state>
+                    <!-- notes type dropdown insert place name where needed?-->
+                    <note type="incerta"/>
+                    <!-- Generate id -->
+                    <idno type="URI"/>
+                    <!-- add links suggestions?-->
+                    <!-- bibl also save to bible data folder? -->
+                    <bibl xml:id="biblx-x"/>
+                    <bibl xml:id="bib78-1">
+                        <author/>
+                        <title level="a" xml:lang="en"/>
+                        <citedRange unit="pp"/>
+                    </bibl>
+                </place>
+                <!-- relations?
+                <relation name="contained" active="http://syriaca.org/place/145 http://syriaca.org/place/166" passive="#place-78" source="#bib78-1" to="0363"/>
+                -->
+            </listPlace>
+            <entryFree xml:id="k00000x" type="">
+                <term xml:id="term-x" xml:lang="x"/>
+                <idno type="URI"/>
+                <gloss xml:lang=""/>
+                <note xml:lang=""/>
+                <note type="" xml:lang=""/>
+                <listRelation>
+                    <relation ref="" active="" passive="" rendition=""/>
+                </listRelation>
+            </entryFree>
+        </body>
+    </text>
+</TEI>

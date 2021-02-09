@@ -1,0 +1,109 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events">
+    <!-- Controlled vocab search as a component -->
+    <div style="display:none">
+        <xf:model id="m-search">
+                    <!-- Generate new in xquery, populate place-id -->
+                    <!-- use xquery to populate info field about place?? -->
+            <xf:instance id="i-search">
+                <root xmlns="">
+                    <q/>
+                    <element>persName</element>
+                </root>
+            </xf:instance>
+                    <!-- the search results are loaded into this instance -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-results">
+                <results>
+                    <TEI>
+                        <persName ref="http://syriaca.org/person/">Enter search</persName>
+                    </TEI>
+                </results>
+            </xf:instance>
+                    <!-- the search results are loaded into this instance -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-selected">
+                <results>
+                    <TEI>
+                        <persName ref=""/>
+                    </TEI>
+                </results>
+            </xf:instance>
+            <xf:submission id="s1" method="get" replace="instance" instance="i-results" serialization="none" mode="synchronous">
+                <xf:resource value="concat('../services/controlled-vocab-search.xql?element=',element,'&amp;','q=',q,'*')"/>
+            </xf:submission>
+                    <!-- this puts the cursor in the search field when the form loads -->
+                    <!--<xf:setfocus ev:event="xforms-ready" control="q"/>-->
+                    <!--<xf:bind id="ref-value" readonly="false()" nodeset="instance('i-selected')/tei:TEI/child::*" calculate="instance('i-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]/text()"/>-->
+        </xf:model>
+    </div>
+     <!-- List all existing titles -->
+    <div class="section">
+        <h1>Search Controlled Vocabularies</h1>
+        <xf:group class="input-md input-group">
+            <xf:input id="search" ref="instance('i-search')/q" incremental="true">
+                <xf:label>Search: </xf:label>
+                        <!-- for each key press send the s1 search out -->
+                <xf:send submission="s1" ev:event="xforms-value-changed" ref="string-length(instance('i-search')/q) &gt; 2" class="input-group-btn"/>
+            </xf:input>
+            <xf:select1 ref="instance('i-search')/element" class="inline">
+                <xf:label> Element:</xf:label>
+                <xf:item>
+                    <xf:label>Person</xf:label>
+                    <xf:value>persName</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>Place</xf:label>
+                    <xf:value>placeName</xf:value>
+                </xf:item>
+                <xf:item>
+                    <xf:label>Bibl</xf:label>
+                    <xf:value>bibl</xf:value>
+                </xf:item>
+            </xf:select1>
+        </xf:group>
+        <p class="text-muted">*Currently searches persName, placeName and bibl elements in existing records</p>
+        <xf:select1 ref="instance('i-selected')/tei:TEI/child::*/@ref" appearance="full" class="checkbox select-group">
+            <xf:itemset ref="instance('i-results')/tei:TEI">
+                <xf:label ref="child::*"/>
+                <xf:value ref="child::*/@ref"/>
+            </xf:itemset>
+                    <!-- Insert selected element into i-selected, delete place holder node -->
+            <xf:action ev:event="xforms-value-changed">
+                <xf:insert context="instance('i-selected')/tei:TEI/child::*" ref="instance('i-selected')/tei:TEI/child::*[last()]" at="last()" position="after" origin="instance('i-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]"/>
+                <xf:delete ref="instance('i-selected')/tei:TEI/child::*[1]"/>
+            </xf:action>
+        </xf:select1>
+        <xf:group class="horiz-tab-menu" ref="instance('i-selected')/tei:TEI/child::*">
+            <xf:trigger appearance="minimal" class="tabs view">
+                <xf:label>View Selection </xf:label>
+                <xf:toggle case="view-selected" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger appearance="minimal" class="tabs edit">
+                <xf:label>Edit Selection </xf:label>
+                <xf:toggle case="edit-selected" ev:event="DOMActivate"/>
+            </xf:trigger>
+            <xf:trigger appearance="minimal" class="tabs add">
+                <xf:label> Add to Document </xf:label>
+                <xf:send submission="add-to-source"/>
+            </xf:trigger>
+        </xf:group>
+        <xf:switch id="review" class="tab-panel">
+            <xf:case id="view-selected" selected="true()">
+                <xf:group class="view">
+                    <xf:output ref="instance('i-selected')/tei:TEI/child::*">
+                        <xf:label>Name: </xf:label>
+                    </xf:output>
+                    <br/>
+                    <xf:output ref="instance('i-selected')/tei:TEI/child::*/@ref">
+                        <xf:label>ID: </xf:label>
+                    </xf:output>
+                </xf:group>
+            </xf:case>
+            <xf:case id="edit-selected">
+                <xf:group class="edit">
+                    <xf:input ref="instance('i-selected')/tei:TEI/child::*" class="input-md">
+                        <xf:label class="inline">Name: </xf:label>
+                    </xf:input>
+                </xf:group>
+            </xf:case>
+        </xf:switch>
+    </div>
+</div>

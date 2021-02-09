@@ -1,0 +1,18 @@
+<?xml-stylesheet href="xsl/xsltforms.xsl" type="text/xsl"?><html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsltforms="http://www.agencexml.com/xsltforms" xsltforms:dummy="dummy">
+    <head>
+        <title>Download TEI Record</title>
+        <xf:model>
+            <xf:instance id="getter">
+                <data/>
+            </xf:instance>
+            <xf:submission id="getinstance" method="get" replace="instance" instance="getter" action="opener://i-rec">
+                <xf:send ev:event="xforms-submit-done" submission="getback"/>
+            </xf:submission>
+            <xf:submission id="getback" method="xml-urlencoded-post" replace="all" action="/exist/apps/tcadrt/forms/services/submit.xql?type=download"/>
+            <xf:send ev:event="xforms-ready" submission="getinstance"/>
+        </xf:model>
+    </head>
+    <body>
+        <h1>Record downloaded</h1>
+    </body>
+</html>

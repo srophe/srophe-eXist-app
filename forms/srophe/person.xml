@@ -1,0 +1,1269 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <head>
+        <title>Syriaca.org Persons Editor</title>
+        <meta name="author" content="wsalesky at gmail.com"/>
+        <meta name="description" content="Search Controlled Vocabularies"/>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../resources/css/xforms.css"/>
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css"/>
+        <!-- jquery -->
+        <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">/**/</script>
+        
+        <!-- Latest compiled and minified JavaScript -->
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"/>
+        <xf:model id="m-person">
+            <!-- Load TEI record -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-rec" src="xml-templates/person.xml"/>
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-uri-range" src="xml-templates/person.xml"/>
+            
+            <!-- Used for augmenting TEI -->
+            <xf:instance xmlns="" id="i-template" src="xml-templates/persons-template.xml"/>
+            <xf:instance xmlns="" id="i-ctr-vals" src="xml-templates/controlled-vals.xml"/>
+            <!-- For inserting date attributes -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-dates">
+                <tei>
+                    <tei:date when="" from="" to="" notBefore="" notAfter=""/>
+                </tei>
+            </xf:instance>
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-person-type">
+                <TEI>
+                    <biblScope unit="vol" from="1" to="1">
+                        <title level="m">Qadishe: A Guide to the Syriac Saints</title>
+                        <idno type="URI">http://syriaca.org/q</idno>
+                    </biblScope>
+                    <biblScope unit="vol" from="2" to="2">
+                        <title level="m">A Guide to Syriac Authors</title>
+                        <idno type="URI">http://syriaca.org/authors</idno>
+                    </biblScope>
+                </TEI>
+            </xf:instance>
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-source">
+                <tei>
+                    <tei:source source=""/>
+                </tei>
+            </xf:instance>
+            <!-- For controlled vocab/bibl lookup  -->
+            <xf:instance id="i-search">
+                <root xmlns="">
+                    <q/>
+                    <idno>http://syriaca.org/bibl/</idno>
+                    <element/>
+                    <type/>
+                </root>
+            </xf:instance>
+            <!-- Controlled vocab  search results are loaded into this instance -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-search-results">
+                <results>
+                    <TEI>
+                        <bibl ref="http://syriaca.org/bibl/">Enter search</bibl>
+                    </TEI>
+                </results>
+            </xf:instance>
+            <!-- Controlled vocab  the search results are loaded into this instance -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-selected">
+                <results>
+                    <TEI>
+                        <title ref=""/>
+                    </TEI>
+                </results>
+            </xf:instance>
+            <!-- For selecting and populating bibl elements -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-new-bibl">
+                <bibl>
+                    <ptr target="http://syriaca.org/bibl/"/>
+                </bibl>
+            </xf:instance>
+            <!-- Controlled vocab selected list -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-add-bibl">
+                <bibl xml:id="bibnum">
+                    <title/>
+                    <ptr target=""/>
+                    <citedRange unit="pp"/>
+                </bibl>
+            </xf:instance>
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-add-name">
+                <name ref="http://syriaca.org/"/>
+            </xf:instance>
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-select-name">
+                <name ref=""/>
+            </xf:instance>
+            
+            <!-- Set URI for editing -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-rec-id">
+                <uri/>
+            </xf:instance>
+            <!-- For error messages from server -->  
+            <xf:instance id="i-submission">
+                <response status="success">
+                    <message>Submission result</message>
+                </response>
+            </xf:instance>
+            
+            <!-- Look up sources  -->
+            <xf:submission id="s-bibl-lookup" method="get" ref="instance('i-search')" replace="instance" instance="i-search-results" serialization="none" mode="synchronous">
+                <xf:resource value="concat('services/controlled-vocab-search.xql?element=bibl&amp;','idno=',instance('i-search')//idno,'&amp;type=',instance('i-search')//type)"/>
+            </xf:submission>
+            <!-- Lookup names -->
+            <xf:submission id="s-name-lookup" method="get" ref="instance('i-search')" replace="instance" instance="i-search-results" serialization="none" mode="synchronous">
+                <xf:resource value="concat('services/controlled-vocab-search.xql?element=',instance('i-search')/element,'&amp;','q=',instance('i-search')//q,'*')"/>
+            </xf:submission>
+            
+            
+            <!-- Submissions -->
+            <!-- Save and view -->
+            
+            <!--<xf:submission id="s-view-xml" resource="services/submit.xql?type=view" ref="instance('i-rec')" show="new" replace="all" method="post"/>-->
+            <!--<xf:submission id="s-download-xml" resource="services/submit.xql?type=download" ref="instance('i-rec')" show="new" replace="all" method="post"/>-->
+            <xf:submission id="s-download-xml" ref="instance('i-rec')" show="new" method="post" replace="all" action="form.xq?form=srophe/download.xml?type=download"/>
+            <!-- Save -->
+            <xf:submission id="s-save" resource="services/submit.xql?type=save" ref="instance('i-rec')" replace="instance" instance="i-submission" method="post">
+                <xf:action ev:event="xforms-submit-done">
+                    <xf:message ref="instance('i-submission')//*:message"/>
+                </xf:action>
+                <xf:action ev:event="xforms-submit-error">
+                    <xf:message ref="instance('i-submission')//*:message"/>
+                </xf:action>
+            </xf:submission>
+            
+            <!-- view -->
+            <xf:submission id="view" ref="instance('i-uri-range')" show="new" method="post" replace="all" action="form.xq?form=srophe/i-uri-range.xml"/>
+            
+            <!-- Bind for subforms -->
+            <!-- Bind uri to idno -->
+            <xf:bind nodeset="instance('i-rec')//tei:publicationStmt/tei:idno[@type='URI']" calculate="concat(instance('i-rec-id')/@uri,instance('i-rec-id')/@num,'/tei')"/>
+            <xf:bind nodeset="instance('i-rec')//tei:body/descendant::tei:idno[@type='URI'][1]" calculate="concat(instance('i-rec-id')/@uri,instance('i-rec-id')/@num)"/>
+            <!-- Bind persName to title -->
+            <xf:bind nodeset="instance('i-rec')//tei:titleStmt/tei:title[1]" calculate="instance('i-rec')//tei:person/tei:persName[@syriaca-tags ='#syriaca-headword'][1]"/>
+            <xf:bind nodeset="instance('i-rec')//tei:person/@xml:id" calculate="concat('person-',instance('i-rec-id')/@num)"/>
+            <xf:action ev:event="xforms-ready">
+                <!-- Bind uri to idno -->
+                <xf:setvalue ev:event="DOMActivate" ref="instance('i-rec')//tei:publicationStmt/tei:idno[@type='URI']" value="concat(instance('i-rec-id')/@uri,instance('i-rec-id')/@num,'/tei')"/>
+                <xf:setvalue ev:event="DOMActivate" ref="instance('i-rec')//tei:publicationStmt/tei:idno[@type='URI']" value="concat(instance('i-rec-id')/@uri,instance('i-rec-id')/@num)"/>
+            </xf:action>
+        </xf:model>
+    </head>
+    <body>
+        <div class="section">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Create/Edit SBD record</h2>
+                    <!-- Record URI, passed from initialize.xhtml form -->
+                    <xf:group ref="instance('i-rec-id')">
+                        <p>Current record URI: <code>
+                            <xf:output value="concat(@uri,@num)"/>
+                        </code>
+                        </p>
+                    </xf:group>
+                </div>
+                <div class="col-md-6">
+                    <div class="section pull-right">
+                        <xf:submit class="btn btn-default" submission="s-save" appearance="minimal">
+                            <xf:label>
+                                <span class="glyphicon glyphicon-save-file"/> Save to Database</xf:label>
+                        </xf:submit>
+                        <xf:submit class="btn btn-default" submission="s-download-xml" appearance="minimal">
+                            <xf:label>
+                                <span class="glyphicon glyphicon-save-file"/> Download XML </xf:label>
+                        </xf:submit>
+                    </div>
+                </div>
+            </div>
+            <xf:group ref="instance('i-rec')//tei:person" id="person">
+                <div class="row tabbable">
+                    <ul class="nav nav-pills nav-stacked col-md-3">
+                        <li>
+                            <!-- Type is still a work in progress Needs to add and remove when selected and deselected -->
+                            <div class="section indent">
+                                <label>Add Type: </label>
+                                <div class="section indent">
+                                    <xf:trigger class="btn remove" appearance="minimal" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary']/tei:biblScope[tei:idno = 'http://syriaca.org/q']">
+                                        <xf:label> Saint </xf:label>
+                                        <xf:delete ev:event="DOMActivate" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary']/tei:biblScope[tei:idno = 'http://syriaca.org/q']"/>
+                                    </xf:trigger>
+                                    <xf:trigger class="btn add" appearance="minimal" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary'][not(tei:biblScope[tei:idno = 'http://syriaca.org/q'])]">
+                                        <xf:label> Saint  </xf:label>
+                                        <xf:insert ev:event="DOMActivate" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary']/child::*" at="last()" position="after" origin="instance('i-person-type')//tei:biblScope[tei:idno = 'http://syriaca.org/q']"/>
+                                    </xf:trigger>
+                                    <br/>
+                                    <xf:trigger class="btn remove" appearance="minimal" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary']/tei:biblScope[tei:idno = 'http://syriaca.org/authors']">
+                                        <xf:label> Author </xf:label>
+                                        <xf:delete ev:event="DOMActivate" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary']/tei:biblScope[tei:idno = 'http://syriaca.org/authors']"/>
+                                    </xf:trigger>
+                                    <xf:trigger class="btn add" appearance="minimal" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary'][not(tei:biblScope[tei:idno = 'http://syriaca.org/authors'])]">
+                                        <xf:label> Author  </xf:label>
+                                        <xf:insert ev:event="DOMActivate" ref="instance('i-rec')//tei:seriesStmt[tei:title = 'The Syriac Biographical Dictionary']/child::*" at="last()" position="after" origin="instance('i-person-type')//tei:biblScope[tei:idno = 'http://syriaca.org/authors']"/>
+                                    </xf:trigger>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#names" data-toggle="tab" class="active">Names</a>
+                        </li>
+                        <li>
+                            <a href="#desc" data-toggle="tab">Description</a>
+                        </li>
+                        <li>
+                            <a href="#details" data-toggle="tab">Details</a>
+                        </li>
+                        <li>
+                            <a href="#sources" data-toggle="tab">Sources</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content col-md-9">
+                        <!-- Person name information -->
+                        <div class="tab-pane active" id="names">
+                            <h3>Names</h3>
+                            <div class="tei-element">
+    <xf:repeat ref="tei:persName" id="new-person-name">
+        <fieldset>
+            <legend> 
+                Name
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+                <xf:action ev:event="xforms-ready" ref="@xml:id">
+                    <xf:setvalue ref="." calculate="concat('name',instance('i-rec-id')/@num,'-',count(instance('i-rec')//tei:person/tei:persName))"/>
+                </xf:action>
+            </legend>
+            <div class="panel">
+                <div class="form-inline">
+                    <xf:input ref="self::*[not(child::*)]" class="input-md block">
+                        <xf:label>Name</xf:label>
+                    </xf:input>
+                    <xf:repeat ref="tei:roleName" class="block" id="pers-roleName">
+                        <xf:input ref="." class="input-md">
+                            <xf:label>Role</xf:label>
+                        </xf:input>
+                        <xf:select1 ref="@type">
+                            <xf:label>Type</xf:label>
+                            <xf:item>
+                                <xf:label>--- Select Type ---</xf:label>
+                                <xf:value/>
+                            </xf:item>
+                            <xf:itemset ref="instance('i-ctr-vals')//tei:addName/tei:type">
+                                <xf:label ref="."/>
+                                <xf:value ref="."/>
+                            </xf:itemset>
+                        </xf:select1>
+                        <xf:select1 ref="@sort">
+                            <xf:label>Sort Order</xf:label>
+                            <xf:itemset ref="instance('i-ctr-vals')//tei:persName/tei:sort">
+                                <xf:label ref="."/>
+                                <xf:value ref="."/>
+                            </xf:itemset>
+                        </xf:select1>
+                        <xf:trigger class="btn add" appearance="minimal" ref="self::*[not(@type)]">
+                            <xf:label>Type</xf:label>
+                            <xf:insert ev:event="DOMActivate" context="." ref="@type" origin="instance('i-template')//tei:person/tei:persName[3]/tei:roleName/@type"/>
+                        </xf:trigger>
+                        <xf:trigger class="btn add" appearance="minimal" ref="self::*[not(@sort)]">
+                            <xf:label>Sort</xf:label>
+                            <xf:insert ev:event="DOMActivate" context="." ref="@sort" origin="instance('i-template')//tei:person/tei:persName[3]/tei:roleName/@sort"/>
+                        </xf:trigger>
+                        <xf:trigger appearance="minimal" class="btn remove">
+                            <xf:label/>
+                            <xf:delete ev:event="DOMActivate" ref="."/>
+                        </xf:trigger>
+                    </xf:repeat>
+                    <xf:repeat ref="tei:forename" class="block" id="pers-forename">
+                        <xf:input ref="." class="input-md">
+                            <xf:label>Forename</xf:label>
+                        </xf:input>
+                        <xf:select1 ref="@sort">
+                            <xf:label>Sort Order</xf:label>
+                            <xf:itemset ref="instance('i-ctr-vals')//tei:persName/tei:sort">
+                                <xf:label ref="."/>
+                                <xf:value ref="."/>
+                            </xf:itemset>
+                        </xf:select1>
+                        <xf:trigger class="btn add" appearance="minimal" ref="self::*[not(@sort)]">
+                            <xf:label>Sort</xf:label>
+                            <xf:insert ev:event="DOMActivate" context="." ref="@sort" origin="instance('i-template')//tei:person/tei:persName[3]/tei:forename/@sort"/>
+                        </xf:trigger>
+                        <xf:trigger appearance="minimal" class="btn remove">
+                            <xf:label/>
+                            <xf:delete ev:event="DOMActivate" ref="."/>
+                        </xf:trigger>
+                    </xf:repeat>
+                    <xf:repeat ref="tei:addName" class="block" id="pers-addName">
+                        <xf:input ref="." class="input-md">
+                            <xf:label>Add Name</xf:label>
+                        </xf:input>
+                        <xf:select1 ref="@type">
+                            <xf:label>Type</xf:label>
+                            <xf:item>
+                                <xf:label>--- Select Type ---</xf:label>
+                                <xf:value/>
+                            </xf:item>
+                            <xf:itemset ref="instance('i-ctr-vals')//tei:addName/tei:type">
+                                <xf:label ref="."/>
+                                <xf:value ref="."/>
+                            </xf:itemset>
+                        </xf:select1>
+                        <xf:select1 ref="@sort">
+                            <xf:label>Sort Order</xf:label>
+                            <xf:itemset ref="instance('i-ctr-vals')//tei:persName/tei:sort">
+                                <xf:label ref="."/>
+                                <xf:value ref="."/>
+                            </xf:itemset>
+                        </xf:select1>
+                        <xf:trigger class="btn add" appearance="minimal" ref="self::*[not(@type)]">
+                            <xf:label>Type</xf:label>
+                            <xf:insert ev:event="DOMActivate" context="." ref="@type" origin="instance('i-template')//tei:person/tei:persName[3]/tei:addName/@type"/>
+                        </xf:trigger>
+                        <xf:trigger class="btn add" appearance="minimal" ref="self::*[not(@sort)]">
+                            <xf:label>Sort</xf:label>
+                            <xf:insert ev:event="DOMActivate" context="." ref="@sort" origin="instance('i-template')//tei:person/tei:persName[3]/tei:addName/@sort"/>
+                        </xf:trigger>
+                        <xf:trigger appearance="minimal" class="btn remove">
+                            <xf:label/>
+                            <xf:delete ev:event="DOMActivate" ref="."/>
+                        </xf:trigger>
+                    </xf:repeat>
+                    <xf:trigger class="btn add" appearance="minimal">
+                        <xf:label>roleName</xf:label>
+                        <xf:insert ev:event="DOMActivate" context="." ref="tei:roleName" origin="instance('i-template')//tei:person/tei:persName[2]/tei:roleName"/>
+                    </xf:trigger>
+                    <xf:trigger class="btn add" appearance="minimal">
+                        <xf:label>forename</xf:label>
+                        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-template')//tei:person/tei:persName[2]/tei:forename"/>
+                    </xf:trigger>
+                    <xf:trigger class="btn add" appearance="minimal">
+                        <xf:label>addName</xf:label>
+                        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-template')//tei:person/tei:persName[2]/tei:addName"/>
+                    </xf:trigger>
+                </div>
+                <div class="form-inline">
+                    <!-- instance('i-user-info')//*:user[. != '']  #anonymous-description #syriaca-headword -->
+                    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::node()[not(@xml:lang)]">
+                        <xf:label>Lang</xf:label>
+                        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-template')//tei:person/tei:persName/@xml:lang"/>
+                    </xf:trigger>
+                    <span>
+    <xf:select1 ref="@xml:lang">
+        <xf:label>Lang</xf:label>
+        <xf:item>
+            <xf:label>--- Select Language ---</xf:label>
+            <xf:value/>
+        </xf:item>
+        <xf:itemset ref="instance('i-ctr-vals')//tei:langUsage/tei:language">
+            <xf:label ref="."/>
+            <xf:value ref="."/>
+        </xf:itemset>
+    </xf:select1>
+</span>
+                    <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+                    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::node()[not(@syriaca-tags = '#syriaca-headword')]">
+                        <xf:label>Make Headword</xf:label>
+                        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-template')//tei:person/tei:persName/@syriaca-tags[. = '#syriaca-headword']"/>
+                    </xf:trigger>
+                    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::node()[not(@syriaca-tags = '#anonymous-description')]">
+                        <xf:label>Anonymous Description </xf:label>
+                        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-template')//tei:person/tei:persName/@syriaca-tags[. = '#anonymous-description']"/>
+                        <xf:insert ev:event="DOMActivate" ref="instance('i-rec')//tei:person/tei:persName" at="last()" position="after" origin="instance('i-template')//tei:person/tei:trait[1]"/>
+                        <xf:insert ev:event="DOMActivate" ref="instance('i-rec')//tei:person/tei:persName" position="before" origin="instance('i-template')//tei:person/tei:persName[@syriaca-tags = '#syriaca-headword'][2]"/>                          
+                        <xf:setvalue ev:event="DOMActivate" ref="instance('i-rec')//tei:person/tei:persName[@syriaca-tags = '#syriaca-headword'][1]" value="concat('Anonymous ', instance('i-rec-id')/@num)"/>
+                    </xf:trigger>
+                    <xf:output ref="@syriaca-tags[. = '#syriaca-headword']">
+                        <xf:label class="inline">Headword: </xf:label>
+                    </xf:output>
+                    <xf:trigger appearance="minimal" class="btn remove" ref="@syriaca-tags[. = '#syriaca-headword']">
+                        <xf:label/>
+                        <xf:delete ev:event="DOMActivate" ref="."/>
+                    </xf:trigger>
+                    <xf:output ref="@syriaca-tags[. = '#anonymous-description']"/>
+                    <xf:trigger appearance="minimal" class="btn remove" ref="@syriaca-tags[. = '#anonymous-description']">
+                        <xf:label/>
+                        <xf:delete ev:event="DOMActivate" ref="."/>
+                    </xf:trigger>
+                </div>
+            </div>
+        </fieldset>
+    </xf:repeat>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal">
+                                <xf:label>New Name</xf:label>
+                                <xf:insert ev:event="DOMActivate" ref="tei:persName" at="last()" position="after" origin="instance('i-template')//tei:person/tei:persName[1]"/>
+                            </xf:trigger>
+                        </div>
+                        <div class="tab-pane" id="desc">
+                            <h3>Abstract</h3>
+                            <!-- NOTE: Triggers xforms:wrap error.  -->
+                            <div>
+    <xf:repeat ref="tei:note" id="new-note">
+        <fieldset>
+            <legend> 
+                Note
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <span>
+    <xf:select1 ref="@type">
+        <xf:label>Type</xf:label>
+        <xf:item>
+            <xf:label>--- Select Type ---</xf:label>
+            <xf:value/>
+        </xf:item>
+        <!-- NOTE: would be useful to have controlled vals based on parent element.  -->
+        <xf:itemset ref="instance('i-ctr-vals')//tei:notes/tei:type">
+            <xf:label ref="."/>
+            <xf:value ref="."/>
+        </xf:itemset>
+    </xf:select1>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@type)]">
+        <xf:label>add type</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-template')//tei:note/@type"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@type">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+</span>
+                <span>
+    <xf:select1 ref="@xml:lang">
+        <xf:label>Lang</xf:label>
+        <xf:item>
+            <xf:label>--- Select Language ---</xf:label>
+            <xf:value/>
+        </xf:item>
+        <xf:itemset ref="instance('i-ctr-vals')//tei:langUsage/tei:language">
+            <xf:label ref="."/>
+            <xf:value ref="."/>
+        </xf:itemset>
+    </xf:select1>
+</span>
+                <!-- NOTE: Source is only included on tei:quote  elements -->
+                <div>
+    <xf:group ref="tei:quote[self::*/@source]">
+        <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+        <!-- 
+            If source then use tei:quote, if no source then use use ??  
+            done by trigger?
+        -->
+        <xf:group ref="">
+            <!--
+            <span class="input-group mixed-content">
+                <span class="form-control">
+                    <xf:input ref="instance('i-add-name')/@ref" class="input-md">
+                        <xf:label>URI</xf:label>
+                    </xf:input>
+                </span>
+                <xf:trigger appearance="minimal" class="btn btn-default btn-search input-group-addon">
+                    <xf:label>Lookup URI</xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:setvalue ref="instance('i-search')/element" value="'persName'"/>
+                        <xf:show dialog="new-name"/>
+                    </xf:action>
+                </xf:trigger>
+                <xf:trigger appearance="minimal" class="btn btn-default input-group-addon">
+                    <xf:label><persName></xf:label>
+                    <xf:wrap ev:event="DOMActivate" control="q" pre="<persName ref="{instance('i-add-name')/@ref}">" post="</persName>"/>
+                </xf:trigger>
+                <xf:trigger appearance="minimal" class="btn btn-default input-group-addon">
+                    <xf:label><placeName></xf:label>
+                    <xf:wrap ev:event="DOMActivate" control="q" pre="<placeName ref="{instance('i-add-name')/@ref}">" post="</placeName>"/>
+                </xf:trigger>
+            </span>
+            <br/>
+            <xf:textarea id="q" ref="." incremental="true"/>
+            -->
+        </xf:group>
+        <xf:textarea ref="." class="large"/>
+    </xf:group>
+</div>
+                <!--<xf:textarea ref="self::*[not(tei:quote/@source)]" class="large"/>-->
+                <xf:group ref="self::*[not(tei:quote/@source)]">
+                    <span class="input-group mixed-content">
+                        <!-- Used to wrap pers/placeNames still buggy
+                        <span class="form-control">
+                            <xf:input ref="instance('i-add-name')/@ref" class="input-md">
+                                <xf:label>URI</xf:label>
+                            </xf:input>
+                        </span>
+                        <xf:trigger appearance="minimal" class="btn btn-default btn-search input-group-addon">
+                            <xf:label>Lookup URI</xf:label>
+                            <xf:action ev:event="DOMActivate">
+                                <xf:setvalue ref="instance('i-search')/element" value="'persName'"/>
+                                <xf:show dialog="new-name"/>
+                            </xf:action>
+                        </xf:trigger>
+                        <xf:trigger appearance="minimal" class="btn btn-default input-group-addon">
+                            <xf:label><persName></xf:label>
+                            <xf:wrap ev:event="DOMActivate" control="t" pre="<persName ref="{instance('i-add-name')/@ref}">" post="</persName>"/>
+                        </xf:trigger>
+                        <xf:trigger appearance="minimal" class="btn btn-default input-group-addon">
+                            <xf:label><placeName></xf:label>
+                            <xf:wrap ev:event="DOMActivate" control="t" pre="<placeName ref="{instance('i-add-name')/@ref}">" post="</placeName>"/>
+                        </xf:trigger>
+                        -->
+                    </span>
+                    <br/>
+                    <xf:textarea id="t" ref="." incremental="true"/>
+                </xf:group>
+            </div>
+        </fieldset>
+    </xf:repeat>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal">
+                                <xf:label>New Note</xf:label>
+                                <xf:insert ev:event="DOMActivate" context="." ref="child::*" origin="instance('i-template')//tei:person/tei:note[1]"/>
+                            </xf:trigger>
+                            <xf:trigger class="btn add" appearance="minimal">
+                                <xf:label>New Note with Source</xf:label>
+                                <xf:insert ev:event="DOMActivate" context="." ref="child::*" origin="instance('i-template')//tei:person/tei:note[2]"/>
+                            </xf:trigger>
+                        </div>
+                        <div class="tab-pane" id="details">
+                            <h3>Details</h3>
+                            <div class="tei-element">
+    
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:group ref="tei:birth" id="new-birth">
+        <fieldset>
+            <legend> 
+                Birth
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:input ref=".">
+                    <xf:label> </xf:label>
+                </xf:input>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+                <div>
+    
+    <!-- Note: Need to add deletes for dates as well.  -->
+    <label>Dates:</label>
+    <xf:input ref="@when" class="input-small">
+        <xf:label>When: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@when)]">
+        <xf:label>when</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@when"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@when">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@from" class="input-small">
+        <xf:label>From: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@from)]">
+        <xf:label>from</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@from"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@from">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@to" class="input-small">
+        <xf:label>To: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@to)]">
+        <xf:label>to</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@to"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@to">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notBefore" class="input-small">
+        <xf:label>Not Before: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notBefore)]">
+        <xf:label>notBefore</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notBefore"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notBefore">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notAfter" class="input-small">
+        <xf:label>Not After: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notAfter)]">
+        <xf:label>notAfter</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notAfter"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notAfter">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+</div>
+            </div>
+        </fieldset>
+    </xf:group>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(tei:birth)]">
+                                <xf:label>Add Birth</xf:label>
+                                <xf:insert ev:event="DOMActivate" ref="child::*" origin="instance('i-template')//tei:person/tei:birth[1]"/>
+                            </xf:trigger>
+                            <div class="tei-element">
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:group ref="tei:death" id="new-death">
+        <fieldset>
+            <legend> 
+                Death
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:input ref=".">
+                    <xf:label/>
+                </xf:input>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+                <div>
+    
+    <!-- Note: Need to add deletes for dates as well.  -->
+    <label>Dates:</label>
+    <xf:input ref="@when" class="input-small">
+        <xf:label>When: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@when)]">
+        <xf:label>when</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@when"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@when">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@from" class="input-small">
+        <xf:label>From: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@from)]">
+        <xf:label>from</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@from"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@from">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@to" class="input-small">
+        <xf:label>To: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@to)]">
+        <xf:label>to</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@to"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@to">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notBefore" class="input-small">
+        <xf:label>Not Before: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notBefore)]">
+        <xf:label>notBefore</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notBefore"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notBefore">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notAfter" class="input-small">
+        <xf:label>Not After: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notAfter)]">
+        <xf:label>notAfter</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notAfter"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notAfter">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+</div>
+            </div>
+        </fieldset>
+    </xf:group>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(tei:death)]">
+                                <xf:label>Add Death</xf:label>
+                                <xf:insert ev:event="DOMActivate" ref="child::*" origin="instance('i-template')//tei:person/tei:death[1]"/>
+                            </xf:trigger>
+                            <div class="tei-element">
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:group ref="tei:floruit" id="new-floruit">
+        <fieldset>
+            <legend> 
+                Floruit
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:input ref=".">
+                    <xf:label/>
+                </xf:input>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+                <div>
+    
+    <!-- Note: Need to add deletes for dates as well.  -->
+    <label>Dates:</label>
+    <xf:input ref="@when" class="input-small">
+        <xf:label>When: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@when)]">
+        <xf:label>when</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@when"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@when">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@from" class="input-small">
+        <xf:label>From: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@from)]">
+        <xf:label>from</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@from"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@from">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@to" class="input-small">
+        <xf:label>To: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@to)]">
+        <xf:label>to</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@to"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@to">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notBefore" class="input-small">
+        <xf:label>Not Before: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notBefore)]">
+        <xf:label>notBefore</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notBefore"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notBefore">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notAfter" class="input-small">
+        <xf:label>Not After: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notAfter)]">
+        <xf:label>notAfter</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notAfter"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notAfter">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+</div>
+            </div>
+        </fieldset>
+    </xf:group>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(tei:floruit)]">
+                                <xf:label>Add Floruit</xf:label>
+                                <xf:insert ev:event="DOMActivate" ref="child::*" origin="instance('i-template')//tei:person/tei:floruit[1]"/>
+                            </xf:trigger>
+                            <div class="tei-element">
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:group ref="tei:sex" id="new-sex">
+        <fieldset>
+            <legend> 
+                Sex
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:select1 ref=".">
+                    <xf:item>
+                        <xf:label>M</xf:label>
+                        <xf:value>M</xf:value>
+                    </xf:item>
+                    <xf:item>
+                        <xf:label>F</xf:label>
+                        <xf:value>F</xf:value>
+                    </xf:item>
+                </xf:select1>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+            </div>
+        </fieldset>
+    </xf:group>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(tei:sex)]">
+                                <xf:label>Add Sex</xf:label>
+                                <xf:insert ev:event="DOMActivate" ref="child::*" origin="instance('i-template')//tei:person/tei:sex[1]"/>
+                            </xf:trigger>
+                            <div class="tei-element">
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:repeat ref="tei:state" id="new-state">
+        <fieldset>
+            <legend> 
+                State
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:textarea ref="tei:note" incremental="true"/>
+                                            <br/>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+                <div>
+    
+    <!-- Note: Need to add deletes for dates as well.  -->
+    <label>Dates:</label>
+    <xf:input ref="@when" class="input-small">
+        <xf:label>When: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@when)]">
+        <xf:label>when</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@when"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@when">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@from" class="input-small">
+        <xf:label>From: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@from)]">
+        <xf:label>from</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@from"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@from">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@to" class="input-small">
+        <xf:label>To: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@to)]">
+        <xf:label>to</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@to"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@to">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notBefore" class="input-small">
+        <xf:label>Not Before: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notBefore)]">
+        <xf:label>notBefore</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notBefore"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notBefore">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notAfter" class="input-small">
+        <xf:label>Not After: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notAfter)]">
+        <xf:label>notAfter</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notAfter"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notAfter">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+</div>
+            </div>
+        </fieldset>
+    </xf:repeat>
+</div>
+                            <xf:trigger class="btn add" appearance="minimal">
+                                <xf:label>Add State</xf:label>
+                                <xf:insert ev:event="DOMActivate" ref="child::*" origin="instance('i-template')//tei:person/tei:state[1]"/>
+                            </xf:trigger>
+                        </div>
+                        <div class="tab-pane" id="sources">
+                            <h3>Sources</h3>
+                            <div>
+    <!-- Review and delete bibl records -->
+    <xf:repeat ref="tei:bibl" id="bibl-edit">
+        <fieldset>
+            <legend> 
+                    Note
+                    <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:repeat ref="tei:title" id="source-edit-title">
+                    <xf:input ref="." class="input-md">
+                        <xf:label class="inline">Title: </xf:label>
+                    </xf:input>
+                    <xf:input ref="@level">
+                        <xf:label class="inline">Level: </xf:label>
+                    </xf:input>
+                    <xf:trigger appearance="minimal" class="btn remove" ref=".">
+                        <xf:label/>
+                        <xf:delete ev:event="DOMActivate" ref="."/>
+                    </xf:trigger>
+                </xf:repeat>
+                <xf:input ref="tei:citedRange">
+                    <xf:label>Cited Range:</xf:label>
+                </xf:input>
+                <xf:input ref="tei:citedRange/@unit">
+                    <xf:label>Unit:</xf:label>
+                </xf:input>
+            </div>
+        </fieldset>
+    </xf:repeat>
+</div>
+                            <xf:trigger class="btn btn-default" appearance="minimal">
+                                <xf:label>New Source</xf:label>
+                                <xf:action ev:event="DOMActivate">
+                                    <xf:show dialog="new-source"/>
+                                </xf:action>
+                            </xf:trigger>
+                        </div>
+                    </div>
+                </div>
+                <!-- Lookup Citations -->
+                <div>
+    <xf:dialog id="new-source" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <xf:trigger class="btn btn-default modal-close pull-right top" appearance="minimal">
+                    <xf:label> </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:hide dialog="new-source"/>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+            <div class="modal-body" style="background-color:white;">
+                <h4>Search Syriaca.org bibliography:</h4>
+                <xf:group class="input-md input-group">
+                    <xf:input id="search" ref="instance('i-search')/idno" incremental="true">
+                        <xf:label>Search URI: </xf:label>
+                         <!-- for each key press send the s1 search out -->
+                        <xf:send submission="s-bibl-lookup" ev:event="xforms-value-changed" ref="string-length(instance('i-search')/idno) &gt; 2" class="input-group-btn"/>
+                    </xf:input>
+                    <!--
+                    <xf:select1 ref="instance('i-search')/type">
+                        <xf:item>
+                            <xf:label>Title</xf:label>
+                            <xf:value>title</xf:value>
+                        </xf:item>
+                        <xf:item>
+                            <xf:label>Bibl ID</xf:label>
+                            <xf:value>idno</xf:value>
+                        </xf:item>
+                    </xf:select1>
+                    -->
+                </xf:group>
+                <xf:select1 ref="instance('i-selected')/tei:TEI/child::*/@ref" appearance="full" class="checkbox select-group">
+                    <xf:itemset ref="instance('i-search-results')/tei:TEI">
+                        <xf:label ref="child::*"/>
+                        <xf:value ref="child::*/@ref"/>
+                    </xf:itemset>
+                     <!-- Insert selected element into i-selected, delete place holder node -->
+                    <xf:action ev:event="xforms-value-changed">
+                        <xf:setvalue ref="instance('i-add-bibl')/@xml:id" value="concat('bib',instance('i-rec-id')//num,'-',count(instance('i-rec-id')/tei:body/descendant::tei:bibl) + 1)"/>
+                        <xf:setvalue ref="instance('i-add-bibl')//tei:ptr/@target" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
+                        <xf:setvalue ref="instance('i-add-bibl')//tei:title" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]"/>
+                    </xf:action>
+                </xf:select1>
+                <xf:group class="horiz-tab-menu">
+                    <xf:trigger appearance="minimal" class="tabs view">
+                        <xf:label>View Selection </xf:label>
+                        <xf:toggle case="view-selected" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger appearance="minimal" class="tabs edit">
+                        <xf:label>Edit Selection </xf:label>
+                        <xf:toggle case="edit-selected" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger class="btn save" appearance="minimal">
+                        <xf:label> Add to Document </xf:label>
+                        <xf:insert ev:event="DOMActivate" ref="tei:bibl" origin="instance('i-add-bibl')"/>
+                        <xf:message level="modal" ev:event="DOMActivate">Saved!</xf:message>
+                    </xf:trigger>
+                </xf:group>
+                <xf:switch id="review" class="tab-panel">
+                    <xf:case id="view-selected" selected="true()">
+                        <xf:group class="view">
+                            <xf:output ref="instance('i-add-bibl')//tei:title">
+                                <xf:label>title: </xf:label>
+                            </xf:output>
+                            <br/>
+                            <xf:output ref="instance('i-add-bibl')//tei:ptr/@target">
+                                <xf:label>ID: </xf:label>
+                            </xf:output>
+                        </xf:group>
+                    </xf:case>
+                    <xf:case id="edit-selected">
+                        <xf:group class="edit">
+                            <xf:input ref="instance('i-add-bibl')//tei:title" class="input-md">
+                                <xf:label class="inline">Title: </xf:label>
+                            </xf:input>
+                            <br/>
+                            <xf:input ref="instance('i-add-bibl')//tei:citedRange" class="input-md">
+                                <xf:label class="inline">Cited Range: </xf:label>
+                            </xf:input>
+                            <br/>
+                            <xf:input ref="instance('i-add-bibl')//tei:citedRange/@unit" class="input-md">
+                                <xf:label class="inline">Cited Range Unit: </xf:label>
+                            </xf:input>
+                        </xf:group>
+                    </xf:case>
+                </xf:switch>
+            </div>
+            <div class="modal-footer">
+                <xf:trigger class="btn btn-default modal-close pull-right" appearance="minimal">
+                    <xf:label> </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:hide dialog="new-source"/>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+        </div>
+    </xf:dialog>
+</div>
+                <div>
+    <xf:dialog id="new-name" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <xf:trigger class="btn btn-default modal-close pull-right top" appearance="minimal">
+                    <xf:label> </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:hide dialog="new-name"/>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+            <div class="modal-body" style="background-color:white;">
+                <h4>Search Syriaca.org Person/Place Names:</h4>
+                <xf:group class="input-md input-group">
+                    <xf:input id="search-names" ref="instance('i-search')/q" incremental="true">
+                        <xf:label>Search: </xf:label>
+                        <!-- for each key press send the s1 search out -->
+                        <xf:send submission="s-name-lookup" ev:event="xforms-value-changed" ref="string-length(instance('i-search')/q) &gt; 2" class="input-group-btn"/>
+                    </xf:input>
+                    <xf:select1 ref="instance('i-search')/element" class="inline">
+                        <xf:label> Element:</xf:label>
+                        <xf:item>
+                            <xf:label>Person</xf:label>
+                            <xf:value>persName</xf:value>
+                        </xf:item>
+                        <xf:item>
+                            <xf:label>Place</xf:label>
+                            <xf:value>placeName</xf:value>
+                        </xf:item>
+                    </xf:select1>
+                </xf:group>
+                <xf:select1 ref="instance('i-selected')/tei:TEI/child::*/@ref" appearance="full" class="checkbox select-group">
+                    <xf:itemset ref="instance('i-search-results')/tei:TEI">
+                        <xf:label ref="child::*"/>
+                        <xf:value ref="child::*/@ref"/>
+                    </xf:itemset>
+                     <!-- Insert selected element into i-selected, delete place holder node -->
+                    <xf:action ev:event="xforms-value-changed">
+                        <xf:setvalue ref="instance('i-add-name')/@ref" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
+                        <xf:setvalue ref="instance('i-add-name')" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]"/>
+                    </xf:action>
+                </xf:select1>
+                <xf:group class="horiz-tab-menu">
+                    <xf:trigger appearance="minimal" class="tabs view">
+                        <xf:label>View Selection </xf:label>
+                        <xf:toggle case="view-selected-names" ev:event="DOMActivate"/>
+                    </xf:trigger>
+                    <xf:trigger class="btn save" appearance="minimal">
+                        <xf:label> Add to Document </xf:label>
+                        <xf:setvalue ref="instance('i-add-name')/@ref" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
+                         <!--<xf:insert ev:event="DOMActivate" ref="tei:name" origin="instance('i-add-name')"/>-->
+                         <!--<xf:wrap control="t" pre="<persName ref="{instance('i-add-name')/@ref}">" post="</persName>"/>-->
+                        <xf:message level="modal" ev:event="DOMActivate">Saved!</xf:message>
+                    </xf:trigger>
+                </xf:group>
+                <xf:switch id="review-names" class="tab-panel">
+                    <xf:case id="view-selected-names" selected="true()">
+                        <xf:group class="view" ref="instance('i-add-name')">
+                            <xf:output ref=".">
+                                <xf:label>Name: </xf:label>
+                            </xf:output>
+                            <br/>
+                            <xf:output ref="@ref">
+                                <xf:label>ID: </xf:label>
+                            </xf:output>
+                        </xf:group>
+                    </xf:case>
+                </xf:switch>
+            </div>
+            <div class="modal-footer">
+                <xf:trigger class="btn btn-default modal-close pull-right" appearance="minimal">
+                    <xf:label> </xf:label>
+                    <xf:action ev:event="DOMActivate">
+                        <xf:hide dialog="new-name"/>
+                        <!--<xf:setvalue ref="instance('i-selected')/tei:TEI/child::*/@ref" value="''"/>-->
+                        <xf:setvalue ref="instance('i-search-results')/tei:TEI" value="''"/>
+                    </xf:action>
+                </xf:trigger>
+            </div>
+        </div>
+    </xf:dialog>
+</div>
+            </xf:group>
+        </div>
+    </body>
+</html>

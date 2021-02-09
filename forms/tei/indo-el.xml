@@ -1,0 +1,7 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <!-- Review and delete bibl records -->
+    <xf:repeat ref="tei:idno" id="idno-edit" class="well">
+        <xf:label>Related URI's</xf:label>
+        <xf:input ref="."/>
+    </xf:repeat>
+</div>

@@ -1,0 +1,65 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    
+            <!-- Need to work on more complex location element -->
+    <xf:repeat ref="tei:location" id="new-location">
+        <fieldset>
+            <legend> 
+                    Location
+                    <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+            
+
+            <!-- Coords  -->
+                <xf:input ref="tei:geo">
+                    <xf:label>Coordinates</xf:label>
+                </xf:input>
+
+            <!-- Type = relative -->
+                <xf:textarea ref="self::*[@type='relative'][tei:desc]" class="large">
+                    <xf:label>Location:</xf:label>
+                </xf:textarea>
+                <xf:group ref="self::*[@type='nested']">
+                    <xf:label>Nested Location:</xf:label>
+                <!--affiliation bloc country district geo geogFeat geogName offset placeName region settlement-->
+                    <xf:repeat ref="tei:region" id="new-region">
+                        <xf:input ref="." class="md">
+                            <xf:label>Region:</xf:label>
+                        </xf:input>
+                        <xf:trigger appearance="minimal" class="btn add">
+                            <xf:label>Region</xf:label>
+                            <xf:insert ev:event="DOMActivate" ref="." origin="instance('i-location')//tei:location[@type = 'nested']/tei:region"/>
+                        </xf:trigger>
+                    </xf:repeat>
+                </xf:group>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+            <!-- Nested  -->
+            <!-- This should be a lookup function, to add names and uris as needed. -->
+            </div>
+        </fieldset>
+    </xf:repeat>
+</div>

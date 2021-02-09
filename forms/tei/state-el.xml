@@ -1,0 +1,100 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:tei="http://www.tei-c.org/ns/1.0" class="tei-element">
+        <!-- NOTE will need to indicate if it is a headword? -->
+    <xf:repeat ref="tei:state" id="new-state">
+        <fieldset>
+            <legend> 
+                State
+                <xf:trigger appearance="minimal" class="btn remove pull-right">
+                    <xf:label/>
+                    <xf:delete ev:event="DOMActivate" ref="."/>
+                </xf:trigger>
+            </legend>
+            <div class="panel">
+                <xf:textarea ref="tei:note" incremental="true"/>
+                <br/>
+                <span>
+    <xf:select1 ref="@source" class="input-small">
+        <xf:label>Source:</xf:label>
+        <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
+            <xf:label ref="tei:title"/>
+            <xf:value ref="@xml:id"/>
+        </xf:itemset>
+    </xf:select1>
+    <!-- Add new source attribute if no source attribute -->
+    <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::*[not(@source)]">
+        <xf:label>source</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+    </xf:trigger>
+    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+    <xf:trigger class="btn btn-default" appearance="minimal">
+        <xf:label>New Source</xf:label>
+        <xf:action ev:event="DOMActivate">
+            <xf:show dialog="new-source"/>
+        </xf:action>
+    </xf:trigger>
+    <!--<button type="text" class="btn btn-link btn-source" data-toggle="modal" data-target="#modal-source">New source</button>-->
+</span>
+                <div>
+    
+    <!-- Note: Need to add deletes for dates as well.  -->
+    <label>Dates:</label>
+    <xf:input ref="@when" class="input-small">
+        <xf:label>When: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@when)]">
+        <xf:label>when</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@when"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@when">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@from" class="input-small">
+        <xf:label>From: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@from)]">
+        <xf:label>from</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@from"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@from">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@to" class="input-small">
+        <xf:label>To: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@to)]">
+        <xf:label>to</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@to"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@to">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notBefore" class="input-small">
+        <xf:label>Not Before: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notBefore)]">
+        <xf:label>notBefore</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notBefore"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notBefore">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+    <xf:input ref="@notAfter" class="input-small">
+        <xf:label>Not After: </xf:label>
+    </xf:input>
+    <xf:trigger class="btn add" appearance="minimal" ref="self::node()[not(@notAfter)]">
+        <xf:label>notAfter</xf:label>
+        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-dates')//tei:date/@notAfter"/>
+    </xf:trigger>
+    <xf:trigger class="btn remove" appearance="minimal" ref="@notAfter">
+        <xf:label/>
+        <xf:delete ev:event="DOMActivate" ref="."/>
+    </xf:trigger>
+</div>
+            </div>
+        </fieldset>
+    </xf:repeat>
+</div>

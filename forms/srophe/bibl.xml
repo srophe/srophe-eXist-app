@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0">
+    <head>
+        <title>Subform</title>
+        <xf:model>
+            <!-- Load TEI record -->
+            <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-rec">
+                <tei:TEI/>
+            </xf:instance>
+        </xf:model>
+    </head>
+    <body>
+        <div class="section">
+            <h2>Work in Progress</h2>
+            <p>Current record URI: <code>
+                    <xf:output value="instance('i-current-uri')//tei:uri"/>
+                </code>
+            </p>
+        </div>
+        <!--
+        <xf:trigger>
+            <xf:label>Subform</xf:label>
+            <xf:action ev:event="DOMActivate">
+                <xf:message>DOMActivate in Subform</xf:message>
+                <xf:unload targetid="subform"/>
+            </xf:action>
+        </xf:trigger>
+        -->
+    </body>
+</html>
