@@ -66,6 +66,11 @@
                     </desc>
                     <note/>
                     <note type="" xml:lang="" source=""/>
+                    <!-- Optional location text and gps -->
+                    <location type="gps" source="">
+                        <lat>LAT</lat>
+                        <long>LONG</long>
+                    </location>
                     <location type="" source="">
                         <!--<desc/>-->
                         <!--
@@ -74,11 +79,7 @@
                         <placeName ref="http://syriaca.org/place/18">Aleppo</placeName>
                         -->
                     </location>
-                    <!-- Optional location text and gps -->
-                    <location type="gps" source="">
-                        <lat>LAT</lat>
-                        <long>LONG</long>
-                    </location>
+                    
                     <!-- much trickier -->
                     
                     <!-- events bind computed dates at creation able to insert place names -->
@@ -128,8 +129,13 @@
                 <gloss xml:lang=""/>
                 <note xml:lang=""/>
                 <note type="" xml:lang=""/>
+                <bibl>
+                    <title></title>
+                </bibl>
                 <listRelation>
                     <relation ref="" active="" passive="" rendition=""/>
+                    <relation ref="foaf:depicts" active="" passive="" rendition="featured"/>
+                    <relation ref="skos:broadMatch" active="" passive=""/>
                 </listRelation>
             </entryFree>
         </body>

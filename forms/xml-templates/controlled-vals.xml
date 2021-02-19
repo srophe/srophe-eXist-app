@@ -1,4 +1,4 @@
-<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:math="http://www.w3.org/1998/Math/MathML" xml:lang="en">
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg" xmlns:math="http://www.w3.org/1998/Math/MathML" xml:lang="en">
     <title>
         <level>
             <item>a</item>
@@ -55,6 +55,15 @@
     <!-- 
     
     -->
+    <broadMatch>
+        <term>Bracketing</term>
+        <term>Building Frame</term>
+        <term>Roofing Tiles</term>
+        <term>Foundations</term>
+        <term>Architectural Ornament</term>
+        <term>Fortification Elements</term>
+        <term>building-type</term>
+    </broadMatch>
     <keywordTypes>
         <type>architectural-feature</type>
         <type>time period</type>
@@ -62,6 +71,10 @@
         <type>building-type</type>
         <type>fortification elements</type>
     </keywordTypes>
+    <placeTypes>
+        <type>schema:LandmarksOrHistoricalBuildings</type>
+        <type>site</type>
+    </placeTypes>
     <notes>
         <type>getty:scopeNote</type>
         <type>Scope Note</type>
