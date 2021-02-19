@@ -68,7 +68,14 @@ declare function local:content-negotiation($exist:path, $exist:resource){
                 </forward>
             </dispatch>
 };
-
+(:
+<div>
+$exist:path {$exist:path}<br/>
+$exist:collection-folders {$exist:collection-folders}<br/>
+$exist:collection-uris {$exist:collection-uris} <br/>
+$exist:record-uris {$exist:record-uris}
+</div>
+:)
 if ($exist:path eq '') then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <redirect url="{request:get-uri()}/"/>
@@ -103,7 +110,7 @@ else if (contains($exist:path,'/api/')) then
         <forward url="{concat('/restxq/srophe', $exist:path)}" absolute="yes"/>
     </dispatch>
 
-else if(replace($exist:path, $exist:resource,'') =  $exist:collection-folders) then
+else if(replace($exist:path, $exist:resource,'') = $exist:record-uris) then
     (: Passes data to content negotiation module:)
     if(request:get-parameter('format', '') != '' and request:get-parameter('format', '') != 'html') then
         local:content-negotiation($exist:path, $exist:resource)
