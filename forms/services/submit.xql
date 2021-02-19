@@ -20,6 +20,11 @@ declare option output:media-type "text/xml";
 (: Any post processing to TEI form data happens here :)
 declare function local:transform($nodes as node()*) as item()* {
   for $node in $nodes
+  let $type := if($node/ancestor::tei:TEI/descendant::tei:body/tei:entryFree) then'keyword'  else 'place' 
+  let $generateID := $node/ancestor::tei:TEI/descendant::tei:body/child::*[1]/tei:idno[@type='URI'][not(empty(.))][1]
+  let $URI := if(starts-with($generateID, $config:base-uri)) then $generateID 
+              else concat($config:base-uri,'/',$type,'/',$generateID)
+  let $id := tokenize($URI,'/')[last()] 
   return 
     typeswitch($node)
         case processing-instruction() return $node 
@@ -45,11 +50,10 @@ declare function local:transform($nodes as node()*) as item()* {
                         'Record created by Architectura Sinica webforms'
                     }
             else local:passthru($node)
-        case element(tei:idno) return
-            let $URI := if($config:base-uri,$node/ancestor::tei:TEI/descendant::tei:entryFree) then
-                            concat($config:base-uri,'/keyword/',$node/ancestor::tei:TEI/descendant::tei:entryFree/@xml:id)
-                        else $node/ancestor::tei:TEI/descendant::tei:body/child::*[1]/@xml:id
-            return                         
+        case element(tei:entryFree) return
+                element { local-name($node) } 
+                    {($node/@*[. != '' and not(name(.) = 'xml:id')], attribute xml:id  {$id}, local:transform($node/node()))}    
+        case element(tei:idno) return                         
                 if($node/parent::tei:publicationStmt) then
                     element { local-name($node) } 
                         {   $node/@*,
@@ -66,7 +70,7 @@ declare function local:transform($nodes as node()*) as item()* {
             if($node/parent::tei:person) then 
                   element { local-name($node) } 
                     {   $node/@*[. != '' and not(name(.) = 'xml:id')],
-                        attribute xml:id { concat('name',tokenize($node/ancestor::tei:TEI/descendant::tei:idno[1],'/')[5],'-',
+                        attribute xml:id { concat('name',$id,'-',
                         count($node/preceding-sibling::*[local-name(.) = 'persName']) + 1) },
                         local:transform($node/node())
                     }
@@ -78,18 +82,30 @@ declare function local:transform($nodes as node()*) as item()* {
                   element { local-name($node) } 
                     {   $node/@*[. != '' and not(name(.) = 'xml:id')],
                         attribute xml:id { 
-                        concat('name',tokenize($node/ancestor::tei:TEI/descendant::tei:idno[1],'/')[5],'-',
+                        concat('name',$id,'-',
                         count($node/preceding-sibling::*[local-name(.) = 'placeName']) + 1) },
                         local:transform($node/node())
                     }
             else 
-                element { local-name($node) } 
-                    {($node/@*[. != ''], local:transform($node/node()))}
+                element { local-name($node) } {($node/@*[. != ''], local:transform($node/node()))}
+        case element(tei:relation) return
+                if($node[@ref="foaf:depicts"]) then 
+                    element { local-name($node) } {($node/@*[. != ''], attribute passive {$URI}, local:transform($node/node()))}
+                else if($node[@ref="skos:broadMatch"]) then
+                    element { local-name($node) } {($node/@*[. != ''], attribute active {$URI}, local:transform($node/node()))}
+                else 
+                    element { local-name($node) } {($node/@*[. != ''], 
+                        if($node/@active = '') then  
+                           attribute active {$URI} 
+                        else if($node/@passive = '') then  
+                            attribute passive {$URI} 
+                       else (),
+                       local:transform($node/node()))}
         case element(tei:term) return
             if($node/parent::tei:entryFree) then 
                   element { local-name($node) } 
                     {   $node/@*[. != '' and not(name(.) = 'xml:id')],
-                        attribute xml:id { concat('term-',$node/parent::tei:entryFree/@xml:id,'-',
+                        attribute xml:id { concat('term-',$id,'-',
                         count($node/preceding-sibling::*[local-name(.) = 'term']) + 1) },
                         local:transform($node/node())
                     }
@@ -101,7 +117,7 @@ declare function local:transform($nodes as node()*) as item()* {
                   element { local-name($node) } 
                     {   $node/@*[. != '' and not(name(.) = 'xml:id')],
                         attribute xml:id { 
-                        concat('name',tokenize($node/ancestor::tei:TEI/descendant::tei:idno[1],'/')[5],'-',
+                        concat('name',$id,'-',
                         count($node/preceding-sibling::*[local-name(.) = 'title']) + 1) },
                         local:transform($node/node())
                     }
@@ -128,7 +144,7 @@ declare function local:transform($nodes as node()*) as item()* {
             element { local-name($node) } 
                     {   $node/@*[. != '' and not(name(.) = 'xml:id')],
                         attribute xml:id { 
-                        concat('bibl',tokenize($node/ancestor::tei:TEI/descendant::tei:idno[1],'/')[5],'-',
+                        concat('bibl',$id,'-',
                         count($node/preceding-sibling::*[local-name(.) = 'bibl']) + 1) },
                         local:transform($node/node())
                     }

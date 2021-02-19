@@ -1,6 +1,6 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xf="http://www.w3.org/2002/xforms" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xf="http://www.w3.org/2002/xforms">
     <head>
-        <title>Syriaca.org Place Editor</title>
+        <title>Keyword Editor</title>
         <meta name="author" content="wsalesky at gmail.com"/>
         <meta name="description" content="Edit TEI Place records"/>
         <link rel="stylesheet" type="text/css" href="../resources/bootstrap/css/bootstrap.min.css"/>
@@ -41,7 +41,7 @@
             <xf:instance id="i-search">
                 <root xmlns="">
                     <q/>
-                    <idno>http://syriaca.org/bibl/</idno>
+                    <idno/>
                     <element/>
                     <type/>
                 </root>
@@ -50,7 +50,7 @@
             <xf:instance xmlns="http://www.tei-c.org/ns/1.0" id="i-search-results">
                 <results>
                     <TEI>
-                        <bibl ref="http://syriaca.org/bibl/">Enter search</bibl>
+                        <bibl ref="">Enter search</bibl>
                     </TEI>
                 </results>
             </xf:instance>
@@ -196,7 +196,7 @@
                                     <div class="tab-pane active" id="names">
                                         <h3>Keyword</h3> 
                                         <div class="form-inline">
-                                            <xf:input ref="@xml:id">
+                                            <xf:input ref="tei:idno[@type='URI']">
                                                 <xf:label>ID</xf:label>
                                             </xf:input>
                                             <xf:trigger class="btn btn-default add" appearance="minimal" ref="self::node()[not(@type)]">
@@ -279,6 +279,60 @@
                                         <xf:trigger class="btn add" appearance="minimal">
                                             <xf:label>New Term</xf:label>
                                             <xf:insert ev:event="DOMActivate" ref="tei:term" at="last()" position="after" origin="instance('i-template')//tei:entryFree/tei:term[1]"/>
+                                        </xf:trigger>
+                                        <br/>
+                                        <h3>Broad Match</h3>
+                                        <xf:repeat ref="tei:listRelation/tei:relation[@ref='skos:broadMatch']" id="new-BroadMatch">
+                                            <fieldset>      
+                                                <!-- Load image if available -->
+                                                <div class="form-inline">
+                                                    <xf:select1 ref="@passive">
+                                                        <xf:label>Term</xf:label>
+                                                        <xf:item>
+                                                            <xf:label>--- Select Term ---</xf:label>
+                                                            <xf:value/>
+                                                        </xf:item>
+                                                        <xf:itemset ref="instance('i-ctr-vals')//tei:broadMatch/tei:term">
+                                                            <xf:label ref="."/>
+                                                            <xf:value ref="."/>
+                                                        </xf:itemset>
+                                                    </xf:select1>
+                                                    <xf:trigger appearance="minimal" class="btn remove pull-right">
+                                                        <xf:label/>
+                                                        <xf:delete ev:event="DOMActivate" ref="."/>
+                                                    </xf:trigger>
+                                                </div>
+                                            </fieldset>
+                                        </xf:repeat>
+                                        <xf:trigger class="btn add" appearance="minimal">
+                                            <xf:label>New Broad Matc</xf:label>
+                                            <xf:insert ev:event="DOMActivate" ref="tei:listRelation/tei:relation" at="last()" position="after" origin="instance('i-template')//tei:entryFree/tei:listRelation/tei:relation[@ref='skos:broadMatch']"/>
+                                        </xf:trigger>
+                                        <br/>
+                                        <h3>Featured Image
+                                            <a class="togglelink link btn-sm btn-info pull-right" style="margin-top:0;" data-toggle="collapse" data-target="#image-instructions" href="#image-instructions" data-text-swap="Show Instructions"> 
+                                                Instructions </a>
+                                        </h3>
+                                        <div class="collapse in alert alert-warning" id="image-instructions">
+                                            <p>This URL should be the full URL to the image, example: https://farm5.staticflickr.com/4099/4822349222_4b4b990726_z.jpg</p>
+                                        </div>
+                                        <xf:repeat ref="tei:listRelation/tei:relation[@ref='foaf:depicts']" id="new-featuredImage">
+                                            <fieldset>      
+                                                <!-- Load image if available -->
+                                                <div class="form-inline">
+                                                    <xf:input ref="@active">
+                                                        <xf:label>Image URL:</xf:label>
+                                                    </xf:input>
+                                                    <xf:trigger appearance="minimal" class="btn remove pull-right">
+                                                        <xf:label/>
+                                                        <xf:delete ev:event="DOMActivate" ref="."/>
+                                                    </xf:trigger>
+                                                </div>
+                                            </fieldset>
+                                        </xf:repeat>
+                                        <xf:trigger class="btn add" appearance="minimal">
+                                            <xf:label>New Image</xf:label>
+                                            <xf:insert ev:event="DOMActivate" ref="tei:listRelation/tei:relation" at="last()" position="after" origin="instance('i-template')//tei:entryFree/tei:listRelation/tei:relation[@ref='foaf:depicts']"/>
                                         </xf:trigger>
                                     </div>
                                     <div class="tab-pane" id="desc">
@@ -399,36 +453,46 @@
                                                 Instructions </a>
                                         </h3>
                                         <div class="collapse in alert alert-warning" id="sources-instructions">
-                                            <p>If you would like to add an information source (e.g. an archival document, a published document, an ethnographic citation), then simply click New Source and add the citation information. We will standardize the information, but be as complete as possible.</p>
+                                            <p>If you would like to add an information source (e.g. an archival document, a published document, 
+                                                an ethnographic citation), then simply click New Source and add the citation information. 
+                                                Sources can be added as a text citation or as a link to a source in the existing bibliography. To link to an existing source
+                                                please use the "Find source" button.</p>
                                         </div>
                                         <div>
                                             <!-- Review and delete bibl records -->
                                             <xf:repeat ref="tei:bibl">
                                                 <fieldset>
                                                         <xf:repeat ref="tei:title" id="source-view-title">
-                                                            <xf:output ref=".">
+                                                            <xf:input ref=".">
                                                                 <xf:label class="inline">Title: </xf:label>
-                                                            </xf:output>
-                                                            <xf:output ref="@level">
+                                                            </xf:input>
+                                                            <xf:input ref="@level">
                                                                 <xf:label class="inline">Level: </xf:label>
-                                                            </xf:output>
+                                                            </xf:input>
                                                         </xf:repeat>
                                                         <xf:repeat ref="tei:author" id="source-view-auth">
-                                                            <xf:output ref=".">
+                                                            <xf:input ref=".">
                                                                 <xf:label class="inline">Author: </xf:label>
-                                                            </xf:output>
+                                                            </xf:input>
                                                         </xf:repeat>
                                                         <xf:repeat ref="tei:editor" id="source-view-editor">
-                                                            <xf:output ref=".">
+                                                            <xf:input ref=".">
                                                                 <xf:label class="inline">Editor: </xf:label>
-                                                            </xf:output>
+                                                            </xf:input>
                                                         </xf:repeat>
-                                                    
+                                                    <xf:trigger appearance="minimal" class="btn remove pull-right">
+                                                        <xf:label/>
+                                                        <xf:delete ev:event="DOMActivate" ref="."/>
+                                                    </xf:trigger>
                                                 </fieldset>
                                             </xf:repeat>
                                         </div>
                                         <xf:trigger class="btn add" appearance="minimal">
-                                            <xf:label>New Source</xf:label>
+                                            <xf:label>New source</xf:label>
+                                            <xf:insert ev:event="DOMActivate" ref="child::*" origin="instance('i-template')//tei:entryFree/tei:bibl[1]"/>
+                                        </xf:trigger>
+                                        <xf:trigger class="btn add" appearance="minimal">
+                                            <xf:label>Find source</xf:label>
                                             <xf:action ev:event="DOMActivate">
                                                 <xf:show dialog="new-source"/>
                                             </xf:action>
