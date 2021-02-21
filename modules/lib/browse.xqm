@@ -94,18 +94,15 @@ declare function browse:display-hits($hits,$collection){
         if($browse:lang != 'en' and $browse:lang != 'syr' and $browse:lang != '') then 
             <span class="sort-title" lang="{$browse:lang}" xml:lang="{$browse:lang}">
             {(if($browse:lang='ar') then attribute dir { "rtl" } else (), 
-                (:
-                if($collection = 'places') then 
-                    tei2html:tei2html($hit//tei:placeName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())])
-                else if($collection = 'persons' or $collection = 'sbd' or $collection = 'q' ) then
-                    tei2html:tei2html($hit//tei:persName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())])
-                else tei2html:tei2html($hit//tei:title[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())])
-                :) 
                 if($browse:lang='ar') then ft:field($hit, "titleArabic")[matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())]
-                else ft:field($hit, "title")[matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())]
+                else if($collection = 'places') then 
+                    tei2html:tei2html($hit//tei:placeName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
+                else if($collection = 'persons' or $collection = 'sbd' or $collection = 'q' ) then
+                    tei2html:tei2html($hit//tei:persName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
+                else tei2html:tei2html($hit//tei:title[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
                 )}
             </span> 
-        else () 
+        else ()
     let $uri := replace($hit/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
     return 
         <div xmlns="http://www.w3.org/1999/xhtml" class="result">

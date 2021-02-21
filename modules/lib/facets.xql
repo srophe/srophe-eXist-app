@@ -492,7 +492,7 @@ declare function sf:field-title($element as item()*, $name as xs:string){
         return sf:build-sort-string(concat($en, if($syr != '') then  concat(' - ', $syr) else ()))       
     else if($element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct) then 
         for $title in $element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct/descendant::tei:title
-        return sf:build-sort-string($title)
+        return sf:build-sort-string($title)         
     else sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:title[1])
 };
 
@@ -530,6 +530,12 @@ declare function sf:field-titleArabic($element as item()*, $name as xs:string){
     else if($element/descendant::tei:place/tei:placeName[@xml:lang = 'ar']) then 
         for $title in $element/descendant::tei:place/tei:placeName[@xml:lang = 'ar']
         return sf:build-sort-string-arabic($title)
+    else if($element/descendant::tei:bibl/tei:title[@xml:lang = 'ar']) then 
+        for $title in $element/descendant::tei:bibl/tei:title[@xml:lang = 'ar']
+        return sf:build-sort-string-arabic($title)
+    else if($element/descendant::tei:teiHeader/tei:title[@xml:lang = 'ar']) then 
+        for $title in $element/descendant::tei:teiHeader/tei:title[@xml:lang = 'ar']
+        return sf:build-sort-string-arabic($title)           
     else ()
 };
 

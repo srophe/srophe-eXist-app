@@ -67,9 +67,7 @@ declare %templates:wrap function app:record-title($node as node(), $model as map
     let $data := $model("hits")
     return 
         if(request:get-parameter('id', '')) then
-           if(contains($data/descendant::tei:titleStmt[1]/tei:title[1]/text(),' — ')) then
-                substring-before($data/descendant::tei:titleStmt[1]/tei:title[1],' — ')
-           else $data/descendant::tei:titleStmt[1]/tei:title[1]/text()
+            $data/descendant::tei:titleStmt[1]/tei:title[1]/text()
         else if($collection != '') then
             string(config:collection-vars($collection)/@title)
         else $config:app-title

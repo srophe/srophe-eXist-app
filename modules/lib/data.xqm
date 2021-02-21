@@ -130,6 +130,7 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
     let $sort := 
         if(request:get-parameter('sort', '') != '') then request:get-parameter('sort', '') 
         else if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
+        else if(request:get-parameter('element', '') != '') then request:get-parameter('element', '')
         else ()             
     let $collection-path := 
         if(config:collection-vars($collection)/@data-root != '') then concat('/',config:collection-vars($collection)/@data-root)
@@ -149,8 +150,16 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
             and request:get-parameter('alpha-filter', '') != 'ALL'
             and request:get-parameter('alpha-filter', '') != 'all') then
                 for $hit in $hits
-                let $s := 
-                    if(contains($sort, 'author')) then ft:field($hit, "author")[1]
+                let $s :=
+                    if(request:get-parameter('view', '') = 'A-Z') then
+                        data:add-sort-options-bibl($hit, $sort)
+                    else if(request:get-parameter('view', '') = 'ܐ-ܬ') then
+                        data:add-sort-options-bibl($hit, $sort)
+                    else if(request:get-parameter('view', '') = 'ا-ي') then
+                        data:add-sort-options-bibl($hit, $sort)
+                    else if(request:get-parameter('view', '') = 'other') then
+                        data:add-sort-options-bibl($hit, $sort)
+                    else if(contains($sort, 'author')) then ft:field($hit, "author")[1]                        
                     else if(contains($sort, 'title') or contains($sort, 'headword')) then 
                          if(request:get-parameter('lang', '') = 'syr') then ft:field($hit, "titleSyriac")[1]
                          else if(request:get-parameter('lang', '') = 'ar') then ft:field($hit, "titleArabic")[1]
