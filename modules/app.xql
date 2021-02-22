@@ -740,8 +740,57 @@ return
  : Return teiHeader info to be used in citation used for Syriaca.org bibl module
 :)
 declare %templates:wrap function app:ba-counter($node as node(), $model as map(*)){
-    <div class="counter well">
-        <i class="glyphicon glyphicon glyphicon-info-sign"/>&#160;{count(collection($config:data-root)//tei:TEI)} out of 1546 online
+let $url := concat($config:get-config//*:zotero-group-api/text(),'/items/top?limit=1')
+let $zotero := http:send-request(<http:request http-version="1.1" href="{xs:anyURI($url)}" method="get"/>)[1]
+let $total := xs:integer($zotero/http:header[@name='total-results']/@value)  
+let $online := count(collection($config:data-root)//tei:TEI)
+let $in-process := $total - $online
+let $percent := round(($online div $total) * 100)
+return 
+    <div class="status row">
+        <div class="col-md-4 column"> 
+            <div class="darker">
+                <span class="count text">{$online}</span>
+                <span class="label">Entries online</span>
+            </div>
+        </div>
+        <div class="col-md-4"> 
+            <div class="darker">
+                <span class="count text">{$in-process}</span> 
+                <span class="label">Entries in process</span>
+            </div>
+        </div>
+        <div class="col-md-4"> 
+            <div class="lighter">
+            <span class="count">
+                <div id="canvas status-circles">
+            		<div class="circle" id="circles-1" data-percent="{$percent}"></div>
+            	</div>
+        	</span>
+        	<span class="label">Complete</span>
+        	</div> 	
+       </div>
+        <script type="text/javascript" src="{$config:nav-base}/resources/js/circles.min.js"/>
+        <script type="text/javascript">
+            <![CDATA[
+              var myCircle = Circles.create({
+                id:                  'circles-1',
+                radius:              35,
+                value:               ]]>{$percent}<![CDATA[,
+                maxValue:            100,
+                width:               2,
+                text:                function(value){return value + '%';},
+                colors:              ['#FCE6A4', '#EFB917'],
+                duration:            400,
+                wrpClass:            'circles-wrp',
+                textClass:           'circles-text',
+                valueStrokeClass:    'circles-valueStroke',
+                maxValueStrokeClass: 'circles-maxValueStroke',
+                styleWrapper:        true,
+                styleText:           true
+              });
+         ]]>
+        </script>
     </div>
 };
 
