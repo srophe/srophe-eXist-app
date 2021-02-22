@@ -81,7 +81,7 @@ let $form-doc := local:insert-element($form-doc, $form-description, 'iframe', 'r
 let $dummy := request:set-attribute("betterform.filter.ignoreResponseBody", "true")
 let $xslt-pi := processing-instruction xml-stylesheet {'type="text/xsl" href="/exist/rest/db/apps/xsltforms/xsltforms.xsl"'}
 let $css-pi := processing-instruction css-conversion {'no'}
-let $debug := processing-instruction xsltforms-options {'debug="no"'}
+let $debug := processing-instruction xsltforms-options {'debug="yes"'}
 (: Server side variables :)
 let $transform := doc('/exist/rest/db/apps/xsltforms/xsltforms.xsl')
 let $params :=

@@ -75,6 +75,13 @@
         <type>schema:LandmarksOrHistoricalBuildings</type>
         <type>site</type>
     </placeTypes>
+    <placeSubTypes>
+        <type>building-type</type>
+        <type>site-type</type>
+    </placeSubTypes>
+    <dynasties>
+        <dynasty/>
+    </dynasties>
     <notes>
         <type>getty:scopeNote</type>
         <type>Scope Note</type>
