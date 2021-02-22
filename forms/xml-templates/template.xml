@@ -64,7 +64,7 @@
                     <desc xml:lang="">
                         <quote source=""/>
                     </desc>
-                    <note/>
+                    <note type="" xml:lang=""/>
                     <note type="" xml:lang="" source=""/>
                     <!-- Optional location text and gps -->
                     <location type="gps" source="">
@@ -122,6 +122,13 @@
                 <!-- relations?
                 <relation name="contained" active="http://syriaca.org/place/145 http://syriaca.org/place/166" passive="#place-78" source="#bib78-1" to="0363"/>
                 -->
+                <listRelation>
+                    <relation ref="" active="" passive="" rendition=""/>
+                    <relation ref="foaf:depicts" active="" passive="" rendition="featured"/>
+                    <relation ref="dcterms:subject" active="" passive="" rendition="featured"/>
+                    <relation ref="schema:containedInPlace" active="" passive=""/>
+                    <relation ref="dcterms:temporal" active="" passive="" ana="dynasty"/>
+                </listRelation>
             </listPlace>
             <entryFree xml:id="k00000x" type="">
                 <term xml:id="term-x" xml:lang="x"/>
@@ -130,7 +137,7 @@
                 <note xml:lang=""/>
                 <note type="" xml:lang=""/>
                 <bibl>
-                    <title></title>
+                    <title/>
                 </bibl>
                 <listRelation>
                     <relation ref="" active="" passive="" rendition=""/>

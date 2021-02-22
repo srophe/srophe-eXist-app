@@ -27,11 +27,17 @@ let $hits :=
             else if($q != '') then
                 collection($config:data-root || '/bibl/')//tei:title[ft:query(., $q,local:options())]
             else  <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">No Match</TEI>
-        else <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">No Match</TEI>
+        else collection($config:data-root)//tei:title[ft:query(., $q,local:options())]
 for $hit in $hits
 let $id := replace($hit/ancestor-or-self::tei:TEI/descendant::tei:publicationStmt/descendant::tei:idno[starts-with(.,$config:base-uri)],'/tei','')
-let $string := if($hit/child::*) then string-join($hit/child::*/text(),' ') else $hit/text() 
+let $string := if($hit/child::*) then string-join($hit//text(),' ') else $hit/text() 
 let $title := $hit/ancestor-or-self::tei:TEI/descendant::tei:title[1]
+let $recType := 
+    if($hit/ancestor-or-self::tei:TEI/descendant::tei:entryFree) then
+        $hit/ancestor-or-self::tei:TEI/descendant::tei:entryFree/@type
+    else if($hit/ancestor-or-self::tei:TEI/descendant::tei:listPlace) then
+        $hit/ancestor-or-self::tei:TEI/descendant::tei:place/@type
+    else()
 return 
         <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
             {
@@ -41,10 +47,11 @@ return
                     {$title//text()}
                 </title>
             else
-             element { local-name($hit) } { 
-                attribute ref { $id }, 
-                $string
-                }
+                element { local-name($hit) } { 
+                    attribute ref { $id }, attribute type { $recType }, 
+                    $string
+                    }
+             
             }
         </TEI>
         }
