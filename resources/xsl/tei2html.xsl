@@ -124,10 +124,10 @@
                 <xsl:value-of select="string(/*/@id)"/>
             </xsl:when>
             <xsl:when test="/descendant::t:publicationStmt/t:idno[@type='URI'][starts-with(.,$base-uri)]">
-               <xsl:value-of select="replace(replace(/descendant::t:publicationStmt/t:idno[@type='URI'][starts-with(.,$base-uri)][1],'/tei',''),'/source','')"/>
+               <xsl:value-of select="replace(replace(/descendant::t:publicationStmt[1]/t:idno[@type='URI'][starts-with(.,$base-uri)][1],'/tei',''),'/source','')"/>
             </xsl:when>
             <xsl:when test="/descendant::t:publicationStmt/t:idno[@type='URI']">
-                <xsl:value-of select="replace(replace(/descendant::t:publicationStmt/t:idno[@type='URI'][1],'/tei',''),'/source','')"/>
+                <xsl:value-of select="replace(replace(/descendant::t:publicationStmt[1]/t:idno[@type='URI'][1],'/tei',''),'/source','')"/>
             </xsl:when>
             <xsl:when test="/descendant::t:idno[@type='URI'][starts-with(.,$base-uri)]">
                 <xsl:value-of select="replace(replace(/descendant::t:idno[@type='URI'][starts-with(.,$base-uri)][1],'/tei',''),'/source','')"/>

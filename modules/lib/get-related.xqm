@@ -14,7 +14,7 @@ declare namespace html="http://www.w3.org/1999/xhtml";
 declare function rel:get-related($uris as xs:string?) as map(xs:string, function(*)){
     let $map := map{}
     return map:merge(
-        for $uri at $i in tokenize($uris,' ')
+        for $uri at $i in distinct-values(tokenize($uris,' '))
         let $data := data:get-document($uri)
         where not(empty($data))
         return map:put($map, $uri, $data)) 
@@ -25,10 +25,10 @@ declare function rel:get-related($uris as xs:string?) as map(xs:string, function
  : Get related record names
 :)
 declare function rel:get-names($uris as xs:string*,$related-map) {
-    let $count := count(tokenize(string-join($uris,' '),' '))
-    for $uri at $i in tokenize($uris,' ')
+    let $count := count(distinct-values(tokenize(string-join($uris,' '),' ')))
+    for $uri at $i in distinct-values(tokenize($uris,' '))
     let $rec :=  $related-map($uri)
-    let $name := $rec/descendant::tei:titleStmt[1]/tei:title[1]/text()[1]
+    let $name := $rec[1]/descendant::tei:titleStmt[1]/tei:title[1]/text()[1]
     let $name := if(contains($name, '—')) then substring-before($name,'—') else $name
     let $name := if($name = ('',' ')) then string-join($rec/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][starts-with(@xml:lang,'en')]/text(),' ') else $name
     (:where not(empty($rec)):)
@@ -190,31 +190,31 @@ declare function rel:build-relationships($node as item()*,$idno as xs:string?, $
                             let $relationship-type := rel:translate-relationship-type($relationship)
                             let $data-type := if(contains($names,'/keyword/')) then 'keyword(s)' else 'records'
                             return 
-                                (<span class="relationship-type">{rel:get-names($idno, $related-map)}&#160;{$relationship-type} ({$count}) {$data-type}.</span>,
-                                 <div class="indent">
-                                 {(
-                                 for $r in subsequence(tokenize($names,' ')[not(. = $idno)],1,2)
-                                 let $data := $related-map($r)
-                                 where not(empty($data))
-                                 return tei2html:summary-view($data, '', $r),
-                                 if($count gt 2) then
-                                        <span>
-                                            <span class="collapse" id="showRel-{$rel-id}">{
-                                                for $r in subsequence(tokenize($names,' ')[not(. = $idno)],3,$count)
-                                                let $data := $related-map($r)
-                                                return tei2html:summary-view($data, '', $r)
-                                            }</span>
-                                            <a class="togglelink btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="collapse" data-target="#showRel-{$rel-id}" data-text-swap="Hide"> See all {$count} &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
-                                        </span>
-                                    else ()
-                                 )}</div>
-                                )
+                                <div>
+                                    <span class="relationship-type">{rel:get-names($idno, $related-map)}&#160;{$relationship-type} ({$count}) {$data-type}.</span>
+                                    <div class="indent">{
+                                        for $r in subsequence(distinct-values(tokenize($names,' '))[not(. = $idno)],1,2)
+                                        let $data := $related-map($r)
+                                        where not(empty($data))
+                                        return tei2html:summary-view($data, '', $r),
+                                        if($count gt 2) then
+                                               <span>
+                                                   <span class="collapse" id="showRel-{$rel-id}">{
+                                                       for $r in subsequence(tokenize($names,' ')[not(. = $idno)],3,$count)
+                                                       let $data := $related-map($r)
+                                                       return tei2html:summary-view($data, '', $r)
+                                                   }</span>
+                                                   <a class="togglelink btn btn-info" style="width:100%; margin-bottom:1em;" data-toggle="collapse" data-target="#showRel-{$rel-id}" data-text-swap="Hide"> See all {$count} &#160;<i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                                               </span>
+                                           else ()
+                                    }</div>
+                                </div> 
                          else <div>{
                             for $r in $related 
                             return <p>{rel:relationship-sentence($r,$related-map)}</p>
                             }</div>    
-                     } catch * { (:$related:)concat($err:code, ": ", $err:description) }   
-            )}
+                     } catch * { (:$related:)concat($err:code, ": ", $err:description) } 
+        )}
         </div>
     </div>
 };
