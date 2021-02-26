@@ -152,13 +152,17 @@
                 </div>
                 <div id="collapseUserDetails" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <xf:group ref="instance('i-rec')//tei:change[1]">
+                        <xf:group ref="instance('i-rec')//tei:respStmt[1]">
                             <xf:input ref="tei:name">
                                 <xf:label>Your Name: </xf:label>
                                 <xf:alert>This is a required field.</xf:alert>
                             </xf:input>
                             <xf:input ref="tei:email">
                                 <xf:label>Your email: </xf:label>
+                                <xf:alert>This is a required field.</xf:alert>
+                            </xf:input>
+                            <xf:input ref="tei:resp">
+                                <xf:label>Editor Role: </xf:label>
                                 <xf:alert>This is a required field.</xf:alert>
                             </xf:input>
                             <xf:textarea ref="tei:comments">
@@ -231,6 +235,23 @@
                                                     <xf:input ref=".">
                                                         <xf:label>Term</xf:label>
                                                     </xf:input>
+                                                    <xf:trigger class="btn btn-default add btn-sm" appearance="minimal" ref="self::node()[not(@type)]">
+                                                        <xf:label>Type</xf:label>
+                                                        <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-template')//tei:entryFree/tei:term/@type"/>
+                                                    </xf:trigger>
+                                                    <span>
+                                                        <xf:select1 ref="@type">
+                                                            <xf:label>Type</xf:label>
+                                                            <xf:item>
+                                                                <xf:label>--- Select Type ---</xf:label>
+                                                                <xf:value/>
+                                                            </xf:item>
+                                                            <xf:itemset ref="instance('i-ctr-vals')//tei:termTypes/tei:type">
+                                                                <xf:label ref="."/>
+                                                                <xf:value ref="."/>
+                                                            </xf:itemset>
+                                                        </xf:select1>
+                                                    </span>
                                                     <xf:trigger class="btn btn-default add btn-sm" appearance="minimal" ref="self::node()[not(@xml:lang)]">
                                                         <xf:label>Lang</xf:label>
                                                         <xf:insert ev:event="DOMActivate" context="." at="." origin="instance('i-template')//tei:entryFree/tei:term/@xml:lang"/>
@@ -535,7 +556,7 @@
                                                     <!-- Insert selected element into i-selected, delete place holder node -->
                                                     <xf:action ev:event="xforms-value-changed">
                                                         <!-- Error, on setvalue, non numeric bibls?  -->
-                                                        <!--<xf:setvalue ref="instance('i-add-bibl')/@xml:id" value="count(instance('i-rec-id')/tei:body/descendant::tei:bibl) + 1"/>-->
+                                                        <xf:setvalue ref="instance('i-add-bibl')/@xml:id" value="concat('bibl-',count(instance('i-rec')/descendant::tei:body/descendant::tei:bibl) + 1)"/>
                                                         <xf:setvalue ref="instance('i-add-bibl')//tei:ptr/@target" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
                                                         <xf:setvalue ref="instance('i-add-bibl')//tei:title" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]"/>
                                                     </xf:action>

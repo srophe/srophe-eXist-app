@@ -132,10 +132,10 @@
             </listPlace>
             <entryFree xml:id="k00000x" type="">
                 <term xml:id="term-x" xml:lang="x"/>
+                <term xml:id="term-x" xml:lang="" type=""/>
                 <idno type="URI"/>
-                <gloss xml:lang=""/>
-                <note xml:lang=""/>
-                <note type="" xml:lang=""/>
+                <gloss xml:lang="" source=""/>
+                <note type="" xml:lang="" source=""/>
                 <bibl>
                     <title/>
                 </bibl>

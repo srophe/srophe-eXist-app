@@ -9,10 +9,12 @@
         </level>
     </title>
     <langUsage xml:id="tcadrt">
-        <language ident="en">English</language>
-        <language ident="zh-latn-pinyin">Pinyin</language>
+        <language ident="zh-latn-pinyin-nt">Pinyin without tones</language>
         <language ident="zh-Hant">Traditional Chinese</language>
         <language ident="zh-Hans">Simplified Chinese</language>
+        <language ident="zh-latn-pinyin">Pinyin</language>
+        <language ident="zh-latn-wadegile">Wade-Giles</language>
+        <language ident="en">English</language>
     </langUsage>
     <langUsage>
         <language>ar</language>
@@ -71,6 +73,12 @@
         <type>building-type</type>
         <type>fortification elements</type>
     </keywordTypes>
+    <termTypes>
+        <type>ATTCAT_preferred</type>
+        <type>literal-translation</type>
+        <type>preferred</type>
+        <type>variant</type>
+    </termTypes>
     <placeTypes>
         <type>schema:LandmarksOrHistoricalBuildings</type>
         <type>site</type>

@@ -10,8 +10,10 @@
             <editor role="general" ref="#TGM">Tracy Miller</editor>
             <editor role="creator" ref="#TGM">Tracy Miller</editor>
             <respStmt>
-               <resp>Editing, proofreading, data entry and revision by</resp>
-               <name type="person" ref="#TGM">Tracy Miller</name>
+               <resp>Data entry and revision by</resp>
+               <name type="person"/>
+               <email/>
+               <comments/>
             </respStmt>
          </titleStmt>
          <editionStmt>
@@ -33,27 +35,25 @@
       </fileDesc>
       <profileDesc>
          <langUsage>
-            <language ident="en">English</language>
-            <language ident="zh-latn-pinyin">Pinyin</language>
+            <language ident="zh-latn-pinyin-nt">Pinyin without tones</language>
             <language ident="zh-Hant">Traditional Chinese</language>
             <language ident="zh-Hans">Simplified Chinese</language>
+            <language ident="zh-latn-pinyin">Pinyin</language>
+            <language ident="zh-latn-wadegile">Wade-Giles</language>
+            <language ident="en">English</language>
          </langUsage>
       </profileDesc>
       <revisionDesc>
-         <change who="online-submission">
-            <name/>
-            <email/>
-            <comments/>
-         </change>
+         <change who="online-submission"/>
       </revisionDesc>
    </teiHeader>
    <text>
       <body>
          <entryFree xml:id="k00000x" type="">
-            <term xml:id="term-x" xml:lang="x"/>
+            <term xml:id="term-x" xml:lang="" type=""/>
             <idno type="URI"/>
-            <gloss xml:lang="x"/>
-            <note type="" xml:lang=""/>
+            <gloss xml:lang="" source=""/>
+            <note type="" xml:lang="" source=""/>
             <listRelation>
                <relation ref="" active="" passive="" rendition=""/>
             </listRelation>

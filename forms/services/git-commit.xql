@@ -46,15 +46,18 @@ declare namespace json = "http://www.json.org";
 
 (: Set up global varaibles :)
 (: Access git-api configuration file :) 
-
-declare variable $gitcommit:git-config := if(doc('../../config.xml')) then doc('../../config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
+(:
+declare variable $gitcommit:git-config := if(doc('../config.xml')) then doc('../config.xml') else <response status="fail"><message>Load config.xml file please.</message></response>;
 declare variable $gitcommit:repo := $gitcommit:git-config//*:git-submit-repository/text();
 declare variable $gitcommit:authorization-token := $gitcommit:git-config//*:git-submit-token/text();
-    
+:)
+declare variable $gitcommit:repo := 'https://github.com/VandyVRC/tcadrt';
+declare variable $gitcommit:authorization-token := $gitcommit:git-config//*:git-submit-token/text();
+
 declare function gitcommit:step1($data as item()*,$path as xs:string?, $commit-message as xs:string?){
 (: 1. Get a reference to HEAD of branch, master:)
     let $branch :=  
-            http:send-request(<http:request http-version="1.1" href="{xs:anyURI(concat($gitcommit:repo,'/git/refs/heads/master'))}" method="get">
+            http:send-request(<http:request http-version="1.1" href="{xs:anyURI(concat($gitcommit:repo,'/git/refs/heads/development'))}" method="get">
                                 <http:header name="Authorization" value="{concat('token ',$gitcommit:authorization-token)}"/>
                                 <http:header name="Connection" value="close"/>
                               </http:request>)
