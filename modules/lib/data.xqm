@@ -35,14 +35,16 @@ declare function data:get-document() {
                     else $rec/ancestor::tei:TEI
         else if($config:document-id) then 
            for $r in collection($config:data-root)//tei:idno[. = request:get-parameter('id', '')]
-           let $location := document-uri(root($r))
+           let $root := $r/ancestor::tei:TEI
+           let $location := document-uri($root)
            where not(contains($location,'deprecated'))
-           return root($r)
+           return $r/ancestor::tei:TEI
         else 
             for $r in collection($config:data-root)/id(request:get-parameter('id', ''))
-            let $location := document-uri(root($r))
+            let $root := $r/ancestor::tei:TEI
+            let $location := document-uri($root)
             where not(contains($location,'deprecated'))
-            return root($r)
+            return $r/ancestor::tei:TEI
     (: Get document by document path. :)
     else if(request:get-parameter('doc', '') != '') then 
         if(starts-with(request:get-parameter('doc', ''),$config:data-root)) then 
@@ -64,14 +66,16 @@ declare function data:get-document($id as xs:string?) {
     else if(starts-with($id,'http')) then
         if($config:document-id) then 
            for $r in collection($config:data-root)//tei:idno[. = $id]
-           let $location := document-uri(root($r))
+            let $root := $r/ancestor::tei:TEI
+           let $location := document-uri($root)
            where not(contains($location,'deprecated'))
-           return root($r)
+           return $r/ancestor::tei:TEI
         else 
             for $r in collection($config:data-root)/id($id)/ancestor::tei:TEI
-            let $location := document-uri(root($r))
+            let $root := $r/ancestor::tei:TEI
+            let $location := document-uri($root)
             where not(contains($location,'deprecated'))
-            return root($r)
+            return $r/ancestor::tei:TEI
     else if(starts-with($id,$config:data-root)) then 
             doc(xmldb:encode-uri($id || '.xml'))
     else doc(xmldb:encode-uri($config:data-root || "/" || $id || '.xml'))
@@ -153,7 +157,7 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
     let $get-series-idno :=  
             if(config:collection-vars($collection)/@collection-URI != '') then string(config:collection-vars($collection)/@collection-URI)
             else ()     
-    let $eval-string := concat(data:build-collection-path($collection),'[descendant::tei:body[ft:query(., (),sf:facet-query())]]', data:element-filter($element))    
+    let $eval-string := concat(data:build-collection-path($collection),'[descendant::tei:body[ft:query(., (),sf:facet-query())]]')    
     let $hits := util:eval($eval-string)
     (:util:eval(data:build-collection-path($collection))[descendant::tei:body[ft:query(., (),sf:facet-query())]]:)                        
     return 
@@ -255,7 +259,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
         else if($sort-element != '' and $sort-element != 'relevance') then  
             for $hit in util:eval($eval-string)
             order by global:build-sort-string(data:add-sort-options($hit, $sort-element),'')
-            return root($hit)            
+            return $hit/ancestor::tei:TEI
         else if(request:get-parameter('relId', '') != '' and (request:get-parameter('sort-element', '') = '' or not(exists(request:get-parameter('sort-element', ''))))) then
             for $h in $hits
                 let $part := 

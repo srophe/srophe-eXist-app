@@ -95,12 +95,13 @@ declare function browse:display-hits($hits,$collection){
             <span class="sort-title" lang="{$browse:lang}" xml:lang="{$browse:lang}">
             {(if($browse:lang='ar') then attribute dir { "rtl" } else (), 
                 if($browse:lang='ar') then ft:field($hit, "titleArabic")[matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())]
-                else if($collection = 'places') then 
-                    tei2html:tei2html($hit//tei:placeName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
-                else if($collection = 'persons' or $collection = 'sbd' or $collection = 'q' ) then
-                    tei2html:tei2html($hit//tei:persName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
-                else tei2html:tei2html($hit//tei:title[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
-                )}
+                else if($browse:lang != 'en') then 
+                    if($collection = 'places') then 
+                        tei2html:tei2html($hit/descendant::tei:placeName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
+                    else if($collection = 'persons' or $collection = 'sbd' or $collection = 'q' ) then
+                        tei2html:tei2html($hit/descendant::tei:persName[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
+                    else tei2html:tei2html($hit/descendant::tei:title[@xml:lang = $browse:lang][matches(global:build-sort-string(., $browse:lang),global:get-alpha-filter())][1])
+                else())}
             </span> 
         else ()
     let $uri := replace($hit/descendant::tei:publicationStmt/tei:idno[1],'/tei','')
