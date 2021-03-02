@@ -128,6 +128,7 @@ declare function browse:display-map($node as node(), $model as map(*), $collecti
 declare function browse:get-map($hits as node()*){
     if($hits/descendant::tei:body/tei:listPlace/descendant::tei:geo) then 
             maps:build-map($hits[descendant::tei:geo], count($hits))
+            (:
     else if($hits/descendant::tei:relation[contains(@passive,'/place/')]) then
        let $relations := $hits/descendant::tei:relation[contains(@passive,'/place/') or contains(@active,'/place/') or contains(@mutual,'/place/')]
        let $rids := tokenize(string-join(($relations/@passive,$relations/@active,$relations/@mutual),' '),' ')[contains(.,'/place/')]
@@ -164,6 +165,7 @@ declare function browse:get-map($hits as node()*){
                     </div>
                 </div>
              else ()
+    :)             
     else ()
 };
 
@@ -223,8 +225,8 @@ declare function browse:by-type($hits, $collection, $sort-options){
         if($browse:view='type') then
                 (page:pages($hits, $collection, $browse:start, $browse:perpage,'', $sort-options),
                 <h3>{concat(upper-case(substring(request:get-parameter('type', ''),1,1)),substring(request:get-parameter('type', ''),2))}</h3>,
-                <div>{(        
-                    <div class="col-md-12 map-md">{browse:get-map($hits)}</div>,
+                <div>{((:        
+                    <div class="col-md-12 map-md">{browse:get-map($hits)}</div>,:)
                         browse:display-hits($hits,$collection)
                     )}</div>)
             
