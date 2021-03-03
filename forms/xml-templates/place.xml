@@ -7,8 +7,10 @@
                 <principal>Tracy Miller</principal>
                 <editor role="creator" xml:id="TGM">Tracy Miller</editor>
                 <respStmt>
-                    <resp>Editing and proof correction</resp>
-                    <name type="person" ref="#TGM">Tracy Miller</name>
+                    <resp>Data entry and revision by</resp>
+                    <name type="person"/>
+                    <email/>
+                    <comments/>
                 </respStmt>
             </titleStmt>
             <editionStmt>
@@ -38,11 +40,7 @@
             </langUsage>
         </profileDesc>
         <revisionDesc>
-            <change who="online-submission">
-                <name/>
-                <email/>
-                <comments/>
-            </change>
+            <change who="online-submission"/>
         </revisionDesc>
     </teiHeader>
     <text>
@@ -56,8 +54,7 @@
                         <desc xml:lang=""/>
                     </trait>
                 </place>
-                <listRelation>
-                </listRelation>
+                <listRelation/>
             </listPlace>
         </body>
     </text>

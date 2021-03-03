@@ -189,13 +189,17 @@
                 </div>
                 <div id="collapseUserDetails" class="panel-collapse collapse in">
                     <div class="panel-body">
-                        <xf:group ref="instance('i-rec')//tei:change[1]">
+                        <xf:group ref="instance('i-rec')//tei:respStmt[1]">
                             <xf:input ref="tei:name">
                                 <xf:label>Your Name: </xf:label>
                                 <xf:alert>This is a required field.</xf:alert>
                             </xf:input>
                             <xf:input ref="tei:email">
                                 <xf:label>Your email: </xf:label>
+                                <xf:alert>This is a required field.</xf:alert>
+                            </xf:input>
+                            <xf:input ref="tei:resp">
+                                <xf:label>Editor Role: </xf:label>
                                 <xf:alert>This is a required field.</xf:alert>
                             </xf:input>
                             <xf:textarea ref="tei:comments">
@@ -419,11 +423,17 @@
                                                     <xf:select1 ref="@source" class="input-small">
                                                         <xf:label>Source:</xf:label>
                                                         <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
-                                                            <xf:label ref="."/>
+                                                            <xf:label ref="tei:title"/>
                                                             <xf:value ref="@xml:id"/>
                                                         </xf:itemset>
                                                     </xf:select1>
-                                                    <xf:trigger ref="@source" class="btn add" appearance="minimal">
+                                                    <!-- Add new source attribute if no source attribute -->
+                                                    <xf:trigger class="btn btn-default add btn-sm" appearance="minimal" ref="self::*[not(@source)]">
+                                                        <xf:label>source</xf:label>
+                                                        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+                                                    </xf:trigger>
+                                                    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+                                                    <xf:trigger class="btn btn-default add btn-sm" appearance="minimal">
                                                         <xf:label>New Source</xf:label>
                                                         <xf:action ev:event="DOMActivate">
                                                             <xf:show dialog="new-source"/>
@@ -483,11 +493,17 @@
                                                     <xf:select1 ref="@source" class="input-small">
                                                         <xf:label>Source:</xf:label>
                                                         <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
-                                                            <xf:label ref="."/>
+                                                            <xf:label ref="tei:title"/>
                                                             <xf:value ref="@xml:id"/>
                                                         </xf:itemset>
                                                     </xf:select1>
-                                                    <xf:trigger ref="@source" class="btn add" appearance="minimal">
+                                                    <!-- Add new source attribute if no source attribute -->
+                                                    <xf:trigger class="btn btn-default add btn-sm" appearance="minimal" ref="self::*[not(@source)]">
+                                                        <xf:label>source</xf:label>
+                                                        <xf:insert ev:event="DOMActivate" context="." origin="instance('i-source')//tei:source/@source"/>
+                                                    </xf:trigger>
+                                                    <!-- Add new source popup Use xf:dialog (consider subform?) -->
+                                                    <xf:trigger class="btn btn-default add btn-sm" appearance="minimal">
                                                         <xf:label>New Source</xf:label>
                                                         <xf:action ev:event="DOMActivate">
                                                             <xf:show dialog="new-source"/>

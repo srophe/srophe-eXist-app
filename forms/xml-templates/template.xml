@@ -58,13 +58,11 @@
                     <!--Must include 1 english name place type -->
                     <placeName xml:id="nameXXX-X" source=""/>
                     <!-- additional descriptions -->
-                    <desc/>
-                    <desc source="">
+                    <desc xml:lang="" source="">
                     </desc>
-                    <desc xml:lang="">
+                    <desc  xml:lang="" source="">
                         <quote source=""/>
                     </desc>
-                    <note type="" xml:lang=""/>
                     <note type="" xml:lang="" source=""/>
                     <!-- Optional location text and gps -->
                     <location type="gps" source="">
@@ -112,8 +110,7 @@
                     <idno type="URI"/>
                     <!-- add links suggestions?-->
                     <!-- bibl also save to bible data folder? -->
-                    <bibl xml:id="biblx-x"/>
-                    <bibl xml:id="bib78-1">
+                    <bibl xml:id="">
                         <author/>
                         <title level="a" xml:lang="en"/>
                         <citedRange unit="pp"/>
@@ -136,8 +133,10 @@
                 <idno type="URI"/>
                 <gloss xml:lang="" source=""/>
                 <note type="" xml:lang="" source=""/>
-                <bibl>
-                    <title/>
+                <bibl xml:id="">
+                    <author/>
+                    <title level="a" xml:lang="en"/>
+                    <citedRange unit="pp"/>
                 </bibl>
                 <listRelation>
                     <relation ref="" active="" passive="" rendition=""/>
