@@ -31,7 +31,11 @@ let $hits :=
 for $hit in $hits
 let $id := replace($hit/ancestor-or-self::tei:TEI/descendant::tei:publicationStmt/descendant::tei:idno[starts-with(.,$config:base-uri)],'/tei','')
 let $string := if($hit/child::*) then string-join($hit//text(),' ') else $hit/text() 
-let $title := $hit/ancestor-or-self::tei:TEI/descendant::tei:title[1]
+let $title := if($hit/descendant::tei:biblStruct) then $hit/descendant::tei:biblStruct/child::*[1]/tei:title else $hit/ancestor-or-self::tei:TEI/descendant::tei:title
+let $author := 
+            if($hit/descendant::tei:biblStruct/descendant::tei:author[1]) then $hit/descendant::tei:biblStruct/descendant::tei:author[1]
+            else if($hit/descendant::tei:biblStruct/descendant::tei:editor[1]) then $hit/descendant::tei:biblStruct/descendant::tei:editor[1]
+            else if($hit/ancestor-or-self::tei:TEI/descendant::tei:author[1]) then $hit/ancestor-or-self::tei:TEI/descendant::tei:author[1] else if($hit/ancestor-or-self::tei:TEI/descendant::tei:editor[1]) then $hit/ancestor-or-self::tei:TEI/descendant::tei:editor[1] else ()
 let $recType := 
     if($hit/ancestor-or-self::tei:TEI/descendant::tei:entryFree) then
         $hit/ancestor-or-self::tei:TEI/descendant::tei:entryFree/@type
@@ -42,10 +46,14 @@ return
         <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">
             {
             if($type='bibl') then
-                <title>
+                <bibl>
                     {attribute ref { $id }}
-                    {$string}
-                </title>
+                    <title level='citation'>Title: {normalize-space(string-join(($title[matches(.,'^[a-zA-Z]','i')][1]//text(),$title[not(matches(.,'^[a-zA-Z]','i'))][1]//text()),' '))} Author: {normalize-space(string-join($author[1]//text(),' '))}</title>
+                    {$author}
+                    {$title}
+                    <ptr target="{ $id }"/>
+                    <citedRange unit="pp"/>
+                </bibl>
             else
                 element { local-name($hit) } { 
                     attribute ref { $id }, attribute type { $recType }, 

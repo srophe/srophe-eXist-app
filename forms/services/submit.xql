@@ -133,6 +133,16 @@ declare function local:transform($nodes as node()*) as item()* {
                         count($node/preceding-sibling::*[local-name(.) = 'title']) + 1) },
                         local:transform($node/node())
                     }
+            else if($node/parent::tei:bibl[not(parent::tei:body)]) then 
+                if($node[@level='citation']) then ()
+                else 
+                  element { local-name($node) } 
+                    {   $node/@*[. != '' and not(name(.) = 'xml:id')],
+                        attribute xml:id { 
+                        concat('name',$id,'-',
+                        count($node/preceding-sibling::*[local-name(.) = 'title']) + 1) },
+                        local:transform($node/node())
+                    }                    
             else if($node/parent::tei:titleStmt and not($node/@level='m')) then
                 if($node/ancestor::tei:TEI/descendant::entryFree) then
                     if($node/ancestor::tei:TEI/descendant::tei:term[@xml:lang='zh-latn-pinyin-nt']) then
@@ -153,14 +163,17 @@ declare function local:transform($nodes as node()*) as item()* {
             else element { local-name($node) } 
                     {($node/@*[. != ''], local:transform($node/node()))}
         case element(tei:bibl) return
-            let $num := $node/@xml:id
-            return 
-            element { local-name($node) } 
-                    {   $node/@*[. != '' and not(name(.) = 'xml:id')],
-                        attribute xml:id { 
-                        concat('bibl',$id,'-',$num)},
-                        local:transform($node/node())
-                    }        
+            if($node/child::*) then 
+                let $num := $node/@xml:id
+                return 
+                element { local-name($node) } 
+                        {   $node/@*[. != '' and not(name(.) = 'xml:id') and not(name(.) = 'ref')],
+                            attribute xml:id { 
+                            concat('bibl',$id,'-',$num)},
+                            local:transform($node/node())
+                        }    
+            else ()
+                    
         case element(tei:location) return 
             if($node/tei:lat or $node/tei:long) then
                 element { local-name($node) } 
