@@ -30,7 +30,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (: Variables:)
 declare variable $search:start {request:get-parameter('start', 1)[1] cast as xs:integer};
-declare variable $search:perpage {request:get-parameter('perpage', 20) cast as xs:integer};
+declare variable $search:perpage {request:get-parameter('perpage', 20)[1] cast as xs:integer};
 
 (:~
  : Builds search result, saves to model("hits") for use in HTML display

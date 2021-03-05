@@ -27,8 +27,8 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
 
 (: Global Variables:)
-declare variable $app:start {request:get-parameter('start', 1) cast as xs:integer};
-declare variable $app:perpage {request:get-parameter('perpage', 25) cast as xs:integer};
+declare variable $app:start {request:get-parameter('start', 1)[1] cast as xs:integer};
+declare variable $app:perpage {request:get-parameter('perpage', 25)[1] cast as xs:integer};
 
 (:~
  : Get app logo. Value passed from repo-config.xml  
@@ -244,8 +244,8 @@ declare function app:external-relationships($node as node(), $model as map(*), $
     let $rec := $model("hits")
     let $recid := replace($rec/descendant::tei:idno[@type='URI'][starts-with(.,$config:base-uri)][1],'/tei','')
     let $title := if(contains($rec/descendant::tei:title[1]/text(),' — ')) then 
-                        substring-before($rec/descendant::tei:title[1],' — ') 
-                   else string-join($rec/descendant::tei:title[1],'')
+                        substring-before($rec[1]/descendant::tei:title[1],' — ') 
+                   else string-join($rec[1]/descendant::tei:title[1],'')
     return rel:external-relationships($recid, $title, $relationship-type, $sort, $count)
 };
 
