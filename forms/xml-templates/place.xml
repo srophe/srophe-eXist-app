@@ -32,11 +32,12 @@
         </fileDesc>
         <profileDesc>
             <langUsage>
-                <language ident="en">English</language>
-                <language ident="zh-latn-pinyin">Pinyin</language>
+                <language ident="zh-latn-pinyin-nt">Pinyin without tones</language>
                 <language ident="zh-Hant">Traditional Chinese</language>
                 <language ident="zh-Hans">Simplified Chinese</language>
+                <language ident="zh-latn-pinyin">Pinyin</language>
                 <language ident="zh-latn-wadegile">Wade-Giles</language>
+                <language ident="en">English</language>
             </langUsage>
         </profileDesc>
         <revisionDesc>
@@ -53,6 +54,7 @@
                         <label>Type</label>
                         <desc xml:lang=""/>
                     </trait>
+                    <bibl xml:id=""/>
                 </place>
                 <listRelation/>
             </listPlace>
