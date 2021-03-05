@@ -54,6 +54,7 @@
             <idno type="URI"/>
             <gloss xml:lang="" source=""/>
             <note type="" xml:lang="" source=""/>
+            <bibl xml:id=""/>
             <listRelation>
                <relation ref="" active="" passive="" rendition=""/>
             </listRelation>
