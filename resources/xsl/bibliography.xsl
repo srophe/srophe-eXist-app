@@ -1014,9 +1014,10 @@
                 </xsl:when>
             </xsl:choose>
         </xsl:variable>
+        <xsl:variable name="textNode" select="string-join(text(),'')"/>
         <xsl:choose>
-            <xsl:when test="matches(text(),'^\d')">
-                <xsl:value-of select="concat($unit,' ',text())"/>
+            <xsl:when test="matches($textNode,'^\d')">
+                <xsl:value-of select="concat($unit,' ',$textNode)"/>
             </xsl:when>
             <xsl:when test="not(text()) and (@to or @from)">
                 <xsl:choose>

@@ -15,7 +15,7 @@ declare namespace html="http://www.w3.org/1999/xhtml";
  : @param $node data passed to transform
 :)
 declare function global:tei2html($nodes as node()*) {
-  transform:transform($nodes, doc($config:app-root || '/resources/xsl/tei2html.xsl'), 
+  transform:transform(($nodes), doc($config:app-root || '/resources/xsl/tei2html.xsl'), 
     <parameters>
         <param name="data-root" value="{$config:data-root}"/>
         <param name="app-root" value="{$config:app-root}"/>
@@ -32,7 +32,7 @@ declare function global:tei2html($nodes as node()*) {
 :)
 declare function global:tei2html($nodes as node()*, $collection as xs:string?) {
 if($config:get-config//repo:collection[@name=$collection]/@xslt != '') then
-  transform:transform($nodes, doc($config:app-root || string($config:get-config//repo:collection[@name=$collection]/@xslt)), 
+  transform:transform(($nodes), doc($config:app-root || string($config:get-config//repo:collection[@name=$collection]/@xslt)), 
     <parameters>
         <param name="data-root" value="{$config:data-root}"/>
         <param name="app-root" value="{$config:app-root}"/>
