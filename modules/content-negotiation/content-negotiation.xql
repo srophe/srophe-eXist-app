@@ -24,7 +24,7 @@ declare namespace json = "http://www.json.org";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace rest = "http://exquery.org/ns/restxq";
 declare namespace http="http://expath.org/ns/http-client";
-
+    
 let $path := if(request:get-parameter('id', '')  != '') then 
                 request:get-parameter('id', '')
              else if(request:get-parameter('doc', '') != '') then
@@ -44,8 +44,16 @@ let $data :=
                     <info>hits: {count($hits)}</info>
                     <start>1</start>
                     <results>{
-                        let $start := if(request:get-parameter('start', 1)) then request:get-parameter('start', 1)[1] else 1
-                        let $perpage := if(request:get-parameter('perpage', 10)) then request:get-parameter('perpage', 10) else 10
+                        let $perpage := 
+                             if(request:get-parameter('perpage', 20)[1]) then 
+                                 if(request:get-parameter('perpage', 20)[1] castable as xs:integer) then request:get-parameter('perpage', 20)[1] cast as xs:integer
+                                 else 10
+                             else 10
+                         let $start := 
+                             if(request:get-parameter('start', 1)[1]) then 
+                                 if(request:get-parameter('start', 1)[1] castable as xs:integer) then request:get-parameter('start', 1)[1] cast as xs:integer
+                                 else 1
+                             else 1
                         for $hit in subsequence($hits,$start,$perpage)
                         let $id := replace($hit/descendant::tei:idno[starts-with(.,$config:base-uri)][1],'/tei','')
                         let $title := $hit/descendant::tei:titleStmt/tei:title

@@ -34,7 +34,7 @@ declare function data:get-document() {
                        <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{$rec/ancestor::tei:msPart}</tei:TEI>
                     else $rec/ancestor::tei:TEI
         else if($config:document-id) then 
-           for $r in collection($config:data-root)//tei:idno[. = request:get-parameter('id', '')]
+           for $r in collection($config:data-root)//tei:idno[@type='URI'][. = request:get-parameter('id', '')][not(@type='redirect')]
            let $root := $r/ancestor::tei:TEI
            let $location := document-uri($root)
            where not(contains($location,'deprecated'))
@@ -65,7 +65,7 @@ declare function data:get-document($id as xs:string?) {
             else $rec/ancestor::tei:TEI
     else if(starts-with($id,'http')) then
         if($config:document-id) then 
-           for $r in collection($config:data-root)//tei:idno[. = $id]
+           for $r in collection($config:data-root)//tei:idno[@type='URI'][. = $id][not(@type='redirect')]
             let $root := $r/ancestor::tei:TEI
            let $location := document-uri($root)
            where not(contains($location,'deprecated'))

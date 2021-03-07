@@ -153,7 +153,7 @@ replace(
  : @param $data:sort indicates letter for browse
  :)
 declare function global:get-alpha-filter(){
-let $sort := request:get-parameter('alpha-filter', '')
+let $sort := request:get-parameter('alpha-filter', '')[1]
 return 
         if(request:get-parameter('lang', '') = 'ar') then
             global:ar-sort()
@@ -175,7 +175,7 @@ return
  : Matches Arabic letters and their equivalent letters as established by Syriaca.org
  :)
 declare function global:ar-sort(){
-let $sort := request:get-parameter('alpha-filter', '')
+let $sort := request:get-parameter('alpha-filter', '')[1]
 return 
     if($sort = 'ٱ') then '^(ٱ|ا|آ|أ|إ)'
         else if($sort = 'ٮ') then '^(ٮ|ب)'
