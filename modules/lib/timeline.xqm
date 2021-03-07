@@ -20,7 +20,7 @@ declare function timeline:timeline($data as node()*, $title as xs:string*){
 (: Test for valid dates json:xml-to-json() May want to change some css styles for font:)
 if($data/descendant-or-self::*[@when or @to or @from or @notBefore or @notAfter]) then 
     <div class="timeline">
-        <script type="text/javascript" src="http://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"/>
+        <script type="text/javascript" src="https://cdn.knightlab.com/libs/timeline/latest/js/storyjs-embed.js"/>
         <script type="text/javascript">
         <![CDATA[
             $(document).ready(function() {
