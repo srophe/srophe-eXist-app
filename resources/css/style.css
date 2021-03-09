@@ -265,23 +265,23 @@ pre {
     color: #666;
 }
 
-.slide {   
-    padding: 1em 1em;
-    margin-bottom: 1em;
-    background-color: white;
-    border: 1px solid #A18C6A;
-    border-radius: 8px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
-    }
-/* .slide img {height:175px;} */
-/* .slide .text {margin-top: -.5em;} */
-
 #sources ul {
 	list-style-type: none;
 	padding-left: -0.1em;
 	text-indent: -1em;
 }
+/* E5E1DA  F4F3F2 */
+/* 
+.status .column {margin:0; padding:0;}
+.status .darker {background-color: #E5E1DA; margin:0; padding:0;}
+.status .lighter {background-color: #F4F3F2; margin:0; padding:0;}
+.status {border-top: 4px solid #E5E1DA; padding:1em;}
+*/
+.status {border-top: 4px solid #E5E1DA; border-bottom: 4px solid #E5E1DA; padding:1em;}
+.status .count {color:#666; font-size:2.25em; font-weight:500; display:block; height:75px; text-align:center; vertical-align: bottom;}
+.status-circles {}
+.status .text {padding-top: .75em;}
+.status .label {display:block; color:#333; font-size:1.15em; font-weight:500; text-align:center;}
 
 /* T */
 .tab-content {padding-top:.25em;}
@@ -336,31 +336,11 @@ pre {
     overflow: auto;
 }
 
-.item {display:block;}
-.item-title{display:block; font-size: .98em; font-weight:500; margin:0; padding:.25em 0;}
-.item .item-credit {display:block; font-size: .82em !important; margin-left:1em; padding:.25em;}
-/* resources/images/qaraite.jpg */
-.collection h3 {text-decoration:none; color: #593E28;}
-.collection1 {
-    min-height: 150px;
-    position:relative;
-    padding-top:0;
-	background-image:url('../images/gospels.jpg');
-	background-size:cover;
-	background-position:top;
-    width:100%;
-    border-bottom:4px solid #593E28;
-}
-.collection2 {
-    min-height: 150px;
-    position:relative;
-    padding-top:0;
-	background-image:url('../images/pauline-epistles.jpg');
-	background-size:cover;
-	background-position:top;
-    width:100%;
-    border-bottom:4px solid #593E28;
-}
+.item {display:block; padding-left:1em;}
+.item-title{display:block; font-size: 1.15em; font-weight:500; margin:0; padding:.25em 0;}
+.item .item-credit {display:block; font-size: .98em !important; margin-left:1em; padding:.25em;}
+
+
 /* Special styles for small screens */
 @media screen and (max-width: 480px) {
 .navbar-collapse, .dropdown-menu {float:none; width:100% !important;}
