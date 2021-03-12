@@ -959,8 +959,8 @@
                                                 </xf:group>
                                                 <xf:select1 ref="instance('i-selected')/tei:TEI/child::*/@ref" appearance="full" class="checkbox select-group">
                                                     <xf:itemset ref="instance('i-search-results')/tei:TEI">
-                                                        <xf:label ref="//tei:title[@level='citation']"/>
-                                                        <xf:value ref="child::*/@ref"/>
+                                                        <xf:label ref="tei:bibl/tei:title[@level='citation']"/>
+                                                        <xf:value ref="tei:bibl/@ref"/>
                                                     </xf:itemset>
                                                     <!-- Insert selected element into i-selected, delete place holder node -->
                                                     <xf:action ev:event="xforms-value-changed">

@@ -25,7 +25,7 @@ let $hits :=
             if($idno != '') then
                 collection($config:data-root || '/bibl/')//tei:idno[. = $idno]
             else if($q != '') then
-                collection($config:data-root || '/bibl/')//tei:title[ft:query(., $q,local:options())] | collection($config:data-root || '/bibl/')//tei:author[ft:query(., $q,local:options())] 
+                collection($config:data-root || '/bibl/')//tei:TEI[descendant::tei:title[ft:query(., $q,local:options())] or descendant::tei:author[ft:query(., $q,local:options())]] 
             else  <TEI xmlns="http://www.tei-c.org/ns/1.0" xml:lang="en">No Match</TEI>
         else collection($config:data-root)//tei:title[ft:query(., $q,local:options())]
 for $hit in $hits
