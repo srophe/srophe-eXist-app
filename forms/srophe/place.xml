@@ -1004,14 +1004,19 @@
                                                     </xf:case>
                                                     <xf:case id="edit-selected">
                                                         <xf:group class="edit">
-                                                            <xf:repeat ref="instance('i-add-bibl')//tei:title" id="new-sourceTitle">
+                                                            <xf:repeat ref="instance('i-add-bibl')//tei:title[@level='citation']" id="new-sourceTitleCitation">
+                                                                <xf:input ref="." class="input-md">
+                                                                    <xf:label class="inline">Title: </xf:label>
+                                                                </xf:input>
+                                                            </xf:repeat>
+                                                            <xf:repeat ref="instance('i-add-bibl')//tei:title[not(@level)]" id="new-sourceTitle">
                                                                 <xf:input ref="." class="input-md">
                                                                     <xf:label class="inline">Title: </xf:label>
                                                                 </xf:input>
                                                             </xf:repeat>
                                                             <xf:repeat ref="instance('i-add-bibl')//tei:author" id="new-sourceAuthor">
                                                                 <xf:input ref="." class="input-md">
-                                                                    <xf:label class="inline">Title: </xf:label>
+                                                                    <xf:label class="inline">Author: </xf:label>
                                                                 </xf:input>
                                                             </xf:repeat>
                                                             <br/>
