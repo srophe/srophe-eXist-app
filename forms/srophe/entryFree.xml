@@ -604,7 +604,7 @@
                                                         <xf:group class="edit">
                                                             <xf:repeat ref="instance('i-add-bibl')//tei:title[@level='citation']" id="new-sourceTitleCitation">
                                                                 <xf:input ref="." class="input-md">
-                                                                    <xf:label class="inline">Title: </xf:label>
+                                                                    <xf:label class="inline">Citation: </xf:label>
                                                                 </xf:input>
                                                             </xf:repeat>
                                                             <xf:repeat ref="instance('i-add-bibl')//tei:title[not(@level)]" id="new-sourceTitle">
