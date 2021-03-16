@@ -987,6 +987,12 @@
                                                     <xf:trigger class="btn save" appearance="minimal">
                                                         <xf:label> Add to Document </xf:label>
                                                         <xf:insert ev:event="DOMActivate" ref="tei:bibl" at="last()" position="after" origin="instance('i-add-bibl')"/>
+                                                        <xf:action ev:event="DOMActivate">
+                                                            <xf:hide dialog="new-source"/>
+                                                        </xf:action>
+                                                        <xf:setvalue ev:event="DOMActivate" ref="instance('i-search')/q" value="''"/>
+                                                        <xf:delete ev:event="DOMActivate" ref="instance('i-search-results')//tei:TEI"/>
+                                                        <!-- instance('i-search')/q -->
                                                         <xf:message level="modal" ev:event="DOMActivate">Saved!</xf:message>
                                                     </xf:trigger>
                                                 </xf:group>
@@ -1006,12 +1012,12 @@
                                                         <xf:group class="edit">
                                                             <xf:repeat ref="instance('i-add-bibl')//tei:title[@level='citation']" id="new-sourceTitleCitation">
                                                                 <xf:input ref="." class="input-md">
-                                                                    <xf:label class="inline">Title: </xf:label>
+                                                                    <xf:label class="inline">Citation: </xf:label>
                                                                 </xf:input>
                                                             </xf:repeat>
                                                             <xf:repeat ref="instance('i-add-bibl')//tei:title[not(@level)]" id="new-sourceTitle">
                                                                 <xf:input ref="." class="input-md">
-                                                                    <xf:label class="inline">Citation: </xf:label>
+                                                                    <xf:label class="inline">Title: </xf:label>
                                                                 </xf:input>
                                                             </xf:repeat>
                                                             <xf:repeat ref="instance('i-add-bibl')//tei:author" id="new-sourceAuthor">

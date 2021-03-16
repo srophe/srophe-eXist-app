@@ -172,11 +172,19 @@ fieldset {
     background-color:white;
 }
 
+/* 
 .modal-content {
     max-height: 650px;
     overflow-y: auto;
     background:#fff;
     padding: 28px 26px 33px 25px;
+}
+*/
+.modal-body {
+  max-height: 70vh; /* max 80% of the viewport height */
+  overflow-y: auto;
+  background:#fff;
+  padding: 28px 26px 33px 25px;
 }
 
 .modal-close {margin-top: -1em;}
@@ -194,7 +202,11 @@ fieldset {
     margin-left:-.5em;
     color:grey;
 }
-
+/* Does not work */
+div.xforms-dialog {
+    position: fixed;
+}
+   
 .accordion .panel-heading[aria-expanded="false"] span.glyphicon-chevron-down,
 .accordion .panel-heading[aria-expanded="true"] span.glyphicon-chevron-right
 {
@@ -316,3 +328,6 @@ span.text-area-attributes {display:block; width: 80% !important; margin-left:6em
 .navbar-brand img {display:inline;}
 .nav-title {}
 .section {margin-top:2em;}
+
+.select-group input{width:5em;}
+
