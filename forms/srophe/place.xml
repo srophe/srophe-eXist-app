@@ -910,6 +910,11 @@
                                                             <xf:label class="inline">Editor: </xf:label>
                                                         </xf:input>
                                                     </xf:repeat>
+                                                    <xf:repeat ref="tei:citedRange" id="source-view-citedRange">
+                                                        <xf:input ref=".">
+                                                            <xf:label class="inline">Cited Range: </xf:label>
+                                                        </xf:input>
+                                                    </xf:repeat>
                                                     <xf:trigger appearance="minimal" class="btn remove pull-right">
                                                         <xf:label/>
                                                         <xf:delete ev:event="DOMActivate" ref="."/>
@@ -1028,6 +1033,7 @@
                                                             <br/>
                                                             <xf:input ref="instance('i-add-bibl')//tei:citedRange" class="input-md">
                                                                 <xf:label class="inline">Cited Range: </xf:label>
+                                                                <xf:setvalue ev:event="xforms-value-changed" ref="instance('i-add-bibl')//tei:title[@level='citation']" value="concat(instance('i-add-bibl')//tei:title[@level='citation'],' Cited Range: ',instance('i-add-bibl')//tei:citedRange)"/>
                                                             </xf:input>
                                                             <br/>
                                                             <xf:input ref="instance('i-add-bibl')//tei:citedRange/@unit" class="input-md">
