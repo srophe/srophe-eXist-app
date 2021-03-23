@@ -1027,6 +1027,7 @@
                                                             <br/>
                                                             <xf:input ref="instance('i-add-bibl')//tei:citedRange" class="input-md">
                                                                 <xf:label class="inline">Cited Range: </xf:label>
+                                                                <xf:setvalue ev:event="xforms-value-changed" ref="instance('i-add-bibl')//tei:title[@level='citation']" value="concat(instance('i-add-bibl')//tei:title[@level='citation'],' Cited Range: ',instance('i-add-bibl')//tei:citedRange)"/>
                                                             </xf:input>
                                                             <br/>
                                                             <xf:select1 ref="instance('i-add-bibl')//tei:citedRange/@unit" class="input-small">
