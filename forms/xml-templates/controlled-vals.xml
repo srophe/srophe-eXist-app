@@ -138,4 +138,10 @@
         <type>temple</type>
         <type>unknown</type>
     </placeType>
+    <citedRange>
+        <unit>pp.</unit>
+        <unit>p.</unit>
+        <unit>juan</unit>
+        <unit>chapter</unit>
+    </citedRange>
 </TEI>

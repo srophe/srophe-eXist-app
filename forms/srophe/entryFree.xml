@@ -275,7 +275,7 @@
                                                         <xf:select1 ref="@source" class="input-small">
                                                             <xf:label>Source:</xf:label>
                                                             <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
-                                                                <xf:label ref="tei:title[@level='citation']"/>
+                                                                <xf:label value="concat(tei:title[@level='citation'],' Cited Range: ', tei:citedRange, ' ',tei:citedRange/@unit)"/>
                                                                 <xf:value ref="@xml:id"/>
                                                             </xf:itemset>
                                                         </xf:select1>
@@ -383,7 +383,7 @@
                                                     <xf:select1 ref="@source" class="input-small">
                                                         <xf:label>Source:</xf:label>
                                                         <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
-                                                            <xf:label ref="tei:title[@level='citation']"/>
+                                                            <xf:label value="concat(tei:title[@level='citation'],' Cited Range: ', tei:citedRange, ' ',tei:citedRange/@unit)"/>
                                                             <xf:value ref="@xml:id"/>
                                                         </xf:itemset>
                                                     </xf:select1>
@@ -447,7 +447,7 @@
                                                     <xf:select1 ref="@source" class="input-small">
                                                         <xf:label>Source:</xf:label>
                                                         <xf:itemset ref="instance('i-rec')//tei:text/descendant::tei:bibl">
-                                                            <xf:label ref="tei:title[@level='citation']"/>
+                                                            <xf:label value="concat(tei:title[@level='citation'],' Cited Range: ', tei:citedRange, ' ',tei:citedRange/@unit)"/>
                                                             <xf:value ref="@xml:id"/>
                                                         </xf:itemset>
                                                     </xf:select1>
@@ -508,6 +508,11 @@
                                                                 <xf:label class="inline">Editor: </xf:label>
                                                             </xf:input>
                                                         </xf:repeat>
+                                                        <xf:repeat ref="tei:citedRange" id="source-view-citedRange">
+                                                            <xf:input ref=".">
+                                                                <xf:label class="inline">Cited Range: </xf:label>
+                                                            </xf:input>
+                                                        </xf:repeat>
                                                     <xf:trigger appearance="minimal" class="btn remove pull-right">
                                                         <xf:label/>
                                                         <xf:delete ev:event="DOMActivate" ref="."/>
@@ -564,13 +569,6 @@
                                                     <xf:action ev:event="xforms-value-changed">
                                                         <!-- Error, on setvalue, non numeric bibls?  -->
                                                         <xf:insert ev:event="DOMActivate" ref="instance('i-add-bibl')" origin="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]"/>
-                                                        <!--
-                                                        <xf:setvalue ref="instance('i-add-bibl')//tei:title[@level='citation']" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]/descendant-or-self::tei:label[1]"/>
-                                                        <xf:setvalue ref="instance('i-add-bibl')/@xml:id" value="concat('bibl-',count(instance('i-rec')/descendant::tei:body/descendant::tei:bibl) + 1)"/>
-                                                        <xf:setvalue ref="instance('i-add-bibl')//tei:ptr/@target" value="instance('i-selected')/tei:TEI/child::*/@ref"/>
-                                                        <xf:setvalue ref="instance('i-add-bibl')//tei:title" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]/tei:title[1]"/>
-                                                        <xf:setvalue ref="instance('i-add-bibl')//tei:author" value="instance('i-search-results')/tei:TEI/child::*[@ref = instance('i-selected')/tei:TEI/child::*/@ref]/tei:author[1]"/>
-                                                        -->
                                                     </xf:action>
                                                 </xf:select1>
                                                 <xf:group class="horiz-tab-menu">
@@ -584,13 +582,13 @@
                                                     </xf:trigger>
                                                     <xf:trigger class="btn save" appearance="minimal">
                                                         <xf:label> Add to Document </xf:label>
-                                                        <xf:insert ev:event="DOMActivate" ref="tei:bibl" at="last()" position="after" origin="instance('i-add-bibl')"/>
                                                         <xf:action ev:event="DOMActivate">
+                                                            <xf:insert ref="tei:bibl" at="last()" position="after" origin="instance('i-add-bibl')"/>
+                                                            <xf:setvalue ref="instance('i-search')/q" value="''"/>
+                                                            <xf:delete ref="instance('i-search-results')//tei:TEI"/>
+                                                            <xf:delete ref="instance('i-add-bibl')//tei:bibl"/>
                                                             <xf:hide dialog="new-source"/>
                                                         </xf:action>
-                                                        <xf:setvalue ev:event="DOMActivate" ref="instance('i-search')/q" value="''"/>
-                                                        <xf:delete ev:event="DOMActivate" ref="instance('i-search-results')//tei:TEI"/>
-                                                        <!-- instance('i-search')/q -->
                                                         <xf:message level="modal" ev:event="DOMActivate">Saved!</xf:message>
                                                     </xf:trigger>
                                                 </xf:group>
@@ -628,9 +626,13 @@
                                                                 <xf:label class="inline">Cited Range: </xf:label>
                                                             </xf:input>
                                                             <br/>
-                                                            <xf:input ref="instance('i-add-bibl')//tei:citedRange/@unit" class="input-md">
-                                                                <xf:label class="inline">Cited Range Unit: </xf:label>
-                                                            </xf:input>
+                                                            <xf:select1 ref="instance('i-add-bibl')//tei:citedRange/@unit" class="input-small">
+                                                                <xf:label>Cited Range Unit:</xf:label>
+                                                                <xf:itemset ref="instance('i-ctr-vals')//tei:citedRange/tei:unit">
+                                                                    <xf:label ref="."/>
+                                                                    <xf:value ref="."/>
+                                                                </xf:itemset>
+                                                            </xf:select1>
                                                         </xf:group>
                                                     </xf:case>
                                                 </xf:switch>
