@@ -148,18 +148,59 @@ declare function local:transform($nodes as node()*) as item()* {
                     if($node/ancestor::tei:TEI/descendant::tei:term[@xml:lang='zh-latn-pinyin-nt']) then
                       element { local-name($node) } 
                         { $node/@*[. != '' and not(name(.) = 'xml:lang')],attribute xml:lang { 'zh-latn-pinyin-nt' },
-                            (if($node/ancestor::tei:TEI/descendant::tei:term[@xml:lang='zh-Hant']) then
-                                (<foreign xml:lang="zh-Hant">昂形耍頭</foreign>,' ')
+                            (if($node/ancestor::tei:TEI/descendant::tei:term[@xml:lang='zh-Hant'][1]) then
+                                (<foreign xml:lang="zh-Hant">{$node/ancestor::tei:TEI/descendant::tei:term[@xml:lang='zh-Hant']/text()}</foreign>,' ')
                             else (),
                             $node/ancestor::tei:TEI/descendant::tei:term[@xml:lang='zh-latn-pinyin-nt']/text()   
                             )
                         }  
+                    else if($node/ancestor::tei:TEI/descendant::tei:term[@type='preferred']) then
+                      element { local-name($node) } 
+                        { $node/@*[. != '' and not(name(.) = 'xml:lang')],attribute xml:lang { 'zh-latn-pinyin-nt' },
+                        (if($node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][@xml:lang='zh-Hant']) then
+                                (<foreign xml:lang="zh-Hant">{$node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][@xml:lang='zh-Hant']/text()}</foreign>,' ')
+                            else (),
+                          if($node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][@xml:lang='zh-latn-pinyin-nt']) then
+                            $node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][@xml:lang='zh-latn-pinyin-nt']/text()
+                          else if($node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][@xml:lang='en']) then 
+                            $node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][@xml:lang='en']/text()
+                          else $node/ancestor::tei:TEI/descendant::tei:term[@type='preferred'][1]/text()   
+                            )
+                           } 
                     else 
                         element { local-name($node) } 
                         { $node/@*[. != '' and not(name(.) = 'xml:lang')],attribute xml:lang { $node/ancestor::tei:TEI/descendant::tei:term[1]/@xml:lang },
                             $node/ancestor::tei:TEI/descendant::tei:term[1]/text()   
                             }
-                else ()      
+                 else if($node/ancestor::tei:TEI/descendant::place) then
+                    if($node/ancestor::tei:TEI/descendant::tei:placeName[@xml:lang='zh-latn-pinyin-nt']) then
+                      element { local-name($node) } 
+                        { $node/@*[. != '' and not(name(.) = 'xml:lang')],attribute xml:lang { 'zh-latn-pinyin-nt' },
+                            (if($node/ancestor::tei:TEI/descendant::tei:placeName[@xml:lang='zh-Hant'][1]) then
+                                (<foreign xml:lang="zh-Hant">{$node/ancestor::tei:TEI/descendant::tei:placeName[@xml:lang='zh-Hant']/text()}</foreign>,' ')
+                            else (),
+                            $node/ancestor::tei:TEI/descendant::tei:placeName[@xml:lang='zh-latn-pinyin-nt']/text()   
+                            )
+                        }  
+                    else if($node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred']) then
+                       element { local-name($node) }
+                        { $node/@*[. != '' and not(name(.) = 'xml:lang')],attribute xml:lang { 'zh-latn-pinyin-nt' },
+                        (if($node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][@xml:lang='zh-Hant']) then
+                                 (<foreign xml:lang="zh-Hant">{$node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][@xml:lang='zh-Hant']/text()}</foreign>,' ')
+                             else (),
+                           if($node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][@xml:lang='zh-latn-pinyin-nt']) then
+                             $node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][@xml:lang='zh-latn-pinyin-nt']/text()
+                           else if($node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][@xml:lang='en']) then 
+                             $node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][@xml:lang='en']/text()
+                           else $node/ancestor::tei:TEI/descendant::tei:placeName[@type='preferred'][1]/text()   
+                             )
+                        }
+                    else 
+                        element { local-name($node) } 
+                        { $node/@*[. != '' and not(name(.) = 'xml:lang')],attribute xml:lang { $node/ancestor::tei:TEI/descendant::tei:placeName[1]/@xml:lang },
+                            $node/ancestor::tei:TEI/descendant::tei:placeName[1]/text()   
+                            }
+                else ()                            
             else element { local-name($node) } 
                     {($node/@*[. != ''], local:transform($node/node()))}
         case element(tei:bibl) return
