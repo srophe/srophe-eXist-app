@@ -348,7 +348,7 @@ declare function sf:nested-display($result as item()*, $facet-definition as item
                                 (<a href="?{$url-params}" class="facet-label btn btn-default {$active}">
                                 {if($active) then (<span class="glyphicon glyphicon-remove facet-remove"></span>)else ()}
                                 {$facetLabel} <span class="count"> ({$freq})</span> </a>,
-                                if($label = 'architectural-feature') then 
+                                if($label = 'architectural-feature' or $label = 'architectural feature') then 
                                     <span class="sub-facet">{$sf-display}</span>
                                 else ()
                                 )
