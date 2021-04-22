@@ -153,10 +153,10 @@ img{ margin:0px }
 }
 
 /* M */
-.map-lg #map {height:500px !important;}
-.map-md #map {height:300px !important;}
-.map-sm #map {height:250px !important;}
-#map {height:325px !important;}
+.map-lg #map {min-height:500px !important;}
+.map-md #map {min-height:300px !important;}
+.map-sm #map {min-height:250px !important;}
+#map {min-height:325px !important;}
 .map-pop-title {display:block;font-weight:600; font-size:1.2em; margin-bottom:0; padding-bottom:0;}
 .map-pop-desc {display:block; padding:.5em;}
 
@@ -168,6 +168,11 @@ img{ margin:0px }
     position: fixed;
     z-index: 1500;
 }
+#map-data.clicked #map{
+    width: 100%;
+    height: 90%;
+}
+
 #map-data #expandBtn {
     margin-left:1em; 
     margin-bottom:1em; 

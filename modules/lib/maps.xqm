@@ -134,6 +134,7 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
                $('#map-data').toggleClass('clicked');
                $('#map-data').toggleClass('well');
                $(this).toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
+               window.map.invalidateSize();
                var text = $(this).text();
                console.log('Button text: ' + text);
                 if(text===' Large Map'){
