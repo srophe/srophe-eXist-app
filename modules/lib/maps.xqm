@@ -27,7 +27,6 @@ else maps:build-leaflet-map($nodes,$total-count)
 :)
 declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:integer?){
     <div id="map-data" style="margin-bottom:3em;">
-        <div style="height: 20px; margin-bottom: 1em;"><button id="expandBtn" class="pull-right btn-default btn-large expand glyphicon glyphicon-resize-full"></button></div>
         <script type="text/javascript" src="{$config:nav-base}/resources/leaflet/leaflet.js"/>
         <script type="text/javascript" src="{$config:nav-base}/resources/leaflet/leaflet.awesome-markers.min.js"/>
         <div id="map"/>
@@ -128,13 +127,20 @@ declare function maps:build-leaflet-map($nodes as node()*, $total-count as xs:in
                 </div>
             </div>
          </div>
+        <div style="height: 20px; margin-bottom: 1em;"><a id="expandBtn" class="pull-right btn btn-default expand glyphicon glyphicon-resize-full"> Large Map</a></div>
          <script type="text/javascript">
          <![CDATA[
             $('.expand').on('click', function() {
                $('#map-data').toggleClass('clicked');
                $('#map-data').toggleClass('well');
                $(this).toggleClass('glyphicon glyphicon-resize-full').toggleClass('glyphicon glyphicon-resize-small');
-               //mainQuery(mainQueryURL);
+               var text = $(this).text();
+               console.log('Button text: ' + text);
+                if(text===' Large Map'){
+                  $(this).text(' Small Map');
+                } else{
+                  $(this).text(' Large Map');
+               }
            })
            
             $('#mapFAQ').click(function(){
