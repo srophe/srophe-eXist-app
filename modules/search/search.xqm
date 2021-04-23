@@ -174,7 +174,7 @@ function search:show-hits($node as node()*, $model as map(*), $collection as xs:
 :)
 declare %templates:wrap function search:architectural-features($node as node()*, $model as map(*)){ 
     <div class="row">{
-        let $features := collection($config:data-root || '/keywords')/tei:TEI[descendant::tei:entryFree/@type='architectural-feature']
+        let $features := collection($config:data-root || '/keywords')/tei:TEI[descendant::tei:entryFree[@type='architectural-feature' or @type='architectural feature']]
         for $feature in $features
         let $type := string($feature/descendant::tei:relation[@ref = 'skos:broadMatch'][1]/@passive)
         group by $group-type := $type
