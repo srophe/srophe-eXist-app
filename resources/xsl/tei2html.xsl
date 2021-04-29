@@ -348,7 +348,7 @@
     </xsl:template>
     <xsl:template match="t:body[t:entryFree]">
         <xsl:apply-templates select="t:entryFree"/>
-        <xsl:if test="descendant::t:bibl or descendant::t:listBibl">
+        <xsl:if test="t:bibl or t:listBibl">
             <xsl:call-template name="sources"/>
         </xsl:if>
     </xsl:template>
@@ -751,7 +751,7 @@
             </div>
         </xsl:if>
         
-        <xsl:if test="t:bibl">
+        <xsl:if test="t:bibl or t:listBibl">
             <xsl:if test="self::t:bibl[@type='lawd:Citation' or @type='lawd:ConceptualWork'] or parent::t:body">
                 <xsl:variable name="type-order"/>
                 <xsl:for-each-group select="t:bibl[exists(@type)][@type != 'lawd:Citation']" group-by="@type">
@@ -787,7 +787,6 @@
                         </xsl:if>
                     </ol>
                 </xsl:for-each-group>
-                
             </xsl:if>
             <xsl:call-template name="sources"/>
         </xsl:if>
