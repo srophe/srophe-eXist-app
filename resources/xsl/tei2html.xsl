@@ -348,7 +348,7 @@
     </xsl:template>
     <xsl:template match="t:body[t:entryFree]">
         <xsl:apply-templates select="t:entryFree"/>
-        <xsl:if test="t:bibl or t:listBibl">
+        <xsl:if test="descendant::t:bibl or descendant::t:listBibl">
             <xsl:call-template name="sources"/>
         </xsl:if>
     </xsl:template>
