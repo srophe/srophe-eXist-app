@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:t="http://www.tei-c.org/ns/1.0" xmlns:x="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:local="http://syriaca.org/ns" exclude-result-prefixes="xs t x saxon local" version="2.0">
 
  <!-- ================================================================== 
@@ -349,7 +348,7 @@
     </xsl:template>
     <xsl:template match="t:body[t:entryFree]">
         <xsl:apply-templates select="t:entryFree"/>
-        <xsl:if test="t:bibl">
+        <xsl:if test="t:bibl or t:listBibl">
             <xsl:call-template name="sources"/>
         </xsl:if>
     </xsl:template>
