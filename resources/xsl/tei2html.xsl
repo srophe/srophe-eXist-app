@@ -271,7 +271,7 @@
                     <xsl:variable name="preferredCitation">
                         <xsl:choose>
                             <xsl:when test="following-sibling::t:bibl[@type='formatted']">
-                                <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted']" mode="pre-formatted"/>
+                                <xsl:apply-templates select="following-sibling::t:bibl[@type='formatted'][1]" mode="pre-formatted"/>
                             </xsl:when>
                             <xsl:otherwise>
                                 <xsl:apply-templates select="self::*" mode="bibliography"/>.
