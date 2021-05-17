@@ -797,3 +797,34 @@ declare %templates:wrap function app:about($node as node(), $model as map(*)){
         </srophe-about>
     return global:tei2html($header)
 };
+
+(:~      
+ : Return teiHeader info to be used in citation used for Syriaca.org bibl module
+:)
+declare %templates:wrap function app:mirador($node as node(), $model as map(*)){
+let $imgID := if(starts-with(request:get-parameter('iiifID', ''),'http')) then 
+                request:get-parameter('iiifID', '')
+              else if(request:get-parameter('iiifID', '') != '') then 
+                concat('https://iiif.library.vanderbilt.edu/iiif/3/',request:get-parameter('iiifID', ''),'/')
+              else request:get-parameter('iiifID', '')
+return 
+    <script type="text/javascript">
+    <![CDATA[ 
+        var mirador = Mirador.viewer({
+            "id": "mirador",
+            "manifests": {
+            "]]>{$imgID}<![CDATA[": {
+            "provider": "Vanderbilt University Library"
+            }
+            },
+            "windows": [
+            {
+            "loadedManifest": "]]>{$imgID}<![CDATA[",
+            "canvasIndex": 2,
+            "thumbnailNavigationPosition": 'far-bottom'
+            }
+            ]
+       });
+    ]]>     
+    </script>
+};
