@@ -1149,10 +1149,10 @@ img#arch-sinic-about {
 /* Thumbnails */
 .thumb-images {
     /* float: left; */
-    height: 175px;
-    width: 175px;
+    min-height: 175px;
+    min-width: 175px;
     display: inline-block;
-    padding: 5px;
+    padding: 12px;
     text-align: center;
     margin: 1em;
     background-color: #F0F0F0;
