@@ -29,9 +29,9 @@ body {font-family: arial, sans-serif; background-color:#fff; }
   margin:1em;
   float:right;
   background-color: #eee;
-  border: 12px solid #eee;
+  border: 1px solid #eee;
   border-radius: 20px;
-  padding: 1em;
+  padding: .5em 1em 1em;
 }
 
 .featured-images a img {
@@ -47,8 +47,6 @@ body {font-family: arial, sans-serif; background-color:#fff; }
     
 .keywords .featured-images {
     float: left; 
-    margin:1em; 
-    border: 12px solid #eee;
 }
 
 /* Navbar styles*/
