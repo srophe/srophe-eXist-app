@@ -27,14 +27,15 @@ body {font-family: arial, sans-serif; background-color:#fff; }
   flex: 1; /* additionally, equal width */
   height: auto;
   margin:1em;
-/*  display: block;*/
   float:right;
-  width:50%;
+  background-color: #eee;
   border: 12px solid #eee;
+  border-radius: 20px;
+  padding: 1em;
 }
 
 .featured-images a img {
-    width:50%;
+    width:100%;
     border: 2px solid white;
 }
 
@@ -45,9 +46,7 @@ body {font-family: arial, sans-serif; background-color:#fff; }
     }
     
 .keywords .featured-images {
-    width:50%;
     float: left; 
-    padding:2px; 
     margin:1em; 
     border: 12px solid #eee;
 }
@@ -1149,14 +1148,16 @@ img#arch-sinic-about {
 /* Thumbnails */
 .thumb-images {
     /* float: left; */
-    min-height: 175px;
-    min-width: 175px;
+/*  min-height: 175px;*/
+/*  min-width: 175px;*/
+    height: 175px;
+    width:175px;
     display: inline-block;
     padding: 12px;
     text-align: center;
     margin: 1em;
     background-color: #F0F0F0;
-    border: 1px solid #f36e69;
+    border: 1px solid #eee;
     border-radius: 1em;
 }
 
@@ -1164,7 +1165,7 @@ img#arch-sinic-about {
   clear:left;
   display:block;
   text-align: center; 
-  margin-top: -2.5em;
+/*  margin-top: -2.5em;*/
 }
 
 .helper, .helper a {
