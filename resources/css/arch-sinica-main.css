@@ -25,9 +25,10 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 .record-image {display: flex;}
 .featured-images {
   flex: 1; /* additionally, equal width */
-  height: auto;
+  height: fit-content;
   margin:1em;
   float:right;
+  clear:both;
   background-color: #eee;
   border: 1px solid #eee;
   border-radius: 20px;
