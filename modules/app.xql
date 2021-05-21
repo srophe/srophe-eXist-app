@@ -828,3 +828,32 @@ return
     ]]>     
     </script>
 };
+
+(: Add keyword display to take advantage of full screen if no related items to put in right column:)
+declare %templates:wrap function app:keyword-body-display($node as node(), $model as map(*)){
+let $rightCol := app:external-relationships($node, $model, 'dcterms:subject', '', '', '')
+return 
+if($rightCol != '') then
+    <div class="row">
+        <div class="col-md-7">
+            {(
+                app:display-featured-image($node, $model),
+                app:display-nodes($node, $model, '/descendant::tei:body',''),
+                app:keyword-tree($node, $model)
+            )}                   
+        </div>
+        <div class="col-md-5">
+            {$rightCol}
+        </div>
+    </div>
+else 
+    <div class="row">
+        <div class="col-md-12">
+             {(
+                app:display-featured-image($node, $model),
+                app:display-nodes($node, $model, '/descendant::tei:body',''),
+                app:keyword-tree($node, $model)
+            )}  
+        </div>
+    </div>  
+};
