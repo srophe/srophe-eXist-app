@@ -33,10 +33,11 @@ body {font-family: arial, sans-serif; background-color:#fff; }
   border: 1px solid #eee;
   border-radius: 20px;
   padding: .5em 1em 1em;
+  text-align:center;
 }
 
 .featured-images a img {
-    width:100%;
+    height:300px;
     border: 2px solid white;
 }
 
@@ -1146,11 +1147,8 @@ img#arch-sinic-about {
 
 /* Thumbnails */
 .thumb-images {
-    /* float: left; */
-/*  min-height: 175px;*/
-/*  min-width: 175px;*/
-    height: 175px;
-    width:175px;
+/*    height: 175px;*/
+/*    width:175px;*/
     display: inline-block;
     padding: 12px;
     text-align: center;
@@ -1159,8 +1157,11 @@ img#arch-sinic-about {
     border: 1px solid #eee;
     border-radius: 1em;
 }
+.thumb-images img {
+    height: 150px;
+}
 
-.thumb-images .caption {
+.featured-images .caption, .thumb-images .caption {
   clear:left;
   display:block;
   text-align: center; 
@@ -1196,3 +1197,8 @@ img#arch-sinic-about {
 } 
 
 #citationsDisplay .content {margin:0 .5em; padding:0 .5em;}
+.termColumn {margin:1.5em;}
+.termContainer {}
+.inlineBlock {
+   display: inline-block;
+   padding: 20px;}
