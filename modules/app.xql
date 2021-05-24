@@ -695,7 +695,11 @@ declare function app:get-flickr-info($imageURL,$image-class){
     let $secret := tokenize($imageID,'_')[2]
     let $request-url := 
         concat('https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&amp;api_key=',$flickr-api-key,'&amp;photo_id=',$id,'&amp;secret=',$secret)
-    return 
+    return
+    <span class="{$image-class}">
+        <span class="getFlickrInfo" data-imageURL="{$imageURL}" data-image="{$imageID}" data-url="{$request-url}"></span>
+    </span>
+    (:
         <span class="{$image-class}">
             <a href="{$imageURL}" target="_blank">
             <span class="helper"></span>{
@@ -704,31 +708,6 @@ declare function app:get-flickr-info($imageURL,$image-class){
                          }</a>
                 <div class="caption getFlickrInfo" data-image="{$imageID}" data-url="{$request-url}"></div>
         </span> 
-        (:
-        try{
-           let $response := 
-                http:send-request(<http:request http-version="1.1" href="{xs:anyURI($request-url)}" method="get">
-                             <http:header name="Connection" value="close"/>
-                           </http:request>)[2]
-            let $desc :=  $response/descendant::description/text()
-            let $title := $response/descendant::title/text()
-            let $photo-page := $response/descendant::url[@type="photopage"]/text()
-            return 
-                <span class="{$image-class}">
-                     <a href="{$imageURL}" target="_blank">
-                         <span class="helper"></span>
-                         {
-                            if($image-class = 'thumb-images') then <img src="{replace($imageURL,'b.jpg','t.jpg')}"/>
-                            else <img src="{$imageURL}" />
-                         }
-                     </a>
-                     <div class="caption">{if($desc != '') then $desc else $title}</div>
-                </span>  
-        } catch* {
-                    <response status="fail">
-                        <message>{concat($err:code, ": ", $err:description)} {$request-url}</message>
-                    </response>
-        } 
         :)
 };
 
@@ -831,29 +810,38 @@ return
 
 (: Add keyword display to take advantage of full screen if no related items to put in right column:)
 declare %templates:wrap function app:keyword-body-display($node as node(), $model as map(*)){
-let $rightCol := app:external-relationships($node, $model, 'dcterms:subject', '', '', '')
+let $image := app:display-featured-image($node, $model)
 return 
-if($rightCol != '') then
-    <div class="row">
-        <div class="col-md-7">
-            {(
-                app:display-featured-image($node, $model),
-                app:display-nodes($node, $model, '/descendant::tei:body',''),
-                app:keyword-tree($node, $model)
-            )}                   
-        </div>
-        <div class="col-md-5">
-            {$rightCol}
-        </div>
-    </div>
-else 
-    <div class="row">
-        <div class="col-md-12">
-             {(
-                app:display-featured-image($node, $model),
-                app:display-nodes($node, $model, '/descendant::tei:body',''),
-                app:keyword-tree($node, $model)
-            )}  
-        </div>
-    </div>  
+    if(not(empty($image))) then 
+        (<div class="row">
+            <div class="col-md-6">
+                 {app:display-featured-image($node, $model)}
+            </div>
+            <div class="col-md-6">
+                {
+                    let $terms := $model("hits")/descendant::tei:body/tei:entryFree/tei:term
+                    return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$terms}</entryFree>)
+                 }
+            </div> 
+        </div>,
+        <div class="row">
+            <div class="col-md-12">
+                {(
+                    let $contents := $model("hits")/descendant::tei:body/tei:entryFree/child::*[not(self::tei:term)]
+                    return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$contents}</entryFree>),
+                    app:keyword-tree($node, $model),
+                    app:external-relationships($node, $model, 'dcterms:subject', '', '', '')
+                )}                   
+            </div>
+        </div>) 
+    else 
+        <div class="row">
+            <div class="col-md-12">
+                 {(
+                    app:display-nodes($node, $model, '/descendant::tei:body',''),
+                    app:keyword-tree($node, $model),
+                    app:external-relationships($node, $model, 'dcterms:subject', '', '', '')
+                )}  
+            </div>
+        </div>    
 };

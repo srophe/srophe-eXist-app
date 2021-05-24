@@ -148,47 +148,22 @@ clipboard.on('error', function(e) {
 $('.getFlickrInfo').each(function(index, element) { 
     var url = $(this).data('url');
     var image = $(this).attr('data-image');
+    var imageURL = $(this).attr('data-imageURL');
     $.get(url, function(data) {
         var description = $(data).find('description').text();
         var title = $(data).find('title').text();
+        var link = $(data).find('url').text();
         if (description === '') {
             desc = title;
         } else {
             desc = description;
         }
         $('[data-image="'+ image +'"]').each(function(){
-            $(this).text(desc);
+            $(this).html('<a href="'+ link +'" target="_blank"><span class="helper"></span></span><img src="'+ imageURL +'"/><span class="caption">'+ desc +'</span></a>');
          });
-        //$('#' + imageID).append("<span>" + desc + "</span>" );
-        //$('#' + imageID).text("TEST1" + imageID );
-        /*
-        $('[data-image]').each(function(){
-            $(this).text($(this).data(image));
-         });
-        */
-        /*
-         * $('<tr>').html(
-                    $('td').text(item.rank),
-                    $('td').text(item.content),
-                    $('td').text(item.UID)
-                ).appendTo('#records_table');
-                
-         * <a href="{$imageURL}" target="_blank">
-                         <span class="helper"></span>
-                         {
-                            if($image-class = 'thumb-images') then <img src="{replace($imageURL,'b.jpg','t.jpg')}"/>
-                            else <img src="{$imageURL}" />
-                         }
-                     </a>
-                     <div class="caption">{if($desc != '') then $desc else $title}</div>
-         * 
-         */
-           
-
     }).fail( function(jqXHR, textStatus, errorThrown) {
         console.log(textStatus);
     })
-    //console.log('Hi there ' + url  )
    });
    
 //Get citations from Zotero
