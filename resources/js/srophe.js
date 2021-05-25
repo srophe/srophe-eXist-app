@@ -159,7 +159,7 @@ $('.getFlickrInfo').each(function(index, element) {
             desc = description;
         }
         $('[data-image="'+ image +'"]').each(function(){
-            $(this).html('<a href="'+ link +'" target="_blank"><span class="helper"></span></span><img src="'+ imageURL +'"/><span class="caption">'+ desc +'</span></a>');
+            $(this).html('<a href="'+ imageURL +'" target="_blank"><span class="helper"></span></span><img src="'+ imageURL +'"/><span class="caption">'+ desc +'</span></a>');
          });
     }).fail( function(jqXHR, textStatus, errorThrown) {
         console.log(textStatus);

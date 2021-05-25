@@ -22,22 +22,19 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 .full-page {margin-top:0;}
 
 /* Detail Page Styles */
-.record-image {display: flex;}
 .featured-images {
-  flex: 1; /* additionally, equal width */
-  height: fit-content;
+  display:inline-block;
   margin:1em;
-  float:right;
-  clear:both;
   background-color: #eee;
   border: 1px solid #eee;
   border-radius: 20px;
   padding: .5em 1em 1em;
   text-align:center;
+  vertical-align:top;
 }
 
 .featured-images a img {
-    height:300px;
+    max-height:300px;
     border: 2px solid white;
 }
 
@@ -46,10 +43,6 @@ body {font-family: arial, sans-serif; background-color:#fff; }
     display: block;
     width:60%;
     }
-    
-.keywords .featured-images {
-    float: left; 
-}
 
 /* Navbar styles*/
 .navbar {margin-left: 0; padding-left: 0; border-bottom:15px solid #771210 !important;   background-color:#fff  !important; color:#333 !important;}
@@ -1202,3 +1195,9 @@ img#arch-sinic-about {
 .inlineBlock {
    display: inline-block;
    padding: 20px;}
+.terms {
+    background-color:white;
+    text-align:left;
+    border:none;
+    margin-left:1.5em;
+    }
