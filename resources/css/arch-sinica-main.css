@@ -39,13 +39,13 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 } 
 .featured-images a img {
     max-height:300px;
-    border: 1px solid white;
+    border: 2px solid white;
 }
 
 /* Keyword pages */
 .keyword-content{     
     display: block;
-    width:60%;
+    width:50%;
     }
 
 /* Navbar styles*/
