@@ -32,7 +32,11 @@ body {font-family: arial, sans-serif; background-color:#fff; }
   text-align:center;
   vertical-align:top;
 }
-
+.keywords .featured-images {
+    max-width:400px;
+    background-color:white;
+    border:none;
+} 
 .featured-images a img {
     max-height:300px;
     border: 2px solid white;

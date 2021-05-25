@@ -824,6 +824,7 @@ return
     if(not(empty($image))) then 
         (<div class="row">
         <div class="col-md-12">
+        <div class="keywords">
         {app:display-featured-image($node, $model)}
         <span class="featured-images terms">
             {
@@ -831,6 +832,7 @@ return
                 return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$terms}</entryFree>)
                  }
         </span>
+        </div>
         </div>
         
         <!--
