@@ -657,13 +657,17 @@ declare function app:keyword-tree($node as node(), $model as map(*)){
 :)                   
 declare function app:display-featured-image($node as node(), $model as map(*)){
     if($model("hits")//tei:relation[@ref='foaf:depicts'][@ana="featured"] or $model("hits")//tei:relation[@ref='foaf:depicts'][@rendition="featured"]) then 
-        <div class="record-image">
+    (:    <div class="record-image">
         {
             for $image in $model("hits")//tei:relation[@ref='foaf:depicts']
             let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')
             return app:get-flickr-info($imageURL, 'featured-images')
         }    
-        </div>            
+        </div>
+        :)
+         for $image in $model("hits")//tei:relation[@ref='foaf:depicts']
+            let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')
+            return app:get-flickr-info($imageURL, 'featured-images')
     else ()        
 };
 
@@ -672,6 +676,7 @@ declare function app:display-featured-image($node as node(), $model as map(*)){
 :)                   
 declare function app:display-related-images($node as node(), $model as map(*)){
     if($model("hits")//tei:relation[@ref='foaf:depicts']) then 
+        (:
         <div class="record-images">
         { 
             for $image in $model("hits")//tei:relation[@ref='foaf:depicts'][not(@ana="featured")]
@@ -679,6 +684,10 @@ declare function app:display-related-images($node as node(), $model as map(*)){
             return app:get-flickr-info($imageURL, 'thumb-images')
         }    
         </div>
+        :)
+          for $image in $model("hits")//tei:relation[@ref='foaf:depicts'][not(@ana="featured")]
+            let $imageURL := if(starts-with($image/@active,'http')) then $image/@active else concat('https://',$image/@active,'b.jpg')    
+            return app:get-flickr-info($imageURL, 'thumb-images')
     else ()        
 };
 
@@ -814,15 +823,29 @@ let $image := app:display-featured-image($node, $model)
 return 
     if(not(empty($image))) then 
         (<div class="row">
-            <div class="col-md-6">
-                 {app:display-featured-image($node, $model)}
-            </div>
-            <div class="col-md-6">
-                {
-                    let $terms := $model("hits")/descendant::tei:body/tei:entryFree/tei:term
-                    return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$terms}</entryFree>)
+        <div class="col-md-12">
+        <div class="keywords">
+        {app:display-featured-image($node, $model)}
+        <span class="featured-images terms">
+            {
+                let $terms := $model("hits")/descendant::tei:body/tei:entryFree/tei:term
+                return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$terms}</entryFree>)
                  }
-            </div> 
+        </span>
+        </div>
+        </div>
+        
+        <!--
+            <div class="col-md-6">
+               {app:display-featured-image($node, $model)}
+            </div>  
+             <div class="col-md-6">
+               {
+                let $terms := $model("hits")/descendant::tei:body/tei:entryFree/tei:term
+                return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$terms}</entryFree>)
+                 }
+             </div>
+             -->
         </div>,
         <div class="row">
             <div class="col-md-12">
