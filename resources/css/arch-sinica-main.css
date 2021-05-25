@@ -39,7 +39,7 @@ body {font-family: arial, sans-serif; background-color:#fff; }
 } 
 .featured-images a img {
     max-height:300px;
-    border: 2px solid white;
+    border: 1px solid white;
 }
 
 /* Keyword pages */
