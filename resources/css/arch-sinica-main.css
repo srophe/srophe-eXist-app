@@ -33,7 +33,7 @@ body {font-family: arial, sans-serif; background-color:#fff; }
   vertical-align:top;
 }
 .keywords .featured-images {
-    max-width:400px;
+/*    max-width:400px;*/
     background-color:white;
     border:none;
 } 
@@ -902,6 +902,8 @@ code.inline{
 
 .group {padding-left:2.5em;}
 .results .record {padding-left:1em;}
+.dynamicSearchResult .num {display:inline-block}
+.dynamicSearchResult .short-rec-view {display:inline-block}
 .short-relationships {display:block;}
 .wiki-page-link {font-weight:normal;}
 select.keyboardSelect {display:none;}
@@ -1162,6 +1164,7 @@ img#arch-sinic-about {
   clear:left;
   display:block;
   text-align: center; 
+  max-width:400px;
 /*  margin-top: -2.5em;*/
 }
 

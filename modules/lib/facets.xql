@@ -15,6 +15,9 @@ declare variable $sf:QUERY_OPTIONS := map {
     "filter-rewrite": "yes"
 };
 
+(: Add sort fields to browse and search options. Used for sorting, add sort fields and functions, add sort function:)
+declare variable $sf:sortFields := map { "fields": ("title", "author") };
+
 (: ~ 
  : Build indexes for fields and facets as specified in facet-def.xml and search-config.xml files
  : Note: Investigate boost? 
@@ -46,6 +49,9 @@ declare function sf:build-index(){
         return 
             ($facets(:,$fields :))
         }
+                        <!-- Predetermined sort fields -->               
+                <field name="title" expression="sf:field(descendant-or-self::tei:body,'title')"/>
+                <field name="author" expression="sf:field(descendant-or-self::tei:body, 'author')"/>
         </text>
         <text qname="tei:fileDesc"/>
         <text qname="tei:biblStruct"/>
@@ -92,13 +98,23 @@ declare function sf:build-index(){
 </index>
 };
 
-(: Update collection.xconf file for data application, can be called by post install script, or index.xql :)
+(:~ 
+ : Update collection.xconf file for data application, can be called by post install script, or index.xql
+ : Save collection to correct application subdirectory in /db/system/config
+ : Trigger a re-index.
+ : 
+ : @note reindex does not seem to work... investigate 
+ :)
 declare function sf:update-index(){
-  try {
-        let $indexFile := doc(concat('/db/system/config',replace($config:data-root,'/data',''),'/collection.xconf'))
-        return 
-            (update replace $indexFile//*:index with sf:build-index(), xmldb:reindex($config:data-root))
-    } catch * {('error: ',concat($err:code, ": ", $err:description))}
+    let $updateXconf := 
+      try {
+            let $configPath := concat('/db/system/config',replace($config:data-root,'/data',''))
+            return xmldb:store($configPath, 'collection.xconf', sf:build-index())
+        } catch * {('error: ',concat($err:code, ": ", $err:description))}
+    return 
+        if(starts-with($updateXconf,'error:')) then
+            $updateXconf
+        else xmldb:reindex($config:data-root)
 };
 
 (: Main facet function, for generic facets :)
@@ -125,6 +141,22 @@ declare function sf:facet($element as item()*, $path as xs:string, $name as xs:s
         else ()
 };
 
+(: For sort fields, or fields not defined in search-config.xml :)
+declare function sf:field($element as item()*, $name as xs:string){
+    try { 
+        util:eval(concat('sf:field-',$name,'($element,$name)'))
+    } catch * {concat($err:code, ": ", $err:description)}
+};
+
+
+
+(:~ 
+ : Build fields path based on search-config.xml file. Used by collection.xconf to build facets at index time. 
+ : @param $path - path to facet definition file, if empty assume root.
+ : @param $name - name of facet in facet definition file. 
+ : 
+ : @note not currently implemented
+:)
 declare function sf:field($element as item()*, $path as xs:string, $name as xs:string){
     let $field-definition :=  
         if(doc-available($path)) then
@@ -140,6 +172,7 @@ declare function sf:field($element as item()*, $path as xs:string, $name as xs:s
             else util:eval(concat('$element/',$xpath)) 
         else ()  
 };
+
 
 (: Custom search fields :)
 (: Could be just shortened to  tokenize(util:eval(concat('$element/',$xpath)),' ')  do not need to group for Lucene facets i think?:)
@@ -176,20 +209,12 @@ declare function sf:facet-range($element as item()*, $facet-definition as item()
 };
 
 (: Title field :)
-declare function sf:field-title($element as item()*, $facet-definition as item(), $name as xs:string){
-    if($element/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][@xml:lang='en']) then 
-        let $en := $element/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][@xml:lang='en'][1]
-        let $syr := string-join($element/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]//text(),' ')
-        return sf:build-sort-string(concat($en, if($syr != '') then  concat(' - ', $syr) else ()))
-    else if($element/descendant-or-self::*[contains(@srophe:tags,'#headword')][@xml:lang='en']) then
-        let $en := $element/descendant-or-self::*[contains(@srophe:tags,'#headword')][@xml:lang='en'][1]
-        let $syr := string-join($element/descendant::*[contains(@srophe:tags,'#headword')][matches(@xml:lang,'^syr')][1]//text(),' ')
-        return sf:build-sort-string(concat($en, if($syr != '') then  concat(' - ', $syr) else ()))
-    else if($element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct) then 
+declare function sf:field-title($element as item()*, $name as xs:string){
+    if($element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct) then 
         sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct/descendant::tei:title)
     else if($element/ancestor-or-self::tei:TEI/descendant::tei:term[@xml:lang="zh-latn-pinyin"]) then 
-        sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:term[@xml:lang="zh-latn-pinyin"])
-    else sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/tei:title)
+        sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:term[@xml:lang="zh-latn-pinyin"][1])
+    else sf:build-sort-string($element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt[1]/tei:title[1])
 };
 
 (: Title field :)
@@ -200,10 +225,10 @@ declare function sf:facet-title($element as item()*, $facet-definition as item()
 };
 
 (: Author field :)
-declare function sf:field-author($element as item()*, $facet-definition as item(), $name as xs:string){
+declare function sf:field-author($element as item()*, $name as xs:string){
     if($element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct) then 
         $element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct/descendant::tei:author | $element/ancestor-or-self::tei:TEI/descendant::tei:biblStruct/descendant::tei:editor
-    else $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/descendant::tei:author
+    else $element/ancestor-or-self::tei:TEI/descendant::tei:titleStmt/descendant::tei:author[1]
 };
 
 (: Author field :)
@@ -407,6 +432,7 @@ else
 declare function sf:facet-query() {
     map:merge((
         $sf:QUERY_OPTIONS,
+        $sf:sortFields,
         map {
             "facets":
                 map:merge((
