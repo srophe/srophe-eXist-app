@@ -27,6 +27,7 @@ declare namespace http="http://expath.org/ns/http-client";
 
 declare variable $start {request:get-parameter('start', 1) cast as xs:integer};
 declare variable $perpage {request:get-parameter('perpage', 20) cast as xs:integer};
+declare variable $sort {request:get-parameter('sort-element', '') cast as xs:string};
 
 
 let $path := if(request:get-parameter('id', '')  != '') then 
@@ -39,7 +40,7 @@ return
     if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
         cntneg:content-negotiation(data:get-document(), $format, $path)
     else if(request:get-parameter-names() != '') then
-        let $hits := data:search('','','')
+        let $hits := data:search('','',$sort)
         return 
         if($format=('json','JSON')) then
             (response:set-header("Content-Type", "application/json; charset=utf-8"),
@@ -67,8 +68,12 @@ return
                 </output:serialization-parameters>)) 
         else 
             <results total="{count($hits)}" search-string="{request:get-query-string()}" next="{$start + $perpage}" id="result">{
-                for $h in subsequence($hits,$start,$perpage) 
-                return cntneg:content-negotiation($h, 'html-summary', $path)
+                for $h at $i in subsequence($hits,($start + 1),$perpage) 
+                return 
+                <div class="dynamicSearchResult">
+                    <span class="num">{($start + $i) - 1}. </span>
+                    {cntneg:content-negotiation($h, 'html-summary', $path)}
+                </div>
             }</results> 
     else ()                    
     

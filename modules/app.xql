@@ -834,18 +834,6 @@ return
         </span>
         </div>
         </div>
-        
-        <!--
-            <div class="col-md-6">
-               {app:display-featured-image($node, $model)}
-            </div>  
-             <div class="col-md-6">
-               {
-                let $terms := $model("hits")/descendant::tei:body/tei:entryFree/tei:term
-                return global:tei2html(<entryFree xmlns="http://www.tei-c.org/ns/1.0">{$terms}</entryFree>)
-                 }
-             </div>
-             -->
         </div>,
         <div class="row">
             <div class="col-md-12">

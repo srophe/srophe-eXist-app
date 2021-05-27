@@ -153,7 +153,20 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             if(request:get-parameter-names() = '' or empty(request:get-parameter-names())) then 
                 collection($config:data-root || '/' || $collection)//tei:body[ft:query(., (),sf:facet-query())]
             else util:eval($eval-string)//tei:body[ft:query(., (),sf:facet-query())]           
-    return $hits/ancestor-or-self::tei:TEI          
+    let $sort := 
+        if(request:get-parameter('sort', '') != '') then request:get-parameter('sort', '') 
+        else if(request:get-parameter('sort-element', '') != '') then request:get-parameter('sort-element', '')
+        else if(request:get-parameter('element', '') != '') then request:get-parameter('element', '')
+        else if($sort-element != '') then $sort-element
+        else ()  
+    for $hit in $hits
+    let $s :=
+        if(contains($sort, 'author')) then ft:field($hit, "author")[1]                        
+        else if(contains($sort, 'title') or contains($sort, 'headword')) then ft:field($hit, "title")[1]
+        else if($sort != '' and not(contains($sort, 'title') and not(contains($sort, 'author')))) then data:add-sort-options($hit, $sort)                    
+        else ft:field($hit, "title")[1]                
+    order by $s[1] collation 'http://www.w3.org/2013/collation/UCA'
+    return $hit/ancestor::tei:TEI       
     (:
     let $eval-string := if($queryString != '') then $queryString 
                         else concat(data:build-collection-path($collection), data:create-query($collection))
