@@ -147,7 +147,7 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
                 else replace($nodes//tei:teiHeader/tei:fileDesc/tei:publicationStmt/tei:idno[@type='URL'],'/tei','')
     let $title := 
                 if($nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin']) then 
-                    $nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin']/text()
+                    $nodes/descendant::tei:entryFree/tei:term[@xml:lang='zh-latn-pinyin'][not(@type='alternate')][1]/text()
                 else $nodes/descendant::tei:titleStmt/tei:title[1]/text()
     return 
         <div class="short-rec-view">
