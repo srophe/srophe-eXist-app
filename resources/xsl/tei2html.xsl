@@ -603,7 +603,7 @@
                 <div id="terms">
                     <h3>Terms</h3>
                     <ul>
-                        <xsl:apply-templates select="t:term" mode="list"/>
+                        <xsl:apply-templates select="t:term[not(@type='alternate')]" mode="list"/>
                     </ul>
                 </div>
             </xsl:if>
