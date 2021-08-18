@@ -5,10 +5,10 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2020-09-01T16:26:35Z. .
-TEI Edition: Version 4.0.0. Last updated on
-	13th February 2020, revision ccd19b0ba
-TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
+Schema generated from ODD source 2021-08-17T19:10:01Z. .
+TEI Edition: Version 4.1.0. Last updated on
+	19th August 2020, revision b414ba550
+TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
   
 --><!--[http://creativecommons.org/licenses/by/3.0/] Distributed under a Creative Commons Attribution 3.0 Unported License. The code examples contained in  <exemplum>  elements below come from Syriaca.org projects that have been distributed under a Creative Commons Attribution 3.0 Unported License. Used by permission. The comments on element and attribute use contained in  <remarks>  elements below share some text with other Syriaca.org documentation distributed under a Creative Commons Attributiion 3.0 Unported License. This documentation can be found at various links available here:  http://syriaca.org/documentation/index.html  Used by permission.-->
    <define name="macro.paraContent">
@@ -28,7 +28,7 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
          <choice>
             <text/>
             <ref name="model.gLike"/>
-            <ref name="model.qLike"/>
+            <ref name="model.attributable"/>
             <ref name="model.phrase"/>
             <ref name="model.global"/>
          </choice>
@@ -281,7 +281,8 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="SPEAR-att.datable.w3c-att-datable-w3c-when-constraint-rule-1">
-      <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
+      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@when]">
@@ -290,7 +291,8 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="SPEAR-att.datable.w3c-att-datable-w3c-from-constraint-rule-2">
-      <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
+      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@from]">
@@ -299,7 +301,8 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
    </pattern>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="SPEAR-att.datable.w3c-att-datable-w3c-to-constraint-rule-3">
-      <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
+      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@to]">
@@ -323,7 +326,8 @@ TEI Edition Location: http://www.tei-c.org/Vault/P5/Version 4.0.0/
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="SPEAR-att.datable-calendar-calendar-constraint-rule-4">
-      <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
+      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@calendar]">
@@ -726,7 +730,8 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="SPEAR-att.typed-subtypeTyped-constraint-rule-5">
-      <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
+      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[@subtype]">
@@ -755,7 +760,8 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
    </define>
    <pattern xmlns="http://purl.oclc.org/dsdl/schematron"
             id="SPEAR-att.pointing-targetLang-targetLang-constraint-rule-6">
-      <sch:rule xmlns:rng="http://relaxng.org/ns/structure/1.0"
+      <sch:rule xmlns:xi="http://www.w3.org/2001/XInclude"
+                xmlns:rng="http://relaxng.org/ns/structure/1.0"
                 xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="tei:*[not(self::tei:schemaSpec)][@targetLang]">
@@ -1255,7 +1261,7 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
    <define name="model.quoteLike_sequenceRepeatable">
       <notAllowed/>
    </define>
-   <define name="model.qLike">
+   <define name="model.attributable">
       <choice>
          <ref name="model.quoteLike"/>
       </choice>
@@ -1386,7 +1392,7 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
          <ref name="model.labelLike"/>
          <ref name="model.listLike"/>
          <ref name="model.stageLike"/>
-         <ref name="model.qLike"/>
+         <ref name="model.attributable"/>
       </choice>
    </define>
    <define name="model.phrase">
@@ -1504,6 +1510,9 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
                </zeroOrMore>
                <zeroOrMore>
                   <ref name="rs"/>
+               </zeroOrMore>
+               <zeroOrMore>
+                  <ref name="bibl"/>
                </zeroOrMore>
                <optional>
                   <ref name="listRelation"/>
@@ -1832,12 +1841,12 @@ attributes @target and @cRef may be supplied on <name/>.</report>
                </report>
             </rule>
          </pattern>
-         <ref name="att.global.attributes"/>
-         <ref name="att.pointing.attributes"/>
-         <ref name="att.internetMedia.attributes"/>
-         <ref name="att.typed.attributes"/>
-         <ref name="att.declaring.attributes"/>
          <ref name="att.cReferencing.attributes"/>
+         <ref name="att.declaring.attributes"/>
+         <ref name="att.global.attributes"/>
+         <ref name="att.internetMedia.attributes"/>
+         <ref name="att.pointing.attributes"/>
+         <ref name="att.typed.attributes"/>
          <empty/>
       </element>
    </define>
@@ -2842,6 +2851,7 @@ Suggested values include: 1] volume; 2] issue; 3] page; 4] line; 5] chapter; 6] 
             </sch:rule>
          </pattern>
          <ref name="att.global.attributes"/>
+         <ref name="att.declarable.attributes"/>
          <empty/>
       </element>
    </define>
@@ -2971,7 +2981,7 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    </define>
    <define name="change">
       <element name="change">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">documents a change or set of changes made during the production of a source document, or during the revision of an electronic file. [2.6. The Revision Description 2.4.1. Creation 11.7. Identifying Changes and Revisions]</a:documentation>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">documents a change or set of changes made during the production of a source document, or during the revision of an electronic file. [2.6. The Revision Description 2.4.1. Creation 11.6. Identifying Changes and Revisions]</a:documentation>
          <ref name="macro.specialPara"/>
          <ref name="att.ascribed.attributes"/>
          <ref name="att.datable.attributes"/>
@@ -3211,6 +3221,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(physical trait) Used to designate person factoids that encode physical traits</a:documentation>
                <value>relation</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relation) Used to designate relation factoids</a:documentation>
+               <value>religiousAffiliation</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(religious affiliation) Used to designate person factoids taht encode the religious affiliation of a person</a:documentation>
                <value>residence</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(residence) Used to designate person factoids that encode places and dates of residence</a:documentation>
                <value>sanctity</value>
@@ -3554,6 +3566,7 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
       <element name="persName">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(personal name) contains a proper noun or proper-noun phrase referring to a person, possibly including one or more of the person's forenames, surnames, honorifics, added names, etc. [13.2.1. Personal Names]</a:documentation>
          <ref name="macro.phraseSeq"/>
+         <ref name="att.datable.w3c.attributes"/>
          <attribute name="ref">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <data type="anyURI"/>
@@ -3815,8 +3828,9 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    </define>
    <define name="occupation">
       <element name="occupation">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains an informal description of a person's trade, profession or occupation. [15.2.2. The Participant Description]</a:documentation>
          <ref name="note"/>
+         <ref name="att.datable.w3c.attributes"/>
          <attribute name="ana">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <list>
@@ -3844,6 +3858,18 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       preferred descriptive term: <sch:value-of select="string-join($occupations, ';  ')"/>.</sch:assert>
             </sch:rule>
          </pattern>
+         <optional>
+            <attribute name="scheme">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the classification system or taxonomy in use, for example by supplying the identifier of a <code xmlns="http://www.w3.org/1999/xhtml">&lt;taxonomy&gt;</code> element, or pointing to some other resource.</a:documentation>
+               <data type="anyURI"/>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="code">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies an occupation code defined within the classification system or taxonomy defined by the <code xmlns="http://www.w3.org/1999/xhtml">@scheme</code> attribute.</a:documentation>
+               <data type="anyURI"/>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
@@ -4280,10 +4306,11 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    </define>
    <define name="socecStatus">
       <element name="socecStatus">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(socio-economic status) contains an informal description of a person's perceived social or economic status. [15.2.2. The Participant Description]</a:documentation>
          <oneOrMore>
             <ref name="note"/>
          </oneOrMore>
+         <ref name="att.datable.w3c.attributes"/>
          <attribute name="ana">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <data type="anyURI"/>
@@ -4307,13 +4334,26 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       preferred descriptive term: <sch:value-of select="string-join($socioeconomicStatus, ';  ')"/>.</sch:assert>
             </sch:rule>
          </pattern>
+         <optional>
+            <attribute name="scheme">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies the classification system or taxonomy in use, for example by pointing to a locally-defined <code xmlns="http://www.w3.org/1999/xhtml">&lt;taxonomy&gt;</code> element or by supplying a URI for an externally-defined system.</a:documentation>
+               <data type="anyURI"/>
+            </attribute>
+         </optional>
+         <optional>
+            <attribute name="code">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">identifies a status code defined within the classification system or taxonomy defined by the <code xmlns="http://www.w3.org/1999/xhtml">@scheme</code> attribute.</a:documentation>
+               <data type="anyURI"/>
+            </attribute>
+         </optional>
          <empty/>
       </element>
    </define>
    <define name="state">
       <element name="state">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of some status or quality attributed to a person, place, or organization often at some specific time or for a specific date range. [13.3.1. Basic Principles 13.3.2.1. Personal Characteristics]</a:documentation>
          <ref name="note"/>
+         <ref name="att.datable.w3c.attributes"/>
          <attribute name="ana">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <list>
@@ -4362,6 +4402,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
             <choice>
                <value>mental</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's mental traits; such as intelligence, mental disability, wisdom, etc.</a:documentation>
+               <value>religiousAffiliation</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's religious affiliation; including but not limited to membership in an organization, adhering to a set of beliefs, or identifying with a religious community in some way.</a:documentation>
                <value>sanctity</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's sanctity.</a:documentation>
             </choice>
@@ -4371,19 +4413,9 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    </define>
    <define name="trait">
       <element name="trait">
-         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+         <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains a description of some status or quality attributed to a person, place, or organization typically, but not necessarily, independent of the volition or action of the holder and usually not at some specific time or for a specific date range. [13.3.1. Basic Principles 13.3.2.1. Personal Characteristics]</a:documentation>
          <ref name="note"/>
-         <attribute name="type">
-            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
-            <choice>
-               <value>physical</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's physical characteristics, such as hair color, height, weight, physical disabilities, etc.</a:documentation>
-               <value>gender</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's gender identity (as opposed to their biological sex which SPEAR does not presume to capture).</a:documentation>
-               <value>ethnicLabel</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to an ethnic label claimed by a person or ascribed to a person; such as "Goth," "Saracen," etc.</a:documentation>
-            </choice>
-         </attribute>
+         <ref name="att.datable.w3c.attributes"/>
          <attribute name="ana">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <list>
@@ -4439,6 +4471,17 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                     </sch:assert>
             </sch:rule>
          </pattern>
+         <attribute name="type">
+            <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
+            <choice>
+               <value>physical</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's physical characteristics, such as hair color, height, weight, physical disabilities, etc.</a:documentation>
+               <value>gender</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to a person's gender identity (as opposed to their biological sex which SPEAR does not presume to capture).</a:documentation>
+               <value>ethnicLabel</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">used for references to an ethnic label claimed by a person or ascribed to a person; such as "Goth," "Saracen," etc.</a:documentation>
+            </choice>
+         </attribute>
          <empty/>
       </element>
    </define>

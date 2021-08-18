@@ -669,6 +669,7 @@
         </elementSpec>
 
         <elementSpec ident="date" module="core" mode="change">
+          <!-- I need a rule stating that when the date element does not have a choice ancestor it must have calendar="Gregorian"-->
           <classes mode="replace">
             <memberOf key="model.dateLike"/>
             <memberOf key="model.publicationStmtPart.detail"/>
@@ -737,6 +738,7 @@
               <elementRef key="placeName" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="orgName" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="rs" minOccurs="0" maxOccurs="unbounded"/>
+              <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="listRelation" minOccurs="0" maxOccurs="1"/>
             </sequence>
           </content>
@@ -1123,6 +1125,10 @@
                   <gloss>relation</gloss>
                   <desc>Used to designate relation factoids</desc>
                 </valItem>
+                <valItem ident="religiousAffiliation">
+                  <gloss>religious affiliation</gloss>
+                  <desc>Used to designate person factoids taht encode the religious affiliation of a person</desc>
+                </valItem>
                 <valItem ident="residence">
                   <gloss>residence</gloss>
                   <desc>Used to designate person factoids that encode places and dates of residence</desc>
@@ -1386,11 +1392,12 @@
 
         <elementSpec ident="persName" module="namesdates" mode="change">
           <classes mode="replace">
+            <memberOf key="att.datable.w3c"/>
             <memberOf key="model.nameLike.agent"/>
             <memberOf key="model.persStateLike"/>
           </classes>
           <attList>
-            <attDef ident="ref" usage="req">
+            <attDef ident="ref" mode="add" usage="req">
               <datatype minOccurs="1" maxOccurs="1">
                 <dataRef key="teidata.pointer"/>
               </datatype>
@@ -1915,12 +1922,16 @@
           </remarks>
         </elementSpec>
 
-        <elementSpec ident="occupation" module="namesdates" mode="replace">
+        <elementSpec ident="occupation" module="namesdates" mode="change">
+          <classes mode="replace">
+            <memberOf key="att.datable.w3c"/>
+            <memberOf key="att.global.analytic"/>
+          </classes>
           <content>
             <elementRef key="note" minOccurs="1" maxOccurs="1"/>
           </content>
           <attList>
-            <attDef ident="ana" usage="req">
+            <attDef ident="ana" mode="change" usage="req">
               <datatype minOccurs="1" maxOccurs="unbounded">
                 <dataRef key="teidata.pointer"/>
               </datatype>
@@ -2017,12 +2028,16 @@
           </remarks>
         </elementSpec>
 
-        <elementSpec ident="socecStatus" module="namesdates" mode="replace">
+        <elementSpec ident="socecStatus" module="namesdates" mode="change">
+          <classes mode="replace">
+            <memberOf key="att.datable.w3c"/>
+            <memberOf key="att.global.analytic"/>
+          </classes>
           <content>
             <elementRef key="note" minOccurs="1" maxOccurs="unbounded"/>
           </content>
           <attList>
-            <attDef ident="ana" usage="req">
+            <attDef ident="ana" mode="change" usage="req">
               <datatype minOccurs="1">
                 <dataRef key="teidata.pointer"/>
               </datatype>
@@ -2058,7 +2073,11 @@
           </remarks>
         </elementSpec>
 
-        <elementSpec ident="trait" module="namesdates" mode="replace">
+        <elementSpec ident="trait" module="namesdates" mode="change">
+          <classes mode="replace">
+            <memberOf key="att.datable.w3c"/>
+            <memberOf key="att.global.analytic"/>
+          </classes>
           <content>
             <elementRef key="note" minOccurs="1" maxOccurs="1"/>
           </content>
@@ -2084,7 +2103,7 @@
                 </valItem>
               </valList>
             </attDef>
-            <attDef ident="ana" usage="req">
+            <attDef ident="ana" mode="change" usage="req">
               <datatype minOccurs="1" maxOccurs="unbounded">
                 <dataRef key="teidata.pointer"/>
               </datatype>
@@ -2186,16 +2205,21 @@
           
         </elementSpec>
 
-        <elementSpec ident="state" module="namesdates" mode="replace">
+        <elementSpec ident="state" module="namesdates" mode="change">
+          <classes mode="replace">
+            <memberOf key="att.datable.w3c"/>
+            <memberOf key="att.global.analytic"/>
+          </classes>
           <content>
             <elementRef key="note" minOccurs="1" maxOccurs="1"/>
           </content>
           <attList>
-            <attDef ident="ana" mode="add" usage="req">
+            <attDef ident="ana" mode="change" usage="req">
               <datatype minOccurs="1" maxOccurs="unbounded">
                 <dataRef key="teidata.pointer"/>
               </datatype>
               <constraintSpec ident="ana-in-state" scheme="schematron">
+                <!-- Add schematron rule to validate religious affiliation against the taxonomy. Taxonomy requires updating before this can be done. -->
                 <constraint>
                   <sch:rule context="tei:state[@type='mental']/@ana">
                     <sch:let name="anaValues" value="tokenize(., ' ')"/>
@@ -2242,6 +2266,11 @@
                 <valItem ident="mental">
                   <desc>used for references to a person's mental traits; such as intelligence,
                     mental disability, wisdom, etc.</desc>
+                </valItem>
+                <valItem ident="religiousAffiliation">
+                  <desc>used for references to a person's religious affiliation; including but 
+                    not limited to membership in an organization, adhering to a set of beliefs, 
+                    or identifying with a religious community in some way.</desc>
                 </valItem>
                 <valItem ident="sanctity">
                   <desc>used for references to a person's sanctity.</desc>
