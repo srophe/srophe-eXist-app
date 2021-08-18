@@ -3222,7 +3222,7 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <value>relation</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(relation) Used to designate relation factoids</a:documentation>
                <value>religiousAffiliation</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(religious affiliation) Used to designate person factoids taht encode the religious affiliation of a person</a:documentation>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(religious affiliation) Used to designate person factoids that encode the religious affiliation of a person</a:documentation>
                <value>residence</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(residence) Used to designate person factoids that encode places and dates of residence</a:documentation>
                <value>sanctity</value>

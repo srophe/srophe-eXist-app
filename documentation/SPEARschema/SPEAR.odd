@@ -1127,7 +1127,7 @@
                 </valItem>
                 <valItem ident="religiousAffiliation">
                   <gloss>religious affiliation</gloss>
-                  <desc>Used to designate person factoids taht encode the religious affiliation of a person</desc>
+                  <desc>Used to designate person factoids that encode the religious affiliation of a person</desc>
                 </valItem>
                 <valItem ident="residence">
                   <gloss>residence</gloss>
