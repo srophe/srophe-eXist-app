@@ -47,7 +47,7 @@
                <licence target="http://creativecommons.org/licenses/by/3.0/"> Distributed under a
                   Creative Commons Attribution 3.0 Unported License </licence>
             </availability>
-            <date>2019-11-01</date>
+            <date>2021-08-30</date>
          </publicationStmt>
          <sourceDesc>
             <p>Born digital.</p>
@@ -70,6 +70,7 @@
       <revisionDesc>
          <change type="reminder">Please be sure to update the publication date when changes are made
             here!</change>
+         <change when="2021-08-30" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Roman Brasoveanu, Emma Claire Geitner, and Eliana Yonan</change>
          <change when="2020-01-24" who="http://syriaca.org/documentation/editors.xml#dschwartz">ADDED: Rose Trupiano and FIX TYPO: Reyhan Durmaz</change>
          <change when="2019-11-01" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Tobias Scheunchen</change>
          <change when="2019-09-24" who="http://syriaca.org/documentation/editors.xml#dschwartz">
@@ -180,6 +181,12 @@
                <persName xml:lang="en">
                   <forename>Dina</forename>
                   <surname>Boero</surname>
+               </persName>
+            </person>
+            <person xml:id="rbrasoveanu">
+               <persName xml:lang="en">
+                  <forename>Roman</forename>
+                  <surname>Brasoveanu</surname>
                </persName>
             </person>
             <person xml:id="fbriquelchatonnet">
@@ -322,6 +329,12 @@
                <persName xml:lang="en">
                   <forename>Eric</forename>
                   <surname>Garret</surname>
+               </persName>
+            </person>
+            <person xml:id="ecgeitner">
+               <persName xml:lang="en">
+                  <forename>Emma Claire</forename>
+                  <surname>Geitner</surname>
                </persName>
             </person>
             <person xml:id="egibes">
@@ -615,6 +628,12 @@
                <persName xml:lang="en">
                   <forename>Luke</forename>
                   <surname>Yarbrough</surname>
+               </persName>
+            </person>
+            <person xml:id="eyonan">
+               <persName xml:lang="en">
+                  <forename>Eliana</forename>
+                  <surname>Yonan</surname>
                </persName>
             </person>
             <person xml:id="syoung">
