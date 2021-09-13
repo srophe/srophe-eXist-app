@@ -47,7 +47,7 @@
                <licence target="http://creativecommons.org/licenses/by/3.0/"> Distributed under a
                   Creative Commons Attribution 3.0 Unported License </licence>
             </availability>
-            <date>2021-08-30</date>
+            <date>2021-09-13</date>
          </publicationStmt>
          <sourceDesc>
             <p>Born digital.</p>
@@ -70,6 +70,7 @@
       <revisionDesc>
          <change type="reminder">Please be sure to update the publication date when changes are made
             here!</change>
+         <change when="2021-09-13" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Ryan Stitt</change>
          <change when="2021-08-30" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Roman Brasoveanu, Emma Claire Geitner, and Eliana Yonan</change>
          <change when="2020-01-24" who="http://syriaca.org/documentation/editors.xml#dschwartz">ADDED: Rose Trupiano and FIX TYPO: Reyhan Durmaz</change>
          <change when="2019-11-01" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Tobias Scheunchen</change>
@@ -572,6 +573,12 @@
                <persName xml:lang="en">
                   <forename>Eileen</forename>
                   <surname>Smith</surname>
+               </persName>
+            </person>
+            <person xml:id="rstitt">
+               <persName xml:lang="en">
+                  <forename>Ryan</forename>
+                  <surname>Stitt</surname>
                </persName>
             </person>
             <person xml:id="mtaylor">
