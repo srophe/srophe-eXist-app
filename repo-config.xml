@@ -74,6 +74,7 @@
             <collection name="nhsl" title="New Handbook of Syriac Literature" collection-URI="http://syriaca.org/nhsl" series="New Handbook of Syriac Literature" app-root="/nhsl/" data-root="works" record-URI-pattern="http://syriaca.org/work/"/>
             <collection name="bible" title="A Guide to the Bible in Syriac" collection-URI="http://syriaca.org/bible" series="New Handbook of Syriac Literature" app-root="/bible/" data-root="works" record-URI-pattern="http://syriaca.org/work/"/>
             <collection name="bibl" title="Syriaca.org Works Cited" app-root="/bibl/" data-root="bibl" record-URI-pattern="http://syriaca.org/bibl/"/>
+            <collection name="bl" title="A Digital Catalogue of Syriac Manuscripts in the British Library: A Linked Data Encoding of the Catalogue of William Wright" collection-URI="http://syriaca.org/bl" app-root="/bl/" data-root="manuscripts" record-URI-pattern="http://syriaca.org/manuscript/"/>
             <collection name="subjects" title="A Taxonomy of Syriac Studies" app-root="/taxonomy/" data-root="subjects" record-URI-pattern="http://syriaca.org/keyword/"/>
         </collections>
     </config>
