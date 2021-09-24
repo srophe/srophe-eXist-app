@@ -46,11 +46,13 @@ let $current-page := xs:integer(($start + $perpage) div $perpage)
 (: get all parameters to pass to paging function, strip start parameter :)
 let $url-params := 
         string-join(
-            for $param in request:get-parameter-names()
+            for $param at $i in request:get-parameter-names()
             return 
                 if($param = 'start') then ()
-                else if(request:get-parameter($param, '') = ' ') then ()
-                else concat('&amp;',$param, '=',request:get-parameter($param, '')),'')
+                else 
+                    for $p in request:get-parameter($param, '')
+                    where $p 
+                    return if($i = 1) then concat($param, '=',$p) else concat('&amp;',$param, '=',$p),'')
 (: let $url-params := replace(replace(request:get-query-string(), '&amp;start=\d+', ''),'start=\d+',''):)
 let $param-string := if($url-params != '') then concat('?',$url-params,'&amp;start=') else '?start='        
 let $pagination-links := 
@@ -77,7 +79,7 @@ let $pagination-links :=
                 <ul class="pagination pull-right">
                     {((: Show 'Previous' for all but the 1st page of results :)
                         if ($current-page = 1) then ()
-                        else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }">Prev</a></li>,
+                        else <li><a href="{concat($param-string, $perpage * ($current-page - 2)) }" title="Previous page"><span class="glyphicon glyphicon-backward"></span></a></li>,
                         (: Show links to each page of results :)
                         let $max-pages-to-show := 8
                         let $padding := xs:integer(round($max-pages-to-show div 2))
@@ -98,7 +100,7 @@ let $pagination-links :=
                              else <li><a href="{concat($param-string, $newstart)}">{$page}</a></li>,
                         (: Shows 'Next' for all but the last page of results :)
                         if ($start + $perpage ge $total-result-count) then ()
-                        else <li><a href="{concat($param-string, $start + $perpage)}">Next</a></li>,
+                        else <li><a href="{concat($param-string, $start + $perpage)}" title="Next page"><span class="glyphicon glyphicon-forward"></span></a></li>,
                         if($sort-options != '') then page:sort($param-string, $start, $sort-options)
                         else(),
                         <li><a href="{concat($param-string,'1&amp;perpage=',$total-result-count)}">All</a></li>,

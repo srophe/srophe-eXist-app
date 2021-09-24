@@ -15,6 +15,17 @@ import module namespace functx="http://www.functx.com";
 declare namespace srophe="https://srophe.app";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare variable $data:docID {request:get-parameter('id', '')[1]};
+(:
+request:get-parameter('element', '')
+request:get-parameter('lang', '') 
+request:get-parameter('alpha-filter', '')
+request:get-parameter('sort', '')
+request:get-parameter('sort-element', '')
+request:get-parameter('view', '')
+request:get-parameter('relId', '')
+  :)
+  
 (:~
  : Return document by id/tei:idno or document path
  : Return by ID if @param $id
@@ -243,7 +254,7 @@ declare function data:get-records($collection as xs:string*, $element as xs:stri
  : Add sort options. 
 :)
 declare function data:search($collection as xs:string*, $queryString as xs:string?, $sort-element as xs:string?) {                      
-    let $eval-string := if($queryString != '') then $queryString 
+    let $eval-string := if($queryString != '') then $queryString[1] 
                         else concat(data:build-collection-path($collection), data:create-query($collection),facet:facet-filter(global:facet-definition-file($collection)))
     let $hits := util:eval($eval-string)
     return 
@@ -252,8 +263,8 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             let $root := $hit/ancestor-or-self::tei:TEI
             let $sort := 
                 if($collection = 'bibl') then
-                    global:build-sort-string(data:add-sort-options-bibl($root, request:get-parameter('sort-element', '')),'')
-                else global:build-sort-string(data:add-sort-options($root, request:get-parameter('sort-element', '')),'')
+                    global:build-sort-string(data:add-sort-options-bibl($root, request:get-parameter('sort-element', '')[1]),'')
+                else global:build-sort-string(data:add-sort-options($root, request:get-parameter('sort-element', '')[1]),'')
             order by $sort collation 'http://www.w3.org/2013/collation/UCA'
             return $root
         else if($sort-element != '' and $sort-element != 'relevance') then  
@@ -264,7 +275,7 @@ declare function data:search($collection as xs:string*, $queryString as xs:strin
             for $h in $hits
                 let $part := 
                       if ($h/child::*/tei:listRelation/tei:relation[@passive[matches(.,request:get-parameter('relId', ''))]]/tei:desc[1]/tei:label[@type='order'][1]/@n castable as  xs:integer)
-                      then xs:integer($h/child::*/tei:listRelation/tei:relation[@passive[matches(.,request:get-parameter('relId', ''))]]/tei:desc[1]/tei:label[@type='order'][1]/@n)
+                      then xs:integer($h/child::*/tei:listRelation/tei:relation[@passive[matches(.,request:get-parameter('relId', '')[1])]]/tei:desc[1]/tei:label[@type='order'][1]/@n)
                       else 0
             order by $part
             return $h 
