@@ -6,7 +6,7 @@ xquery version "3.1";
 :)
 module namespace app="http://srophe.org/srophe/templates";
 
-(:eXist templating module:)
+(:eXist templating module :)
 import module namespace templates="http://exist-db.org/xquery/templates" ;
 
 (: Import Srophe application modules. :)
@@ -528,26 +528,28 @@ declare %templates:wrap function app:build-documentation($node as node(), $model
 (:~   
  : get editors as distinct values
 :)
-declare function app:get-editors(){
-distinct-values(
-    (for $editors in collection($config:data-root || '/places/tei')//tei:respStmt/tei:name/@ref
-     return substring-after($editors,'#'),
-     for $editors-change in collection($config:data-root || '/places/tei')//tei:change/@who
-     return substring-after($editors-change,'#'))
-    )
+declare function app:get-editors($collection-name as xs:string){
+
+    let $collection := config:collection-vars($collection-name)
+    return distinct-values(
+        (for $editors in collection($config:data-root || '/' || string($collection/@data-root) || '/tei')//tei:respStmt/tei:name/@ref
+         return substring-after($editors,'#'),
+         for $editors-change in collection($config:data-root || '/' || string($collection/@data-root) || '/tei')//tei:change/@who
+         return substring-after($editors-change,'#'))
+        )
 };
 
 (:~
  : Build editor list. Sort alphabeticaly
 :)
-declare %templates:wrap function app:build-editor-list($node as node(), $model as map(*)){
+declare %templates:wrap function app:build-editor-list($node as node(), $model as map(*), $collection as xs:string){
     let $editors := doc($config:app-root || '/documentation/editors.xml')//tei:listPerson
-    for $editor in app:get-editors()
+    for $editor in app:get-editors($collection)
     let $name := 
         for $editor-name in $editors//tei:person[@xml:id = $editor]
-        return concat($editor-name/tei:persName/tei:forename,' ',$editor-name/tei:persName/tei:addName,' ',$editor-name/tei:persName/tei:surname)
+        return concat($editor-name/tei:persName[@xml:lang="en"]/tei:forename,' ',$editor-name/tei:persName[@xml:lang="en"]/tei:addName,' ',$editor-name/tei:persName[@xml:lang="en"]/tei:surname)
     let $sort-name :=
-        for $editor-name in $editors//tei:person[@xml:id = $editor] return $editor-name/tei:persName/tei:surname
+        for $editor-name in $editors//tei:person[@xml:id = $editor] return $editor-name/tei:persName[@xml:lang="en"]/tei:surname
     order by $sort-name
     return
         if($editor != '') then 
