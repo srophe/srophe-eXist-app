@@ -1374,11 +1374,22 @@
               <constraintSpec ident="notes-type-desc" scheme="schematron">
                 <constraint>
                   <sch:rule
-                    context="tei:note[parent::tei:birth or parent::tei:death or parent::tei:education or parent::tei:langKnowledge or parent::tei:nationality or parent::occupation or parent::tei:residence or parent::tei:socecStatus or parent::tei:state or parent::tei:trait]">
+                    context="tei:note[parent::tei:birth or parent::tei:death or parent::tei:education or parent::tei:langKnowledge or parent::tei:nationality or parent::tei:occupation or parent::tei:residence or parent::tei:socecStatus or parent::tei:state or parent::tei:trait]">
                     <sch:assert test="@type = 'desc'">Elements of type &lt;note&gt; must contain the
                       attribute @type="desc" and other &lt;note&gt; types are not allowed in this context.
                       Other types of notes ("incerta", "dubia", and "errata") may appear as children of
                       the &lt;ab&gt; element as needed.</sch:assert>
+                  </sch:rule>
+                </constraint>
+              </constraintSpec>
+              <constraintSpec ident="dates-in-notes" scheme="schematron">
+                <constraint>
+                  <sch:rule context="tei:note[parent::tei:education | parent::tei:langKnowledge | parent::tei:nationality | parent::tei:occupation | parent::tei:residence | parent::tei:socecStatus | parent::tei:state | parent::tei:trait]">
+                    <sch:report test="./tei:date">
+                      If you wish to apply a date to this factoid, you need must use
+                      date attributes (@when, @notBefore, @notAfter, @to, and/or @from) on the 
+                      parent of the &lt;note&gt; element.
+                    </sch:report>
                   </sch:rule>
                 </constraint>
               </constraintSpec>
