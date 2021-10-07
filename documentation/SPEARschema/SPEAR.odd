@@ -1241,6 +1241,25 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
+          <constraintSpec ident="dates-on-event" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:event[tei:desc/tei:date/@when] | tei:event[tei:desc/tei:choice/tei:corr/tei:date/@when] | tei:event[tei:desc/tei:choice/tei:reg/tei:date/@when]">
+                <sch:assert test="./@when = ./tei:desc/tei:date/@when | ./tei:desc/tei:choice/tei:corr/tei:date/@when | ./tei:desc/tei:choice/tei:reg/tei:date/@when">
+                  &lt;event&gt; must have a @when attribute with the value <sch:value-of select="./tei:desc/tei:date/@when | ./tei:desc/tei:choice/tei:corr/tei:date/@when | ./tei:desc/tei:choice/tei:reg/tei:date/@when"/>.
+                </sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:event[tei:desc/tei:date/@notBefore] | tei:event[tei:desc/tei:choice/tei:corr/tei:date/@notBefore] | tei:event[tei:desc/tei:choice/tei:reg/tei:date/@notBefore]">
+                <sch:assert test="./@notBefore = ./tei:desc/tei:date/@notBefore | ./tei:desc/tei:choice/tei:corr/tei:date/@notBefore | ./tei:desc/tei:choice/tei:reg/tei:date/@notBefore">
+                  &lt;event&gt; must have a @notBefore attribute with the value <sch:value-of select="./tei:desc/tei:date/@notBefore | ./tei:desc/tei:choice/tei:corr/tei:date/@notBefore | ./tei:desc/tei:choice/tei:reg/tei:date/@notBefore"/>.
+                </sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:event[tei:desc/tei:date/@notAfter] | tei:event[tei:desc/tei:choice/tei:corr/tei:date/@notAfter] | tei:event[tei:desc/tei:choice/tei:reg/tei:date/@notAfter]">
+                <sch:assert test="./@notAfter = ./tei:desc/tei:date/@notAfter | ./tei:desc/tei:choice/tei:corr/tei:date/@notAfter | ./tei:desc/tei:choice/tei:reg/tei:date/@notAfter">
+                  &lt;event&gt; must have a @notAfter attribute with the value <sch:value-of select="./tei:desc/tei:date/@notAfter | ./tei:desc/tei:choice/tei:corr/tei:date/@notAfter | ./tei:desc/tei:choice/tei:reg/tei:date/@notAfter"/>.
+                </sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
           <constraintSpec ident="relation-in-event" scheme="schematron">
             <constraint>
               <sch:rule context="//tei:ab//tei:event/tei:desc/tei:listRelation/tei:relation">
