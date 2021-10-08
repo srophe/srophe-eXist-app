@@ -740,6 +740,7 @@
               <elementRef key="rs" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
               <elementRef key="listRelation" minOccurs="0" maxOccurs="1"/>
+              <elementRef key="title" minOccurs="0" maxOccurs="unbounded"/>
             </sequence>
           </content>
           <constraintSpec ident="descContent" scheme="schematron">
@@ -787,6 +788,23 @@
               restricts child elements to <gi>choice</gi>, <gi>date</gi>, <gi>persName</gi>, and
               <gi>placeName</gi>.</p>
           </remarks>
+        </elementSpec>
+        
+        <elementSpec ident="title" module="core" mode="change">
+          <classes mode="replace">
+            <memberOf key="att.canonical"/>
+          </classes>
+          <constraintSpec ident="ref-value" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:title/@ref">
+                <sch:assert test="matches(., concat('http://syriaca.org/work/', '\d+'))">
+                  The @ref attribute must take a Syriaca.org work URI
+                  which reqires the form 'http://syriaca.org/work/{\d+}' 
+                  (where {\d+} is a number).
+                </sch:assert>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
         </elementSpec>
         
         <elementSpec ident="rs" module="core" mode="change">
