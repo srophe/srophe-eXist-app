@@ -1342,6 +1342,22 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
+          <constraintSpec ident="names-in-notes" scheme="schematron">
+            <constraint>
+              <sch:rule context="tei:note[parent::tei:birth | parent::tei:death | parent::tei:education | parent::tei:langKnowledge | parent::tei:nationality | parent::tei:occupation | parent::tei:residence | parent::tei:socecStatus | parent::tei:state | parent::tei:trait]/tei:persName[1]/@ref">
+                <sch:assert test=". = ancestor::tei:person/tei:persName/@ref | ancestor::tei:personGrp/tei:persName/@ref">
+                  The URI in this @ref attribute and the URI in the @ref attribute on the &lt;persName&gt; that
+                  is the child of &lt;person&gt; must match.
+                </sch:assert>
+              </sch:rule>
+              <sch:rule context="tei:note[parent::tei:birth | parent::tei:death | parent::tei:nationality | parent::tei:residence]/tei:placeName[1]/@ref">
+                <sch:report test=". = ancestor::tei:person/tei:placeName/@ref | ancestor::tei:personGrp/tei:placeName/@ref">
+                  The URI in this @ref attribute and the URI in the @ref attribute on the &lt;placeName&gt; that
+                  is the child of &lt;person&gt; must match.
+                </sch:report>
+              </sch:rule>
+            </constraint>
+          </constraintSpec>
           <constraintSpec ident="date-note-content" scheme="schematron">
             <constraint>
               <sch:rule context="tei:note[parent::tei:reg and preceding-sibling::tei:date]">
