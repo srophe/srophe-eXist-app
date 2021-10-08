@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-10-08T17:38:01Z. .
+Schema generated from ODD source 2021-10-08T17:42:43Z. .
 TEI Edition: Version 4.1.0. Last updated on
 	19th August 2020, revision b414ba550
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
@@ -902,22 +902,32 @@ Suggested values include: 1] below; 2] bottom; 3] margin; 4] top; 5] opposite; 6
       <notAllowed/>
    </define>
    <define name="model.emphLike">
-      <notAllowed/>
+      <choice>
+         <ref name="title"/>
+      </choice>
    </define>
    <define name="model.emphLike_alternation">
-      <notAllowed/>
+      <choice>
+         <ref name="title"/>
+      </choice>
    </define>
    <define name="model.emphLike_sequence">
-      <empty/>
+      <ref name="title"/>
    </define>
    <define name="model.emphLike_sequenceOptional">
-      <empty/>
+      <optional>
+         <ref name="title"/>
+      </optional>
    </define>
    <define name="model.emphLike_sequenceOptionalRepeatable">
-      <empty/>
+      <zeroOrMore>
+         <ref name="title"/>
+      </zeroOrMore>
    </define>
    <define name="model.emphLike_sequenceRepeatable">
-      <notAllowed/>
+      <oneOrMore>
+         <ref name="title"/>
+      </oneOrMore>
    </define>
    <define name="model.highlighted">
       <choice>
@@ -2213,7 +2223,19 @@ Suggested values include: 1] creator; 2] general; 3] translator</a:documentation
                 </sch:assert>
             </sch:rule>
          </pattern>
+         <ref name="att.global.attributes"/>
+         <ref name="att.typed.attribute.subtype"/>
          <ref name="att.canonical.attributes"/>
+         <ref name="att.datable.attributes"/>
+         <optional>
+            <attribute name="type">
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">classifies the title according to some convenient typology.
+Sample values include: 1] main; 2] sub (subordinate); 3] alt (alternate); 4] short; 5] desc (descriptive)</a:documentation>
+               <data type="token">
+                  <param name="pattern">[^\p{C}\p{Z}]+</param>
+               </data>
+            </attribute>
+         </optional>
          <optional>
             <attribute name="level">
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">indicates the bibliographic level for a title, that is, whether it identifies an article, book, journal, series, or unpublished material.</a:documentation>

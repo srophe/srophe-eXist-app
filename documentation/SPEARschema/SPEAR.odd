@@ -791,9 +791,6 @@
         </elementSpec>
         
         <elementSpec ident="title" module="core" mode="change">
-          <classes mode="replace">
-            <memberOf key="att.canonical"/>
-          </classes>
           <constraintSpec ident="ref-value" scheme="schematron">
             <constraint>
               <sch:rule context="tei:title/@ref">
