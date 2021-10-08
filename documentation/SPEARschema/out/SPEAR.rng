@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-10-08T17:42:43Z. .
+Schema generated from ODD source 2021-10-08T22:42:25Z. .
 TEI Edition: Version 4.1.0. Last updated on
 	19th August 2020, revision b414ba550
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
@@ -3625,10 +3625,11 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                <sch:let name="error" value="."/>
                <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-               <sch:assert test="matches(substring-after(., 'person/'), '.')" role="error">A properly formatted
-                      person URI ends with a number. If a URI is not current available, replace the number portion of the URI with 
-                      "#" followed without a space by a unique number that you use consistently when encoding information 
-                      about that person.</sch:assert>
+               <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))"
+                           role="error">
+                      The @ref attribute must take a Syriaca.org person URI which reqires 
+                      the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
+                    </sch:assert>
                <sch:assert test="                       every $i in .                       satisfies $i = $personURIs"
                            role="warning">
                   <sch:value-of select="$error"/> is not currently in Syriaca.org person data. 
@@ -3660,10 +3661,11 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
                <sch:let name="error" value="."/>
                <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-               <sch:assert test="matches(substring-after(., 'place/'), '.')" role="error">A properly formatted
-                      place URI ends with a number. If a URI is not current available, replace the number portion of the URI with 
-                      "#" followed without a space by a unique number that you use consistently when encoding information 
-                      referring to that place.</sch:assert>
+               <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))"
+                           role="error">
+                      The @ref attribute must take a Syriaca.org place URI which reqires 
+                      the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
+                    </sch:assert>
                <sch:assert test="                       every $i in .                       satisfies $i = $placeURIs"
                            role="warning">
                   <sch:value-of select="$error"/> is not currently in Syriaca.org place data. 
@@ -4586,16 +4588,19 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                 xmlns="http://www.tei-c.org/ns/1.0"
                 context="//tei:ab/tei:listEvent/tei:event/@ana | //tei:langKnown/@ana | //tei:occupation/@ana | //tei:socecStatus/@ana | //tei:state/@ana | //tei:trait/@ana">
          <sch:let name="anaValues" value="tokenize(., ' ')"/>
-         <sch:assert test="                       every $i in $anaValues                       satisfies starts-with($i, 'http://syriaca.org/keyword/')">
+         <sch:assert test="                       every $i in $anaValues                       satisfies matches($i, concat('http://syriaca.org/keyword/', '\w+'))"
+                     role="error">
                       Each @ana attribute value must start with "http://syriaca.org/keyword/" and multiple 
                       values must be space separated.
                     </sch:assert>
-         <sch:assert test="count(distinct-values($anaValues)) = count($anaValues)">
+         <sch:assert test="count(distinct-values($anaValues)) = count($anaValues)"
+                     role="error">
                       The same keyword URI may not appear twice as the value of the @ana attribute. </sch:assert>
          <sch:report test="contains(., ',') or contains(., ';')">
                       Multiple @ana attributes should be separated with one blank space
                     </sch:report>
-         <sch:report test="                       every $i in $anaValues                       satisfies contains(substring-after($i, 'http://syriaca.org/keyword'), 'http:')">
+         <sch:report test="                       every $i in $anaValues                       satisfies contains(substring-after($i, 'http://syriaca.org/keyword'), 'http:')"
+                     role="error">
                       Multiple @ana attributes should be separated with one blank space
                     </sch:report>
       </sch:rule>

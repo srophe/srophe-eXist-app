@@ -73,18 +73,18 @@
                     <sch:let name="anaValues" value="tokenize(., ' ')"/>
                     <sch:assert test="
                       every $i in $anaValues
-                      satisfies starts-with($i, 'http://syriaca.org/keyword/')">
+                      satisfies matches($i, concat('http://syriaca.org/keyword/', '\w+'))" role="error">
                       Each @ana attribute value must start with "http://syriaca.org/keyword/" and multiple 
                       values must be space separated.
                     </sch:assert>
-                    <sch:assert test="count(distinct-values($anaValues)) = count($anaValues)">
+                    <sch:assert test="count(distinct-values($anaValues)) = count($anaValues)" role="error">
                       The same keyword URI may not appear twice as the value of the @ana attribute. </sch:assert>
                     <sch:report test="contains(., ',') or contains(., ';')">
                       Multiple @ana attributes should be separated with one blank space
                     </sch:report>
                     <sch:report test="
                       every $i in $anaValues
-                      satisfies contains(substring-after($i, 'http://syriaca.org/keyword'), 'http:')">
+                      satisfies contains(substring-after($i, 'http://syriaca.org/keyword'), 'http:')" role="error">
                       Multiple @ana attributes should be separated with one blank space
                     </sch:report>
                   </sch:rule>
@@ -1469,10 +1469,10 @@
                     <sch:let name="personURIs" value="$personIndex//tei:person/@ref"/>
                     <sch:let name="error" value="."/>
                     <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-                    <sch:assert test="matches(substring-after(., 'person/'), '.')" role="error">A properly formatted
-                      person URI ends with a number. If a URI is not current available, replace the number portion of the URI with 
-                      "#" followed without a space by a unique number that you use consistently when encoding information 
-                      about that person.</sch:assert>
+                    <sch:assert test="matches(., concat('http://syriaca.org/person/', '\d+'))" role="error">
+                      The @ref attribute must take a Syriaca.org person URI which reqires 
+                      the form 'http://syriaca.org/person/{\d+}' (where {\d+} is a number).
+                    </sch:assert>
                     <sch:assert test="
                       every $i in .
                       satisfies $i = $personURIs" role="warning">
@@ -1510,10 +1510,10 @@
                     <sch:let name="placeURIs" value="$placeIndex//tei:place/@ref"/>
                     <sch:let name="error" value="."/>
                     <sch:report test="contains(., ' ')" role="error">This @ref may contain only one URI.</sch:report>
-                    <sch:assert test="matches(substring-after(., 'place/'), '.')" role="error">A properly formatted
-                      place URI ends with a number. If a URI is not current available, replace the number portion of the URI with 
-                      "#" followed without a space by a unique number that you use consistently when encoding information 
-                      referring to that place.</sch:assert>
+                    <sch:assert test="matches(., concat('http://syriaca.org/place/', '\d+'))" role="error">
+                      The @ref attribute must take a Syriaca.org place URI which reqires 
+                      the form 'http://syriaca.org/place/{\d+}' (where {\d+} is a number).
+                    </sch:assert>
                     <sch:assert test="
                       every $i in .
                       satisfies $i = $placeURIs" role="warning">
