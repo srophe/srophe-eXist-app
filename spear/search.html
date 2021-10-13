@@ -1,0 +1,13 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/spear.html" data-template-at="content">
+    <div class="container white top-padding indent">
+        <form data-template="search:search-form" data-template-collection="spear"/>
+        <div class="results">
+            <div data-template="search:search-data" data-template-collection="spear">
+                <div data-template="app:pageination" data-template-collection="spear" data-template-search-string="yes" data-template-sort-options="relevance,title"/>
+                <div data-template="app:display-map"/>
+                <div data-template="search:show-hits" data-template-collection="spear" data-template-kwic="no"/>
+                <div data-template="app:pageination"/>
+            </div>
+        </div>
+    </div>
+</div>

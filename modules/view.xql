@@ -21,6 +21,7 @@ import module namespace search="http://srophe.org/srophe/search" at "search/sear
 (: Syriaca.org specific functions :)
 import module namespace place="http://srophe.org/srophe/place" at "place.xqm";
 import module namespace person="http://srophe.org/srophe/person" at "person.xqm";
+import module namespace spear="http://srophe.org/srophe/spear" at "spear.xqm";
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 

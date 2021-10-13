@@ -99,17 +99,17 @@ else if (contains($exist:path,'/api/')) then
     </dispatch>
 
 (: Passes data to content negotiation module:)
-else if(request:get-parameter('format', '') != '' and request:get-parameter('format', '') != 'html') then
-    local:content-negotiation($exist:path, $exist:resource)
-else if(ends-with($exist:path,('/tei','/xml','/txt','/pdf','/json','/geojson','/kml','/jsonld','/rdf','/ttl','/atom'))) then
-    local:content-negotiation($exist:path, $exist:resource)
-else if(ends-with($exist:resource,('.tei','.xml','.txt','.pdf','.json','.geojson','.kml','.jsonld','.rdf','.ttl','.atom'))) then
-    local:content-negotiation($exist:path, $exist:resource)
+else if(request:get-parameter('format', '') != '' and request:get-parameter('format', '') != 'html') then <div>T2</div>
+(:    local:content-negotiation($exist:path, $exist:resource):)
+else if(ends-with($exist:path,('/tei','/xml','/txt','/pdf','/json','/geojson','/kml','/jsonld','/rdf','/ttl','/atom'))) then <div>T3</div>
+(:    local:content-negotiation($exist:path, $exist:resource):)
+else if(ends-with($exist:resource,('.tei','.xml','.txt','.pdf','.json','.geojson','.kml','.jsonld','.rdf','.ttl','.atom'))) then <div>T4</div>
+(:    local:content-negotiation($exist:path, $exist:resource):)
     
 (: Checks for any record uri patterns as defined in repo.xml :)    
 else if(replace($exist:path, $exist:resource,'') =  $exist:record-uris) then
-    if($exist:resource = ('index.html','search.html','browse.html','about.html')) then    
-        <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+    if($exist:resource = ('index.html','search.html','browse.html','about.html','aggregate.html','factoid.html','events.html')) then    
+       <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <view>
                 <forward url="{$exist:controller}/modules/view.xql"/>
             </view>

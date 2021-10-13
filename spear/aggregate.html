@@ -1,0 +1,40 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/spear.html" data-template-at="content">
+    <div class="indent">
+        <div data-template="spear:aggregate" data-template-view="aggregate">
+            <div data-template="spear:h1"/>
+            <div class="row">
+                <div class="col-md-8 column1">
+                    <div data-template="spear:data" data-template-view="aggregate"/>
+                </div> 
+                <div class="col-md-4 column2">
+                    <div data-template="spear:srophe-related" data-template-view="aggregate"/>
+                    <div data-template="spear:related-factiods" data-template-view="aggregate"/>
+                    <!--<div data-template="spear:sparql-relationships"/>-->
+                </div>
+            </div>
+            <!-- <div data-template="spear:citation"/>-->
+        </div>
+        <!-- Script for dynamically changing sort order -->
+        <div class="modal fade" id="moreInfo" tabindex="-1" role="dialog" aria-labelledby="moreInfoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">x</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h2 class="modal-title" id="moreInfoLabel"/>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        <div id="moreInfo-box"/>
+                        <br style="clear:both;"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="../resources/js/sort.js"/>
+    </div>
+</div>

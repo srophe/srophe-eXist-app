@@ -36,8 +36,16 @@ request:get-parameter('relId', '')
 declare function data:get-document() {
     if(request:get-parameter('id', '') != '') then  
         if(contains(request:get-parameter('id', ''),'/spear/')) then
-                for $rec in collection($config:data-root)//tei:div[@uri = request:get-parameter('id', '')]
-                return <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{$rec}</tei:TEI>   
+                for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = request:get-parameter('id', '')]
+                return 
+                    <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">
+                        {$rec/ancestor::tei:TEI/teiHeader}
+                        <text>
+                            <body>
+                                {$rec/parent::tei:ab[@type='factoid']}
+                            </body>
+                        </text>
+                    </tei:TEI>      
             else if(contains(request:get-parameter('id', ''),'/manuscript/')) then
                 for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = request:get-parameter('id', '')]
                 return 
@@ -65,9 +73,17 @@ declare function data:get-document() {
 };
 
 declare function data:get-document($id as xs:string?) {
-    if(contains($id,'/spear/')) then
-        for $rec in collection($config:data-root)//tei:div[@uri = $id]
-        return <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">{$rec}</tei:TEI>   
+    if(contains($id,'/spear/')) then  
+        for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = $id]
+        return 
+            <tei:TEI xmlns="http://www.tei-c.org/ns/1.0">
+                {$rec/ancestor::tei:TEI/teiHeader}
+                <text>
+                    <body>
+                        {$rec/parent::tei:ab[@type='factoid']}
+                    </body>
+                </text>
+            </tei:TEI>   
     else if(contains($id,'/manuscript/')) then
         for $rec in collection($config:data-root)//tei:idno[@type='URI'][. = $id]
         return 

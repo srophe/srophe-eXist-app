@@ -122,14 +122,15 @@ else
         if($collection != '') then concat($config:app-root, '/', string(config:collection-vars($collection)/@app-root),'/','search-config.xml')
         else concat($config:app-root, '/','search-config.xml')
     return
-        if(doc-available($search-config)) then 
-            search:build-form($search-config)
-        else if($collection = ('persons','sbd','authors','q','saints')) then <div>{persons:search-form($collection)}</div>
+        if($collection = ('persons','sbd','authors','q','saints')) then <div>{persons:search-form($collection)}</div>
         else if($collection ='spear') then <div>{spears:search-form()}</div>
         else if($collection ='manuscripts') then <div>{ms:search-form()}</div>
         else if($collection = ('bhse','nhsl')) then <div>{bhses:search-form($collection)}</div>
         else if($collection ='bibl') then <div>{bibls:search-form()}</div>
         else if($collection ='places') then <div>{places:search-form()}</div> 
+        (:else if(doc-available($search-config)) then 
+            search:build-form($search-config)
+            :)
         else search:default-search-form()
 };
 
