@@ -25,11 +25,22 @@ declare namespace srophe="https://srophe.app";
 declare namespace http="http://expath.org/ns/http-client";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace html="http://www.w3.org/1999/xhtml";
+declare namespace schema = "http://schema.org/";
+declare namespace rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
 (: Global Variables:)
-declare variable $app:start {request:get-parameter('start', 1)[1] cast as xs:integer};
-declare variable $app:perpage {request:get-parameter('perpage', 25)[1] cast as xs:integer};
-
+declare variable $app:perpage { 
+    if(request:get-parameter('perpage', 20)[1]) then 
+        if(request:get-parameter('perpage', 20)[1] castable as xs:integer) then request:get-parameter('perpage', 20)[1] cast as xs:integer
+        else 20
+    else 20
+    };
+declare variable $app:start { 
+    if(request:get-parameter('start', 1)[1]) then 
+        if(request:get-parameter('start', 1)[1] castable as xs:integer) then request:get-parameter('start', 1)[1] cast as xs:integer
+        else 1
+    else 1
+    }; 
 (:~
  : Get app logo. Value passed from repo-config.xml  
 :)
@@ -48,13 +59,13 @@ function app:logo($node as node(), $model as map(*)) {
  : @param $model a map containing arbitrary data - used to pass information between template calls
  :)
 declare function app:get-work($node as node(), $model as map(*)) {
-    if(request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') then
+    if((request:get-parameter('id', '') != '' or request:get-parameter('doc', '') != '') and not(contains(request:get-uri(),'/spear/aggregate'))) then
         let $rec := data:get-document()
         return 
             if(empty($rec)) then 
+                (:response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html'))):)
                 ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml'))
                 (: Debugging ('No record found. ',xmldb:encode-uri($config:data-root || "/" || request:get-parameter('doc', '') || '.xml')):)
-               (:response:redirect-to(xs:anyURI(concat($config:nav-base, '/404.html'))):)
             else map {"hits" : $rec }
     else map {"hits" : 'Output plain HTML page'}
 };
@@ -66,7 +77,9 @@ declare function app:get-work($node as node(), $model as map(*)) {
 declare %templates:wrap function app:record-title($node as node(), $model as map(*), $collection as xs:string?){
     let $data := $model("hits")
     return 
-        if(request:get-parameter('id', '')) then
+        if($model("hits") = 'Output plain HTML page') then 
+            $config:app-title
+        else if(request:get-parameter('id', '')) then
             $data/descendant::tei:titleStmt[1]/tei:title[1]/text()
         else if($collection != '') then
             string(config:collection-vars($collection)/@title)
@@ -78,7 +91,8 @@ declare %templates:wrap function app:record-title($node as node(), $model as map
  : Add additional metadata tags here 
 :)
 declare function app:metadata($node as node(), $model as map(*)) {
-    if(request:get-parameter('id', '')) then 
+    if($model("hits") = 'Output plain HTML page') then ()
+    else if(request:get-parameter('id', '')) then 
     (
     (: some rdf examples
     <link type="application/rdf+xml" href="id.rdf" rel="alternate"/>
@@ -128,16 +142,10 @@ declare function app:display-nodes($node as node(), $model as map(*), $paths as 
 (:~  
  : Default title display, used if no sub-module title function.
  : Used by templating module, not needed if full record is being displayed 
- if($element/descendant-or-self::*[contains(@syriaca-tags,'#syriaca-headword')][@xml:lang = 'ar']) then 
-        for $title in $element/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][@xml:lang = 'ar']
-        let $ar := string-join($title/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][@xml:lang = 'ar'][not(empty(node()))],' ')
-        return sf:build-sort-string-arabic($ar)
-    else if($element/descendant-or-self::*[contains(@srophe:tags,'#headword')][@xml:lang = 'ar']) then
-        for $title in $element/descendant::*[contains(@syriaca-tags,'#syriaca-headword')][@xml:lang = 'ar']
-        let $ar := string-join($element/descendant::*[contains(@srophe:tags,'#headword')][@xml:lang = 'ar'][not(empty(node()))],' ')
-        return sf:build-sort-string-arabic($ar)
 :)
 declare function app:h1($node as node(), $model as map(*)){
+tei2html:h1($model("hits"))
+(:
  global:tei2html(
  <srophe-title xmlns="http://www.tei-c.org/ns/1.0">{(
     if($model("hits")/descendant::*[@srophe:tags='#syriaca-headword']) then
@@ -150,6 +158,7 @@ declare function app:h1($node as node(), $model as map(*)){
     $model("hits")/descendant::tei:publicationStmt/tei:idno[@type="URI"][1]
     )}
  </srophe-title>)
+ :)
 }; 
   
 (:~ 
@@ -676,16 +685,50 @@ declare %templates:wrap function app:about($node as node(), $model as map(*)){
  : @param $paths comma separated list of xpaths for display. Passed from html page  
 :)
 declare function app:link-icons-list($node as node(), $model as map(*)){
-let $data := $model("hits")//tei:body/descendant::tei:idno[not(contains(., $config:base-uri))]  
+let $data := $model("hits")
+let $id := $model("hits")//tei:body/descendant::tei:idno[contains(., $config:base-uri)][1]
+let $idnos := $model("hits")//tei:body/descendant::tei:idno[@type='URI'][not(contains(., $config:base-uri))]  
+let $title := if(contains($data/descendant::tei:title[1]/text(),' — ')) then 
+                  substring-before($data[1]/descendant::tei:title[1],' — ') 
+               else string-join($data[1]/descendant::tei:title[1],'')
+let $geoRef := if($data/descendant::tei:location[@type='gps']/tei:geo) then 
+                    concat(tokenize(normalize-space($data/descendant::tei:location[@type='gps'][1]/tei:geo[1]), '\s+')[1],', ', tokenize(normalize-space($data/descendant::tei:location[@type='gps'][1]/tei:geo[1]), '\s+')[2])
+                else ()
 return 
     if(not(empty($data))) then 
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">See Also </h3></div>
             <div class="panel-body">
-                <ul>
-                    {for $l in $data
-                     return <li>{string($l/@type)}: {global:tei2html($l)}</li>
-                    }
+                <ul>{(
+                    if($geoRef != '') then 
+                        <li>
+                          <a href="https://maps.google.com/maps?q={$geoRef}+(name)&amp;z=10&amp;ll={$geoRef}">
+                              <img src="{$config:nav-base}/resources/images/gmaps-25.png" alt="The Google Maps icon" title="click to view {$title} on Google Maps"/> View in Google Maps
+                          </a>
+                        </li>
+                      else (),
+                      <li>  
+                        <a href="{replace($id,$config:base-uri,$config:nav-base)}/tei" rel="alternate" type="application/tei+xml">
+                            <img src="{$config:nav-base}/resources/images/tei-25.png" alt="The Text Encoding Initiative icon" title="click to view the TEI XML source data for this place"/> TEI XML source data</a>
+                      </li>,
+                     for $i in $idnos
+                     return 
+                        <li>{
+                           if(contains($i,'csc.org.il')) then 
+                               <a href="{normalize-space($i)}">{concat('"', substring-before(substring-after(normalize-space($i),'sK='),'&amp;sT='),'" in the Comprehensive Bibliography on Syriac Christianity')}</a>
+                           else if(contains($i,'http://worldcat.org/identities')) then
+                               <a href="{normalize-space($i)}"> {concat('"',substring-after($i,'http://worldcat.org/identities/') ,'"  in WorldCat Identities')}</a>
+                           else if(contains($i,'http://viaf.org/')) then
+                               <a href="{normalize-space($i)}">VIAF</a>
+                           else if(contains($i,'pleiades')) then
+                               <a href="{normalize-space($i)}"><img src="{$config:nav-base}/resources/images/circle-pi-25.png" alt="Image of the Greek letter pi in blue; small icon of the Pleiades project" title="click to view {$title} in Pleiades"/> View in Pleiades</a>
+                           else if(contains($i,'wikipedia')) then
+                            <a href="{$i}">
+                               <img src="{$config:nav-base}/resources/images/Wikipedia-25.png" alt="The Wikipedia icon" title="click to view {$title} in Wikipedia"/> "{$title}" in Wikipedia</a>
+                           else $i
+                        }</li>
+                      
+                      )} 
                 </ul>
             </div>
         </div>
@@ -707,6 +750,4 @@ return
                 <li>{tei2html:tei2html($name)}</li>
             }</ul>
     </div>
-    
-    
 }; 

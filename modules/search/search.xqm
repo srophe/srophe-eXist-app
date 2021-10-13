@@ -29,9 +29,18 @@ import module namespace spears="http://srophe.org/srophe/spears" at "spear-searc
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 (: Variables:)
-declare variable $search:start {request:get-parameter('start', 1)[1] cast as xs:integer};
-declare variable $search:perpage {request:get-parameter('perpage', 20)[1] cast as xs:integer};
-
+declare variable $search:perpage { 
+    if(request:get-parameter('perpage', 20)[1]) then 
+        if(request:get-parameter('perpage', 20)[1] castable as xs:integer) then request:get-parameter('perpage', 20)[1] cast as xs:integer
+        else 20
+    else 20
+    };
+declare variable $search:start { 
+    if(request:get-parameter('start', 1)[1]) then 
+        if(request:get-parameter('start', 1)[1] castable as xs:integer) then request:get-parameter('start', 1)[1] cast as xs:integer
+        else 1
+    else 1
+    };    
 (:~
  : Builds search result, saves to model("hits") for use in HTML display
 :)
@@ -113,14 +122,15 @@ else
         if($collection != '') then concat($config:app-root, '/', string(config:collection-vars($collection)/@app-root),'/','search-config.xml')
         else concat($config:app-root, '/','search-config.xml')
     return
-        if(doc-available($search-config)) then 
-            search:build-form($search-config)
-        else if($collection = ('persons','sbd','authors','q','saints')) then <div>{persons:search-form($collection)}</div>
+        if($collection = ('persons','sbd','authors','q','saints')) then <div>{persons:search-form($collection)}</div>
         else if($collection ='spear') then <div>{spears:search-form()}</div>
         else if($collection ='manuscripts') then <div>{ms:search-form()}</div>
         else if($collection = ('bhse','nhsl')) then <div>{bhses:search-form($collection)}</div>
         else if($collection ='bibl') then <div>{bibls:search-form()}</div>
         else if($collection ='places') then <div>{places:search-form()}</div> 
+        (:else if(doc-available($search-config)) then 
+            search:build-form($search-config)
+            :)
         else search:default-search-form()
 };
 

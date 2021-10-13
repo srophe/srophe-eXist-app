@@ -11,7 +11,7 @@ xquery version "3.1";
         - 'redirect' [Sends users to HTML page]
  :)
  
-import module namespace cts="http://syriaca.org/cts" at "cts-resolver.xqm";
+import module namespace cts="http://srophe.org/cts" at "cts-resolver.xqm";
 
 let $ref := request:get-parameter("urn",())
 let $action := request:get-parameter("action",())

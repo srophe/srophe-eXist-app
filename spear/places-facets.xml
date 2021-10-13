@@ -1,0 +1,16 @@
+<facets xmlns="http://expath.org/ns/facet">
+    <!-- 
+    gender: sample code - trait type="gender" ana="http://syriaca.org/keyword/female"
+    ethnicity: sample code - <trait type="ethnicLabel" ana="http://syriaca.org/keyword/syrian">
+    sanctity: sample code - <state type="sanctity" ana="http://syriaca.org/keyword/saints">
+    occupation (this might be cumbersome, if so we can drop it): sample code - <occupation ana="http://syriaca.org/keyword/readers">
+    -->
+    <!-- A simple facet for browsing by Syriaca.org series -->
+    <facet-definition name="Type">
+        <group-by>
+            <sub-path>descendant::tei:place/@type</sub-path>
+        </group-by>
+        <max-values show="10">60</max-values>
+        <order-by direction="ascending">value</order-by>
+    </facet-definition>
+</facets>

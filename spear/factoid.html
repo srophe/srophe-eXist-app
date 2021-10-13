@@ -1,0 +1,30 @@
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:xi="http://www.w3.org/2001/XInclude" data-template="templates:surround" data-template-with="templates/spear.html" data-template-at="content">
+    <div class="container indent">    
+    <div data-template="spear:get-rec" data-template-view="factoid">
+            <!-- Page title and resource links-->
+            <div data-template="spear:h1"/>
+            <div data-template="app:other-data-formats" data-template-formats="print,tei" class="noprint"/>
+            <div class="row">
+                <!-- Column 1 -->
+                <div class="col-md-8 column1">
+                    <div data-template="spear:data" data-template-view="factoid"/>
+                    <div data-template="spear:cts"/>
+                    <!-- Bibliography -->
+                    <div data-template="spear:bibl"/>
+                </div>
+                <!-- Column 2 -->
+                <div class="col-md-4 column2">
+                    <!-- Get related from Gazetteer or Persons db -->
+                    <div data-template="spear:srophe-related" data-template-view="factoid"/>
+                    <!-- <div data-template="spear:related-factiods"/> -->
+                    <div data-template="spear:sparql-relationships"/>
+                    <div data-template="app:linked-data"/>
+                </div>
+            </div>
+            <!-- <div data-template="spear:citation"/>-->
+        </div>
+        <!-- Script for dynamically changing sort order -->
+        <script type="text/javascript" src="../resources/js/sort.js"/>
+        <script type="text/javascript" src="../resources/js/cts.js"/>
+    </div>
+</div>

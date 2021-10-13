@@ -1,0 +1,487 @@
+<div xmlns="http://www.w3.org/1999/xhtml" id="facets">
+    <div id="eventsFacets">
+        <div class="input-append">
+            <div class="form-group">
+                <label for="type">View:  </label>
+                <select id="type" name="type">
+                    <option id="List">List</option>
+                    <option id="Tabel">Table</option>
+                    <option id="Force">Force</option>
+                    <option id="Sankey">Sankey</option>
+                    <!--<option id="Bubble">Bubble</option>-->
+                    <option id="xml">XML</option>
+                    <option id="json">JSON</option>
+                </select>     
+            </div>
+        </div>
+        <div class="facetList">
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSource" href="#showSource" data-text-swap=" + "> - </a> 
+                    Source Text
+                </div>
+                <div class="collapse in" id="showSource">
+                    <div id="sourceText" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showEventType" href="#showEventType" data-text-swap=" + "> - </a> 
+                    Event Type
+                </div>
+                <div class="collapse in" id="showEventType">
+                    <div id="eventType" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    Date range
+                </div>
+                <div class="collapse in" id="showDateSlider">
+                    <div class="sliderContainer" style="margin:2em 1em;">
+                        <div id="slider"/>   
+                    </div>
+                    <br/>
+                    <!--                                 <a href="" class="btn btn-warning btn-sm slider-reset" role="button"><i class="glyphicon glyphicon-remove-circle"></i> Reset Dates</a> -->
+                </div>
+            </div>
+            <hr/>
+            <h3>Person</h3>
+            <br/><!--
+                            <div class="personType">
+                            <input type="radio" value="all" name="personType" checked="checked"/>
+                            <label>all</label> 
+                            <input type="radio" value="individual" name="personType"/>
+                            <label>individual</label> 
+                            <input type="radio" value="group" name="personType"/>
+                            <label>group</label>
+                            </div>  -->  
+            <div class="facet-group">
+                <label for="personID">Person ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group addFacet">
+                    <input type="text" class="addFacet" name="personID" id="personID" size="40" placeholder="ex: http://syriaca.org/person/51"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSex" href="#showSex" data-text-swap=" + "> - </a>
+                    Sex
+                </div>
+                <div class="collapse in" id="showSex">
+                    <div id="sex" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showEthnicLabel" href="#showEthnicLabel" data-text-swap=" + "> - </a>
+                    Ethnic Label
+                </div>
+                <div class="collapse in" id="showEthnicLabel">
+                    <div id="ethnicLabel" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showCitizenship" href="#showCitizenship" data-text-swap=" + "> - </a>
+                    Citizenship
+                </div>
+                <div class="collapse in" id="showCitizenship">
+                    <div id="citizenship" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showOccupation" href="#showOccupation" data-text-swap=" + "> - </a>
+                    Occupation
+                </div>
+                <div class="collapse in" id="showOccupation">
+                    <div id="occupation" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSocialRank" href="#showSocialRank" data-text-swap=" + "> - </a>
+                    Social Rank
+                </div>
+                <div class="collapse in" id="showSocialRank">
+                    <div id="socialRank" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showMentalState" href="#showMentalState" data-text-swap=" + "> - </a>
+                    Mental State
+                </div>
+                <div class="collapse in" id="showMentalState">
+                    <div id="mentalStatus" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showPhysicalTrait" href="#showPhysicalTrait" data-text-swap=" + "> - </a>
+                    Physical Trait
+                </div>
+                <div class="collapse in" id="showPhysicalTrait">
+                    <div id="physicalTrait" class="facetGroup"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group addFacet" style="display:block; width:80%">
+                <label for="personID">Place ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group addFacet">
+                    <input type="text" name="placeID" id="placeID" size="40" placeholder="ex: http://syriaca.org/place/78"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div id="allFacets">
+        <div class="input-append">
+            <div class="form-group">
+                <label for="type">View:  </label>
+                <select id="type" name="type">
+                    <option id="List">List</option>
+                    <option id="Tabel">Table</option>
+                    <option id="Force">Force</option>
+                    <option id="Sankey">Sankey</option>
+                    <!--<option id="Bubble">Bubble</option>-->
+                    <option id="xml">XML</option>
+                    <option id="json">JSON</option>
+                </select>     
+            </div>
+        </div>
+        <div class="facetList">
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSource" href="#showSource" data-text-swap=" + "> - </a> 
+                    Source Text
+                </div>
+                <div class="collapse in" id="showSource">
+                    <div id="sourceText" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <label for="personID">Person ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group addFacet">
+                    <input type="text" class="addFacet" name="personID" id="personID" size="40" placeholder="ex: http://syriaca.org/person/51"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+            
+            <div class="form-group addFacet" style="display:block; width:80%">
+                <label for="personID">Place ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group">
+                    <input type="text" name="placeID" id="placeID" size="40" placeholder="ex: http://syriaca.org/place/78"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+            
+            <div class="facet-group">
+                <div class="facet-heading">
+                    Date range
+                </div>
+                <div class="collapse in" id="showDateSlider">
+                    <div class="sliderContainer" style="margin:2em 1em;">
+                        <div id="slider"/>   
+                    </div>
+                    <br/>
+                    <!--                                 <a href="" class="btn btn-warning btn-sm slider-reset" role="button"><i class="glyphicon glyphicon-remove-circle"></i> Reset Dates</a> -->
+                </div>
+            </div>
+            
+        </div>   
+    </div>
+    <div id="personsFacets">
+        <div class="input-append">
+            <div class="form-group">
+                <label for="type">View:  </label>
+                <select id="type" name="type">
+                    <option id="List">List</option>
+                    <option id="Tabel">Table</option>
+                    <option id="Force">Force</option>
+                    <option id="Sankey">Sankey</option>
+                    <!--<option id="Bubble">Bubble</option>-->
+                    <option id="xml">XML</option>
+                    <option id="json">JSON</option>
+                </select>     
+            </div>
+        </div>
+        <div class="facetList">
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSource" href="#showSource" data-text-swap=" + "> - </a> 
+                    Source Text
+                </div>
+                <div class="collapse in" id="showSource">
+                    <div id="sourceText" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <label for="personID">Person ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group addFacet">
+                    <input type="text" class="addFacet" name="personID" id="personID" size="40" placeholder="ex: http://syriaca.org/person/51"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showRelationship" href="#showRelationship" data-text-swap=" + "> - </a> 
+                    Relationship Type
+                </div>
+                <div class="collapse in" id="showRelationship">
+                    <div id="relationshipType" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showEventType" href="#showEventType" data-text-swap=" + "> - </a> 
+                    Event Type
+                </div>
+                <div class="collapse in" id="showEventType">
+                    <div id="eventType" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    Date range
+                </div>
+                <div class="collapse in" id="showDateSlider">
+                    <div class="sliderContainer" style="margin:2em 1em;">
+                        <div id="slider"/>   
+                    </div>
+                    <br/>
+                    <!--                                 <a href="" class="btn btn-warning btn-sm slider-reset" role="button"><i class="glyphicon glyphicon-remove-circle"></i> Reset Dates</a> -->
+                </div>
+            </div>
+            <hr/>
+            
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSex" href="#showSex" data-text-swap=" + "> - </a>
+                    Sex
+                </div>
+                <div class="collapse in" id="showSex">
+                    <div id="sex" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showEthnicLabel" href="#showEthnicLabel" data-text-swap=" + "> - </a>
+                    Ethnic Label
+                </div>
+                <div class="collapse in" id="showEthnicLabel">
+                    <div id="ethnicLabel" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showCitizenship" href="#showCitizenship" data-text-swap=" + "> - </a>
+                    Citizenship
+                </div>
+                <div class="collapse in" id="showCitizenship">
+                    <div id="citizenship" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showOccupation" href="#showOccupation" data-text-swap=" + "> - </a>
+                    Occupation
+                </div>
+                <div class="collapse in" id="showOccupation">
+                    <div id="occupation" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSocialRank" href="#showSocialRank" data-text-swap=" + "> - </a>
+                    Social Rank
+                </div>
+                <div class="collapse in" id="showSocialRank">
+                    <div id="socialRank" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showMentalState" href="#showMentalState" data-text-swap=" + "> - </a>
+                    Mental State
+                </div>
+                <div class="collapse in" id="showMentalState">
+                    <div id="mentalStatus" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showPhysicalTrait" href="#showPhysicalTrait" data-text-swap=" + "> - </a>
+                    Physical Trait
+                </div>
+                <div class="collapse in" id="showPhysicalTrait">
+                    <div id="physicalTrait" class="facetGroup"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group addFacet" style="display:block; width:80%">
+                <label for="personID">Place ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group">
+                    <input type="text" name="placeID" id="placeID" size="40" placeholder="ex: http://syriaca.org/place/78"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div id="relationsFacets">
+        <div class="input-append">
+            <div class="form-group">
+                <label for="type">View:  </label>
+                <select id="type" name="type">
+                    <option id="List">List</option>
+                    <option id="Tabel">Table</option>
+                    <option id="Force">Force</option>
+                    <option id="Sankey">Sankey</option>
+                    <!--<option id="Bubble">Bubble</option>-->
+                    <option id="xml">XML</option>
+                    <option id="json">JSON</option>
+                </select>     
+            </div>
+        </div>
+        <div class="facetList">
+            <div class="facet-group">
+                <label for="personID">Person ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group addFacet">
+                    <input type="text" class="addFacet" name="personID" id="personID" size="40" placeholder="ex: http://syriaca.org/person/51"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showRelationshipCategory" href="#showRelationshipCategory" data-text-swap=" + "> - </a> 
+                    Relationship Category
+                </div>
+                <div class="collapse in" id="showRelationshipCategory">
+                    <div id="relationshipCategory" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showRelationship" href="#showRelationship" data-text-swap=" + "> - </a> 
+                    Relationship Type
+                </div>
+                <div class="collapse in" id="showRelationship">
+                    <div id="relationshipType" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSource" href="#showSource" data-text-swap=" + "> - </a> 
+                    Source Text
+                </div>
+                <div class="collapse in" id="showSource">
+                    <div id="sourceText" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showEventType" href="#showEventType" data-text-swap=" + "> - </a> 
+                    Event Type
+                </div>
+                <div class="collapse in" id="showEventType">
+                    <div id="eventType" class="facetGroup"/>
+                </div>
+            </div>
+            <!--
+            <div class="facet-group">
+                <div class="facet-heading">
+                    Date range
+                </div>
+                <div class="collapse in" id="showDateSlider">
+                    <div class="sliderContainer" style="margin:2em 1em;">
+                        <div id="slider"/>   
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            -->
+            <hr/>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSex" href="#showSex" data-text-swap=" + "> - </a>
+                    Sex
+                </div>
+                <div class="collapse in" id="showSex">
+                    <div id="sex" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showEthnicLabel" href="#showEthnicLabel" data-text-swap=" + "> - </a>
+                    Ethnic Label
+                </div>
+                <div class="collapse in" id="showEthnicLabel">
+                    <div id="ethnicLabel" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showCitizenship" href="#showCitizenship" data-text-swap=" + "> - </a>
+                    Citizenship
+                </div>
+                <div class="collapse in" id="showCitizenship">
+                    <div id="citizenship" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showOccupation" href="#showOccupation" data-text-swap=" + "> - </a>
+                    Occupation
+                </div>
+                <div class="collapse in" id="showOccupation">
+                    <div id="occupation" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showSocialRank" href="#showSocialRank" data-text-swap=" + "> - </a>
+                    Social Rank
+                </div>
+                <div class="collapse in" id="showSocialRank">
+                    <div id="socialRank" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showMentalState" href="#showMentalState" data-text-swap=" + "> - </a>
+                    Mental State
+                </div>
+                <div class="collapse in" id="showMentalState">
+                    <div id="mentalStatus" class="facetGroup"/>
+                </div>
+            </div>
+            <div class="facet-group">
+                <div class="facet-heading">
+                    <a class="togglelink text-info" data-toggle="collapse" data-target="#showPhysicalTrait" href="#showPhysicalTrait" data-text-swap=" + "> - </a>
+                    Physical Trait
+                </div>
+                <div class="collapse in" id="showPhysicalTrait">
+                    <div id="physicalTrait" class="facetGroup"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group addFacet" style="display:block; width:80%">
+                <label for="personID">Place ID: <span class="glyphicon glyphicon-question-sign text-info moreInfo" aria-hidden="true" data-toggle="tooltip" title="Use to get relationships for specific TEI entity."/>
+                </label>
+                <div class="input-group">
+                    <input type="text" name="placeID" id="placeID" size="40" placeholder="ex: http://syriaca.org/place/78"/>
+                    <button class="btn">Add</button>
+                </div>
+            </div>
+        </div>   
+        
+    </div>
+</div>

@@ -10,7 +10,7 @@ xquery version "3.1";
         - 'xml' [Returns the xml referenced text block]
         - 'redirect' [Sends users to HTML page]
  :)
-module namespace cts="http://syriaca.org/cts";
+module namespace cts="http://srophe.org/cts";
 
 declare namespace xslt="http://exist-db.org/xquery/transform";
 declare namespace tei="http://www.tei-c.org/ns/1.0";

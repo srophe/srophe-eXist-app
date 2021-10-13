@@ -14,6 +14,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace util="http://exist-db.org/xquery/util";
 
+
 (:~
  : Simple TEI to HTML transformation
  : @param $node   
@@ -58,6 +59,10 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                     <span class="tei-date">{(' (',tei2html:tei2html($node/tei:date),')')}</span>
                 else tei2html:tei2html($node/node())
                 }</span>
+            case element(tei:place) return
+                if($node/parent::tei:listPlace/parent::tei:body) then
+                    (:tei2html:placeUI($node):) tei2html:tei2html($node)
+                else tei2html:tei2html($node)
             case element(tei:placeName) return 
                 <span class="tei-placeName">{
                     let $name := tei2html:tei2html($node/node())
@@ -98,7 +103,138 @@ declare function tei2html:tei2html($nodes as node()*) as item()* {
                         (if($node/@xml:lang) then attribute lang { $node/@xml:lang } else (),
                         tei2html:tei2html($node/node()))                 
                     }</span>
+            case element() return
+                <span class="tei-{local-name($node)}">
+                    {tei2html:attributes($node)}
+                    {if($node/@n) then  <span class="tei-attr-n">{string($node/@n)}</span> else ()} 
+                    {tei2html:tei2html($node/node()) }
+                </span>                    
             default return tei2html:tei2html($node/node())
+};
+
+declare function tei2html:attributes($node as node()*) as item()* {
+    for $a in $node/@*
+    return 
+        if(name($a) = "xml:lang") then 
+            ($a, attribute lang { $a },
+            if($a ='en') then 
+                attribute dir { 'ltr' }
+            else if($a = ('syr','ar','syc','syr-Syrj')) then 
+                attribute dir { 'rtl' }    
+            else ()
+            )
+        else if(name($a) = "@xml:id") then
+            attribute id { $a } 
+        else $a
+};
+
+declare function tei2html:add-footnote($node as node()*){
+let $refs := $node/@source
+return 
+    if($refs != '') then 
+        <span class="tei-footnote-refs" dir="ltr" lang="en">{
+            for $r at $i in tokenize($refs,' ')
+            return 
+                (if($i gt 1) then ', ' else (),
+                <span class="tei-footnote-ref">
+                    <a href="{$r}">{substring-after($r,'-')}</a>
+                </span>)
+        }</span>
+    else ()
+};
+
+(:~
+ : Display title for each module. 
+:)
+declare function tei2html:h1($nodes as node()*){
+let $id := $nodes/descendant::tei:body/descendant::tei:idno[contains(., $config:base-uri)][1]
+return 
+    <div class="row title">
+        <h1 class="col-md-8"><span id="title">{
+            if(ft:field($nodes, "title")) then 
+                if(ft:field($nodes, "titleSyriac")) then 
+                concat(ft:field($nodes, "title"), ' - ', ft:field($nodes, "titleSyriac"))
+                else ft:field($nodes, "title")
+            else if(contains($id,'/subject/')) then 
+                ('Term', tei2html:tei2html($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][not(empty(node()))][1]))
+            else if($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword') or contains(@srophe:tags,'#headword') or contains(@srophe:tags,'#syriaca-headword')]) then
+                  (tei2html:tei2html($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword') or contains(@srophe:tags,'#headword') or contains(@srophe:tags,'#syriaca-headword')][starts-with(@xml:lang,'en')][not(empty(node()))][1]),
+                    ' - ',
+                    if($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword') or contains(@srophe:tags,'#headword') or contains(@srophe:tags,'#syriaca-headword')][starts-with(@xml:lang,'syr')]) then 
+                       <span lang="syr" dir="rtl">{tei2html:tei2html($nodes/descendant::*[contains(@syriaca-tags,'#syriaca-headword') or contains(@srophe:tags,'#headword') or contains(@srophe:tags,'#syriaca-headword')][starts-with(@xml:lang,'syr')])}</span>
+                    else '[ Syriac Not Available ]')
+            else tei2html:tei2html($nodes/descendant-or-self::tei:title[1])
+        }</span>
+        {
+        if($nodes/descendant::tei:birth or $nodes/descendant::tei:death or $nodes/descendant::tei:floruit) then
+            <span lang="en" class="type" style="padding-left:1em; font-size:.85em;">{
+                ('(',
+                    if($nodes/descendant::tei:birth or $nodes/descendant::tei:death) then 
+                        if(not($nodes/descendant::tei:death)) then
+                            concat('b.',
+                                for $b at $i in $nodes/descendant::tei:birth
+                                return concat(if($i gt 1) then ' or ' else(), $b/text())
+                            ) 
+                        else if($nodes/descendant::tei:death) then 
+                            (if($nodes/descendant::tei:birth) then ' - '
+                            else 'd.',
+                            for $d at $i in $nodes/descendant::tei:death
+                            return concat(if($i gt 1) then ' or ' else(), $d/text())
+                            )
+                            (:
+                        else if($nodes/descendant::tei:floruit and not($nodes/descendant::tei:birth) and not($nodes/descendant::tei:death)) then  
+                            if($nodes/descendant::tei:floruit/tei:date) then 
+                                for $f at $i in $nodes/descendant::tei:floruit/tei:date
+                                return concat(if($i gt 1) then ' or ' else(), $f/text())
+                            else if($nodes/descendant::tei:floruit[@notBefore or @notAfter or @when or @from or @to]) then
+                                if($nodes/descendant::tei:floruit/@to and $nodes/descendant::tei:floruit/@from) then 
+                                    concat('between ', tei2html:trim-date(tei:floruit[1]/@from), ' - ',  tei2html:trim-date(tei:floruit[1]/@to))
+                                else if($nodes/descendant::tei:floruit/@notBefore and $nodes/descendant::tei:floruit/@notAfter) then
+                                    concat('between ', tei2html:trim-date(tei:floruit[1]/@notBefore), ' - ',  tei2html:trim-date(tei:floruit[1]/@notAfter))
+                                else tei2html:do-dates(tei:floruit[1])
+                            else concat('active ', $nodes/descendant::tei:floruit[1]/text()) :)
+                        else ()
+                    else (),
+                ')')
+            }</span>
+        else ()
+        }
+        </h1>
+    </div>
+};
+
+declare function tei2html:do-dates($element){
+    if($element/@when or $element/@notBefore or $element/@notAfter or $element/@from or $element/@to) then 
+        (if($element/@from) then
+            if($element/@to) then
+                concat(tei2html:trim-date($element/@from), '-', tei2html:trim-date($element/@to))
+            else concat('from ', tei2html:trim-date($element/@from))
+        else if($element/@to) then    
+            concat('to ', tei2html:trim-date($element/@to)) 
+        else (),
+        if($element/@notBefore) then
+            if($element/@to or $element/@from) then 
+                concat(', not before ', tei2html:trim-date($element/@notBefore))
+            else concat('not before ', tei2html:trim-date($element/@notBefore))
+        else (),
+        if($element/@notAfter) then
+            if($element/@to or $element/@from or $element/@notBefore) then 
+                concat(', not after ', tei2html:trim-date($element/@notAfter))
+            else concat('not after ', tei2html:trim-date($element/@notAfter))
+        else (),
+        if($element/@when) then
+            if($element/@to or $element/@from or $element/@notBefore or $element/@notAfter) then 
+                concat(', ', tei2html:trim-date($element/@when))
+            else tei2html:trim-date($element/@when)
+        else ()
+        )
+    else ()
+};
+
+declare function tei2html:trim-date($date){
+    if(starts-with($date,'-0')) then concat(substring($date,3),' BCE')
+    else if(starts-with($date,'0')) then tei2html:trim-date(substring($date,2))
+    else string($date)
 };
 
 (:~ 
@@ -137,6 +273,76 @@ declare function tei2html:idno-title-display($id){
         </div>
 };
 
+(: template for gazetteer pages :)
+(:
+declare function tei2html:placeUI($node){
+<div>
+    {tei2html:tei2html($node/tei:desc[starts-with(@xml:id,'abstract')])}
+    <div class="well">{
+    let $type := string($node/@type)
+    let $geo := $node/descendant::tei:geo[1]
+    return 
+        if($geo) then 
+            <div class="row" xmlns="http://www.w3.org/1999/xhtml">
+                <div class="col-md-7">
+                    {maps:build-map($data,0)}
+                </div>
+                <div class="col-md-5">
+                   <div class="clearfix" xmlns="http://www.w3.org/1999/xhtml">
+                        <div id="type">
+                            <p><strong>Place Type: </strong>
+                                <a href="../documentation/place-types.html#{normalize-space($type)}" class="no-print-link">{$type}</a>
+                            </p>
+                        </div>
+                        {
+                        if($geo/descendant-or-self::tei:location) then
+                            <div id="location" xmlns="http://www.w3.org/1999/xhtml">
+                                <h4>Location</h4>
+                                <ul>
+                                {
+                                    for $location in $geo/descendant-or-self::tei:location
+                                    let $sort := if($location[@subtype = 'preferred']) then 0 else 1
+                                    order by $sort
+                                    return tei2html:tei2html($location)
+                                }
+                                </ul>
+                            </div>
+                        else ()
+                        }
+                    </div> 
+                </div>    
+            </div>
+        else 
+            <div class="clearfix" xmlns="http://www.w3.org/1999/xhtml">
+                <div id="type">
+                    <p><strong>Place Type: </strong>
+                        <a href="../documentation/place-types.html#{normalize-space($type)}" class="no-print-link">{$type}</a>
+                    </p>
+                </div>
+                {
+                if($data//tei:location) then
+                    <div id="location" xmlns="http://www.w3.org/1999/xhtml">
+                        <h4>Location</h4>
+                        <ul>
+                        {
+                            for $location in $geo/descendant-or-self::tei:location
+                            let $sort := if($location[@subtype = 'preferred']) then 0 else 1
+                            order by $sort
+                            return tei2html:tei2html($location)
+                        }
+                        </ul>
+                    </div>
+                else ()
+                }
+            </div>
+    }</div>
+    
+    
+</div>
+
+};
+:)
+
 (:
  : Used for short views of records, browse, search or related items display. 
 :)
@@ -152,13 +358,17 @@ declare function tei2html:summary-view($nodes as node()*, $lang as xs:string?, $
 
 (: Special short view template for Persons :)
 declare function tei2html:summary-view-persons($nodes as node()*, $id as xs:string?) as item()* {
-    let $title := if($nodes/descendant-or-self::*[@srophe:tags='#syriaca-headword'][contains(@xml:lang,'en')][descendant::text() != '']) then 
+    let $title := (:if(ft:field($nodes, "title")) then 
+                    ft:field($nodes, "title")
+                  else :)if($nodes/descendant-or-self::*[@srophe:tags='#syriaca-headword'][contains(@xml:lang,'en')][descendant::text() != '']) then 
                     $nodes/descendant-or-self::*[@srophe:tags='#syriaca-headword'][contains(@xml:lang,'en')][descendant::text() != ''][1]
                   else if($nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][contains(@xml:lang,'en')][descendant::text() != '']) then 
                     $nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][contains(@xml:lang,'en')][descendant::text() != ''][1]                    
                   else $nodes/descendant-or-self::tei:title[1]/text()
     let $syr-title := 
-                if($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]) then
+               (: if(ft:field($nodes, "titleSyriac")) then 
+                    ft:field($nodes, "titleSyriac")
+                else :)if($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]) then
                      <span xml:lang="syr" lang="syr" dir="rtl">{string-join($nodes/descendant::*[contains(@srophe:tags,'#syriaca-headword')][matches(@xml:lang,'^syr')][1]//text(),' ')}</span>
                 else if($nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')]) then 
                     $nodes/descendant-or-self::*[@syriaca-tags='#syriaca-headword'][matches(@xml:lang,'^syr')]                     
