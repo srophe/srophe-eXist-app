@@ -1391,17 +1391,6 @@
               <datatype>
                 <dataRef key="teidata.enumerated"/>
               </datatype>
-              <constraintSpec ident="type-note-child-ab" scheme="schematron">
-                <constraint>
-                  <sch:rule context="//tei:ab/tei:note/@type">
-                    <sch:report test=". = 'desc'">"Desc" not allowed. Only notes of @type "incerta", "dubia", or
-                      "errata" or "relatedEvent" may appear as children of an &lt;ab&gt; element.</sch:report>
-                  </sch:rule>
-                  <sch:rule context="//tei:note[@type='relatedEvent']">
-                    <sch:assert test=".[ancestor::tei:ab/@subtype='event']">"relatedEvent" not allowed. This type of note is only allowed as a descendant of &lt;ab&gt; with @type="event".</sch:assert>
-                  </sch:rule>
-                </constraint>
-              </constraintSpec>
               <constraintSpec ident="notes-type-desc" scheme="schematron">
                 <constraint>
                   <sch:rule
