@@ -1080,25 +1080,17 @@
             </attDef>
             <attDef ident="subtype" mode="add" usage="req">
               <valList type="closed">
-                <valItem ident="birthDate">
-                  <gloss>birth date</gloss>
-                  <desc>Used to designate person factoids that encode birth dates</desc>
-                </valItem>
-                <valItem ident="birthPlace">
-                  <gloss>birth place</gloss>
-                  <desc>Used to designate person factoids that encode birth places</desc>
+                <valItem ident="birth">
+                  <gloss>birth</gloss>
+                  <desc>Used to designate person factoids that encode birth dates and/or locations</desc>
                 </valItem>
                 <valItem ident="citizenship">
                   <gloss>citizenship</gloss>
                   <desc>Used to designate person factoids that encode citizenship</desc>
                 </valItem>
-                <valItem ident="deathDate">
-                  <gloss>death date</gloss>
-                  <desc>Used to designate person factoids that encode death dates</desc>
-                </valItem>
-                <valItem ident="deathPlace">
-                  <gloss>death place</gloss>
-                  <desc>Used to designate person factoids that encode death places</desc>
+                <valItem ident="death">
+                  <gloss>death</gloss>
+                  <desc>Used to designate person factoids that encode death dates and/or locations</desc>
                 </valItem>
                 <valItem ident="education">
                   <gloss>education</gloss>
@@ -1834,22 +1826,14 @@
             <memberOf key="att.datable.w3c"/>
           </classes>
           <content>
-            <alternate>
-              <sequence preserveOrder="true">
-                <elementRef key="date" minOccurs="1" maxOccurs="1"/>
+            <sequence preserveOrder="true">
+                <alternate>
+                  <elementRef key="date" minOccurs="1" maxOccurs="1"/>
+                  <elementRef key="choice" minOccurs="1" maxOccurs="1"/>
+                </alternate>
+              <elementRef key="placeName" minOccurs="0" maxOccurs="1"/>
                 <elementRef key="note" minOccurs="1" maxOccurs="1"/>
               </sequence>
-
-              <sequence preserveOrder="true">
-                <elementRef key="choice" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="note" minOccurs="1" maxOccurs="1"/>
-              </sequence>
-
-              <sequence preserveOrder="true">
-                <elementRef key="placeName" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="note" minOccurs="1" maxOccurs="1"/>
-              </sequence>
-            </alternate>
           </content>
           <attList>
             <attDef ident="from" mode="delete"/>
@@ -1869,22 +1853,14 @@
             <memberOf key="att.datable.w3c"/>
           </classes>
           <content>
-            <alternate>
-              <sequence preserveOrder="true">
+            <sequence preserveOrder="true">
+              <alternate>
                 <elementRef key="date" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="note" minOccurs="1" maxOccurs="1"/>
-              </sequence>
-
-              <sequence preserveOrder="true">
                 <elementRef key="choice" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="note" minOccurs="1" maxOccurs="1"/>
-              </sequence>
-
-              <sequence preserveOrder="true">
-                <elementRef key="placeName" minOccurs="1" maxOccurs="1"/>
-                <elementRef key="note" minOccurs="1" maxOccurs="1"/>
-              </sequence>
-            </alternate>
+              </alternate>
+              <elementRef key="placeName" minOccurs="0" maxOccurs="1"/>
+              <elementRef key="note" minOccurs="1" maxOccurs="1"/>
+            </sequence>
           </content>
           <attList>
             <attDef ident="from" mode="delete"/>
@@ -1893,7 +1869,7 @@
           
           
           <remarks>
-            <p>This customization restricts the attribute classes of the <gi>birth</gi> element to
+            <p>This customization restricts the attribute classes of the <gi>death</gi> element to
               att.datable.w3c but excludes the @to and @from attributes. If more precise dating is
               required for a SPEAR factoid, encoder should use the <gi>date</gi> element.</p>
           </remarks>

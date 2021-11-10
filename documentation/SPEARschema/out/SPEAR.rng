@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-11-09T19:04:17Z. .
+Schema generated from ODD source 2021-11-10T17:42:04Z. .
 TEI Edition: Version 4.1.0. Last updated on
 	19th August 2020, revision b414ba550
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
@@ -3221,16 +3221,12 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
          <attribute name="subtype">
             <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"/>
             <choice>
-               <value>birthDate</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth date) Used to designate person factoids that encode birth dates</a:documentation>
-               <value>birthPlace</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth place) Used to designate person factoids that encode birth places</a:documentation>
+               <value>birth</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(birth) Used to designate person factoids that encode birth dates and/or locations</a:documentation>
                <value>citizenship</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(citizenship) Used to designate person factoids that encode citizenship</a:documentation>
-               <value>deathDate</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death date) Used to designate person factoids that encode death dates</a:documentation>
-               <value>deathPlace</value>
-               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death place) Used to designate person factoids that encode death places</a:documentation>
+               <value>death</value>
+               <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(death) Used to designate person factoids that encode death dates and/or locations</a:documentation>
                <value>education</value>
                <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">(education) Used to designate person factoids that encode education</a:documentation>
                <value>ethnicLabel</value>
@@ -3668,20 +3664,16 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    <define name="birth">
       <element name="birth">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains information about a person's birth, such as its date and place. [15.2.2. The Participant Description]</a:documentation>
-         <choice>
-            <group>
+         <group>
+            <choice>
                <ref name="date"/>
-               <ref name="note"/>
-            </group>
-            <group>
                <ref name="choice"/>
-               <ref name="note"/>
-            </group>
-            <group>
+            </choice>
+            <optional>
                <ref name="placeName"/>
-               <ref name="note"/>
-            </group>
-         </choice>
+            </optional>
+            <ref name="note"/>
+         </group>
          <ref name="att.datable.w3c.attribute.when"/>
          <ref name="att.datable.w3c.attribute.notBefore"/>
          <ref name="att.datable.w3c.attribute.notAfter"/>
@@ -3691,20 +3683,16 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
    <define name="death">
       <element name="death">
          <a:documentation xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0">contains information about a person's death, such as its date and place. [15.2.2. The Participant Description]</a:documentation>
-         <choice>
-            <group>
+         <group>
+            <choice>
                <ref name="date"/>
-               <ref name="note"/>
-            </group>
-            <group>
                <ref name="choice"/>
-               <ref name="note"/>
-            </group>
-            <group>
+            </choice>
+            <optional>
                <ref name="placeName"/>
-               <ref name="note"/>
-            </group>
-         </choice>
+            </optional>
+            <ref name="note"/>
+         </group>
          <ref name="att.datable.w3c.attribute.when"/>
          <ref name="att.datable.w3c.attribute.notBefore"/>
          <ref name="att.datable.w3c.attribute.notAfter"/>
