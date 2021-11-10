@@ -1827,13 +1827,13 @@
           </classes>
           <content>
             <sequence preserveOrder="true">
-                <alternate>
-                  <elementRef key="date" minOccurs="1" maxOccurs="1"/>
-                  <elementRef key="choice" minOccurs="1" maxOccurs="1"/>
-                </alternate>
+              <alternate minOccurs="0" maxOccurs="1">
+                <elementRef key="date" minOccurs="1" maxOccurs="1"/>
+                <elementRef key="choice" minOccurs="1" maxOccurs="1"/>
+              </alternate>
               <elementRef key="placeName" minOccurs="0" maxOccurs="1"/>
-                <elementRef key="note" minOccurs="1" maxOccurs="1"/>
-              </sequence>
+              <elementRef key="note" minOccurs="1" maxOccurs="1"/>
+            </sequence>
           </content>
           <attList>
             <attDef ident="from" mode="delete"/>
@@ -1854,7 +1854,7 @@
           </classes>
           <content>
             <sequence preserveOrder="true">
-              <alternate>
+              <alternate minOccurs="0" maxOccurs="1">
                 <elementRef key="date" minOccurs="1" maxOccurs="1"/>
                 <elementRef key="choice" minOccurs="1" maxOccurs="1"/>
               </alternate>
