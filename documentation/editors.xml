@@ -47,7 +47,7 @@
                <licence target="http://creativecommons.org/licenses/by/3.0/"> Distributed under a
                   Creative Commons Attribution 3.0 Unported License </licence>
             </availability>
-            <date>2021-09-13</date>
+            <date>2021-12-09</date>
          </publicationStmt>
          <sourceDesc>
             <p>Born digital.</p>
@@ -70,6 +70,7 @@
       <revisionDesc>
          <change type="reminder">Please be sure to update the publication date when changes are made
             here!</change>
+         <change when="2021-12-09" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Alexys Ahn, Claire Chen, Joseph DAlfonso, and Jaret Rushing</change>
          <change when="2021-09-13" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Ryan Stitt</change>
          <change when="2021-08-30" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Roman Brasoveanu, Emma Claire Geitner, and Eliana Yonan</change>
          <change when="2020-01-24" who="http://syriaca.org/documentation/editors.xml#dschwartz">ADDED: Rose Trupiano and FIX TYPO: Reyhan Durmaz</change>
@@ -120,6 +121,12 @@
                <persName xml:lang="en">
                   <forename>Abdulrahim</forename>
                   <surname>Abu-Husayn</surname>
+               </persName>
+            </person>
+            <person xml:id="aahn">
+               <persName xml:lang="en">
+                  <forename>Alexys</forename>
+                  <surname>Ahn</surname>
                </persName>
             </person>
             <person xml:id="rakhrass">
@@ -209,6 +216,12 @@
                   <surname>Chamseddine</surname>
                </persName>
             </person>
+            <person xml:id="cchen">
+               <persName xml:lang="en">
+                  <forename>Claire</forename>
+                  <surname>Chen</surname>
+               </persName>
+            </person>
             <person xml:id="schoi">
                <persName xml:lang="ko">
                   <forename>성현</forename>
@@ -229,6 +242,12 @@
                <persName xml:lang="en">
                   <forename>Jimmy</forename>
                   <surname>Daccache</surname>
+               </persName>
+            </person>
+            <person xml:id="jdalfonso">
+               <persName xml:lang="en">
+                  <forename>Joseph</forename>
+                  <surname>DAlfonso</surname>
                </persName>
             </person>
             <person xml:id="adavis">
@@ -524,6 +543,12 @@
                <persName xml:lang="en">
                   <forename>Flavia</forename>
                   <surname>Ruani</surname>
+               </persName>
+            </person>
+            <person xml:id="jrushing">
+               <persName xml:lang="en">
+                  <forename>Jaret</forename>
+                  <surname>Rushing</surname>
                </persName>
             </person>
             <person xml:id="lruth">
