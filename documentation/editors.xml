@@ -47,7 +47,7 @@
                <licence target="http://creativecommons.org/licenses/by/3.0/"> Distributed under a
                   Creative Commons Attribution 3.0 Unported License </licence>
             </availability>
-            <date>2021-12-09</date>
+            <date>2022-02-07</date>
          </publicationStmt>
          <sourceDesc>
             <p>Born digital.</p>
@@ -70,6 +70,7 @@
       <revisionDesc>
          <change type="reminder">Please be sure to update the publication date when changes are made
             here!</change>
+         <change when="2022-02-07" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Ziyan Zhang</change>
          <change when="2021-12-09" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Alexys Ahn, Claire Chen, Joseph DAlfonso, and Jaret Rushing</change>
          <change when="2021-09-13" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Ryan Stitt</change>
          <change when="2021-08-30" who="http://syriaca.org/documentation/editors.xml#wpotter">ADDED: Roman Brasoveanu, Emma Claire Geitner, and Eliana Yonan</change>
@@ -684,6 +685,12 @@
                <persName xml:lang="en">
                   <forename>Ugo</forename>
                   <surname>Zanetti</surname>
+               </persName>
+            </person>
+            <person xml:id="zzhang">
+               <persName xml:lang="en">
+                  <forename>Ziyan</forename>
+                  <surname>Zhang</surname>
                </persName>
             </person>
             <org xml:id="uasyriacresearchgroup">
