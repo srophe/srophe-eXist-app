@@ -293,6 +293,7 @@
     <uri ana="directed">http://syriaca.org/keyword/patron-of</uri>
     <uri ana="directed">http://syriaca.org/keyword/employee-of</uri>
     <uri ana="mutual">http://syriaca.org/keyword/military-relationship</uri>
+    <uri ana="directed">http://syriaca.org/keyword/sender-of-letter-to</uri>
     <uri ana="directed">http://syriaca.org/keyword/carrier-of-letter-from</uri>
     <uri ana="directed">http://syriaca.org/keyword/carrier-of-letter-to</uri>
     <uri ana="directed">http://syriaca.org/keyword/bishop-over</uri>
