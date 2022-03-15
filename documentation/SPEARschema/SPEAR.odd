@@ -286,7 +286,7 @@
           </constraintSpec>
           
           <remarks>
-            <p>The identification of Syriaca.org as the responsible entity is accomplished by an <gi>authority</gi> element.</p>
+            <p>The identification of Syriaca.org as the responsible entity is accomplished with an <gi>authority</gi> element.</p>
           </remarks>
         </elementSpec>
         
@@ -587,7 +587,7 @@
             <p>SPEAR only uses @xml:id and @type attributes on the <gi>bibl</gi> element. SPEAR uses
               <gi>bibl</gi> elements with an @xml:id only in the <gi>back</gi> of the TEI file. The 
               @type attribute indicates whether the <gi>bibl</gi> is "primary", "secondary", or a "urn". 
-              Since SPEAR relies on the Linked Data infrastructure of Syriaca.org, a <gi>bibl</gi>
+              Since SPEAR relies on the Linked Open Data infrastructure of Syriaca.org, a <gi>bibl</gi>
               element only requires a <gi>ptr</gi> element indicating the Syriaca.org URI or CTS URN for 
               the bibliographic reference. When indicating a CTS URNs no other additional information 
               is required. When indicating a Syriaca.org URI, a <gi>citedRange</gi> is needed.</p>
@@ -891,9 +891,7 @@
             <memberOf key="model.pPart.transcriptional"/>
           </classes>
           
-          <remarks>
-            <p></p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="listEvent" module="namesdates" mode="replace">
@@ -909,9 +907,7 @@
               <elementRef key="personGrp" minOccurs="1" maxOccurs="1"/>
             </alternate>
           </content>
-          <remarks>
-            <p></p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="orig" module="core" mode="change">
@@ -919,9 +915,7 @@
             <memberOf key="model.choicePart"/>
             <memberOf key="model.pPart.transcriptional"/>
           </classes>
-          <remarks>
-            <p></p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="personGrp" module="namesdates" mode="change">
@@ -973,10 +967,7 @@
             <attDef ident="age" mode="delete"/>
             <attDef ident="size" mode="delete"/>
           </attList>
-          <remarks>
-            <p>This customization removes all attributes from the <gi>personGrp</gi> element. And
-              limits the child elements to the prescribed options.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="reg" module="core" mode="change">
@@ -984,9 +975,7 @@
             <memberOf key="model.choicePart"/>
             <memberOf key="model.pPart.transcriptional"/>
           </classes>
-          <remarks>
-            <p>This customization removes all attributes from the <gi>reg</gi> element.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="sic" module="core" mode="change">
@@ -994,9 +983,7 @@
             <memberOf key="model.choicePart"/>
             <memberOf key="model.pPart.transcriptional"/>
           </classes>
-          <remarks>
-            <p>This customization removes all attributes from the <gi>sic</gi> element.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="ab" module="linking" mode="replace">
@@ -1274,11 +1261,7 @@
               </sch:rule>
             </constraint>
           </constraintSpec>
-          <remarks>
-            <p>This customization removes the <gi>event</gi> element from all model and attribute
-              classes. It removes the @where attribute and makes the <gi>desc</gi> element the only
-              acceptable child element.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="note" module="core" mode="change">
@@ -1425,11 +1408,7 @@
           
           
           
-          <remarks>
-            <p>
-              
-            </p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="persName" module="namesdates" mode="change">
@@ -1468,11 +1447,7 @@
               </constraintSpec>
             </attDef>
           </attList>
-          <remarks>
-            <p>
-              
-            </p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="placeName" module="namesdates" mode="change">
@@ -1511,11 +1486,7 @@
           </attList>
           
           
-          <remarks>
-            <p>
-              
-            </p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="ptr" module="core" mode="change">
@@ -1574,11 +1545,7 @@
           
           
           
-          <remarks>
-            <p>
-              
-            </p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="relation" module="namesdates" mode="change">
@@ -1814,10 +1781,7 @@
           
           
           
-          <remarks>
-            <p>This customization removes all attributes from the <gi>person</gi> element except for
-              the @ref attribute.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="birth" module="namesdates" mode="change">
@@ -1935,7 +1899,7 @@
           <remarks>
             <p>The TEI name for the <gi>nationality</gi> element is highly problematic from a
               pre-Modern perspective. Citizenship would be preferable in one sense, yet could in
-              many instances exclude subaltern people such as slaves. SPEAR uses the
+              many instances exclude subaltern people such as the enslaved. SPEAR uses the
               <gi>nationality</gi> element as a general category for living under a particular
               jurisdiction. This customization limits the attribute classes of the
               <gi>nationality</gi> element to att.datable.custom and att.datable.w3c and removes the
@@ -1957,11 +1921,7 @@
             </sequence>
           </content>
           
-          <remarks>
-            <p>This customization limits the attribute classes of the <gi>residence</gi> element to
-              att.datable.custom and att.datable.w3c and removes the <gi>residence</gi> element from
-              all model classes. It also requires exactly one <gi>placeName</gi> element..</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="occupation" module="namesdates" mode="change">
@@ -2003,12 +1963,7 @@
           
           
           
-          <remarks>
-            <p>This customization removes the <gi>occupation</gi> element from all attribute and
-              member classes. It makes the <gi>note</gi> element the only acceptable child of the
-              <gi>occupation</gi> element. It also requires a @ref attribute on the
-              <gi>occupation</gi> element.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="langKnowledge" module="namesdates" mode="replace">
@@ -2019,11 +1974,7 @@
             </sequence>
           </content>
           
-          <remarks>
-            <p>This customization removes the <gi>langKnowledge</gi> element from all attribute and
-              member classes. It makes the <gi>langKnown</gi> element the only acceptable child of
-              the <gi>langKnowledge</gi> element. </p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="langKnown" module="namesdates" mode="change">
@@ -2063,11 +2014,7 @@
             </attDef>
           </attList>
           
-          <remarks>
-            <p>This customization removes the <gi>langKnown</gi> element from all model and attribute
-              classes. It also provides a semi closed value list for the required @tag attribute and
-              a closed list for the optional @level attribute. </p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="socecStatus" module="namesdates" mode="change">
@@ -2107,12 +2054,7 @@
             </attDef>
           </attList>
           
-          <remarks>
-            <p>This customization removes the <gi>socecStatus</gi> element from all attribute and
-              member classes. It makes the <gi>note</gi> element the only acceptable child of the
-              <gi>socecStatus</gi> element. It also requires a @ref attribute on the
-              <gi>socecStatus</gi> element.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="trait" module="namesdates" mode="change">
@@ -2205,13 +2147,7 @@
           
           
           
-          <remarks>
-            <p>This customization removes the <gi>trait</gi> element from all attribute and member
-              classes. It makes the <gi>note</gi> element the only acceptable child of the
-              <gi>trait</gi> element. It also requires a @type attribute with closed list of values
-              on the <gi>trait</gi> element and limits the attribute values on the <gi>trait</gi>
-              element to @type and @ref.</p>
-          </remarks>
+          
         </elementSpec>
 
         <elementSpec ident="back" module="textstructure" mode="change">
