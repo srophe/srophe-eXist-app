@@ -5,7 +5,7 @@
          xmlns="http://relaxng.org/ns/structure/1.0"
          datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"
          ns="http://www.tei-c.org/ns/1.0"><!--
-Schema generated from ODD source 2021-11-10T17:58:05Z. .
+Schema generated from ODD source 2022-03-15T15:02:31Z. .
 TEI Edition: Version 4.1.0. Last updated on
 	19th August 2020, revision b414ba550
 TEI Edition Location: https://www.tei-c.org/Vault/P5/Version 4.1.0/
@@ -3723,9 +3723,9 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="//tei:education/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
                <sch:let name="fieldsOfStudy"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/fields-of-study']/uri"/>
+                        value="$ti//listURI[@type = 'fields-of-study']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $fieldsOfStudy"
                            role="warning">
@@ -3749,7 +3749,7 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="tei:event/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
                <sch:let name="taxonomyAllURIs"
                         value="$ti//listURI[@type = 'taxonomyAllURIs']/uri"/>
                <sch:let name="error" value="."/>
@@ -3828,9 +3828,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="//tei:langKnown/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:let name="languages"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/languages']/uri"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:let name="languages" value="$ti//listURI[@type = 'languages']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                   every $i in (tokenize(., ' '))                   satisfies $i = $languages"
                            role="warning">
@@ -3910,9 +3909,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="//tei:occupation/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:let name="occupations"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/occupations']/uri"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:let name="occupations" value="$ti//listURI[@type = 'occupations']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $occupations"
                            role="warning">
@@ -4127,19 +4125,19 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation | tei:ab[@subtype='event']/tei:listEvent/tei:event/tei:desc/tei:listRelation/tei:relation">
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
                <sch:let name="mutual"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana = 'mutual']"/>
-               <sch:let name="reciprocal"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana = 'reciprocal']"/>
-               <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@active">Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
-                  relationship and both @active and @passive attributes with reciprocal
-                  relationships. Mutual relationships include: <sch:value-of select="string-join($mutual, ';  ')"/>. Reciprocal relationships include:
-                    <sch:value-of select="string-join($reciprocal, ';  ')"/>.</sch:assert>
-               <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@passive">Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
-                  relationship and both @active and @passive attributes with reciprocal
-                  relationships. Mutual relationships include: <sch:value-of select="string-join($mutual, ';  ')"/>. Reciprocal relationships include:
-                    <sch:value-of select="string-join($reciprocal, ';  ')"/>.</sch:assert>
+                        value="$ti//listURI[@type = 'relationships']//uri[@ana = 'mutual']"/>
+               <sch:let name="directed"
+                        value="$ti//listURI[@type = 'relationships']//uri[@ana = 'directed']"/>
+               <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $directed]/@active">Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
+                  relationship and both @active and @passive attributes with directed
+                  relationships. Mutual relationships include: <sch:value-of select="string-join($mutual, ';  ')"/>. Directed relationships include:
+                    <sch:value-of select="string-join($directed, ';  ')"/>.</sch:assert>
+               <sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $directed]/@passive">Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
+                  relationship and both @active and @passive attributes with directed
+                  relationships. Mutual relationships include: <sch:value-of select="string-join($mutual, ';  ')"/>. Directed relationships include:
+                    <sch:value-of select="string-join($directed, ';  ')"/>.</sch:assert>
                <sch:report test=".[@mutual]/@active">A &lt;relation&gt; element cannot take both
                   @active and @mutual attributes.</sch:report>
                <sch:report test=".[@mutual]/@passive">A &lt;relation&gt; element cannot take both
@@ -4230,9 +4228,9 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:ab/tei:listRelation/tei:relation/@ana">
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
                <sch:let name="qrURI"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/qualifier-relationships']//uri"/>
+                        value="$ti//listURI[@type = 'qualifier-relationship']//uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $qrURI">
                   <sch:value-of select="$error"/> is not is use. The value of this @ana attribute must 
@@ -4261,17 +4259,17 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@ref">
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:assert test=". = $ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri">Value must be one of the following from the Syriaca.org taxonomy:
-                        <sch:value-of select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri, ';  ')"/>.</sch:assert>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:assert test=". = $ti//listURI[@type = 'relationships']//uri">Value must be one of the following from the Syriaca.org taxonomy:
+                        <sch:value-of select="string-join($ti//listURI[@type = 'relationships']//uri, ';  ')"/>.</sch:assert>
             </sch:rule>
             <sch:rule xmlns:sch="http://purl.oclc.org/dsdl/schematron"
                       xmlns="http://www.tei-c.org/ns/1.0"
                       context="tei:ab[@subtype='event']/tei:listRelation/tei:relation/@ref">
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:assert test=". = $ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri">Value must be one of the following from the Syriaca.org taxonomy:
-                        <sch:value-of select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri, ';  ')"/>.</sch:assert>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:assert test=". = $ti//listURI[@type = 'related-event']/uri">Value must be one of the following from the Syriaca.org taxonomy:
+                        <sch:value-of select="string-join($ti//listURI[@type = 'related-event']/uri, ';  ')"/>.</sch:assert>
             </sch:rule>
          </pattern>
          <attribute name="type">
@@ -4386,9 +4384,9 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="tei:socecStatus/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
                <sch:let name="socioeconomicStatus"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/socioeconomic-status']/uri"/>
+                        value="$ti//listURI[@type = 'socioeconomic-status']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $socioeconomicStatus"
                            role="warning">
@@ -4433,9 +4431,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="tei:state[@type='mental']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:let name="mentalStates"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/mental-states']/uri"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:let name="mentalStates" value="$ti//listURI[@type = 'mental-states']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $mentalStates"
                            role="warning">
@@ -4449,9 +4446,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="tei:state[@type='sanctity']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:let name="sanctity"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/sanctity']/uri"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:let name="sanctity" value="$ti//listURI[@type = 'sanctity']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $sanctity"
                            role="warning">
@@ -4495,9 +4491,8 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="tei:trait[@type='ethnicLabel']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
-               <sch:let name="ethnicLabels"
-                        value="$ti//listURI[@ref = 'http://syriaca.org/keyword/ethnicity']/uri"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
+               <sch:let name="ethnicLabels" value="$ti//listURI[@type = 'ethnicity']/uri"/>
                <sch:let name="error" value="."/>
                <sch:assert test="                       every $i in (tokenize(., ' '))                       satisfies $i = $ethnicLabels"
                            role="warning">
@@ -4523,7 +4518,7 @@ Sample values include: 1] approved; 2] candidate; 3] cleared; 4] deprecated; 5] 
                       context="tei:trait[@type='physical']/@ana">
                <sch:let name="anaValues" value="tokenize(., ' ')"/>
                <sch:let name="ti"
-                        value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/>
+                        value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/>
                <sch:let name="taxonomyAllURIs"
                         value="$ti//listURI[@type = 'taxonomyAllURIs']/uri"/>
                <sch:let name="error" value="."/>

@@ -833,9 +833,9 @@ element editorialDecl { <a class="link_ref" href="#TEI.att.global" title="att.gl
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="fieldsOfStudy"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/fields-of-study']/uri"/&gt;
+ value="$ti//listURI[@type = 'fields-of-study']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $fieldsOfStudy"
  role="warning"&gt;
@@ -899,7 +899,7 @@ element encodingDesc { <a class="link_ref" href="#TEI.att.global" title="att.glo
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="taxonomyAllURIs"
  value="$ti//listURI[@type = 'taxonomyAllURIs']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
@@ -1115,9 +1115,9 @@ element langKnowledge { <a class="link_ref" href="#TEI.langKnown" title="&lt;lan
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="languages"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/languages']/uri"/&gt;
+ value="$ti//listURI[@type = 'languages']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $languages"
  role="warning"&gt;
@@ -1502,9 +1502,9 @@ element num
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="occupations"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/occupations']/uri"/&gt;
+ value="$ti//listURI[@type = 'occupations']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $occupations"
  role="warning"&gt;
@@ -2087,9 +2087,9 @@ element ref
 element reg { <a class="link_ref" href="#TEI.macro.paraContent" title="macro.paraContent">macro.paraContent</a> }</pre></td></tr></table></div></div><div class="refdoc" id="TEI.relation"><h3><span class="headingNumber">1.58. </span><span class="head">&lt;relation&gt;</span></h3><div class="table"><table class="wovenodd"><tr><td colspan="2" class="wovenodd-col2"><span class="label">&lt;relation&gt; </span>(<span lang="en">relationship</span>) <span lang="en">describes any kind of relationship or linkage amongst a specified group of places, events, persons, objects or other items.</span> [<a class="link_ref" href="https://www.tei-c.org/release/doc/tei-p5-doc/en/html/ND.html#NDPERSREL">13.3.2.3. Personal Relationships</a>]</td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Module</span></td><td class="wovenodd-col2">namesdates</td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Attributes</span></td><td class="wovenodd-col2"><span lang="en">Attributes </span><a class="link_ref" href="#TEI.att.datable" title="att.datable">att.datable</a> (<span class="attribute">@calendar</span>, <span class="attribute">@period</span>)  (<a class="link_ref" href="#TEI.att.datable.w3c" title="att.datable.w3c">att.datable.w3c</a> (<span class="attribute">@when</span>, <span class="attribute">@notBefore</span>, <span class="attribute">@notAfter</span>, <span class="attribute">@from</span>, <span class="attribute">@to</span>)) (<a class="link_ref" href="#TEI.att.datable.iso" title="att.datable.iso">att.datable.iso</a> (<span class="attribute">@when-iso</span>, <span class="attribute">@notBefore-iso</span>, <span class="attribute">@notAfter-iso</span>, <span class="attribute">@from-iso</span>, <span class="attribute">@to-iso</span>)) (<a class="link_ref" href="#TEI.att.datable.custom" title="att.datable.custom">att.datable.custom</a> (<span class="attribute">@when-custom</span>, <span class="attribute">@notBefore-custom</span>, <span class="attribute">@notAfter-custom</span>, <span class="attribute">@from-custom</span>, <span class="attribute">@to-custom</span>, <span class="attribute">@datingPoint</span>, <span class="attribute">@datingMethod</span>)) <a class="link_ref" href="#TEI.att.editLike" title="att.editLike">att.editLike</a> (<span class="attribute">@evidence</span>, <span class="attribute">@instant</span>) <a class="link_ref" href="#TEI.att.sortable" title="att.sortable">att.sortable</a> (<span class="attribute">@sortKey</span>) <a class="link_ref" href="#TEI.att.global" title="att.global">att.global</a> (@xml:id, @n, @xml:lang, @xml:base, @xml:space) <a class="link_ref" href="#TEI.att.global.rendition" title="att.global.rendition">att.global.rendition</a> (@rend, @style, @rendition) <a class="link_ref" href="#TEI.att.global.linking" title="att.global.linking">att.global.linking</a> (@corresp, @synch, @sameAs, @copyOf, @next, @prev, @exclude, @select) <a class="link_ref" href="#TEI.att.global.responsibility" title="att.global.responsibility">att.global.responsibility</a> (@cert, @resp) <a class="link_ref" href="#TEI.att.global.source" title="att.global.source">att.global.source</a> (@source) <a class="link_ref" href="#TEI.att.canonical" title="att.canonical">att.canonical</a> (<span class="unusedattribute">ref</span>, @key) <a class="link_ref" href="#TEI.att.typed" title="att.typed">att.typed</a> (<span class="unusedattribute">type</span>, @subtype) <div class="table"><table class="attList"><tr><td class="odd_label">ana</td><td class="odd_value"><div class="table"><table class="attDef"><tr><td class="odd_label"><span lang="en" class="label">Derived from</span></td><td class="odd_value"><a class="link_ref" href="#TEI.att.global.analytic" title="att.global.analytic">att.global.analytic</a></td></tr><tr><td class="odd_label"><span lang="en" class="label">Status</span></td><td class="odd_value"><span lang="en">Recommended</span></td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Schematron</span></td><td class="wovenodd-col2"><div class="pre">
 &lt;sch:rule context="tei:ab/tei:listRelation/tei:relation/@ana"&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="qrURI"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/qualifier-relationships']//uri"/&gt;
+ value="$ti//listURI[@type = 'qualifier-relationship']//uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $qrURI"&gt;
  &lt;sch:value-of select="$error"/&gt; is not is use. The value of this @ana attribute must
@@ -2101,17 +2101,15 @@ element reg { <a class="link_ref" href="#TEI.macro.paraContent" title="macro.par
 &lt;/sch:rule&gt;</div></td></tr><tr><td class="odd_label"><span lang="en" class="label">Datatype</span></td><td class="odd_value">0–∞ <span lang="en">occurrences of</span> <a class="link_ref" href="#TEI.teidata.enumerated" title="teidata.enumerated">teidata.enumerated</a> <span lang="en">separated by whitespace</span></td></tr></table></div></td></tr><tr><td class="odd_label">ref</td><td class="odd_value">(<span lang="en">reference</span>) <span lang="en">provides an explicit means of locating a full definition or identity for the entity being named by means of one or more URIs.</span><div class="table"><table class="attDef"><tr><td class="odd_label"><span lang="en" class="label">Derived from</span></td><td class="odd_value"><a class="link_ref" href="#TEI.att.canonical" title="att.canonical">att.canonical</a></td></tr><tr><td class="odd_label"><span lang="en" class="label">Status</span></td><td class="odd_value"><span lang="en">Optional</span></td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Schematron</span></td><td class="wovenodd-col2"><div class="pre">
 &lt;sch:rule context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation/@ref"&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
-&lt;sch:assert test=". = $ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri"&gt;Value must be one of the following from the Syriaca.org taxonomy:
-&lt;sch:value-of select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri, 
- '; ')"/&gt;.&lt;/sch:assert&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
+&lt;sch:assert test=". = $ti//listURI[@type = 'relationships']//uri"&gt;Value must be one of the following from the Syriaca.org taxonomy:
+&lt;sch:value-of select="string-join($ti//listURI[@type = 'relationships']//uri, '; ')"/&gt;.&lt;/sch:assert&gt;
 &lt;/sch:rule&gt;
 &lt;sch:rule context="tei:ab[@subtype='event']/tei:listRelation/tei:relation/@ref"&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
-&lt;sch:assert test=". = $ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri"&gt;Value must be one of the following from the Syriaca.org taxonomy:
-&lt;sch:value-of select="string-join($ti//listURI[@ref = 'http://syriaca.org/keyword/event-relationships']/uri, 
- '; ')"/&gt;.&lt;/sch:assert&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
+&lt;sch:assert test=". = $ti//listURI[@type = 'related-event']/uri"&gt;Value must be one of the following from the Syriaca.org taxonomy:
+&lt;sch:value-of select="string-join($ti//listURI[@type = 'related-event']/uri, '; ')"/&gt;.&lt;/sch:assert&gt;
 &lt;/sch:rule&gt;</div></td></tr><tr><td class="odd_label"><span lang="en" class="label">Datatype</span></td><td class="odd_value">1–∞ <span lang="en">occurrences of</span> <a class="link_ref" href="#TEI.teidata.pointer" title="teidata.pointer">teidata.pointer</a> <span lang="en">separated by whitespace</span></td></tr></table></div></td></tr><tr><td class="odd_label">type</td><td class="odd_value"><span lang="en">characterizes the element in some sense, using any convenient classification scheme or typology.</span><div class="table"><table class="attDef"><tr><td class="odd_label"><span lang="en" class="label">Derived from</span></td><td class="odd_value"><a class="link_ref" href="#TEI.att.typed" title="att.typed">att.typed</a></td></tr><tr><td class="odd_label"><span lang="en" class="label">Status</span></td><td class="odd_value"><span lang="en"><span class="required">Required</span></span></td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Schematron</span></td><td class="wovenodd-col2"><div class="pre">
 &lt;sch:rule context="tei:ab/tei:listEvent/tei:listRelation/tei:relation"&gt;
 &lt;sch:assert test="@type = 'event'"&gt;A &lt;relation&gt; element inside an event factoid
@@ -2146,21 +2144,19 @@ element reg { <a class="link_ref" href="#TEI.macro.paraContent" title="macro.par
 &lt;/sch:rule&gt;</div></td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Schematron</span></td><td class="wovenodd-col2"><div class="pre">
 &lt;sch:rule context="tei:ab[@subtype='relation']/tei:listRelation/tei:relation | tei:ab[@subtype='event']/tei:listEvent/tei:event/tei:desc/tei:listRelation/tei:relation"&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="mutual"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana 
- = 'mutual']"/&gt;
-&lt;sch:let name="reciprocal"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/relationships']//uri[@ana 
- = 'reciprocal']"/&gt;
-&lt;sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@active"&gt;Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
- relationship and both @active and @passive attributes with reciprocal
- relationships. Mutual relationships include: &lt;sch:value-of select="string-join($mutual, '; ')"/&gt;. Reciprocal relationships include:
-&lt;sch:value-of select="string-join($reciprocal, '; ')"/&gt;.&lt;/sch:assert&gt;
-&lt;sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $reciprocal]/@passive"&gt;Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
- relationship and both @active and @passive attributes with reciprocal
- relationships. Mutual relationships include: &lt;sch:value-of select="string-join($mutual, '; ')"/&gt;. Reciprocal relationships include:
-&lt;sch:value-of select="string-join($reciprocal, '; ')"/&gt;.&lt;/sch:assert&gt;
+ value="$ti//listURI[@type = 'relationships']//uri[@ana = 'mutual']"/&gt;
+&lt;sch:let name="directed"
+ value="$ti//listURI[@type = 'relationships']//uri[@ana = 'directed']"/&gt;
+&lt;sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $directed]/@active"&gt;Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
+ relationship and both @active and @passive attributes with directed
+ relationships. Mutual relationships include: &lt;sch:value-of select="string-join($mutual, '; ')"/&gt;. Directed relationships include:
+&lt;sch:value-of select="string-join($directed, '; ')"/&gt;.&lt;/sch:assert&gt;
+&lt;sch:assert test=".[@ref = $mutual]/@mutual or .[@ref = $directed]/@passive"&gt;Elements of type &lt;relation&gt; take either a @mutual attribute with mutual
+ relationship and both @active and @passive attributes with directed
+ relationships. Mutual relationships include: &lt;sch:value-of select="string-join($mutual, '; ')"/&gt;. Directed relationships include:
+&lt;sch:value-of select="string-join($directed, '; ')"/&gt;.&lt;/sch:assert&gt;
 &lt;sch:report test=".[@mutual]/@active"&gt;A &lt;relation&gt; element cannot take both
  @active and @mutual attributes.&lt;/sch:report&gt;
 &lt;sch:report test=".[@mutual]/@passive"&gt;A &lt;relation&gt; element cannot take both
@@ -2517,9 +2513,9 @@ element sic { <a class="link_ref" href="#TEI.macro.paraContent" title="macro.par
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="socioeconomicStatus"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/socioeconomic-status']/uri"/&gt;
+ value="$ti//listURI[@type = 'socioeconomic-status']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $socioeconomicStatus"
  role="warning"&gt;
@@ -2589,9 +2585,9 @@ element sponsor { <a class="link_ref" href="#TEI.att.global" title="att.global">
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="mentalStates"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/mental-states']/uri"/&gt;
+ value="$ti//listURI[@type = 'mental-states']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $mentalStates"
  role="warning"&gt;
@@ -2604,9 +2600,9 @@ element sponsor { <a class="link_ref" href="#TEI.att.global" title="att.global">
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="sanctity"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/sanctity']/uri"/&gt;
+ value="$ti//listURI[@type = 'sanctity']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $sanctity"
  role="warning"&gt;
@@ -2979,9 +2975,9 @@ element titleStmt
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="ethnicLabels"
- value="$ti//listURI[@ref = 'http://syriaca.org/keyword/ethnicity']/uri"/&gt;
+ value="$ti//listURI[@type = 'ethnicity']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
 &lt;sch:assert test=" every $i in (tokenize(., ' ')) satisfies $i = $ethnicLabels"
  role="warning"&gt;
@@ -3006,7 +3002,7 @@ element titleStmt
 &lt;sch:let name="anaValues"
  value="tokenize(., ' ')"/&gt;
 &lt;sch:let name="ti"
- value="doc('https://raw.githubusercontent.com/srophe/srophe-app-data/dev/data/subjects/taxonomyIndex.xml')"/&gt;
+ value="doc('https://raw.githubusercontent.com/srophe/srophe-eXist-app/master/documentation/indexes/taxonomyIndex.xml')"/&gt;
 &lt;sch:let name="taxonomyAllURIs"
  value="$ti//listURI[@type = 'taxonomyAllURIs']/uri"/&gt;
 &lt;sch:let name="error" value="."/&gt;
@@ -3617,6 +3613,6 @@ teidata.xTruthValue = xsd:boolean | ( "unknown" | "inapplicable" )</pre></td></t
 teidata.xpath = text</pre></td></tr><tr><td class="wovenodd-col1"><span lang="en" class="label">Note</span></td><td class="wovenodd-col2"><p>Any XPath expression using the syntax defined in [[undefined XSLT2]].</p><p>When writing programs that evaluate XPath expressions, programmers should be mindful of the possibility of malicious code injection attacks. For further information about XPath injection attacks, see the <a class="link_ref" href="https://www.owasp.org/index.php/XPATH_Injection">article at OWASP</a>.</p></td></tr></table></div></div></div><!--TEI back--><div class="stdfooter autogenerated"><div class="footer"><!--standard links to project, institution etc--><a class="plain" href="/">Home</a> </div><address>Date: <br /><!--
 	  Generated from index.xml using XSLT stylesheets version 7.50.0
 	       based on http://www.tei-c.org/Stylesheets/
-	       on 2021-11-10T17:58:10Z.
+	       on 2022-03-15T15:02:16Z.
 	       SAXON PE 9.9.1.7.
 		 --></address></div></body></html>
