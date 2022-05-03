@@ -1,3 +1,6 @@
+#DEPRECATED
+Please use the code for the Srophé Application [https://github.com/srophe/srophe]
+
 Syriaca.org
 =======
 Application data for Syriaca.org [http://syriaca.org]: The Syriac Reference Portal
